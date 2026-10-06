@@ -9,11 +9,15 @@ on:
       voices:
         description: Comma-separated voice IDs; empty uses repository Variables / Kokoro defaults
         type: string
+      source_run_id:
+        description: Prior Actions run ID to restore the audition artifact and paid ledger
+        type: string
       run_id:
         type: string
         default: voice-audition
 permissions:
   contents: read
+  actions: read
 concurrency:
   group: voice-audition-${{ inputs.run_id }}
   cancel-in-progress: false
@@ -38,6 +42,13 @@ jobs:
           path: .cache/models
           key: local-speech-linux-kokoro82-v1-q8-whisper-tiny-en-transformers381-v2
       - run: npm ci
+      - uses: actions/download-artifact@v4
+        if: inputs.source_run_id != ''
+        with:
+          name: voice-audition
+          path: data/runs/${{ env.RUN_ID }}/voice-audition/
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - run: npm run lint && npm run typecheck && npm test
       - name: Audition identical narration text

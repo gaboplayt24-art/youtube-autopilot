@@ -1,0 +1,178 @@
+{
+  "status": "complete",
+  "channelId": "UCUAy7-6tGMZz_Wy8SKeDTbg",
+  "handle": "ancientlivesHQ",
+  "generatedAt": "2026-10-06T20:38:54.409Z",
+  "source": "YouTube Data API v3",
+  "sampleSize": 20,
+  "videos": [
+    {
+      "id": "vbDNHlMnRHw",
+      "title": "How Did Women in Ancient Rome Handle Their Periods?",
+      "publishedAt": "2026-10-03T15:45:39Z",
+      "duration": 717,
+      "views": 5649,
+      "likeCount": 41
+    },
+    {
+      "id": "ffeddpSh9sc",
+      "title": "What Did People in Ancient Greece Actually Do All Day?",
+      "publishedAt": "2026-09-30T15:45:00Z",
+      "duration": 714,
+      "views": 25813,
+      "likeCount": 148
+    },
+    {
+      "id": "lrxj_YucNHg",
+      "title": "What Did Ancient Romans Actually Do All Day?",
+      "publishedAt": "2026-09-28T15:30:10Z",
+      "duration": 808,
+      "views": 9053,
+      "likeCount": 72
+    },
+    {
+      "id": "VFrgd_RGLBU",
+      "title": "What Did Cleopatra Actually Do All Day?",
+      "publishedAt": "2026-09-26T15:45:15Z",
+      "duration": 848,
+      "views": 10906,
+      "likeCount": 54
+    },
+    {
+      "id": "scwuXSKEL1s",
+      "title": "How Did Ancient Egyptians Sleep With Mosquitoes Everywhere?",
+      "publishedAt": "2026-09-24T15:30:39Z",
+      "duration": 1188,
+      "views": 11859,
+      "likeCount": 65
+    },
+    {
+      "id": "k0poIFZ38Ck",
+      "title": "How Did Ancient Egyptians Survive Without Medicine?",
+      "publishedAt": "2026-09-22T16:00:20Z",
+      "duration": 1594,
+      "views": 10487,
+      "likeCount": 85
+    },
+    {
+      "id": "penLBCTG0KU",
+      "title": "Every Era of Ancient Egypt Explained",
+      "publishedAt": "2026-09-20T16:00:08Z",
+      "duration": 1394,
+      "views": 9749,
+      "likeCount": 104
+    },
+    {
+      "id": "ZcE_xlr_wew",
+      "title": "Were Ancient Egyptians Attractive?",
+      "publishedAt": "2026-09-18T16:00:31Z",
+      "duration": 1142,
+      "views": 15869,
+      "likeCount": 141
+    },
+    {
+      "id": "MJysRcwqiJ4",
+      "title": "What Did Ancient Egyptians Actually Eat?",
+      "publishedAt": "2026-09-15T15:30:22Z",
+      "duration": 1105,
+      "views": 7881,
+      "likeCount": 88
+    },
+    {
+      "id": "8HTeQnLFCzs",
+      "title": "What Did Ancient Egyptian Kids Do All Day?",
+      "publishedAt": "2026-09-12T16:00:11Z",
+      "duration": 1050,
+      "views": 20340,
+      "likeCount": 142
+    },
+    {
+      "id": "UO_pE5udfUo",
+      "title": "Your Life as Every Rank in Ancient Egypt",
+      "publishedAt": "2026-09-09T16:00:10Z",
+      "duration": 776,
+      "views": 7241,
+      "likeCount": 92
+    },
+    {
+      "id": "uOlmPgLhmcU",
+      "title": "10 Rules Ancient Egyptians Followed That Modern People Would Never Accept",
+      "publishedAt": "2026-09-06T16:00:32Z",
+      "duration": 1110,
+      "views": 29195,
+      "likeCount": 337
+    },
+    {
+      "id": "LUihIaUVlS8",
+      "title": "How Did Ancient Egyptians Punish Criminals?",
+      "publishedAt": "2026-09-03T15:45:28Z",
+      "duration": 1325,
+      "views": 8729,
+      "likeCount": 115
+    },
+    {
+      "id": "trAJRuK4gXI",
+      "title": "Why Did Ancient Egyptians Worship Cats?",
+      "publishedAt": "2026-09-01T16:00:19Z",
+      "duration": 1367,
+      "views": 20381,
+      "likeCount": 235
+    },
+    {
+      "id": "KhEchdQxl-w",
+      "title": "How Did Ancient Egypt Collapse?",
+      "publishedAt": "2026-08-30T16:00:11Z",
+      "duration": 1491,
+      "views": 28517,
+      "likeCount": 284
+    },
+    {
+      "id": "nVMSZAD011I",
+      "title": "Why Did Ancient Egyptians Have Kids at 12?",
+      "publishedAt": "2026-08-28T16:00:22Z",
+      "duration": 1311,
+      "views": 270654,
+      "likeCount": 2087
+    },
+    {
+      "id": "QXZUY5Lb0T8",
+      "title": "Why Did Ancient Egyptians Build The Pyramids?",
+      "publishedAt": "2026-08-26T15:16:15Z",
+      "duration": 1325,
+      "views": 16277,
+      "likeCount": 218
+    },
+    {
+      "id": "4R_LczPyc1M",
+      "title": "How Did Ancient Egyptians Invent Pharaohs?",
+      "publishedAt": "2026-08-24T17:37:58Z",
+      "duration": 1426,
+      "views": 218213,
+      "likeCount": 1165
+    },
+    {
+      "id": "zTbZRU5NZRo",
+      "title": "Why Did Ancient Egyptians Start Believing in Gods?",
+      "publishedAt": "2026-08-22T15:45:06Z",
+      "duration": 1303,
+      "views": 28493,
+      "likeCount": 318
+    },
+    {
+      "id": "awy9wVRfSUE",
+      "title": "How Did Ancient Egyptians Mummify Bodies?",
+      "publishedAt": "2026-08-20T15:45:34Z",
+      "duration": 1504,
+      "views": 30997,
+      "likeCount": 303
+    }
+  ],
+  "medianDuration": 1245.5,
+  "meanDuration": 1174.9,
+  "p25Duration": 999.5,
+  "p75Duration": 1373.75,
+  "minDuration": 714,
+  "maxDuration": 1594,
+  "durationUnit": "seconds",
+  "quotaUnitsEstimated": 3
+}
