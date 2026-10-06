@@ -1,12 +1,12 @@
 # youtube-autopilot
 
-Cloud-first video production with TypeScript, Node.js 22+, Remotion, FFmpeg, OpenAI, YouTube OAuth2, and optional Supabase checkpoint mirroring. GitHub-hosted runners perform the work; no computer needs to remain online.
+Cloud-first video production with TypeScript, Node.js 22+, Remotion, FFmpeg, interchangeable free/paid providers, YouTube OAuth2, and optional Supabase checkpoint mirroring. GitHub-hosted runners perform the work; no computer needs to remain online.
 
 The visual engine uses the same Remotion composition in demo and production. Demo uses a 60–90 second original illustrated narrative with no external APIs. Production uses configured live providers; those integrations require credentials and separate validation. Public publishing remains disabled.
 
 ## Audio-first architecture
 
-`research → ideas → scoring → selection → script → facts → scene plan → TTS/word timing → captions → semantic shots → cost plan → assets → audio mix → composition → render → metadata → visual/audio QA → three thumbnails`
+`benchmark duration → cost estimate → research → ideas → scoring → selection → chapter script/performance → facts/pronunciations → chapter TTS → transcription/word timing → captions → semantic shots → guarded assets → chapter music/audio mastering → audio QA → composition → render → metadata → visual/final audio QA → three thumbnails`
 
 Scenes organize the narrative. `ShotPlanner` cuts at speech-derived word boundaries, normally every 2–4 seconds; it never invents narration duration. `HookDirector` gives the first 5 seconds an image-led opening and introduces restrained pattern interrupts through 30 seconds. Zod schemas validate every checkpoint, with per-run input fingerprints, JSON/media checksums, locks and structured logs. A failed stage resumes without regenerating previous stages. Engine v2 requires a fresh run ID when restoring a v1 artifact.
 
@@ -22,11 +22,11 @@ Audio stems are normalized in separate FFmpeg passes before mixing (compatible w
 
 ## Providers, fallbacks and costs
 
-Interfaces isolate ImageProvider, StockProvider, VideoProvider, TTSProvider, TranscriptionProvider and MusicProvider. Implemented adapters: OpenAIImageProvider, PexelsProvider, ElevenLabsProvider, WhisperProvider, OpenAI TTS and original/local music. Production selects them through `IMAGE_PROVIDER=openai`, `STOCK_PROVIDER=pexels`, `TTS_PROVIDER=openai|elevenlabs`; demo ignores media-provider switches and makes no external API calls.
+Interfaces isolate LLM, image, stock, video, TTS, transcription, music and sound-effects providers. FREE-FIRST uses Gemini, local Kokoro/local Whisper, Commons and Pexels. OpenAI and ElevenLabs are optional guarded alternatives. Demo ignores external provider switches and makes no external API calls.
 
-A configured AI-video adapter may be injected via the VideoProvider interface. No vendor-specific AI-video adapter or key is included. Asset generation attempts eligible high-impact AI video, stock video, generated stills, stock stills, original motion graphics, then kinetic graphics. Failed, empty or too-short media cannot produce a blank shot. No global verification bypass is used. External stock URLs/licenses and fallback failures are retained in visuals.json.
+A configured AI-video adapter may be injected via the VideoProvider interface. No vendor-specific AI-video adapter or key is included. Asset generation prefers licensed Commons, Pexels video/images and local graphics; paid high-impact stills require a below-floor free alternative and budget. AI video requires explicit enablement. Failed, empty or too-short media cannot produce a blank shot. No global verification bypass is used. External stock URLs/licenses and fallback failures are retained in visuals.json.
 
-`cost-plan.json` is written before costly assets. `visuals.json` records per-asset estimates and totals. AI video is budget-disabled by default and is not generated for every shot. Current image estimates are advisory, not vendor invoices; review pricing, relevance and license terms before enabling paid production runs. Use `MUSIC_PATH` plus `MUSIC_LICENSE` for an existing local track, or keep the original procedural score.
+`cost-plan.json` is written before costly assets. `visuals.json` records per-asset estimates and totals. AI video is budget-disabled by default and is not generated for every shot. Current image estimates are advisory, not vendor invoices; review pricing, relevance and license terms before enabling paid production runs. Use `MUSIC_PATH` plus `MUSIC_LICENSE` for licensed production music. Original procedural audio is a demo source and explicit production fallback.
 
 ## Quality and thumbnails
 
@@ -64,7 +64,7 @@ In **Settings → Secrets and variables → Actions**, configure:
 | Name | Location | Required for |
 | --- | --- | --- |
 | `PEXELS_API_KEY` | Repository secret | Production stock clips/images with STOCK_PROVIDER=pexels |
-| `ELEVENLABS_API_KEY` | Repository secret | Optional production voice with TTS_PROVIDER=elevenlabs |
+| `ELEVENLABS_API_KEY` | Repository secret | Optional premium voice/music/SFX; FREE-FIRST drafts use local Kokoro |
 | `ELEVENLABS_VOICE_ID` | Repository variable | Voice selection for ElevenLabs |
 | `OPENAI_API_KEY` | Repository secret | Production research/writing/review/TTS/transcription; optional image generation |
 | `SUPABASE_URL` | Repository variable | Checkpoint mirroring, private-upload ledger, analytics history |
@@ -75,7 +75,7 @@ In **Settings → Secrets and variables → Actions**, configure:
 
 Never enter credential values in issues or chat. `.env.example` contains names only; local CLI invocations read process environment variables. Node supports loading `.env` through `NODE_OPTIONS=--env-file=.env`; do not commit that file. `MODE` is descriptive; select mode using `--mode` or the workflow input. Default OpenAI model is `gpt-4.1-mini`; optionally set `OPENAI_MODEL` in the process environment.
 
-For OpenAI, enable API billing and access to the selected chat model, `tts-1`, `whisper-1`, and optionally `gpt-image-1`. ElevenLabs voice generation also requires OpenAI/Whisper for word alignment in the supplied adapter. Production speech transcription must match the original narration; ambiguous alignment fails instead of silently emitting inaccurate captions. API availability, quotas and costs depend on your account.
+For OpenAI, enable API billing and access to the selected chat model, `tts-1`, `whisper-1`, and optionally `gpt-image-1`. ElevenLabs uses native character alignment and local Whisper fallback; no OpenAI key is required for ElevenLabs alignment. Production speech transcription must match the original narration; ambiguous alignment fails instead of silently emitting inaccurate captions. API availability, quotas and costs depend on your account.
 
 For Supabase, create a project and run `src/database/schema.sql` in the SQL editor. It creates `pipeline_artifacts` with row-level security and no anonymous access policy. Use a server-only service-role key. Do not expose it in Remotion props or browser code. Local JSON/artifacts preserve large media; the database stores JSON checkpoints and the upload ledger, not video bytes.
 
@@ -125,3 +125,54 @@ Demo uses original illustrated shots; production stock-video playback is support
 Full Chrome/Chromium paths use Remotion `chrome-for-testing` mode with `headless:true` (`--headless=new`), multiprocess Linux rendering and Chromium-selected 2D rasterization (no forced software ANGLE). The hosted runner supplies Google Chrome; the workflow verifies its version before rendering. Without a custom executable, Remotion uses its matching Headless Shell mode. DBus warnings alone are not proof of a failed browser launch.
 
 Each video/thumbnail render runs in an isolated worker, explicitly closes its shared browser in `finally`, and exits after reporting success or failure. The supervisor tracks owned descendants, including detached browser processes, sends TERM followed by KILL to survivors, and bounds video rendering to 12 minutes and thumbnails to 2 minutes. Browser connection timeout remains Remotion's default 25 seconds; the change does not conceal startup failures by extending it. The generation step has a 18-minute limit and the job a 25-minute limit. Render failures propagate to the stage status and a nonzero CLI exit.
+
+## FREE-FIRST, audio-first long-form (before any final production)
+
+`config/cost-policy.json` governs **all paid API calls**, including OpenAI LLM/TTS/Whisper/images, ElevenLabs narration/music/SFX and injected AI-video adapters. Default ceiling and approval threshold are both **USD 2**; neither can be bypassed by an environment flag. Change the reviewed policy deliberately to authorize a higher budget. Reservations are persisted *before* the request, including failed/uncertain calls; retries retain that spend. `cost-blocked.json` explains a rejected request. Never delete a ledger to bypass a budget.
+
+Every run includes `cost-estimate.json`, `cost-ledger.json`, `cost-report.json`. Categories: GitHub compute, LLM, TTS, transcription, stock, generated images, AI video, music, SFX and storage. `FREE`, `INCLUDED`, `PAID` distinguish free tools from plan allowances. Actual paid invoices are **unknown/null**, never invented. Rates are configurable conservative assumptions, not live quotes. GitHub compute and artifacts can incur charges outside repository allowances; public repository usage and private plan quotas differ. Supabase stores JSON/checkpoints/analytics/provider history only; MP4 files stay in GitHub artifacts during development.
+
+Free LLM: `GeminiProvider` implements the existing interface; `FreeFirstLLM` tries schema-valid Gemini results before budget-guarded OpenAI. Set `GEMINI_FREE_TIER_CONFIRMED=true` only for an eligible free-tier project. Research verifies verbatim source excerpts; factual review and script repetition checks still apply. Free does not remove factual safety rules or establish editorial quality merely by parsing JSON.
+
+Visual order: Commons → Pexels video → Pexels image → local motion graphics → eligible paid images. Commons keeps creator, source URL, license URL, attribution and public-domain status; unrecognized, non-commercial, no-derivatives and fair-use licenses are rejected. CC BY-SA works require complying with share-alike conditions on adaptations. Paid images are limited to high-impact/reconstruction shots when the free alternative falls below the configured technical floor; default maximum 8. AI video defaults disabled. Asset quality scores describe technical suitability/provenance and conservative fallback limitations, **not independent visual-semantic verification**. Production QA rejects below-floor assets; review the historical accuracy of every reconstruction and map before publication.
+
+### Benchmark and duration
+
+`npm run benchmark` uses **YouTube Data API v3**, `channels.list(forHandle)` → uploads playlist → `playlistItems.list` → batched `videos.list`. No `search.list`, scraping or competitor script/media copying. `YOUTUBE_DATA_API_KEY` reads public metadata, entirely separate from publication OAuth. The analyzer scans until it finds the latest **20 qualified videos**, excludes videos under five minutes and live/upcoming/archived livestreams, records optional views/likes as null when absent, and calculates median/mean/p25/p75/min/max in **seconds**. Successful output: `data/benchmarks/ancientlivesHQ.json`; missing keys, API failure and insufficient samples write an error report and exit nonzero. No invented benchmark or estimated replacement.
+
+`config/duration.json` and `TARGET_DURATION_MODE` support `fixed`, `benchmark_median` and `benchmark_range` (midpoint of observed p25/p75), with reviewed safety bounds. Benchmark mode requires a complete report no older than 30 days. `quality_test` targets 10 minutes (configurable 8–12); `longform` uses the benchmark. Demo remains the short offline technical test. LongFormPlanner allocates hook, ACT 1/2/3, payoff, ending and chapter objectives, curiosity loops, facts, emotion, visual needs and music direction. Main-body chapters usually last 3–6 minutes; shorter hook/ending are intentional. Script chapters are generated to word budgets at the configured 140 WPM; missed budgets fail instead of stretching audio. New facts, repetition, repeated 12-word phrases and cliché filler are checked; semantic novelty still needs editorial judgment.
+
+### Narrator, auditions and pronunciation
+
+**Latest cost policy takes precedence:** `TTS_PROVIDER=auto` → local **Kokoro-82M** with voice QA → approved ElevenLabs fallback within the budget. Kokoro and local Whisper run on the Actions CPU; no paid speech service is used for draft auditions. Model/tokenizer downloads are cached. The optional premium historical narrator uses **`eleven_v4`**, documented as supporting 10,000 characters per request. Model/voice are not hardcoded into channel identity: ElevenLabs voice IDs come from GitHub Variables. OpenAI remains an explicit optional alternative.
+
+`config/narrator.json` defines style, language, pace, tone and exclusions. Run **Actions → voice-audition → provider=kokoro**. Default A/B/C voices are `am_michael`, `bm_george`, `bm_daniel`, with the **same original fictional audition passage** (~30–45 seconds). The `voice-audition` artifact includes WAVs, comparison.json, per-voice audio QA, independent local Whisper transcripts and cost comparisons. For premium auditions choose `provider=elevenlabs` only after configuring the secret and comma-separated `ELEVENLABS_AUDITION_VOICE_IDS`. Paid reservations and USD 2 ceiling still apply.
+
+Listen, choose and explicitly pin `approvedProvider` and `approvedVoiceId` in narrator.json, set `voiceApproved=true`, and match the corresponding GitHub Variable. Before pinning the final identity, `paidFallbackVoiceApproved=true` permits the separately auditioned premium backup for quality tests when Kokoro fails. An approved final narrator never silently switches provider/voice between videos; a quality failure requires a new audition/review. Final long-form production is blocked until identity is approved. The automatic pre-approval probe uses intelligibility, timing and signal checks; it does not certify premium expressive performance.
+
+Narration is synthesized per **long narrative chapter**, with preceding/following text for supported providers. Visual scenes never make TTS calls. Lossless scene WAVs are slices of the chapter recording and feed the existing shared editor, captions and shot planner. Chapters have durable audio checkpoints; later failures do not regenerate completed narration. Kokoro's 510-token context limit requires internal sentence-sized inference chunks: the chapter adapter joins these without added pauses, but cannot promise the long-context prosody of ElevenLabs. Local ASR provides real word timings; mismatched transcripts fail instead of assigning guessed timings. Native ElevenLabs character alignment is converted to word timings with independent local ASR available for verification.
+
+Script text and performance metadata are separate (`tone`, `pace`, `pauseAfterMs`, `emphasis`, `pronunciation`, `emotion`, `energy`). ElevenLabs pace maps to documented voice settings; previous/next text retain continuity. Unsupported emotional/pause/emphasis metadata is recorded for review rather than inserted as spoken bracket/SSML instructions. Kokoro uses a channel-fixed synthesis speed. This implementation does not claim that every performance parameter is expressively realized by every provider.
+
+Each run writes `pronunciations.json` and a candidate review. Set `PRONUNCIATIONS_PATH` to an approved dictionary following `config/pronunciations.example.json`; supply verified terms/sources rather than invented phonetics. Optional ElevenLabs dictionary ID/version Variables attach real dictionary locators. Production QA requires candidate entries to be verified. Listen to names/dates; the heuristic candidate detector is not linguistic certification.
+
+### Chapter music, mastering and QA
+
+`config/audio.json` sets a gentle high-pass/EQ/de-esser/compression/presence chain, two-pass loudness normalization, true-peak headroom, music automation and sidechain ducking. Master target ~-15 LUFS, true peak <=-1 dBTP; LRA 4–9 is an editorial target, with an optional strict gate on long material. Short auditions can have smaller LRA; the system reports this rather than expanding dynamics artificially.
+
+Production music defaults to supplied licensed local music (`MUSIC_PATH` plus `MUSIC_LICENSE`); procedural audio is only an explicitly recorded fallback. Set `musicProvider=elevenlabs` for **Music v2**, separately generated chapter directions and crossfades. Set `sfxProvider=elevenlabs` for the documented sound-effects endpoint; sparse events are selected semantically (documents, ambience, restrained reveals), not every cut. Paid music/SFX remain under the same ledger and budget. Many minutes of premium music/narration **will exceed USD 2** and cannot run under the default policy.
+
+`audio-qa.json` measures integrated LUFS, true peak, LRA, silence percentage, declared voice identity, duration continuity, unexpected silence, boundary discontinuities, measured narration/music loudness difference, music presence and clipping. Production must pass both stem/master and final AAC checks, including rechecking before upload. Abrupt voice changes use the selected provider trace, not speaker recognition. Prosody restarts, musical appropriateness and names require listening. Longer body shots use ~3–7-second beats; animated information shots can last longer. Hook density and continuous movement remain required.
+
+### GitHub setup for these tests only
+
+1. Settings → Secrets and variables → Actions → Secrets: `YOUTUBE_DATA_API_KEY` (public read), `PEXELS_API_KEY`, optionally `GEMINI_API_KEY`; paid tests additionally need `ELEVENLABS_API_KEY`. Never commit values.
+2. Variables: `TTS_PROVIDER=auto`, `ELEVENLABS_MODEL=eleven_v4`, `BENCHMARK_CHANNEL=@ancientlivesHQ`, `TARGET_DURATION_MODE=benchmark_median`, `QUALITY_FLOOR=80`, `MAX_GENERATED_IMAGES_PER_VIDEO=8`. Add `KOKORO_VOICE` after selection; add `ELEVENLABS_VOICE_ID` / `ELEVENLABS_AUDITION_VOICE_IDS` only if premium narration is intentionally tested. `GEMINI_FREE_TIER_CONFIRMED=true` is conditional on free-tier eligibility.
+3. Run **benchmark**; download `benchmark-report`. A red run with missing key is an honest blocker; it is not a measured channel median.
+4. Run **free-first-smoke**; artifact contains real licensed Commons/Pexels samples and cost plans. Pexels without a key is a failed live check, not simulated success.
+5. Run **voice-audition**, default Kokoro. Review the WAVs, QA and comparison. No documentary, no assets for a long production and no publication occur in these workflows.
+6. Keep `AUTO_PUBLISH=false` and schedule.autoPublish=false. Configure relevant historical research sources/channel/profile before any eventual quality test or long-form run; existing demonstration research sources are not evidence about Ancient Egypt.
+
+No long documentary should be dispatched until benchmark, voice selection, licensed music, pronunciation review and source sufficiency are resolved. Actions create-video retains resumable demo/production modes and bounded process cleanup. Production duration/timeouts scale with the planned audio; no production run is started by setup or by a schedule.
+
+API references reviewed during implementation: [ElevenLabs models](https://elevenlabs.io/docs/overview/models), [TTS with timestamps](https://elevenlabs.io/docs/api-reference/text-to-speech/convert-with-timestamps), [Music compose](https://elevenlabs.io/docs/api-reference/music/compose), [Sound effects](https://elevenlabs.io/docs/api-reference/text-to-sound-effects/convert), [YouTube channels.list](https://developers.google.com/youtube/v3/docs/channels/list), [Kokoro](https://github.com/hexgrad/kokoro), [Kokoro.js](https://www.npmjs.com/package/kokoro-js).

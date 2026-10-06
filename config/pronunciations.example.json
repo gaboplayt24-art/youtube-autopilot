@@ -1,0 +1,6 @@
+{
+  "terms": [
+    {"term":"Egypt","category":"places","replacement":null,"verified":false,"source":null},
+    {"term":"Ptolemy","category":"people","replacement":null,"verified":false,"source":null}
+  ]
+}

@@ -1,0 +1,59 @@
+name: voice-audition
+on:
+  workflow_dispatch:
+    inputs:
+      provider:
+        type: choice
+        options: [kokoro, elevenlabs]
+        default: kokoro
+      voices:
+        description: Comma-separated voice IDs; empty uses repository Variables / Kokoro defaults
+        type: string
+      run_id:
+        type: string
+        default: voice-audition
+permissions:
+  contents: read
+concurrency:
+  group: voice-audition-${{ inputs.run_id }}
+  cancel-in-progress: false
+jobs:
+  audition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      AUTO_PUBLISH: 'false'
+      MODEL_CACHE_DIR: ${{ github.workspace }}/.cache/models
+      PROVIDER: ${{ inputs.provider }}
+      VOICES: ${{ inputs.voices }}
+      RUN_ID: ${{ inputs.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/cache@v4
+        with:
+          path: .cache/models
+          key: local-speech-linux-kokoro82-v1-q8-whisper-tiny-en-transformers381-v2
+      - run: npm ci
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm run lint && npm run typecheck && npm test
+      - name: Audition identical narration text
+        timeout-minutes: 20
+        run: |
+          args=(--provider "$PROVIDER" --run-id "$RUN_ID")
+          if [ -n "$VOICES" ]; then args+=(--voices "$VOICES"); fi
+          npm run voice-audition -- "${args[@]}"
+        env:
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_MODEL: ${{ vars.ELEVENLABS_MODEL || 'eleven_v4' }}
+          ELEVENLABS_AUDITION_VOICE_IDS: ${{ vars.ELEVENLABS_AUDITION_VOICE_IDS }}
+          KOKORO_AUDITION_VOICES: ${{ vars.KOKORO_AUDITION_VOICES }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: voice-audition
+          path: data/runs/${{ env.RUN_ID }}/voice-audition/
+          retention-days: 30

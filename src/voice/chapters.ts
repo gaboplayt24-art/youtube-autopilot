@@ -1,0 +1,20 @@
+import {join} from 'node:path';
+import {z} from 'zod';
+import {voice,plan} from '../orchestration/schemas';
+import type {TTSProvider} from '../providers/interfaces';
+import {exec,duration,json,read} from '../orchestration/io';
+import {fileDigest} from '../orchestration/integrity';
+export const pronunciations=z.object({terms:z.array(z.object({term:z.string().min(1),category:z.enum(['people','places','Latin','Greek','Egyptian','dates','dynasties','foreign names']),replacement:z.string().nullable(),verified:z.boolean(),source:z.string().nullable()}))});
+export function pronunciationCandidates(text:string){const terms=[...new Set(text.match(/\b(?:[A-Z][a-z]{3,}(?:\s+[A-Z][a-z]{3,})?|\d{3,4}\s*(?:BC|BCE|AD|CE))\b/g)??[])].filter(t=>!['Imagine','Every','Tonight','Messages','Follow','Pause','Now','One','The','Turn','Put','Choose','Write','There','This','What'].includes(t));return pronunciations.parse({terms:terms.map(term=>({term,category:/\d/.test(term)?'dates':'foreign names',replacement:null,verified:false,source:null}))});}
+// Long audio generations precede visual segmentation. Scene WAVs are lossless slices, NOT TTS calls.
+export async function narrateChapters(p:z.infer<typeof plan>,tts:TTSProvider,dir:string,wpm=140,identity='demo',performancePlans:Record<string,any>={}){
+ const groups:typeof p.scenes[]=[];let group:typeof p.scenes=[];let count=0;
+ for(const scene of p.scenes){const words=scene.narration.split(/\s+/).length;if(group.length&&(count+words>wpm*6||group.map(s=>s.narration).join(' ').length+scene.narration.length>9500)){groups.push(group);group=[];count=0;}if(scene.narration.length>9500)throw new Error('Narrative chapter exceeds provider limit; revise chapter plan');group.push(scene);count+=words;if(count>=wpm*3){groups.push(group);group=[];count=0;}}if(group.length)groups.push(group);
+ const result:z.infer<typeof voice>={scenes:[],chapters:[]};
+ for(let index=0;index<groups.length;index++){const chapter=groups[index];const text=chapter.map(s=>s.narration).join(' ');const path=join(dir,`narration-chapter-${index+1}.wav`);const sidecar=path+'.json';let spoken:{alignment:import('../providers/interfaces').Alignment;words?:import('../providers/interfaces').Alignment};let cached=false;try{const data=await read(sidecar);if(data.text!==text||data.identity!==identity||data.sha256!==await fileDigest(path))throw new Error('Narration checkpoint identity/text/hash mismatch');spoken=data.spoken;cached=true;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;spoken=await tts.speak(text,path,{previousText:groups[index-1]?.map(s=>s.narration).join(' '),nextText:groups[index+1]?.map(s=>s.narration).join(' '),performance:performancePlans[chapter[0].id]});}
+ const words=spoken.words??spoken.alignment;const tokens=text.split(/\s+/);if(words.length!==tokens.length||words.some((w,i)=>w.text!==tokens[i]))throw new Error('Chapter timestamps do not cover exact script words');const seconds=await duration(path);if(words.some((w,i)=>w.start<0||w.end<=w.start||w.end>seconds+.1||i>0&&w.start<words[i-1].end-.02))throw new Error('Invalid chapter word timing');if(!cached)await json(sidecar,{text,identity,spoken,sha256:await fileDigest(path)});
+ result.chapters!.push({id:`narration-chapter-${index+1}`,path,duration:seconds,identity,words});let tokenOffset=0;let start=0;
+ for(let i=0;i<chapter.length;i++){const s=chapter[i];const size=s.narration.split(/\s+/).length;const slice=words.slice(tokenOffset,tokenOffset+size);const end=i===chapter.length-1?seconds:words[tokenOffset+size].start;const scenePath=join(dir,s.id+'.wav');await exec('ffmpeg',['-y','-v','error','-i',path,'-af',`atrim=start=${start}:end=${end},asetpts=PTS-STARTPTS`,'-ar','48000',scenePath],{timeout:60000});const aligned=slice.map(w=>({...w,start:Math.max(0,w.start-start),end:Math.min(end-start,w.end-start)}));result.scenes.push({id:s.id,path:scenePath,duration:await duration(scenePath),alignment:aligned,words:aligned});start=end;tokenOffset+=size;}
+ }
+ return voice.parse(result);
+}

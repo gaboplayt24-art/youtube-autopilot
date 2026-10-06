@@ -1,0 +1,11 @@
+import {writeFile} from 'node:fs/promises';
+import type {MusicProvider,SoundEffectsProvider} from './interfaces';
+import {currentCosts,paidCall} from '../cost';
+import {exec} from '../orchestration/io';
+async function audioRequest(route:string,body:unknown,path:string,category:'music'|'sfx',usd:number){if(!process.env.ELEVENLABS_API_KEY)throw new Error('ELEVENLABS_API_KEY missing');const res=await paidCall(category,'elevenlabs',usd,route,()=>fetch('https://api.elevenlabs.io/v1/'+route,{method:'POST',headers:{'xi-api-key':process.env.ELEVENLABS_API_KEY!,'Content-Type':'application/json'},body:JSON.stringify(body),signal:AbortSignal.timeout(240000)}));if(!res.ok)throw new Error(`ElevenLabs ${route} HTTP ${res.status}`);const mp3=path+'.mp3';await writeFile(mp3,Buffer.from(await res.arrayBuffer()));await exec('ffmpeg',['-y','-v','error','-i',mp3,'-ar','48000',path],{timeout:60000});}
+export class ElevenLabsMusicProvider implements MusicProvider {
+ async generate(seconds:number,path:string,direction='restrained instrumental documentary bed'){if(seconds<3||seconds>600)throw new Error('Music API accepts 3-600 seconds per chapter');const rate=currentCosts()?.policy.rates.musicPerMinute;if(rate===undefined)throw new Error('Missing cost context');const usd=seconds/60*rate;await audioRequest('music',{prompt:`Instrumental only, no vocals. ${direction}. Leave space for foreground narration.`,music_length_ms:Math.round(seconds*1000),model_id:'music_v2',force_instrumental:true},path,'music',usd);return {license:'ElevenLabs Music; commercial rights depend on account plan. Verify rights before publishing.',estimatedCost:usd};}
+}
+export class ElevenLabsSoundEffectsProvider implements SoundEffectsProvider {
+ async generate(prompt:string,seconds:number,path:string){if(seconds<.5||seconds>30)throw new Error('SFX accepts 0.5-30 seconds');const usd=currentCosts()?.policy.rates.sfxPerEvent;if(usd===undefined)throw new Error('Missing cost context');await audioRequest('sound-generation',{text:prompt,duration_seconds:seconds,prompt_influence:.3,model_id:'eleven_text_to_sound_v2'},path,'sfx',usd);return {license:'ElevenLabs sound effects; verify commercial plan rights.',estimatedCost:usd};}
+}

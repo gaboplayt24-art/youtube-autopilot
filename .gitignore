@@ -6,3 +6,6 @@ data/runs/
 public/
 coverage/
 *.log
+
+.cache/
+data/benchmarks/*.json

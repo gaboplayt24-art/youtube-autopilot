@@ -7,56 +7,71 @@ import {fileDigest} from './integrity';
 import {loadConfig} from './config';
 import {read,json,duration} from './io';
 import * as schemas from './schemas';
-import {OpenAIProvider} from '../providers/openai';
+import {FreeFirstLLM} from '../providers/free';
+import {CostLedger,withCosts,loadCostPolicy,estimateCosts,currentCosts} from '../cost';
+import {LongFormPlanner,longFormPlan,targetDuration,scriptQuality} from '../longform';
+import {narrateChapters,pronunciationCandidates,pronunciations} from '../voice/chapters';
+import {selectNarrator,selectedProvider} from '../voice/selection';
+import {inspectAudio,audioQA} from '../audio/qa';
+import {ChapterMusicProvider} from '../audio/chapters';
 import {DemoVoice} from '../voice';
 import {ShotPlanner} from '../editor/planner';
 import {shotPlan,media,audioMix} from '../editor/schemas';
 import {createAssets,productionAssets} from '../editor/assets';
-import {mixAudio,LocalMusicProvider} from '../audio';
+import {mixAudio} from '../audio';
 import {thumbnails} from '../thumbnail';
-import {ElevenLabsProvider} from '../providers/media';
 import {demoResearch,investigate} from '../research';
 import {generateIdeas,selectTopic,scoreIdeas} from '../ideas';
-import {demoScript,writeScript} from '../script';
+import {demoScript,writeLongForm} from '../script';
 import {factcheck} from '../factcheck';
 import {createCaptions} from '../captions';
 import {renderVideo} from '../render';
 import {inspect,requireQA} from '../qa';
 import {SupabaseStorage} from '../database/storage';
-const optionsSchema=z.object({runId:z.string().regex(/^[A-Za-z0-9_-]+$/),mode:z.enum(['demo','production']),topic:z.string()});
-export async function runVideo(input:{runId?:string;mode?:string;topic?:string;retryFrom?:string},stopAfterResearch=false){
- const config=await loadConfig();const strategy=config.strategy;const options=optionsSchema.parse({runId:input.runId??randomUUID(),mode:input.mode??'demo',topic:input.topic??strategy.topics[0]});
+const optionsSchema=z.object({runId:z.string().regex(/^[A-Za-z0-9_-]+$/),mode:z.enum(['demo','production']),topic:z.string(),productionKind:z.enum(['quality_test','longform'])});
+export async function runVideo(input:{runId?:string;mode?:string;topic?:string;retryFrom?:string;productionKind?:string},stopAfterResearch=false){const runId=input.runId??randomUUID();if(!/^[A-Za-z0-9_-]+$/.test(runId))throw new Error('Invalid run ID');const ledger=new CostLedger(await loadCostPolicy(),join('data/runs',runId));await ledger.restore();return withCosts(ledger,async()=>{try{return await runVideoWithCosts({...input,runId},stopAfterResearch);}finally{await ledger.report();}});}
+async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;retryFrom?:string;productionKind?:string},stopAfterResearch=false){
+ const config=await loadConfig();const strategy=config.strategy;const options=optionsSchema.parse({runId:input.runId??randomUUID(),mode:input.mode??'demo',topic:input.topic??strategy.topics[0],productionKind:input.productionKind??'longform'});
  const dir=join('data/runs',options.runId);const storage=options.mode==='production'&&process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY?new SupabaseStorage():undefined;const runner=new Runner(dir,storage,options.runId);await runner.lock();
  try{
-  const fingerprint=createHash('sha256').update(JSON.stringify({engineVersion:2,options,config})).digest('hex');
+  const fingerprint=createHash('sha256').update(JSON.stringify({engineVersion:3,options,config,providers:{tts:process.env.TTS_PROVIDER,kokoroVoice:process.env.KOKORO_VOICE,elevenModel:process.env.ELEVENLABS_MODEL,elevenVoice:process.env.ELEVENLABS_VOICE_ID,llm:process.env.GEMINI_MODEL,targetDurationMode:process.env.TARGET_DURATION_MODE}})).digest('hex');
   const manifest=join(dir,'manifest.json');let previous;try{previous=await read(manifest);}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
   if(previous&&previous.fingerprint!==fingerprint)throw new Error('Run configuration changed; choose a new run ID');
   if(!previous)await json(manifest,{...options,fingerprint,createdAt:new Date().toISOString()});
-  if(input.retryFrom){const stages=['research','ideas','scoring','selection','script','facts','plan','voice','captions','shots','cost-plan','visuals','audio-mix','composition','render','metadata','qa','thumbnail'];const index=stages.indexOf(input.retryFrom);if(index<0)throw new Error('Invalid --retry-from stage');for(const stage of stages.slice(index))for(const suffix of ['.json','.integrity.json'])await rm(join(dir,stage+suffix),{force:true});}
-  const llm=new OpenAIProvider();const demo=options.mode==='demo';
+  if(input.retryFrom){const stages=['duration-plan','cost-estimate','research','ideas','scoring','selection','script','script-quality','facts','pronunciations','plan','voice-selection','voice','captions','shots','cost-plan','visuals','audio-mix','audio-qa','composition','render','metadata','qa','thumbnail'];const index=stages.indexOf(input.retryFrom);if(index<0)throw new Error('Invalid --retry-from stage');for(const stage of stages.slice(index))for(const suffix of ['.json','.integrity.json'])await rm(join(dir,stage+suffix),{force:true});}
+  const llm=new FreeFirstLLM();const demo=options.mode==='demo';
+  if(!demo&&!stopAfterResearch&&options.productionKind==='longform'&&config.narrator.requireHumanVoiceApproval&&!config.narrator.voiceApproved)throw new Error('Approve and pin channel narrator after audition before final long-form production');
+  const longPlan=!demo&&!stopAfterResearch?await runner.stage('duration-plan',longFormPlan,async()=>{const target=await targetDuration(options.productionKind,config.duration);return new LongFormPlanner().plan(target.seconds,config.narrator.targetWpm,options.productionKind,target.source,options.topic);}):undefined;
+  await currentCosts()!.setDuration(longPlan?longPlan.targetSeconds:60);
+  await runner.stage('cost-estimate',z.object({minutes:z.number(),strategy:z.string(),estimatedUsd:z.number(),categories:z.array(z.object({category:z.string(),classification:z.enum(['FREE','INCLUDED','PAID']),estimatedUsd:z.number()})),assumptions:z.string(),withinBudget:z.boolean()}),async()=>estimateCosts(longPlan?longPlan.targetSeconds/60:1,config.costPolicy));
   const research=await runner.stage('research',schemas.research,()=>demo?Promise.resolve(demoResearch):investigate(options.topic,llm,config.strategy.sources,config.competitors.channels));
   if(stopAfterResearch)return {runId:options.runId,dir};
   const ideas=await runner.stage('ideas',schemas.ideas,()=>demo?Promise.resolve({ideas:[{topic:research.topic,hook:demoScript.hook,score:90,reason:'Original illustrated metaphor; no empirical claims'}]}):generateIdeas({research,audience:config.audience},llm));
   const scoring=await runner.stage('scoring',schemas.ideas,async()=>scoreIdeas(ideas,research.sources.length));
   const selection=await runner.stage('selection',schemas.schemas.selection,async()=>selectTopic(scoring));
-  const script=await runner.stage('script',schemas.script,()=>demo?Promise.resolve(demoScript):writeScript({research,selection,channel:config.channel,audience:config.audience},llm));
+  const script=await runner.stage('script',schemas.script,()=>demo?Promise.resolve(demoScript):writeLongForm({research,selection,channel:config.channel,audience:config.audience,narrator:config.narrator},llm,longPlan!));
   if(new Set(script.scenes.map(s=>s.id)).size!==script.scenes.length||script.scenes.some(s=>!/^[A-Za-z0-9_-]+$/.test(s.id)))throw new Error('Invalid or duplicate scene IDs');
+  await runner.stage('script-quality',z.object({score:z.number(),passed:z.boolean(),repeatedSentences:z.number(),clicheCount:z.number(),repeatedTwelveWordPhrases:z.number(),limitations:z.string()}),async()=>scriptQuality(script.scenes.map(s=>s.narration)));
+  const dictionary=await runner.stage('pronunciations',pronunciations,async()=>process.env.PRONUNCIATIONS_PATH?pronunciations.parse(await read(process.env.PRONUNCIATIONS_PATH)):pronunciationCandidates(script.scenes.map(s=>s.narration).join(' ')));
+  if(!demo)await json(join(dir,'pronunciation-review.json'),{potentialIssues:dictionary.terms.filter(t=>!t.verified),reviewRequired:true,mechanism:'Verified dictionary metadata; pronunciation dictionary locators can be supplied to ElevenLabs. No unverified respelling is inserted into speech.'});
   const facts=await runner.stage('facts',schemas.facts,()=>factcheck(script,research,demo?undefined:llm));
   if(!facts.passed)throw new Error('Fact checking rejected the script; start a corrected new run');
   const plan=await runner.stage('plan',schemas.plan,async()=>({scenes:script.scenes.map(({id,narration,visual})=>({id,narration,visual}))}));
   const assets=join(dir,'assets');await mkdir(assets,{recursive:true});const publicDir=resolve('public',options.runId);await mkdir(publicDir,{recursive:true});
-  const tts=demo?new DemoVoice():process.env.TTS_PROVIDER==='elevenlabs'?new ElevenLabsProvider():llm;
-  const voice=await runner.stage('voice',schemas.voice,async()=>{const scenes=[];for(const scene of plan.scenes){const path=join(assets,scene.id+'.wav');const {alignment,words}=await tts.speak(scene.narration,path);scenes.push({id:scene.id,path,duration:await duration(path),alignment,words});}return {scenes};},async v=>{for(const s of v.scenes)await access(s.path);});
+  const selectionVoice=await runner.stage('voice-selection',z.object({provider:z.string(),voiceId:z.string(),model:z.string(),reason:z.string()}),async()=>demo?{provider:'demo',voiceId:'en-us',model:'espeak-ng',reason:'Offline technical demo'}:selectNarrator(config.narrator,assets));
+  const tts=demo?new DemoVoice():selectedProvider(selectionVoice.provider,config.narrator);
+  const voice=await runner.stage('voice',schemas.voice,()=>narrateChapters(plan,tts,assets,config.narrator.targetWpm,`${selectionVoice.provider}:${selectionVoice.voiceId}:${selectionVoice.model}`,Object.fromEntries(script.scenes.map(s=>[s.id,s.performance]))),async v=>{for(const s of [...v.scenes,...v.chapters??[]])await access(s.path);});
   const captions=await runner.stage('captions',schemas.captions,async()=>createCaptions(plan,voice,config.style.fps));
   const shots=await runner.stage('shots',shotPlan,()=>new ShotPlanner().plan(plan,voice,config.visualProfile,config.style.fps,demo?undefined:llm));
-  await runner.stage('cost-plan',z.object({estimatedUsd:z.number(),budgetUsd:z.number(),aiVideoCandidates:z.array(z.string()),policy:z.string()}),async()=>({estimatedUsd:demo?0:Math.min(config.visualProfile.assetBudgetUsd,shots.shots.filter(s=>s.shotType==='generated-image').length*0.07),budgetUsd:config.visualProfile.assetBudgetUsd,aiVideoCandidates:shots.shots.filter(s=>s.highImpact).map(s=>s.id),policy:'Stock first; generated stills with motion; original graphics; AI video only for high-impact shots within an explicitly configured adapter budget. Estimates are advisory, not vendor invoices.'}));
-  const visuals=await runner.stage('visuals',media,()=>createAssets(shots.shots,config.visualProfile,assets,demo?{}:productionAssets()),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Asset checksum mismatch');});
-  const audio=await runner.stage('audio-mix',audioMix,()=>mixAudio(voice,shots.shots,config.visualProfile,assets,config.style.fps,!demo&&process.env.MUSIC_PATH?new LocalMusicProvider():undefined),async v=>{await access(v.path);});
+  await runner.stage('cost-plan',z.object({estimatedUsd:z.number(),budgetUsd:z.number(),aiVideoCandidates:z.array(z.string()),policy:z.string()}),async()=>({estimatedUsd:0,budgetUsd:config.costPolicy.maxCostPerVideoUsd,aiVideoCandidates:config.costPolicy.aiVideoEnabled?shots.shots.filter(s=>s.highImpact).map(s=>s.id):[],policy:'Commons → Pexels video → Pexels image → original motion graphics. Paid images only when free technical score falls below QUALITY_FLOOR, on high-impact/reconstruction shots, max 8; every paid call is separately reserved before execution. AI video disabled by default.'}));
+  const visuals=await runner.stage('visuals',media,()=>createAssets(shots.shots,config.visualProfile,assets,demo?{policy:config.costPolicy}:productionAssets()),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Asset checksum mismatch');});
+  const audio=await runner.stage('audio-mix',audioMix,()=>mixAudio(voice,shots.shots,config.visualProfile,assets,config.style.fps,new ChapterMusicProvider(voice.scenes.map(s=>({duration:Math.ceil(s.duration*config.style.fps)/config.style.fps,direction:longPlan?.chapters.find(c=>c.id===s.id)?.musicDirection??'restrained original atmosphere'})),demo)),async v=>{await access(v.path);});
+  const audioReport=await runner.stage('audio-qa',audioQA,()=>inspectAudio(audio.path,{expectedDuration:audio.duration,narrationPath:audio.narrationPath,musicPath:audio.duckedMusicPath,voiceIds:voice.chapters?.map(c=>c.identity),chapterBoundaries:voice.chapters?.slice(0,-1).map((_,i)=>voice.chapters!.slice(0,i+1).reduce((n,c)=>n+c.duration,0)),requireMusic:true}));if(!demo&&!audioReport.passed)throw new Error('Production audio QA failed; rendering and upload blocked');
   for(const a of [...voice.scenes,...visuals.assets,{path:audio.path}])await copyFile(a.path,join(publicDir,a.path.split('/').at(-1)!));
   const composition=await runner.stage('composition',schemas.composition,async()=>{let from=0;const fps=config.style.fps;const scenes=plan.scenes.map(s=>{const frames=Math.ceil(voice.scenes.find(v=>v.id===s.id)!.duration*fps);const first=visuals.assets.find(a=>shots.shots.find(x=>x.id===a.shotId)?.sceneId===s.id)!;const scene={id:s.id,text:s.narration,audio:`${options.runId}/${s.id}.wav`,image:`${options.runId}/${first.path.split('/').at(-1)!}`,from,frames};from+=frames;return scene;});return {fps,width:config.style.width,height:config.style.height,durationInFrames:from,scenes,cues:captions.cues,shots:shots.shots,assets:visuals.assets.map(a=>({...a,path:`${options.runId}/${a.path.split('/').at(-1)!}`})),audioMixPath:`${options.runId}/mixed.wav`,visualProfile:config.visualProfile};});
   const video=await runner.stage('render',schemas.rendered,async()=>{const path=join(dir,'final.mp4');await renderVideo(composition,path);return {path,duration:await duration(path),sha256:await fileDigest(path)};},async v=>{if(await fileDigest(v.path)!==v.sha256)throw new Error('Video checksum mismatch');});
   const metadata=await runner.stage('metadata',schemas.metadata,async()=>({title:script.title,description:`${script.hook}\n\n${research.summary}\n\nSources:\n${research.sources.map(s=>s.url).join('\n')}\n\nMedia credits:\n${[...new Set(visuals.assets.filter(a=>a.sourceUrl).map(a=>`${a.sourceUrl} — ${a.license}`))].join('\n')}\n\nNarration is synthesized. Visual provenance and licenses are recorded in the asset manifest.`,tags:['education','explainer'],categoryId:config.channel.categoryId,privacyStatus:'private',madeForKids:config.channel.madeForKids,syntheticMedia:config.channel.syntheticMedia,publishAt:config.schedule.publishAt}));
-  const qa=await runner.stage('qa',schemas.qa,async()=>{const report=await inspect(video.path,script,composition,facts,metadata,[...voice.scenes,...visuals.assets,{path:audio.path}].map(a=>a.path));if(demo){report.checks.push({name:'demo showcase',passed:video.duration>=60&&video.duration<=90&&composition.shots.length>=15&&new Set(composition.shots.map(s=>s.shotType)).size>=4,detail:`${video.duration.toFixed(1)}s, ${composition.shots.length} shots, ${new Set(composition.shots.map(s=>s.shotType)).size} composition types`});report.passed=report.checks.every(x=>x.passed);}return report;});
+  const qa=await runner.stage('qa',schemas.qa,async()=>{const report=await inspect(video.path,script,composition,facts,metadata,[...voice.scenes,...visuals.assets,{path:audio.path}].map(a=>a.path));if(!demo){report.checks.push({name:'pronunciation review',passed:dictionary.terms.every(t=>t.verified&&!!t.source),detail:'Candidate names/dates must have verified pronunciation entries and sources'});report.checks.push({name:'asset quality floor',passed:visuals.assets.every(a=>(a.qualityScore??0)>=config.costPolicy.qualityFloor),detail:'Technical/provenance rating only; semantic and aesthetic review remains editorial'});const finalAudio=await inspectAudio(video.path,{expectedDuration:audio.duration,voiceIds:voice.chapters?.map(c=>c.identity)});await json(join(dir,'audio-qa-final.json'),finalAudio);report.checks.push({name:'production audio mastering',passed:audioReport.passed&&finalAudio.passed,detail:'Measured stem balance and final AAC loudness/true peak'});report.passed=report.checks.every(x=>x.passed);}if(demo){report.checks.push({name:'demo showcase',passed:video.duration>=60&&video.duration<=90&&composition.shots.length>=15&&new Set(composition.shots.map(s=>s.shotType)).size>=4,detail:`${video.duration.toFixed(1)}s, ${composition.shots.length} shots, ${new Set(composition.shots.map(s=>s.shotType)).size} composition types`});report.passed=report.checks.every(x=>x.passed);}return report;});
   requireQA(qa);
   await runner.stage('thumbnail',schemas.thumbnail,()=>thumbnails({...composition,thumbnailTitle:script.title},dir,demo?undefined:llm),async v=>{for(const a of v.variants)if(await fileDigest(a.path)!==a.sha256)throw new Error('Thumbnail checksum mismatch');});
   if(!demo&&process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY){await new SupabaseStorage().put(options.runId,{manifest:await read(manifest),status:await read(join(dir,'status.json')),qa,metadata});}

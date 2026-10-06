@@ -1,0 +1,29 @@
+{
+  "provider": "auto",
+  "model": "eleven_v4",
+  "language": "en",
+  "targetWpm": 140,
+  "kokoroVoice": "am_michael",
+  "kokoroSpeed": 1,
+  "style": "premium historical documentary",
+  "tone": [
+    "calm",
+    "authoritative",
+    "cinematic",
+    "curious",
+    "natural"
+  ],
+  "avoid": [
+    "commercial announcer",
+    "hyperactive",
+    "robotic",
+    "monotone",
+    "youtube influencer voice"
+  ],
+  "identityPolicy": "One selected provider and voice per video. Never switch voice between chapters. Pin the approved provider/voice after audition; paid fallback requires an approved channel voice ID.",
+  "requireHumanVoiceApproval": true,
+  "voiceApproved": false,
+  "approvedProvider": null,
+  "approvedVoiceId": null,
+  "paidFallbackVoiceApproved": false
+}
