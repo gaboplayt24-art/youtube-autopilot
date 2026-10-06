@@ -62,7 +62,8 @@ jobs:
           path: |
             .cache/models
             .cache/huggingface
-          key: cpu-models-nano71ccd-depth5426-kokoro82-whispertiny-v1
+          key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v2
+          restore-keys: cpu-models-nano71ccd-depth5426-kokoro82-whispertiny-v1
       - uses: actions/cache@v4
         id: python-env
         with:

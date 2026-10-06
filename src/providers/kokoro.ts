@@ -25,11 +25,12 @@ export function alignWords(narration:string,chunks:{text:string;timestamp:[numbe
  }
  return aligned;
 }
-export async function localTranscript(path:string,model='Xenova/whisper-tiny.en'){const output=path+(model==='Xenova/whisper-tiny.en'?'.transcript.json':'.base.transcript.json');await superviseWorker(resolve('src/voice/local-worker.mjs'),{action:'transcribe',path,output,model},12*60000);return read(output);}
+export async function localTranscript(path:string,model='Xenova/whisper-tiny.en'){const output=path+(model==='Xenova/whisper-tiny.en'?'.transcript.json':model==='Xenova/whisper-base.en'?'.base.transcript.json':'.small.transcript.json');await superviseWorker(resolve('src/voice/local-worker.mjs'),{action:'transcribe',path,output,model},12*60000);return read(output);}
 /** Retry transcription, never speech synthesis or invented word boundaries. */
 export async function alignWithASRFallback(narration:string,transcribe:(model:string)=>Promise<{chunks:{text:string;timestamp:[number,number|null]}[]}>):Promise<Alignment>{
- const first=await transcribe('Xenova/whisper-tiny.en');
- try{return alignWords(narration,first.chunks);}catch{return alignWords(narration,(await transcribe('Xenova/whisper-base.en')).chunks);}
+ let last:unknown;
+ for(const model of ['Xenova/whisper-tiny.en','Xenova/whisper-base.en','Xenova/whisper-small.en']){const transcript=await transcribe(model);try{return alignWords(narration,transcript.chunks);}catch(e){last=e;}}
+ throw last;
 }
 export class LocalTranscriptionProvider implements TranscriptionProvider {
  async transcribe(path:string,narration:string){return alignWithASRFallback(narration,model=>localTranscript(path,model));}
