@@ -2,6 +2,14 @@ name: quality-test-free
 on:
   workflow_dispatch:
     inputs:
+      gemini_free_tier_confirmed:
+        description: Gemini project uses the Free Tier without paid API billing
+        type: boolean
+        default: false
+      cloudflare_free_plan_confirmed:
+        description: Account is on Workers Free, without paid overage billing
+        type: boolean
+        default: false
       run_id:
         type: string
         default: free-quality-test
@@ -31,10 +39,10 @@ jobs:
       CHROME_EXECUTABLE: /usr/bin/google-chrome
       RUN_ID: ${{ inputs.run_id || github.run_id }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-      GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED }}
-      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || (inputs.gemini_free_tier_confirmed && 'true' || '') }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED }}
+      CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED || (inputs.cloudflare_free_plan_confirmed && 'true' || '') }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

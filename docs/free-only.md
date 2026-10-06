@@ -12,16 +12,28 @@ Reviewed official sources on 2026-10-06:
 | Depth | `depth-anything/Depth-Anything-V2-Small-hf` | Apache-2.0 Small ONLY, fixed revision; no NC larger weights |
 | Benchmark | YouTube Data API channels/playlistItems/videos | Quota counts persisted; no competitor script copying |
 
-Pins: Chatterbox code `5de7a54aa4e5e2baadb0182dde554908b48b85c2`, Nano model `71ccd1d0081b430592cea481f4307e764e07bc64`, Small depth model `5426e4f0f36572d16453bbda7a8389317b1bef99`. Python dependency freeze and Perth commit are in scripts/requirements-cpu-ai.lock. CPU torch wheels are installed first, then the pinned environment; CUDA is never downloaded. Chatterbox still has a substantial speech decoder download even though its language backbone is Nano. Cache the model directory and Python environment rather than promising tiny downloads or GPU throughput.
+Pins: Chatterbox code `5de7a54aa4e5e2baadb0182dde554908b48b85c2`, Nano model `71ccd1d0081b430592cea481f4307e764e07bc64`, Small depth model `5426e4f0f36572d16453bbda7a8389317b1bef99`. Python dependency freeze and Perth commit are in scripts/requirements-cpu-ai.lock. CPU torch wheels are installed first, then the complete pinned environment with `--no-deps` and mandatory `pip check`; this avoids Chatterbox's mutable Perth@master URL conflicting with our immutable Perth pin. CUDA is never downloaded. Chatterbox still has a substantial speech decoder download even though its language backbone is Nano. Cache the model directory and Python environment rather than promising tiny downloads or GPU throughput.
 
-Native provider commands:
+Secret-free development in Codex:
+
+```bash
+npm ci
+npm run lint
+npm run typecheck
+npm test
+```
+
+Do not copy production credentials into Codex. Real API checks are performed through the manual GitHub workflows; they consume GitHub Secrets. Account ID may be a GitHub Variable or Secret. Pexels is optional and skipped in the legacy stock smoke when absent.
+
+Optional **local CPU-only audition** (no API keys):
 
 ```bash
 npm ci
 bash scripts/setup-cpu-ai.sh
 npm run voice-audition-free -- --run-id voice-free-001
-npm run quality-test-free -- --run-id history-quality-001
 ```
+
+Run **Actions → quality-test-free** for the real Gemini/Cloudflare test; do not attempt it with production credentials in Codex.
 
 The quality test is deliberately an **imagined historical reconstruction**, with a Gemini-authored 190–210-word script. It evaluates visual/voice quality without fabricated event-specific factual claims. Actual TTS duration must be 60–90s; no stretching or guessed timestamps makes it pass. ASR mismatch fails. Every media stage keeps JSON checkpoints. Same-image reuse requires a matching prompt/bible plus related narration, and distinct editorial crop/motion. Prompt consistency is not a guarantee of identical faces; human review is mandatory before channel identity and pilot approval.
 

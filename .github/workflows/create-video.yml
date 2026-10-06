@@ -2,6 +2,14 @@ name: create-video
 on:
   workflow_dispatch:
     inputs:
+      gemini_free_tier_confirmed:
+        description: Production only; Gemini project uses Free Tier without paid API billing
+        type: boolean
+        default: false
+      cloudflare_free_plan_confirmed:
+        description: Production only; account uses Workers Free without paid overage billing
+        type: boolean
+        default: false
       retry_from:
         description: Optional stage to regenerate (invalidates that stage and downstream outputs)
         type: string
@@ -117,13 +125,13 @@ jobs:
           IMAGE_PROVIDER: ${{ vars.IMAGE_PROVIDER }}
           STOCK_PROVIDER: ${{ vars.STOCK_PROVIDER }}
           TTS_PROVIDER: ${{ vars.TTS_PROVIDER || 'chatterbox-nano' }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED }}
+          CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED || (inputs.cloudflare_free_plan_confirmed && 'true' || '') }}
           KOKORO_VOICE: ${{ vars.KOKORO_VOICE }}
           ELEVENLABS_MODEL: ${{ vars.ELEVENLABS_MODEL || 'eleven_v4' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED }}
+          GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || (inputs.gemini_free_tier_confirmed && 'true' || '') }}
           TARGET_DURATION_MODE: ${{ vars.TARGET_DURATION_MODE || 'benchmark_median' }}
           QUALITY_FLOOR: ${{ vars.QUALITY_FLOOR || '80' }}
           MAX_GENERATED_IMAGES_PER_VIDEO: ${{ vars.MAX_GENERATED_IMAGES_PER_VIDEO || '256' }}
