@@ -57,12 +57,13 @@ jobs:
         id: python
         with:
           python-version: '3.12'
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
+        id: models
         with:
           path: |
             .cache/models
             .cache/huggingface
-          key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v2
+          key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
           restore-keys: cpu-models-nano71ccd-depth5426-kokoro82-whispertiny-v1
       - uses: actions/cache@v4
         id: python-env
@@ -125,3 +126,11 @@ jobs:
           path: .cache/quota/free-quota-ledger.json
           include-hidden-files: true
           retention-days: 30
+      - name: Retain downloaded public models after a failed quality gate
+        if: always() && !cancelled() && steps.models.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .cache/models
+            .cache/huggingface
+          key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
