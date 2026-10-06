@@ -1,5 +1,6 @@
 import type {z} from 'zod';
 export interface LLMProvider {json<T>(instruction:string,schema:z.ZodType<T>):Promise<T>}
+export interface VisionProvider {images<T>(instruction:string,images:{mimeType:string;data:string}[],schema:z.ZodType<T>):Promise<T>}
 export type Alignment={start:number;end:number;text:string}[];
 export interface TTSProvider {speak(text:string,path:string,context?:SpeechContext):Promise<{alignment:Alignment;words?:Alignment}>}
 export interface TranscriptionProvider {transcribe(path:string,narration:string):Promise<Alignment>}

@@ -17,7 +17,9 @@
     "learn": "tsx src/orchestration/cli.ts learn",
     "benchmark": "tsx src/benchmarks/cli.ts",
     "voice-audition": "tsx src/voice/audition.ts",
-    "free-first-smoke": "tsx src/cost/cli.ts"
+    "free-first-smoke": "tsx src/cost/cli.ts",
+    "voice-audition-free": "tsx src/voice/audition-free.ts",
+    "quality-test-free": "tsx src/visuals/quality-test.ts"
   },
   "dependencies": {
     "@echogarden/espeak-ng-emscripten": "^0.3.5",

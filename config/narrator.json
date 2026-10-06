@@ -1,6 +1,6 @@
 {
-  "provider": "auto",
-  "model": "eleven_v4",
+  "provider": "chatterbox-nano",
+  "model": "ResembleAI/chatterbox-nano",
   "language": "en",
   "targetWpm": 140,
   "kokoroVoice": "am_michael",

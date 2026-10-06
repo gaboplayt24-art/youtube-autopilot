@@ -1,3 +1,4 @@
+import {currentQuota} from '../quota';
 import {z} from 'zod';
 import {join} from 'node:path';
 import {json,read} from '../orchestration/io';
@@ -10,7 +11,7 @@ export class BenchmarkAnalyzer {
  constructor(private apiKey=process.env.YOUTUBE_DATA_API_KEY,private request:typeof fetch=fetch){}
  async analyze(channel:string,options={sampleSize:20,minimumDurationSeconds:300,maxUploads:500}){
   if(!this.apiKey)throw new Error('YOUTUBE_DATA_API_KEY missing; no benchmark data has been invented');const handle=channelHandle(channel);let quota=0;
-  const get=async(route:string,params:Record<string,string>)=>{quota++;const url=new URL(`https://www.googleapis.com/youtube/v3/${route}`);for(const [k,v]of Object.entries({...params,key:this.apiKey!}))url.searchParams.set(k,v);const r=await this.request(url,{signal:AbortSignal.timeout(25000)});if(!r.ok)throw new Error(`YouTube ${route} HTTP ${r.status}`);return r.json();};
+  const get=async(route:string,params:Record<string,string>)=>{quota++;const ledger=currentQuota();const reservation=await ledger?.reserve('youtube',route);await ledger?.finish(reservation!,{youtubeUnits:1});const url=new URL(`https://www.googleapis.com/youtube/v3/${route}`);for(const [k,v]of Object.entries({...params,key:this.apiKey!}))url.searchParams.set(k,v);const r=await this.request(url,{signal:AbortSignal.timeout(25000)});if(!r.ok)throw new Error(`YouTube ${route} HTTP ${r.status}`);return r.json();};
   const channelData=await get('channels',{part:'id,contentDetails',forHandle:'@'+handle});const info=channelData.items?.[0];const playlist=info?.contentDetails?.relatedPlaylists?.uploads;if(!playlist)throw new Error('Channel or uploads playlist unavailable');
   const videos:z.infer<typeof benchmarkReport>['videos']=[];let token='';let inspected=0;
   do{const page=await get('playlistItems',{part:'contentDetails',playlistId:playlist,maxResults:'50',...(token?{pageToken:token}:{})});const ids=(page.items??[]).map((i:any)=>i.contentDetails.videoId).slice(0,options.maxUploads-inspected);if(!ids.length)break;inspected+=ids.length;const items=await get('videos',{part:'snippet,contentDetails,statistics,liveStreamingDetails',id:ids.join(',')});const ordered=new Map((items.items??[]).map((i:any)=>[i.id,i]));

@@ -1,12 +1,24 @@
 {
-  "mode": "free_first", "preferFree": true, "allowPaidFallback": true,
-  "maxCostPerVideoUsd": 2, "requireApprovalAboveUsd": 2, "qualityFloor": 80,
-  "maxGeneratedImagesPerVideo": 8, "aiVideoEnabled": false,
+  "mode": "free_first",
+  "preferFree": true,
+  "allowPaidFallback": false,
+  "maxCostPerVideoUsd": 0,
+  "requireApprovalAboveUsd": 0,
+  "qualityFloor": 80,
+  "maxGeneratedImagesPerVideo": 256,
+  "aiVideoEnabled": false,
   "rates": {
-    "llmInputPerMillion": 0.4, "llmOutputPerMillion": 1.6,
-    "ttsPerThousandCharacters": 0.3, "transcriptionPerMinute": 0.006,
-    "generatedImage": 0.17, "aiVideoPerSecond": 0.5,
-    "musicPerMinute": 0.5, "sfxPerEvent": 0.05
+    "llmInputPerMillion": 0.4,
+    "llmOutputPerMillion": 1.6,
+    "ttsPerThousandCharacters": 0.3,
+    "transcriptionPerMinute": 0.006,
+    "generatedImage": 0.17,
+    "aiVideoPerSecond": 0.5,
+    "musicPerMinute": 0.5,
+    "sfxPerEvent": 0.05
   },
-  "pricingNote": "Conservative planning assumptions, not live vendor quotes or invoices. Verify your subscription and model pricing before paid work. GitHub compute/artifacts are INCLUDED only within the repository plan allowances."
+  "pricingNote": "Conservative planning assumptions, not live vendor quotes or invoices. Verify your subscription and model pricing before paid work. GitHub compute/artifacts are INCLUDED only within the repository plan allowances.",
+  "freeOnly": true,
+  "paidFallbackEnabled": false,
+  "maxPaidCostUsd": 0
 }

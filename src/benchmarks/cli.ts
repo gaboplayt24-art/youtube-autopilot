@@ -1,2 +1,7 @@
-import {runBenchmarks} from './index';
-runBenchmarks().catch(e=>{console.error(JSON.stringify({event:'benchmark_failed',message:e.message}));process.exitCode=1;});
+import {runBenchmarks,channelHandle} from './index';
+import {FreeQuotaLedger,withQuota} from '../quota';
+import {GeminiProvider} from '../providers/free';
+import {read,json} from '../orchestration/io';
+import {z} from 'zod';
+const q=new FreeQuotaLedger('data/benchmarks');
+(async()=>{await q.restore();try{await withQuota(q,async()=>{await runBenchmarks();if(process.env.GEMINI_API_KEY&&process.env.GEMINI_FREE_TIER_CONFIRMED==='true'){const config=await read('config/benchmarks.json');for(const name of process.env.BENCHMARK_CHANNEL?[process.env.BENCHMARK_CHANNEL]:config.channels){const handle=channelHandle(name);const benchmark=await read(`data/benchmarks/${handle}.json`);const analysis=await new GeminiProvider().json(`Interpret this real public YouTube metadata benchmark for original historical documentaries. Recommend duration/pacing/topics without copying scripts or inventing CTR/retention data that is not present. Do not change hard safety rules or channel configuration. Return {recommendations:[string],limitations:[string],humanReviewRequired:true}. Data ${JSON.stringify(benchmark)}`,z.object({recommendations:z.array(z.string()),limitations:z.array(z.string()),humanReviewRequired:z.literal(true)}));await json(`data/benchmarks/${handle}-interpretation.json`,analysis);}}});}finally{await q.report();}})().catch(e=>{console.error(JSON.stringify({event:'benchmark_failed',message:e.message}));process.exitCode=1;});

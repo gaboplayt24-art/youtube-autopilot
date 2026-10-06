@@ -29,7 +29,7 @@ test('AI video spending respects the cumulative adapter budget across high-impac
   const {exec}=await import('../src/orchestration/io');
   const plan=await new ShotPlanner().plan({scenes},audio,style,30);let calls=0;
   const video={estimateCost:()=>.5,generate:async(_prompt:string,path:string)=>{calls++;await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','color=c=navy:s=1280x720:d=4','-c:v','libx264',path],{timeout:10000});}};
-  const policy={...await loadCostPolicy(),aiVideoEnabled:true};const ledger=new CostLedger(policy,dir);const result=await withCosts(ledger,()=>createAssets(plan.shots.slice(0,3).map(s=>({...s,highImpact:true,shotType:'generated-image' as const})),{...style,assetBudgetUsd:3,aiVideoBudgetUsd:1},dir,{video,policy}));
+  const policy={...await loadCostPolicy(),freeOnly:false,paidFallbackEnabled:true,allowPaidFallback:true,maxPaidCostUsd:2,maxCostPerVideoUsd:2,requireApprovalAboveUsd:2,aiVideoEnabled:true};const ledger=new CostLedger(policy,dir);const result=await withCosts(ledger,()=>createAssets(plan.shots.slice(0,3).map(s=>({...s,highImpact:true,shotType:'generated-image' as const})),{...style,assetBudgetUsd:3,aiVideoBudgetUsd:1},dir,{video,policy}));
   assert.equal(calls,2);assert.equal(result.estimatedTotalCost,1);assert.equal(result.assets[2].provider,'original-editorial');
  }finally{await rm(dir,{recursive:true});}
 });

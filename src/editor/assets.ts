@@ -2,16 +2,15 @@ import {join} from 'node:path';
 import {access,writeFile} from 'node:fs/promises';
 import type {ImageProvider,StockProvider,VideoProvider} from '../providers/interfaces';
 import {EditorialIllustrator} from '../visuals/editorial';
-import {downloadStock,PexelsProvider} from '../providers/media';
-import {WikimediaCommonsProvider} from '../providers/free';
+import {downloadStock} from '../providers/media';
+import {CloudflareWorkersAIImageProvider} from '../providers/cloudflare';
 import {currentCosts,paidCall,loadCostPolicy,type CostPolicy} from '../cost';
-import {OpenAIImageProvider} from '../providers/openai';
 import {fileDigest} from '../orchestration/integrity';
 import {json,read} from '../orchestration/io';
 import {duration,exec} from '../orchestration/io';
 import type {Shot,VisualProfile,MediaAsset} from './schemas';
 export type AssetProviders={image?:ImageProvider;stock?:StockProvider;commons?:StockProvider;policy?:CostPolicy;video?:VideoProvider};
-export function productionAssets():AssetProviders{return {commons:new WikimediaCommonsProvider(),image:process.env.OPENAI_API_KEY?new OpenAIImageProvider():undefined,stock:process.env.PEXELS_API_KEY?new PexelsProvider():undefined};}
+export function productionAssets():AssetProviders{return {image:new CloudflareWorkersAIImageProvider()};}
 export async function createAssets(shots:Shot[],profile:VisualProfile,dir:string,providers:AssetProviders={}){
  const assets:MediaAsset[]=[];let total=0;let aiVideoTotal=0;let generatedImages=currentCosts()?.entries.filter(e=>e.category==='generatedImages').length??0;const policy=providers.policy??currentCosts()?.policy??await loadCostPolicy();const illustrator=new EditorialIllustrator();
  for(const shot of shots){const checkpoint=join(dir,shot.id+'.asset.json');let previous:MediaAsset|undefined;try{const cached=await read(checkpoint);if(cached.shotFingerprint!==JSON.stringify(shot)||cached.asset.sha256!==await fileDigest(cached.asset.path))throw new Error('Asset checkpoint invalid; refusing paid regeneration');previous=cached.asset;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}if(previous){assets.push(previous);total+=previous.estimatedCost;if(previous.provider==='ai-video')aiVideoTotal+=previous.estimatedCost;continue;}const failures:string[]=[];let selected:{path:string;kind:MediaAsset['kind'];provider:string;license:string;sourceUrl:string|null;cost:number;qualityScore:number;creator?:string;licenseUrl?:string;attribution?:string;publicDomain?:boolean}|undefined;

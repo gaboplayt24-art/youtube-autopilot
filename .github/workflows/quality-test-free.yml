@@ -1,0 +1,104 @@
+name: quality-test-free
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        type: string
+        default: free-quality-test
+      source_run_id:
+        description: Actions run with the previous quality-test artifact, including quota pauses
+        type: string
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+      AI_VIDEO_ENABLED: 'false'
+      MODEL_CACHE_DIR: ${{ github.workspace }}/.cache/models
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+      PIP_CACHE_DIR: ${{ github.workspace }}/.cache/pip
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      CHROME_EXECUTABLE: /usr/bin/google-chrome
+      RUN_ID: ${{ inputs.run_id || github.run_id }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        id: python
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        with:
+          path: |
+            .cache/models
+            .cache/huggingface
+          key: cpu-models-nano71ccd-depth5426-kokoro82-whispertiny-v1
+      - uses: actions/cache@v4
+        id: python-env
+        with:
+          path: |
+            .venv-ai
+            .cache/pip
+          key: cpu-ai-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-cpu-ai.sh', 'scripts/requirements-cpu-ai.lock') }}
+      - uses: actions/cache@v4
+        with:
+          path: node_modules/.cache/remotion
+          key: remotion-linux-${{ hashFiles('package-lock.json') }}
+      - run: npm ci
+      - run: python scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        if: inputs.source_run_id != ''
+        with:
+          name: quality-test-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Verify free-provider configuration before model installation
+        run: |
+          if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$GEMINI_API_KEY" ] || [ "$CLOUDFLARE_FREE_PLAN_CONFIRMED" != true ] || [ "$GEMINI_FREE_TIER_CONFIRMED" != true ]; then
+            npm run quality-test-free -- --run-id "$RUN_ID"
+          fi
+      - name: Install CPU models environment
+        if: steps.python-env.outputs.cache-hit != 'true'
+        timeout-minutes: 12
+        run: bash scripts/setup-cpu-ai.sh
+      - run: ffmpeg -version && ffprobe -version && /usr/bin/google-chrome --version
+      - run: npm run lint && npm run typecheck && npm test
+      - name: Short real AI quality test, no upload or paid fallback
+        timeout-minutes: 35
+        run: npm run quality-test-free -- --run-id "$RUN_ID"
+      - name: Verify encoded media
+        run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-test-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-quota-ledger
+          path: .cache/quota/free-quota-ledger.json
+          include-hidden-files: true
+          retention-days: 30
