@@ -1,0 +1,71 @@
+name: create-video
+on:
+  workflow_dispatch:
+    inputs:
+      retry_from:
+        description: Optional stage to regenerate (invalidates that stage and downstream outputs)
+        type: string
+      mode:
+        type: choice
+        options: [demo, production]
+        default: demo
+      topic:
+        type: string
+        default: How automated video production works
+      run_id:
+        description: Logical run ID; leave empty for a unique GitHub run ID
+        type: string
+      source_run_id:
+        description: GitHub Actions run number ID containing the previous pipeline artifact
+        type: string
+
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: create-video-${{ inputs.run_id || github.run_id }}
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      AUTO_PUBLISH: 'false'
+      RUN_ID: ${{ inputs.run_id || github.run_id }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      MODE: ${{ inputs.mode || 'demo' }}
+      TOPIC: ${{ inputs.topic }}
+      RETRY_FROM: ${{ inputs.retry_from }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        if: inputs.source_run_id != ''
+        with:
+          name: pipeline-${{ env.RUN_ID }}
+          path: data/runs
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: npm run lint && npm run typecheck && npm test
+      - name: Generate complete video without upload
+        run: |
+          args=(--run-id "$RUN_ID" --mode "$MODE" --topic "$TOPIC")
+          if [ -n "$RETRY_FROM" ]; then args+=(--retry-from "$RETRY_FROM"); fi
+          npm run video -- "${args[@]}"
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          CHROME_EXECUTABLE: /usr/bin/google-chrome
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipeline-${{ env.RUN_ID }}
+          path: data/runs/
+          retention-days: 30
+          if-no-files-found: warn

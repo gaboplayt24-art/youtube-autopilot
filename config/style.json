@@ -1,0 +1,8 @@
+{
+  "width": 1280,
+  "height": 720,
+  "fps": 30,
+  "background": "#10243a",
+  "accent": "#62e5ca",
+  "imageProvider": "cards"
+}

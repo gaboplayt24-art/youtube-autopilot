@@ -1,0 +1,57 @@
+name: publish
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Logical video run ID from create-video
+        type: string
+        required: true
+      source_run_id:
+        description: GitHub Actions ID of the create-video or previous private-upload run
+        type: string
+        required: true
+
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: publish-${{ inputs.run_id || github.run_id }}
+  cancel-in-progress: false
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: youtube-private
+    env:
+      AUTO_PUBLISH: 'false'
+      RUN_ID: ${{ inputs.run_id || github.run_id }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: pipeline-${{ env.RUN_ID }}
+          path: data/runs
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Private upload only (protected environment approval)
+        run: npm run publish -- --run-id "$RUN_ID"
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pipeline-${{ env.RUN_ID }}
+          path: data/runs/
+          retention-days: 30
+          if-no-files-found: warn

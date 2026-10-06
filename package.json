@@ -1,0 +1,38 @@
+{
+  "name": "youtube-autopilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test tests/*.test.ts",
+    "video": "tsx src/orchestration/cli.ts video",
+    "research": "tsx src/orchestration/cli.ts research",
+    "publish": "tsx src/orchestration/cli.ts publish",
+    "analytics": "tsx src/orchestration/cli.ts analytics",
+    "learn": "tsx src/orchestration/cli.ts learn"
+  },
+  "dependencies": {
+    "@echogarden/espeak-ng-emscripten": "^0.3.5",
+    "@remotion/bundler": "4.0.533",
+    "@remotion/renderer": "4.0.533",
+    "@supabase/supabase-js": "^2.49.0",
+    "googleapis": "^150.0.0",
+    "react": "19.1.0",
+    "react-dom": "19.1.0",
+    "remotion": "4.0.533",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.0",
+    "@types/react": "^19.1.0",
+    "eslint": "^9.25.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "^8.31.0"
+  }
+}

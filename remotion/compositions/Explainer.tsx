@@ -1,0 +1,4 @@
+import React from 'react';
+import {AbsoluteFill,Audio,Img,Sequence,staticFile,useCurrentFrame,useVideoConfig} from 'remotion';
+import type {Composition} from '../../src/orchestration/schemas';
+export const Explainer:React.FC<Composition>=(props)=>{const frame=useCurrentFrame();const {fps}=useVideoConfig();const cue=props.cues.find(c=>frame/fps>=c.start&&frame/fps<c.end);return <AbsoluteFill style={{backgroundColor:'#10243a'}}>{props.scenes.map(s=><Sequence key={s.id} from={s.from} durationInFrames={s.frames}><Img src={staticFile(s.image)} style={{width:'100%',height:'100%',objectFit:'cover'}}/><Audio src={staticFile(s.audio)}/></Sequence>)}{cue&&<div style={{position:'absolute',bottom:45,left:75,right:75,textAlign:'center',background:'#10243ae8',color:'white',fontSize:30,padding:20,fontFamily:'sans-serif'}}>{cue.text}</div>}</AbsoluteFill>;};

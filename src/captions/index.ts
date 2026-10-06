@@ -1,0 +1,3 @@
+import type {z} from 'zod';
+import {voice,plan} from '../orchestration/schemas';
+export function createCaptions(p:z.infer<typeof plan>,v:z.infer<typeof voice>,fps=30){let offset=0;const cues=[];for(const scene of p.scenes){const audio=v.scenes.find(x=>x.id===scene.id);if(!audio)throw new Error('Missing scene narration');for(const segment of audio.alignment){if(segment.start>=segment.end||segment.end>audio.duration+0.1)throw new Error('Invalid speech alignment');cues.push({sceneId:scene.id,start:offset+segment.start,end:offset+segment.end,text:segment.text});}offset+=Math.ceil(audio.duration*fps)/fps;}return {cues};}

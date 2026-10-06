@@ -1,0 +1,15 @@
+{
+  "topics": [
+    "How a video moves through an automated production pipeline"
+  ],
+  "hardRules": [
+    "No fabricated facts",
+    "Original or licensed media only",
+    "QA must pass before upload",
+    "Human authorization required for public publishing"
+  ],
+  "sources": [
+    "https://www.remotion.dev/docs/",
+    "https://docs.github.com/en/actions/about-github-actions/understanding-github-actions"
+  ]
+}
