@@ -57,6 +57,13 @@ jobs:
             .cache/pip
           key: cpu-ai-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-cpu-ai.sh', 'scripts/requirements-cpu-ai.lock') }}
       - run: npm ci
+      - name: Install audio tools
+        timeout-minutes: 5
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+          fi
       - name: Install CPU models environment
         if: steps.python-env.outputs.cache-hit != 'true'
         timeout-minutes: 12
