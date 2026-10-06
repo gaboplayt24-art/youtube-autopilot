@@ -39,6 +39,8 @@ npm run voice-audition-free -- --run-id voice-free-001
 
 Run **Actions → quality-test-free** for the real Gemini/Cloudflare test; do not attempt it with production credentials in Codex.
 
+**Actions → free-image-smoke** independently generates one real FLUX frame, estimates actual Small depth and renders three shared-editor previews. Its fixed original visual bible is explicitly a technical fixture. It does not claim Gemini authorship, semantic QA or production approval; this check remains usable during Gemini outages. No Pexels key is required.
+
 The quality test is deliberately an **imagined historical reconstruction**, with a Gemini-authored 190–210-word script. It evaluates visual/voice quality without fabricated event-specific factual claims. Actual TTS duration must be 60–90s; no stretching or guessed timestamps makes it pass. ASR mismatch fails. Every media stage keeps JSON checkpoints. Same-image reuse requires a matching prompt/bible plus related narration, and distinct editorial crop/motion. Prompt consistency is not a guarantee of identical faces; human review is mandatory before channel identity and pilot approval.
 
 Nano synthesis has a text/model/hash checkpoint before transcription. If Whisper Tiny merges words (for example "stonewalls"), strict alignment retries actual audio with Whisper Base English locally on CPU, preserving both transcript files. Zero-width ASR tokens are combined into short phrase captions using measured neighboring boundaries, without invented individual word timings. A phrase spanning a scene boundary fails rather than guessing a cut. Changed/missing words and null timestamps still fail. ASR failure never regenerates completed narration. Auditions retain Tiny's independent WER report for comparison.

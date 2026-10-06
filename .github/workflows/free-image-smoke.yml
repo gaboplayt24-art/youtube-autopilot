@@ -1,0 +1,94 @@
+name: free-image-smoke
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        type: string
+        default: free-image-smoke
+      cloudflare_free_plan_confirmed:
+        type: boolean
+        default: false
+      source_run_id:
+        type: string
+        description: Restore the previous image/depth checkpoint artifact
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+      AUTO_PUBLISH: 'false'
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+      CHROME_EXECUTABLE: /usr/bin/google-chrome
+      RUN_ID: ${{ inputs.run_id || github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        id: python
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        with:
+          path: .cache/huggingface
+          key: depth-small-5426e4f-v1
+      - uses: actions/cache@v4
+        id: python-env
+        with:
+          path: |
+            .venv-ai
+            .cache/pip
+          key: cpu-ai-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-cpu-ai.sh', 'scripts/requirements-cpu-ai.lock') }}
+      - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        if: inputs.source_run_id != ''
+        with:
+          name: free-image-smoke-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Install media tools
+        timeout-minutes: 5
+        run: |
+          sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+          sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+      - name: Install CPU dependencies
+        if: steps.python-env.outputs.cache-hit != 'true'
+        timeout-minutes: 12
+        run: bash scripts/setup-cpu-ai.sh
+      - run: npm run lint && npm run typecheck && npm test
+      - name: One real FLUX image, real Small depth, shared Remotion camera
+        timeout-minutes: 8
+        run: npx tsx src/visuals/free-image-smoke.ts --run-id "$RUN_ID"
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED || (inputs.cloudflare_free_plan_confirmed && 'true' || '') }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-image-smoke-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-quota-ledger
+          path: .cache/quota/free-quota-ledger.json
+          include-hidden-files: true
+          retention-days: 30
