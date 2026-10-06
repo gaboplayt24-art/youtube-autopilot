@@ -1,0 +1,27 @@
+name: gemini-models-free
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  models:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: List official model metadata without inference
+        run: npx tsx scripts/list-gemini-models.ts
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: gemini-models-free
+          path: data/diagnostics/gemini-models.json
+          retention-days: 30
