@@ -1,6 +1,11 @@
 name: benchmark
 on:
   workflow_dispatch:
+    inputs:
+      gemini_free_tier_confirmed:
+        description: Optional Gemini recommendations using an eligible Free Tier project
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -19,7 +24,8 @@ jobs:
           YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
           BENCHMARK_CHANNEL: ${{ vars.BENCHMARK_CHANNEL || '@ancientlivesHQ' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
+          GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || (inputs.gemini_free_tier_confirmed && 'true' || '') }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:

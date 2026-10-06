@@ -2,6 +2,10 @@ name: research
 on:
   workflow_dispatch:
     inputs:
+      gemini_free_tier_confirmed:
+        description: Production only; eligible Gemini Free Tier project without paid API billing
+        type: boolean
+        default: false
       retry_from:
         description: Optional stage to regenerate
         type: string
@@ -23,7 +27,7 @@ permissions:
   contents: read
   actions: read
 concurrency:
-  group: research-${{ inputs.run_id || github.run_id }}
+  group: free-provider-account
   cancel-in-progress: false
 jobs:
   run:
@@ -31,6 +35,10 @@ jobs:
     timeout-minutes: 45
     env:
       AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
       RUN_ID: ${{ inputs.run_id || github.run_id }}
       SOURCE_RUN_ID: ${{ inputs.source_run_id }}
       MODE: ${{ inputs.mode || 'demo' }}
@@ -43,6 +51,9 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/download-artifact@v4
         if: inputs.source_run_id != ''
         with:
@@ -57,6 +68,9 @@ jobs:
           if [ -n "$RETRY_FROM" ]; then args+=(--retry-from "$RETRY_FROM"); fi
           npm run research -- "${args[@]}"
         env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
+          GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || (inputs.gemini_free_tier_confirmed && 'true' || '') }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
       - uses: actions/upload-artifact@v4
         if: always()
@@ -65,3 +79,10 @@ jobs:
           path: data/runs/
           retention-days: 30
           if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-quota-ledger
+          path: .cache/quota/free-quota-ledger.json
+          include-hidden-files: true
+          retention-days: 30

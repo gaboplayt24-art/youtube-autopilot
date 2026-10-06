@@ -8,5 +8,5 @@ export async function listGeminiModels(request:typeof fetch=fetch){
  do{const url=new URL('https://generativelanguage.googleapis.com/v1beta/models');url.searchParams.set('pageSize','100');if(token)url.searchParams.set('pageToken',token);
  const response=await request(url,{headers:{'x-goog-api-key':key},signal:AbortSignal.timeout(30000)});if(!response.ok)throw new Error(`Gemini model listing HTTP ${response.status}`);const result=page.parse(await response.json());models.push(...result.models);token=result.nextPageToken;if(++requests>=10&&token)throw new Error('Gemini model listing pagination limit reached');
  }while(token);
- return {provider:'gemini',metadataOnly:true,requestedModel:process.env.GEMINI_MODEL||'gemini-2.5-flash',models,generateContentModels:models.filter(m=>m.supportedGenerationMethods.includes('generateContent')).map(m=>m.name),requests,paidProviderCostUsd:0,pricingReviewRequired:true};
+ return {provider:'gemini',metadataOnly:true,requestedModel:process.env.GEMINI_MODEL||'gemini-3.8-flash',models,generateContentModels:models.filter(m=>m.supportedGenerationMethods.includes('generateContent')).map(m=>m.name),requests,paidProviderCostUsd:0,pricingReviewRequired:true};
 }

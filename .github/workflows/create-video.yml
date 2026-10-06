@@ -2,6 +2,9 @@ name: create-video
 on:
   workflow_dispatch:
     inputs:
+      gemini_model:
+        description: Optional eligible Free Tier model override (default gemini-3.8-flash)
+        type: string
       gemini_free_tier_confirmed:
         description: Production only; Gemini project uses Free Tier without paid API billing
         type: boolean
@@ -131,6 +134,7 @@ jobs:
           KOKORO_VOICE: ${{ vars.KOKORO_VOICE }}
           ELEVENLABS_MODEL: ${{ vars.ELEVENLABS_MODEL || 'eleven_v4' }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_MODEL: ${{ inputs.gemini_model || vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
           GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || (inputs.gemini_free_tier_confirmed && 'true' || '') }}
           TARGET_DURATION_MODE: ${{ vars.TARGET_DURATION_MODE || 'benchmark_median' }}
           QUALITY_FLOOR: ${{ vars.QUALITY_FLOOR || '80' }}
