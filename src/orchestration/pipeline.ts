@@ -26,7 +26,7 @@ import {SupabaseStorage} from '../database/storage';
 const optionsSchema=z.object({runId:z.string().regex(/^[A-Za-z0-9_-]+$/),mode:z.enum(['demo','production']),topic:z.string()});
 export async function runVideo(input:{runId?:string;mode?:string;topic?:string;retryFrom?:string},stopAfterResearch=false){
  const config=await loadConfig();const strategy=config.strategy;const options=optionsSchema.parse({runId:input.runId??randomUUID(),mode:input.mode??'demo',topic:input.topic??strategy.topics[0]});
- const dir=join('data/runs',options.runId);const storage=process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY?new SupabaseStorage():undefined;const runner=new Runner(dir,storage,options.runId);await runner.lock();
+ const dir=join('data/runs',options.runId);const storage=options.mode==='production'&&process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY?new SupabaseStorage():undefined;const runner=new Runner(dir,storage,options.runId);await runner.lock();
  try{
   const fingerprint=createHash('sha256').update(JSON.stringify({engineVersion:2,options,config})).digest('hex');
   const manifest=join(dir,'manifest.json');let previous;try{previous=await read(manifest);}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
@@ -59,7 +59,7 @@ export async function runVideo(input:{runId?:string;mode?:string;topic?:string;r
   const qa=await runner.stage('qa',schemas.qa,async()=>{const report=await inspect(video.path,script,composition,facts,metadata,[...voice.scenes,...visuals.assets,{path:audio.path}].map(a=>a.path));if(demo){report.checks.push({name:'demo showcase',passed:video.duration>=60&&video.duration<=90&&composition.shots.length>=15&&new Set(composition.shots.map(s=>s.shotType)).size>=4,detail:`${video.duration.toFixed(1)}s, ${composition.shots.length} shots, ${new Set(composition.shots.map(s=>s.shotType)).size} composition types`});report.passed=report.checks.every(x=>x.passed);}return report;});
   requireQA(qa);
   await runner.stage('thumbnail',schemas.thumbnail,()=>thumbnails({...composition,thumbnailTitle:script.title},dir,demo?undefined:llm),async v=>{for(const a of v.variants)if(await fileDigest(a.path)!==a.sha256)throw new Error('Thumbnail checksum mismatch');});
-  if(process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY){await new SupabaseStorage().put(options.runId,{manifest:await read(manifest),status:await read(join(dir,'status.json')),qa,metadata});}
+  if(!demo&&process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY){await new SupabaseStorage().put(options.runId,{manifest:await read(manifest),status:await read(join(dir,'status.json')),qa,metadata});}
   await json(join(dir,'status.json'),{state:'ready_for_private_upload',runId:options.runId});return {runId:options.runId,dir};
  }finally{await runner.unlock();}
 }

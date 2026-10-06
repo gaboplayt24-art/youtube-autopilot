@@ -39,7 +39,7 @@ test('mixed audio preserves speech timeline and limits peaks at loud configured 
   const path=join(dir,'voice.wav');await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','sine=frequency=220:duration=3','-ar','48000',path],{timeout:10000});
   const v={scenes:[{id:'scene-1',path,duration:3,alignment:[]},{id:'scene-2',path,duration:3,alignment:[]}]};
   const plan=await new ShotPlanner().plan({scenes},audio,style,30);
-  const result=await mixAudio(v,plan.shots,{...style,musicDb:-15,sfxDb:-12},dir,30);
-  assert.ok(Math.abs(await duration(result.path)-6)<.04);assert.ok(result.peakDb<=-1);assert.ok(result.events.length>0);
+  const timedShots=plan.shots.slice(0,5).map((s,i)=>({...s,start:i*1.2,end:(i+1)*1.2}));const result=await mixAudio(v,timedShots,{...style,musicDb:-15,sfxDb:-12},dir,30);
+  const actual=await duration(result.path);assert.ok(Math.abs(actual-6)<.04,`Expected 6s, received ${actual}s`);const tail=await exec('ffmpeg',['-hide_banner','-ss','5.5','-i',result.path,'-af','volumedetect','-f','null','-']);assert.ok(Number(tail.stderr.match(/mean_volume:\s*(-?[\d.]+) dB/)?.[1]??-100)>-25,'Narration must remain audible at the end; padding a truncated mix is insufficient');assert.ok(result.peakDb<=-1);assert.ok(result.events.length>0);
  }finally{await rm(dir,{recursive:true});}
 });
