@@ -1,0 +1,12 @@
+{
+  "id": "ci-test-isolation-history-gap-2026-10-06",
+  "dayUTC": "2026-10-06",
+  "reservedNeurons": 256,
+  "reason": "Conservative additional reservation for three independently observed Cloudflare calls whose ledger could be overwritten by unit tests. This may overcount retained reservations; it is not measured vendor usage. Earlier Gemini/YouTube totals are unknown.",
+  "observedCalls": [
+    {"workflowRunId": "37540386138", "model": "melotts", "reservation": 128, "result": "audio generated"},
+    {"workflowRunId": "37542859689", "model": "flux-1-schnell", "reservation": 64, "result": "HTTP 409, usage uncertain"},
+    {"workflowRunId": "37544527928", "model": "flux-1-schnell", "reservation": 64, "result": "image generated"}
+  ],
+  "actualVendorNeurons": null
+}

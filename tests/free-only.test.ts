@@ -25,3 +25,9 @@ test('Cloudflare account/model configuration errors preserve reasons and redact 
 });
 
 test('known paid adapter cannot bypass FREE_ONLY with a zero rate/estimate',async()=>{const dir=await mkdtemp(join(tmpdir(),'zero-paid-estimate-'));try{const ledger=new CostLedger({...await loadCostPolicy(),rates:{...((await loadCostPolicy()).rates),ttsPerThousandCharacters:0}},dir);let called=false;await assert.rejects(withCosts(ledger,()=>paidCall('tts','elevenlabs',0,'bad zero rate',async()=>{called=true;})),/Cost guard/);assert.equal(called,false);}finally{await rm(dir,{recursive:true});}});
+
+test('legacy quota history remains conservative but is excluded from measured counters',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'quota-legacy-'));
+ try{const path=join(dir,'ledger.json');const initial=new FreeQuotaLedger(dir,path,100);const id=await initial.reserve('cloudflare','fixture',64);await initial.finish(id,{images:1,inputTokens:5});const data=JSON.parse(await readFile(path,'utf8'));delete data.version;delete data.events[0].provenance;data.adjustments=[{id:'audit',dayUTC:new Date().toISOString().slice(0,10),reservedNeurons:16,reason:'Known uncertain request'}];await writeFile(path,JSON.stringify(data));const ledger=new FreeQuotaLedger(dir,path,100);await ledger.restore();assert.equal(ledger.usedToday(),80);await assert.rejects(ledger.reserve('cloudflare','flux',64),QuotaPause);await ledger.report();const report=JSON.parse(await readFile(join(dir,'free-quota-report.json'),'utf8'));assert.equal(report.usageHistory.complete,false);assert.equal(report.usageHistory.unverifiedEventCount,1);assert.equal(report.generatedImages,0);assert.equal(report.gemini.inputTokens,0);assert.equal(report.cloudflare.actualNeurons,null);
+ }finally{await rm(dir,{recursive:true});}
+});
