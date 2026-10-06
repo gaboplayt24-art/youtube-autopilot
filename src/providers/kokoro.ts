@@ -6,8 +6,18 @@ import {read} from '../orchestration/io';
 import type {TTSProvider,TranscriptionProvider,Alignment,SpeechContext} from './interfaces';
 export const normalizeSpeech=(s:string)=>s.toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
 export function alignWords(narration:string,chunks:{text:string;timestamp:[number,number|null]}[]):Alignment{
- const tokens=narration.split(/\s+/);if(tokens.length!==chunks.length||tokens.some((t,i)=>normalizeSpeech(t)!==normalizeSpeech(chunks[i].text)))throw new Error('Local transcript differs from script; review pronunciation/text instead of inventing timestamps');
- const measured=chunks.map((c,i)=>{const [start,end]=c.timestamp;if(end===null||end<start||start<0)throw new Error('Local transcription missing timestamp');return {text:tokens[i],start,end};});
+ const tokens=narration.split(/\s+/),spoken=chunks.filter(c=>normalizeSpeech(c.text).length>0);
+ if(!spoken.length||tokens.map(normalizeSpeech).join('')!==spoken.map(c=>normalizeSpeech(c.text)).join(''))throw new Error('Local transcript differs from script; review pronunciation/text instead of inventing timestamps');
+ // Orthographic tokenization can differ (stonewalls / stone walls, sea-side / sea side).
+ // Group into short measured phrases at shared character boundaries, never split
+ // one ASR interval into invented individual word timings.
+ const measured:Alignment=[];let token=0,chunk=0;
+ while(token<tokens.length&&chunk<spoken.length){const firstToken=token++,firstChunk=chunk++;let expected=normalizeSpeech(tokens[firstToken]),heard=normalizeSpeech(spoken[firstChunk].text);
+  while(expected!==heard){if(expected.length<heard.length&&token<tokens.length)expected+=normalizeSpeech(tokens[token++]);else if(chunk<spoken.length)heard+=normalizeSpeech(spoken[chunk++].text);else throw new Error('Local transcript differs from script');}
+  const spans=spoken.slice(firstChunk,chunk);for(const c of spans)if(c.timestamp[1]===null||c.timestamp[1]<c.timestamp[0]||c.timestamp[0]<0)throw new Error('Local transcription missing timestamp');
+  measured.push({text:tokens.slice(firstToken,token).join(' '),start:spans[0].timestamp[0],end:spans.at(-1)!.timestamp[1]!});
+ }
+ if(token!==tokens.length||chunk!==spoken.length)throw new Error('Local transcript differs from script');
  const aligned:Alignment=[];
  for(let i=0;i<measured.length;i++){let unit={...measured[i]};while(unit.end===unit.start&&i+1<measured.length){const next=measured[++i];unit={text:unit.text+' '+next.text,start:Math.min(unit.start,next.start),end:Math.max(unit.end,next.end)};}
   if(unit.end===unit.start){const previous=aligned.pop();if(!previous)throw new Error('Local transcription missing timestamp');unit={text:previous.text+' '+unit.text,start:previous.start,end:Math.max(previous.end,unit.end)};}

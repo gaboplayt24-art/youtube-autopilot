@@ -8,7 +8,7 @@ import {exec} from '../src/orchestration/io';
 import {narrateChapters} from '../src/voice/chapters';
 test('more accurate ASR resolves merged words using actual replacement timestamps',async()=>{
  const models:string[]=[];
- const result=await alignWithASRFallback('stone walls',async model=>{models.push(model);return {chunks:model.endsWith('tiny.en')?[{text:'stonewalls',timestamp:[1,2]}]:[{text:'stone',timestamp:[1,1.4]},{text:'walls',timestamp:[1.4,2]}]};});
+ const result=await alignWithASRFallback('stone walls',async model=>{models.push(model);return {chunks:model.endsWith('tiny.en')?[{text:'stone',timestamp:[1,1.4]},{text:'doors',timestamp:[1.4,2]}]:[{text:'stone',timestamp:[1,1.4]},{text:'walls',timestamp:[1.4,2]}]};});
  assert.deepEqual(models,['Xenova/whisper-tiny.en','Xenova/whisper-base.en']);
  assert.deepEqual(result,[{text:'stone',start:1,end:1.4},{text:'walls',start:1.4,end:2}]);
 });
@@ -21,6 +21,11 @@ test('ASR retry fails closed when speech differs, preserving the exact-match gat
 test('zero-width ASR tokens form a measured short phrase without fabricated per-word times',()=>{
  assert.deepEqual(alignWords('a journey,',[{text:'a',timestamp:[28.44,28.44]},{text:'journey',timestamp:[28.44,28.7]}]),[{text:'a journey,',start:28.44,end:28.7}]);
  assert.throws(()=>alignWords('a',[{text:'a',timestamp:[1,1]}]),/missing timestamp/);
+});
+test('spacing and hyphen tokenization use whole measured intervals; changed words still fail',()=>{
+ assert.deepEqual(alignWords('stone walls',[{text:'stonewalls',timestamp:[1,2]}]),[{text:'stone walls',start:1,end:2}]);
+ assert.deepEqual(alignWords('sea-side harbor',[{text:'sea',timestamp:[1,1.2]},{text:'side',timestamp:[1.2,1.5]},{text:'harbor',timestamp:[1.5,2]}]),[{text:'sea-side',start:1,end:1.5},{text:'harbor',start:1.5,end:2}]);
+ assert.throws(()=>alignWords('falloff',[{text:'fall',timestamp:[1,2]}]),/differs from script/);
 });
 test('audio-first scene cuts consume phrase tokens and reject a cut inside a measured phrase',async()=>{
  const dir=await mkdtemp(join(tmpdir(),'phrase-cuts-'));

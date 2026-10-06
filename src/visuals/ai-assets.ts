@@ -9,6 +9,8 @@ import type {Shot,MediaAsset} from '../editor/schemas';
 import {currentCosts} from '../cost';
 export async function createHistoricalAssets(shots:Shot[],bible:VisualBible,dir:string,image:ImageProvider){
  await mkdir(dir,{recursive:true});const assets:MediaAsset[]=[];
+ // Validate the complete batch before spending any image quota.
+ for(const shot of shots)historicalPrompt(bible,shot.assetPrompt);
  for(const shot of shots){const folder=join(dir,(shot.assetKey||shot.id)+'-depth'),raw=join(folder,'flux.png'),checkpoint=join(folder,'image-checkpoint.json');await mkdir(folder,{recursive:true});const prompt=historicalPrompt(bible,shot.assetPrompt);let cached=false;
  try{const previous=await read(checkpoint);if(previous.prompt!==prompt||previous.sha256!==await fileDigest(raw))throw new Error('Historical image checkpoint changed; use a new run ID');cached=true;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
  if(!cached){const ledger=currentCosts();if(ledger&&ledger.entries.filter(e=>e.category==='generatedImages').length>=ledger.policy.maxGeneratedImagesPerVideo)throw new Error('Generated image cap reached; checkpoint saved');const generate=()=>image.generate(prompt,raw);if(ledger)await ledger.charge('generatedImages','cloudflare-flux-free',0,shot.id,generate);else await generate();await json(checkpoint,{prompt,sha256:await fileDigest(raw),model:'@cf/black-forest-labs/flux-1-schnell',license:'Apache-2.0 model; Cloudflare/BFL terms apply'});}

@@ -67,6 +67,13 @@ jobs:
         run: |
           sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
           sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+      - name: Verify real FLUX before CPU dependencies
+        timeout-minutes: 4
+        run: npx tsx src/visuals/free-image-smoke.ts --run-id "$RUN_ID" --prepare
+        env:
+          CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED || (inputs.cloudflare_free_plan_confirmed && 'true' || '') }}
       - name: Install CPU dependencies
         if: steps.python-env.outputs.cache-hit != 'true'
         timeout-minutes: 12
