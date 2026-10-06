@@ -75,13 +75,6 @@ jobs:
           path: node_modules/.cache/remotion
           key: remotion-linux-${{ hashFiles('package-lock.json') }}
       - run: npm ci
-      - name: Install media tools
-        timeout-minutes: 5
-        run: |
-          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
-            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
-            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
-          fi
       - run: python scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
@@ -96,6 +89,16 @@ jobs:
         run: |
           if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$GEMINI_API_KEY" ] || [ "$CLOUDFLARE_FREE_PLAN_CONFIRMED" != true ] || [ "$GEMINI_FREE_TIER_CONFIRMED" != true ]; then
             npm run quality-test-free -- --run-id "$RUN_ID"
+          fi
+      - name: Prepare real script and visual bible before CPU installation
+        timeout-minutes: 10
+        run: npm run quality-test-free -- --run-id "$RUN_ID" --prepare
+      - name: Install media tools
+        timeout-minutes: 5
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
           fi
       - name: Install CPU models environment
         if: steps.python-env.outputs.cache-hit != 'true'

@@ -4,6 +4,8 @@ Reviewed official sources on 2026-10-06:
 
 Gemini default is `gemini-3.8-flash`, listed by the authenticated official models endpoint in Actions and marked free for standard input/output on the [official pricing page](https://ai.google.dev/gemini-api/docs/pricing). Configure a different eligible model through repository Variable `GEMINI_MODEL` or the quality/create-video manual input. `gemini-models-free` lists metadata without inference when investigating availability. A model listing is not proof that inference works; the real quality test must still pass. HTTP errors retain a bounded, key-redacted provider reason.
 
+Temporary Gemini HTTP 503 retries at most twice on the same model, with 1/2-second backoff and each attempt recorded. HTTP 429 checkpoints immediately. The quality workflow prepares and checkpoints the real script/bible before installing CPU dependencies, so unavailable inference does not waste model setup. Current process runtime and cumulative ledger runtime are separate; neither is a GitHub invoice.
+
 | Component | Implementation | License / billing constraint |
 | --- | --- | --- |
 | LLM | Gemini Free Tier, official generateContent | Eligible free project must be confirmed; never switch silently to paid LLM |
