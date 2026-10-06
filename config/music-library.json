@@ -1,0 +1,1 @@
+{"beds":[],"note":"Add multiple distinct local/licensed instrumental beds. Each entry: path, license, direction. Supply files through the runner workspace/artifacts, never credentials."}
