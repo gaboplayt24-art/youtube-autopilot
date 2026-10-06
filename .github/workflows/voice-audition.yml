@@ -49,7 +49,15 @@ jobs:
           path: data/runs/${{ env.RUN_ID }}/voice-audition/
           run-id: ${{ inputs.source_run_id }}
           github-token: ${{ github.token }}
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Ensure FFmpeg without refreshing installed dependencies
+        timeout-minutes: 5
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
       - run: npm run lint && npm run typecheck && npm test
       - name: Audition identical narration text
         timeout-minutes: 20

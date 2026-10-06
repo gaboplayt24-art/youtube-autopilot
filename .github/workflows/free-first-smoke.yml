@@ -14,7 +14,15 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - name: Ensure FFmpeg without refreshing installed dependencies
+        timeout-minutes: 5
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+          fi
+          ffmpeg -version
+          ffprobe -version
       - run: npm run free-first-smoke
         env:
           PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
