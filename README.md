@@ -2,19 +2,37 @@
 
 Cloud-first video production with TypeScript, Node.js 22+, Remotion, FFmpeg, OpenAI, YouTube OAuth2, and optional Supabase checkpoint mirroring. GitHub-hosted runners perform the work; no computer needs to remain online.
 
-The first milestone is an original educational video generated in the cloud, with no upload. Demo mode uses an original curated script, real offline eSpeak narration, original illustrated cards, speech-timed captions, a rendered H.264/AAC video, a thumbnail, metadata and a QA report. Production mode retrieves configured sources and uses OpenAI for research, idea generation, writing, factual review, speech and transcription alignment. Original cards remain the default; OpenAI images are opt-in.
+The visual engine uses the same Remotion composition in demo and production. Demo uses a 60–90 second original illustrated narrative with no external APIs. Production uses configured live providers; those integrations require credentials and separate validation. Public publishing remains disabled.
 
-This is a working first implementation, not a certification of unattended production readiness. Live OpenAI, YouTube and Supabase integrations need your credentials and end-to-end validation. No public upload or scheduled release has been performed.
+## Audio-first architecture
 
-## Architecture
+`research → ideas → scoring → selection → script → facts → scene plan → TTS/word timing → captions → semantic shots → cost plan → assets → audio mix → composition → render → metadata → visual/audio QA → three thumbnails`
 
-`research → ideas → scoring → selection → script → facts → plan → voice → visuals → captions → composition → render → metadata → QA → thumbnail`
+Scenes organize the narrative. `ShotPlanner` cuts at speech-derived word boundaries, normally every 2–4 seconds; it never invents narration duration. `HookDirector` gives the first 5 seconds an image-led opening and introduces restrained pattern interrupts through 30 seconds. Zod schemas validate every checkpoint, with per-run input fingerprints, JSON/media checksums, locks and structured logs. A failed stage resumes without regenerating previous stages. Engine v2 requires a fresh run ID when restoring a v1 artifact.
 
-Manual private upload, optional gated scheduling, analytics and weekly recommendations are separate commands. Every stage emits Zod-validated JSON under `data/runs/<run-id>/`. Stage status and structured JSONL logs accompany each run. Checkpoint hashes detect changed JSON; video and thumbnail hashes detect changed media. Provider interfaces isolate LLM, TTS, image, optional video and storage implementations. OpenAI and original-card providers are implemented; external video generation is an extension point, not used in the initial pipeline.
+Default output is **1920×1080, 30 fps, H.264/AAC**. 3840×2160 is supported by dimensions in config/style.json; previewing/benchmarking a 4K hosted run is still recommended before routine use. Thumbnails render independently at 1280×720, never by capturing the video's first frame.
 
-A failed stage retries without rerunning completed stages. A lock prevents concurrent local execution. Input/config fingerprints prevent resuming a run with changed configuration. GitHub artifacts preserve checkpoints and media between machines; restore the artifact before retrying. Supabase mirrors completed stages when configured and is mandatory for private uploads, providing an atomic durable upload reservation across Actions runs. An uncertain upload is blocked until reconciled; exactly-once delivery cannot be guaranteed across a YouTube/Supabase transaction boundary.
+The reusable motion library includes camera push/pull, pan, Ken Burns, parallax, subtle shake, blur/light transitions, depth, masks, highlights, underlines, counters, timelines, conceptual map paths, charts, headlines, documents, quotes and illustrated characters. Every shot has a moving background. Static assets are original detailed SVG illustrations in demo, not title-only cards. Production can use real stock clips or generated imagery with the same compositor.
 
-QA checks source review, missing assets, actual narration duration against scene frames, contiguous timing, sustained black frames, sustained silence, an audio stream, speech-derived caption timing and text coverage, duplicate narration/images, title equality with the approved script, and metadata validity. OpenAI fact checking also evaluates all script assertions. Upload reruns QA and checks media integrity. QA is conservative but does not replace a human factual or editorial review.
+Captions use short cues and retained word timestamps, large type, safe margins, high contrast and active-word emphasis. Presets are per visual profile. The demo TTS is intentionally synthetic; it is not an example of a premium production voice.
+
+`config/visual-profiles/{history,psychology,finance,stickman,documentary}.json` selects asset tendencies, caption treatment, camera direction, colors, audio levels and spending limits. Change `config/style.json.visualProfile` to choose a profile. The initial demo is a psychology-style **fictional spotlight metaphor**: maps are conceptual and charts are explicitly illustrative, not empirical psychological findings.
+
+Audio is mixed before rendering: normalized narration, compression, limiter, original ambient score (or a licensed local track), narration sidechain ducking, fades and sparse procedural SFX. Whoosh, impact, riser, click, page-turn, camera, transition and ambient event synthesis are supported. Music/SFX levels are configurable per profile. The narration remains dominant. Detailed vector backgrounds are rasterized once to PNG before rendering; camera motion and editorial graphics remain animated, avoiding repeated SVG rasterization on hosted CPU runners.
+
+## Providers, fallbacks and costs
+
+Interfaces isolate ImageProvider, StockProvider, VideoProvider, TTSProvider, TranscriptionProvider and MusicProvider. Implemented adapters: OpenAIImageProvider, PexelsProvider, ElevenLabsProvider, WhisperProvider, OpenAI TTS and original/local music. Production selects them through `IMAGE_PROVIDER=openai`, `STOCK_PROVIDER=pexels`, `TTS_PROVIDER=openai|elevenlabs`; demo ignores media-provider switches and makes no external API calls.
+
+A configured AI-video adapter may be injected via the VideoProvider interface. No vendor-specific AI-video adapter or key is included. Asset generation attempts eligible high-impact AI video, stock video, generated stills, stock stills, original motion graphics, then kinetic graphics. Failed, empty or too-short media cannot produce a blank shot. No global verification bypass is used. External stock URLs/licenses and fallback failures are retained in visuals.json.
+
+`cost-plan.json` is written before costly assets. `visuals.json` records per-asset estimates and totals. AI video is budget-disabled by default and is not generated for every shot. Current image estimates are advisory, not vendor invoices; review pricing, relevance and license terms before enabling paid production runs. Use `MUSIC_PATH` plus `MUSIC_LICENSE` for an existing local track, or keep the original procedural score.
+
+## Quality and thumbnails
+
+QA checks facts, assets, audio duration, frame timing, black/silent segments, codecs/resolution/FPS, speech/caption bounds, duplicate media, metadata, shot pacing, visual coverage, motion, asset-intent alignment, asset repetition, caption legibility, text density, rendered freezes and clipping. The demo additionally requires 60–90 seconds, 15+ shots and multiple shot types. `pacingScore` and `visualDensity` are recorded in shots.json. These checks catch mechanical defects; intent matching is heuristic and does not replace semantic/editorial review of every downloaded/generated asset.
+
+Three thumbnail variants A/B/C are produced, with independent image-led compositions, 1–5 words, high contrast and mobile-sized type. `thumbnail.png` is the selected primary; `thumbnail-{A,B,C}.png` and score records are retained. Readability and dimensions are gated, and backing contrast is measured from the rendered PNG. Focal-region contrast estimates subject visibility, while hook wording and title duplication estimate curiosity/complementarity; these are heuristics, not semantic image understanding. All scores form a design rubric, not a CTR prediction or a claim of tested audience preference. Production hooks are grounded in the approved script; demo uses its curated attention hooks. Human review remains necessary for subjective relevance and curiosity.
 
 ## First cloud video: exact GitHub setup
 
@@ -31,7 +49,7 @@ All five workflows support `workflow_dispatch`. There are no scheduled publishin
 - `config/channel.json`: name, language, category ID, made-for-kids setting and synthetic-media disclosure. The bundled demo is English; production prompts use the channel configuration.
 - `config/audience.json`: intended viewer and needs.
 - `config/strategy.json`: topics, trusted HTTPS source pages, and hard rules. Production research retrieves these pages, validates quoted excerpts against retrieved text, and refuses unknown citations. Provide readable authoritative pages relevant to the chosen topic; this is not a general web search engine.
-- `config/style.json`: even pixel dimensions, FPS and image provider (`cards` or `openai`). Background/accent colors configure the original card design.
+- `config/style.json`: even pixel dimensions, FPS and visual profile. Background/accent fields are retained for compatibility; provider switches are process variables, and the active profile configures captions and editorial direction.
 - `config/competitors.json`: optional channel references and the no-copy rule. References are context only: the implementation does not claim to have retrieved competitor scripts or channel performance. Add authoritative pattern observations as source material when needed.
 - `config/schedule.json`: private upload settings and optional future UTC ISO-8601 `publishAt`. Keep automatic publishing disabled during development.
 
@@ -45,6 +63,9 @@ In **Settings → Secrets and variables → Actions**, configure:
 
 | Name | Location | Required for |
 | --- | --- | --- |
+| `PEXELS_API_KEY` | Repository secret | Production stock clips/images with STOCK_PROVIDER=pexels |
+| `ELEVENLABS_API_KEY` | Repository secret | Optional production voice with TTS_PROVIDER=elevenlabs |
+| `ELEVENLABS_VOICE_ID` | Repository variable | Voice selection for ElevenLabs |
 | `OPENAI_API_KEY` | Repository secret | Production research/writing/review/TTS/transcription; optional image generation |
 | `SUPABASE_URL` | Repository variable | Checkpoint mirroring, private-upload ledger, analytics history |
 | `SUPABASE_SERVICE_ROLE_KEY` | Repository secret | Supabase server-side access; required for upload |
@@ -54,7 +75,7 @@ In **Settings → Secrets and variables → Actions**, configure:
 
 Never enter credential values in issues or chat. `.env.example` contains names only; local CLI invocations read process environment variables. Node supports loading `.env` through `NODE_OPTIONS=--env-file=.env`; do not commit that file. `MODE` is descriptive; select mode using `--mode` or the workflow input. Default OpenAI model is `gpt-4.1-mini`; optionally set `OPENAI_MODEL` in the process environment.
 
-For OpenAI, enable API billing and access to the selected chat model, `tts-1`, `whisper-1`, and optionally `gpt-image-1`. Production speech transcription must match the original narration; ambiguous alignment fails instead of silently emitting inaccurate captions. API availability, quotas and costs depend on your account.
+For OpenAI, enable API billing and access to the selected chat model, `tts-1`, `whisper-1`, and optionally `gpt-image-1`. ElevenLabs voice generation also requires OpenAI/Whisper for word alignment in the supplied adapter. Production speech transcription must match the original narration; ambiguous alignment fails instead of silently emitting inaccurate captions. API availability, quotas and costs depend on your account.
 
 For Supabase, create a project and run `src/database/schema.sql` in the SQL editor. It creates `pipeline_artifacts` with row-level security and no anonymous access policy. Use a server-only service-role key. Do not expose it in Remotion props or browser code. Local JSON/artifacts preserve large media; the database stores JSON checkpoints and the upload ledger, not video bytes.
 
@@ -97,10 +118,10 @@ If a YouTube upload times out after the durable reservation, check YouTube Studi
 
 Lint, type checking, unit/integration tests and a real cloud demo render are required. Tests cover checkpoint resume/retry, integrity errors, locks, QA/publication gates, unsupported citations, captions, atomic upload reservations and FFmpeg detection of black/silent video. A demo does not test paid OpenAI endpoints or authenticated Google/Supabase operations. Human review remains appropriate before any release; factual coverage and thumbnail/title semantics need editorial judgment.
 
-The initial implementation uses illustrated scenes, not AI-generated video footage. Captions are speech-timed (eSpeak events in demo; Whisper word timestamps in production). Fact review uses retrieved excerpts and an LLM rather than independent reporting. Workflow files must be committed and triggered on GitHub to validate hosted-runner behavior; local cloud execution alone does not prove a GitHub run succeeded.
+Demo uses original illustrated shots; production stock-video playback is supported. Captions are speech-timed (eSpeak events in demo; Whisper word timestamps in production). Fact review uses retrieved excerpts and an LLM rather than independent reporting. Workflow files must be committed and triggered on GitHub to validate hosted-runner behavior; local cloud execution alone does not prove a GitHub run succeeded.
 
 ### Headless CI rendering
 
-Full Chrome/Chromium paths use Remotion `chrome-for-testing` mode with `headless:true` (`--headless=new`), multiprocess Linux rendering and software ANGLE. The hosted runner supplies Google Chrome; the workflow verifies its version before rendering. Without a custom executable, Remotion uses its matching Headless Shell mode. DBus warnings alone are not proof of a failed browser launch.
+Full Chrome/Chromium paths use Remotion `chrome-for-testing` mode with `headless:true` (`--headless=new`), multiprocess Linux rendering and Chromium-selected 2D rasterization (no forced software ANGLE). The hosted runner supplies Google Chrome; the workflow verifies its version before rendering. Without a custom executable, Remotion uses its matching Headless Shell mode. DBus warnings alone are not proof of a failed browser launch.
 
-Each video/thumbnail render runs in an isolated worker, explicitly closes its shared browser in `finally`, and exits after reporting success or failure. The supervisor tracks owned descendants, including detached browser processes, sends TERM followed by KILL to survivors, and bounds video rendering to 8 minutes and thumbnails to 2 minutes. Browser connection timeout remains Remotion's default 25 seconds; the change does not conceal startup failures by extending it. The generation step has a 12-minute limit and the job a 20-minute limit. Render failures propagate to the stage status and a nonzero CLI exit.
+Each video/thumbnail render runs in an isolated worker, explicitly closes its shared browser in `finally`, and exits after reporting success or failure. The supervisor tracks owned descendants, including detached browser processes, sends TERM followed by KILL to survivors, and bounds video rendering to 12 minutes and thumbnails to 2 minutes. Browser connection timeout remains Remotion's default 25 seconds; the change does not conceal startup failures by extending it. The generation step has a 18-minute limit and the job a 25-minute limit. Render failures propagate to the stage status and a nonzero CLI exit.

@@ -7,7 +7,7 @@ import type {StorageProvider} from '../providers/interfaces';
 export class Runner {
  constructor(public dir:string,private storage?:StorageProvider,private runId?:string){}
  private async mirror(name:string,value:unknown){if(this.storage)await this.storage.put(`${this.runId}-${name}`,value);}
- async stage<T>(name:string,schema:z.ZodType<T>,fn:()=>Promise<T>,verify?:(value:T)=>Promise<void>):Promise<T>{
+ async stage<T>(name:string,schema:z.ZodType<T,z.ZodTypeDef,unknown>,fn:()=>Promise<T>,verify?:(value:T)=>Promise<void>):Promise<T>{
   const file=join(this.dir,`${name}.json`);
   let exists=true;try{await access(file);}catch{exists=false;}
   if(exists){const value=await artifact(this.dir,name,schema);if(verify)await verify(value);await this.mirror(name,value);await log(this.dir,'stage_resumed',{stage:name});return value;}

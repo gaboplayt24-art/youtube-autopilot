@@ -15,7 +15,9 @@ async function signalOwned(identity:ProcessIdentity,signal:NodeJS.Signals){
 /** Isolate browser/encoder resources and bound cleanup, including detached Chrome descendants. */
 export function superviseWorker(modulePath:string,payload:Serializable,timeoutMs:number):Promise<void>{
  return new Promise((resolve,reject)=>{
-  const child=fork(modulePath,[],{detached:process.platform!=='win32',stdio:['ignore','inherit','inherit','ipc']});
+  // Plain JS workers do not need the parent's tsx test loader. Avoid spending a
+  // short supervision deadline booting an unrelated compiler under CPU load.
+  const child=fork(modulePath,[],{execArgv:modulePath.endsWith('.mjs')?[]:process.execArgv,detached:process.platform!=='win32',stdio:['ignore','inherit','inherit','ipc']});
   const owned=new Map<number,ProcessIdentity>();let finishing=false;
   const scan=async()=>{if(!child.pid)return;const table=await processTable();const ids=new Set([child.pid,...table.filter(row=>owned.get(row.pid)?.started===row.started).map(row=>row.pid)]);let changed=true;while(changed){changed=false;for(const row of table)if(ids.has(row.parent)&&!ids.has(row.pid)){ids.add(row.pid);owned.set(row.pid,row);changed=true;}}};
   const polling=setInterval(()=>{void scan().catch(()=>{});},250);

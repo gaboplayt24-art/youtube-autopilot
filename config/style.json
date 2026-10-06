@@ -1,8 +1,9 @@
 {
-  "width": 1280,
-  "height": 720,
+  "width": 1920,
+  "height": 1080,
   "fps": 30,
   "background": "#10243a",
   "accent": "#62e5ca",
-  "imageProvider": "cards"
+  "imageProvider": "cards",
+  "visualProfile": "psychology"
 }

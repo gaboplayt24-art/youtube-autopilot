@@ -1,0 +1,19 @@
+{
+  "name": "stickman",
+  "accent": "#ffcd72",
+  "secondary": "#b29dff",
+  "background": "#0b1420",
+  "captionPreset": "bold",
+  "captionSize": 64,
+  "shotTypes": [
+    "icon-scene",
+    "diagram",
+    "generated-image",
+    "kinetic-text"
+  ],
+  "motionStyle": "recurring illustrated character and expressive props",
+  "musicDb": -26,
+  "sfxDb": -24,
+  "assetBudgetUsd": 2,
+  "aiVideoBudgetUsd": 0
+}

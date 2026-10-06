@@ -11,6 +11,7 @@ import * as s from './schemas';
 import {collect,learn} from '../analytics';
 import {SupabaseStorage} from '../database/storage';
 import {z} from 'zod';
+import {media,audioMix} from '../editor/schemas';
 const {values,positionals}=parseArgs({options:{'run-id':{type:'string'},'retry-from':{type:'string'},mode:{type:'string'},topic:{type:'string'},'start-date':{type:'string'},'end-date':{type:'string'}},allowPositionals:true});
 const command=positionals[0];
 async function main(){
@@ -21,8 +22,8 @@ async function main(){
   const runner=new Runner(dir);await runner.lock();try{
    const m=await artifact(dir,'metadata',s.metadata);const video=await artifact(dir,'render',s.rendered);const thumb=await artifact(dir,'thumbnail',s.thumbnail);const composition=await artifact(dir,'composition',s.composition);const script=await artifact(dir,'script',s.script);const facts=await artifact(dir,'facts',s.facts);
    if(await fileDigest(video.path)!==video.sha256||await fileDigest(thumb.path)!==thumb.sha256)throw new Error('Media checksum mismatch');
-   const v=await artifact(dir,'voice',s.voice);const a=await artifact(dir,'visuals',s.visuals);
-   const qa=await inspect(video.path,script,composition,facts,m,[...v.scenes,...a.scenes].map(x=>x.path));requireQA(qa);await json(join(dir,'qa-upload.json'),qa);
+   const v=await artifact(dir,'voice',s.voice);const a=await artifact(dir,'visuals',media);
+   const qa=await inspect(video.path,script,composition,facts,m,[...v.scenes,...a.assets,{path:(await artifact(dir,'audio-mix',audioMix)).path}].map(x=>x.path));requireQA(qa);await json(join(dir,'qa-upload.json'),qa);
    const schedule=await read('config/schedule.json');scheduleAllowed({...schedule,publishAt:m.publishAt},process.env.AUTO_PUBLISH);
    const uploadFile=join(dir,'upload.json');let uploaded;try{uploaded=s.upload.parse(await read(uploadFile));}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
    if(!process.env.SUPABASE_URL||!process.env.SUPABASE_SERVICE_ROLE_KEY)throw new Error('Supabase is required for durable upload deduplication');

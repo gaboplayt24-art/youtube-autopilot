@@ -28,7 +28,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       AUTO_PUBLISH: 'false'
       RUN_ID: ${{ inputs.run_id || github.run_id }}
@@ -55,12 +55,18 @@ jobs:
       - name: Verify CI browser
         run: /usr/bin/google-chrome --version
       - name: Generate complete video without upload
-        timeout-minutes: 12
+        timeout-minutes: 18
         run: |
           args=(--run-id "$RUN_ID" --mode "$MODE" --topic "$TOPIC")
           if [ -n "$RETRY_FROM" ]; then args+=(--retry-from "$RETRY_FROM"); fi
           npm run video -- "${args[@]}"
         env:
+          IMAGE_PROVIDER: ${{ vars.IMAGE_PROVIDER }}
+          STOCK_PROVIDER: ${{ vars.STOCK_PROVIDER }}
+          TTS_PROVIDER: ${{ vars.TTS_PROVIDER }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          ELEVENLABS_VOICE_ID: ${{ vars.ELEVENLABS_VOICE_ID }}
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           CHROME_EXECUTABLE: /usr/bin/google-chrome
           SUPABASE_URL: ${{ vars.SUPABASE_URL }}
