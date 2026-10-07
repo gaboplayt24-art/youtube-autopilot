@@ -1,0 +1,13 @@
+{
+  "passWer": 0.02,
+  "reviewWer": 0.05,
+  "maxSkippedPhraseWords": 3,
+  "maxUnexpectedPauseSeconds": 2.5,
+  "maxPauseSeconds": 8,
+  "discontinuityThreshold": 0.45,
+  "benchmarkMinSeconds": 60,
+  "benchmarkMaxSeconds": 90,
+  "qwenMaxProbeSeconds": 300,
+  "qwenMaxRealTimeFactor": 8,
+  "qwenMaxPeakMemoryMb": 5500
+}

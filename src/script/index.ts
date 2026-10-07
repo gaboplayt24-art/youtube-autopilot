@@ -1,6 +1,6 @@
 import {script,type Script} from '../orchestration/schemas';
 import type {LLMProvider} from '../providers/interfaces';
-export const demoScript:Script={title:'Where Your Attention Goes',topic:'A visual metaphor for attention',hook:'Imagine your attention as a spotlight.',scenes:[
+export const demoScript:Script={title:'Where Your Attention Goes',topic:'A visual metaphor for attention',hook:'Imagine your attention as a spotlight.',criticalTerms:[],scenes:[
 {id:'scene-1',narration:'Imagine your attention as a spotlight in a dark city. Every window is a possible story. Tonight, one small light has to choose where to look.',visual:'A luminous eye above a night city; attention as a spotlight',claims:[]},
 {id:'scene-2',narration:'Messages arrive like bright signs along a crowded street. Follow every sign, and the route becomes a maze. The destination slips out of view. Pause at the corner before choosing another turn.',visual:'A city street, notification signs and a maze map',claims:[]},
 {id:'scene-3',narration:'Now picture a quiet library. One open book sits beneath a warm lamp. The chart here is an illustration, not a measurement: fewer competing signals, one clearer path.',visual:'A warm library, an open book and an illustrative focus chart',claims:[]},
@@ -17,5 +17,5 @@ export async function writeLongForm(context:unknown,llm:LLMProvider,p:import('zo
  const claims=result.scenes.flatMap(s=>s.claims);const prior=new Set(scenes.flatMap(s=>s.claims.filter(c=>c.kind==='fact').map(c=>c.text.toLowerCase().trim())));if(chapter.act.startsWith('ACT')&&(!claims.some(c=>c.kind==='fact'&&!prior.has(c.text.toLowerCase().trim()))))throw new Error('Chapter contains no new sourced facts');
  scenes.push({id:chapter.id,narration:result.scenes.map(s=>s.narration).join(' '),visual:result.scenes.map(s=>s.visual).join('; '),chapterAct:chapter.act,performance:result.scenes[0].performance,claims});
  }
- const review=scriptQuality(scenes.map(s=>s.narration));if(!review.passed)throw new Error('Long-form script repetition/filler QA failed: '+JSON.stringify(review));return script.parse({title,topic,hook,scenes});
+ const review=scriptQuality(scenes.map(s=>s.narration));if(!review.passed)throw new Error('Long-form script repetition/filler QA failed: '+JSON.stringify(review));const criticalTerms=[...new Set(scenes.flatMap(s=>s.claims.filter(c=>c.kind==='fact').flatMap(c=>c.text.match(/\b(?:[A-Z][a-z]+(?:\s+[A-Z][a-z]+)*|\d{1,4}(?:\s*(?:BCE|BC|CE|AD))?)\b/g)??[])))];return script.parse({title,topic,hook,criticalTerms,scenes});
 }

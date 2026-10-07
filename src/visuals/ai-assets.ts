@@ -1,16 +1,26 @@
 import {join} from 'node:path';
+import {createHash} from 'node:crypto';
 import {mkdir} from 'node:fs/promises';
 import {json,read,exec} from '../orchestration/io';
 import {fileDigest} from '../orchestration/integrity';
 import {estimateDepth} from './depth';
 import {historicalPrompt,type VisualBible} from './bible';
 import type {ImageProvider} from '../providers/interfaces';
+import type {LLMProvider} from '../providers/interfaces';
+import {z} from 'zod';
 import type {Shot,MediaAsset} from '../editor/schemas';
 import {currentCosts} from '../cost';
-export async function createHistoricalAssets(shots:Shot[],bible:VisualBible,dir:string,image:ImageProvider){
+const promptReview=z.object({id:z.string(),passed:z.boolean(),issues:z.array(z.string()),anachronisms:z.array(z.string())});
+export async function createHistoricalAssets(shots:Shot[],bible:VisualBible,dir:string,image:ImageProvider,reviewer?:LLMProvider){
  await mkdir(dir,{recursive:true});const assets:MediaAsset[]=[];
  // Validate the complete batch before spending any image quota.
- for(const shot of shots)historicalPrompt(bible,shot.assetPrompt);
+ const prompts=shots.map(shot=>({id:shot.id,prompt:historicalPrompt(bible,shot.assetPrompt)}));
+ if(!reviewer)throw new Error('Gemini prompt review is required before FLUX generation');
+ const bibleHash=await fileDigest(join(dir,'..','visual-bible.json')).catch(()=>null);
+ const reviewPath=join(dir,'prompt-review.json');const reviewSource=JSON.stringify({bible,prompts});const sourceHash=createHash('sha256').update(reviewSource).digest('hex');
+ let reviews: z.infer<typeof promptReview>[]|null=null;try{const cached=await read(reviewPath);if(cached.sourceHash===sourceHash)reviews=promptReview.array().parse(cached.reviews);}catch{/* stale or malformed evidence is re-reviewed */}
+ if(!reviews){reviews=[];for(const item of prompts){const review=await reviewer.json(`Review this FINAL historical image prompt before it is sent to FLUX. Check exact period, civilization, regional architecture, materials, clothing, hairstyles, weapons, boats, street design, technology, and likely anachronisms against the visual bible. Do not rewrite it. Pass only when concrete and internally consistent. Return {id,passed,issues,anachronisms}. Prompt: ${item.prompt}. Bible: ${JSON.stringify(bible)}`,promptReview);reviews.push(review);}await json(reviewPath,{sourceHash,bibleHash,reviews,model:process.env.GEMINI_MODEL||'gemini-free',reviewedAt:new Date().toISOString()});}
+ if(reviews.length!==prompts.length||reviews.some(r=>!r.passed||r.id!==prompts.find(p=>p.id===r.id)?.id))throw new Error('Gemini rejected one or more historical image prompts; no FLUX request was made');
  for(const shot of shots){const folder=join(dir,(shot.assetKey||shot.id)+'-depth'),raw=join(folder,'flux.png'),checkpoint=join(folder,'image-checkpoint.json');await mkdir(folder,{recursive:true});const prompt=historicalPrompt(bible,shot.assetPrompt);let cached=false;
  try{const previous=await read(checkpoint);if(previous.prompt!==prompt||previous.sha256!==await fileDigest(raw))throw new Error('Historical image checkpoint changed; use a new run ID');cached=true;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
  if(!cached){const ledger=currentCosts();if(ledger&&ledger.entries.filter(e=>e.category==='generatedImages').length>=ledger.policy.maxGeneratedImagesPerVideo)throw new Error('Generated image cap reached; checkpoint saved');const generate=()=>image.generate(prompt,raw);if(ledger)await ledger.charge('generatedImages','cloudflare-flux-free',0,shot.id,generate);else await generate();await json(checkpoint,{prompt,sha256:await fileDigest(raw),model:'@cf/black-forest-labs/flux-1-schnell',license:'Apache-2.0 model; Cloudflare/BFL terms apply'});}

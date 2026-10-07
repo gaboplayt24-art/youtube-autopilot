@@ -21,7 +21,7 @@ concurrency:
 jobs:
   audition:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     env:
       AUTO_PUBLISH: 'false'
       FREE_ONLY: 'true'
@@ -31,6 +31,7 @@ jobs:
       MODEL_CACHE_DIR: ${{ github.workspace }}/.cache/models
       HF_HOME: ${{ github.workspace }}/.cache/huggingface
       PIP_CACHE_DIR: ${{ github.workspace }}/.cache/pip
+      QWEN_PYTHON: ${{ github.workspace }}/.venv-qwen/bin/python
       FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
       RUN_ID: ${{ inputs.run_id || github.run_id }}
     steps:
@@ -58,7 +59,19 @@ jobs:
             .venv-ai
             .cache/pip
           key: cpu-ai-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-cpu-ai.sh', 'scripts/requirements-cpu-ai.lock') }}
+      - uses: actions/cache@v4
+        id: qwen-env
+        with:
+          path: |
+            .venv-qwen
+            .cache/qwen-environment.txt
+          key: qwen-cpu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-qwen.sh', 'scripts/requirements-qwen.txt') }}
       - run: npm ci
+      - name: Install optional Qwen CPU environment
+        if: steps.qwen-env.outputs.cache-hit != 'true'
+        continue-on-error: true
+        timeout-minutes: 15
+        run: bash scripts/setup-qwen.sh
       - name: Install audio tools
         timeout-minutes: 5
         run: |
@@ -82,8 +95,8 @@ jobs:
           github-token: ${{ github.token }}
       - run: ffmpeg -version && ffprobe -version
       - run: npm run lint && npm run typecheck && npm test
-      - name: A Nano, B Kokoro, optional C MeloTTS; manual selection
-        timeout-minutes: 25
+      - name: A Nano, B Kokoro, optional C Qwen CPU, D MeloTTS; manual selection
+        timeout-minutes: 40
         run: npm run voice-audition-free -- --run-id "$RUN_ID"
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}

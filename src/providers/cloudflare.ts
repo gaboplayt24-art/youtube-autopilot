@@ -1,10 +1,11 @@
 import {mkdir,writeFile} from 'node:fs/promises';
-import {dirname} from 'node:path';
+import {dirname,basename} from 'node:path';
 import {z} from 'zod';
+import {extractCriticalTerms} from '../voice/qa';
 import {requireQuota,QuotaPause} from '../quota';
 import {exec,json,duration} from '../orchestration/io';
-import {alignWords,alignWithASRFallback,localTranscript} from './kokoro';
-import type {ImageProvider,TTSProvider} from './interfaces';
+import {validatedVoiceAlignment} from './kokoro';
+import type {ImageProvider,TTSProvider,SpeechContext} from './interfaces';
 export const FLUX_MODEL='@cf/black-forest-labs/flux-1-schnell';
 export const MELO_MODEL='@cf/myshell-ai/melotts';
 export function cloudflareConfigured(){return !!process.env.CLOUDFLARE_ACCOUNT_ID&&!!process.env.CLOUDFLARE_API_TOKEN;}
@@ -23,5 +24,12 @@ export class CloudflareWorkersAIImageProvider implements ImageProvider {
 }
 export class MeloTTSProvider implements TTSProvider {
  constructor(private request:typeof fetch=fetch,private strictAlignment=true){}
- async speak(text:string,path:string){if(text.length>1000)throw new Error('MeloTTS free adapter accepts <=1000 characters per call to bound neuron usage');const {response,id,quota}=await run(MELO_MODEL,{prompt:text,lang:'en'},128,this.request);try{const bytes=response.headers.get('content-type')?.includes('json')?Buffer.from(z.object({success:z.literal(true),result:z.object({audio:z.string()})}).parse(await response.json()).result.audio,'base64'):Buffer.from(await response.arrayBuffer());await mkdir(dirname(path),{recursive:true});await writeFile(path+'.mp3',bytes);await exec('ffmpeg',['-y','-v','error','-i',path+'.mp3','-ar','48000','-ac','1',path],{timeout:30000});const minutes=await duration(path)/60;if(minutes*18.63>128)throw new Error('MeloTTS exceeded conservative reservation; review quota before continuing');await quota.finish(id,{ttsMinutes:minutes});let words:ReturnType<typeof alignWords>=[];if(this.strictAlignment)words=await alignWithASRFallback(text,model=>localTranscript(path,model));else {const transcript=await localTranscript(path);try{words=alignWords(text,transcript.chunks);}catch{/* Audition reports WER instead of inventing timestamps. */}}return {alignment:words,words};}catch(e){await quota.finish(id,{},true);throw e;}}
+ async speak(text:string,path:string,context?:SpeechContext){
+  await mkdir(dirname(path),{recursive:true});await json(path+'.critical-terms.json',{text,criticalTerms:extractCriticalTerms(text,context?.criticalTerms)});
+  const chunks:string[]=[];for(const sentence of text.match(/[^.!?]+[.!?]*/g)??[text]){const last=chunks.at(-1);if(last&&last.length+sentence.length+1<=950)chunks[chunks.length-1]=last+' '+sentence.trim();else {if(sentence.trim().length>950)throw new Error('Melo sentence exceeds 950 characters');chunks.push(sentence.trim());}}
+  const started=performance.now();const parts:string[]=[];
+  for(let i=0;i<chunks.length;i++){const {response,id,quota}=await run(MELO_MODEL,{prompt:chunks[i],lang:'en'},128,this.request);try{const bytes=response.headers.get('content-type')?.includes('json')?Buffer.from(z.object({success:z.literal(true),result:z.object({audio:z.string()})}).parse(await response.json()).result.audio,'base64'):Buffer.from(await response.arrayBuffer());const part=path+`.part-${i+1}.wav`;await writeFile(part+'.mp3',bytes);await exec('ffmpeg',['-y','-v','error','-i',part+'.mp3','-ar','48000','-ac','1',part],{timeout:30000});const minutes=await duration(part)/60;if(minutes*18.63>128)throw new Error('MeloTTS exceeded conservative reservation; review quota');await quota.finish(id,{ttsMinutes:minutes});parts.push(part);}catch(e){await quota.finish(id,{},true);throw e;}}
+  const list=path+'.concat.txt';await writeFile(list,parts.map(p=>`file '${basename(p)}'`).join('\n'));await exec('ffmpeg',['-y','-v','error','-f','concat','-safe','0','-i',list,'-c:a','pcm_s16le',path],{timeout:60000});await json(path+'.metrics.json',{elapsedSeconds:(performance.now()-started)/1000,peakMemoryMb:null,method:'Remote Melo inference: server memory is not exposed; elapsed time includes requests and lossless concatenation',chunks});
+  const words=this.strictAlignment?await validatedVoiceAlignment(path,text,context?.criticalTerms):[];return {alignment:words,words};
+ }
 }

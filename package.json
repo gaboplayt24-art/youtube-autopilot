@@ -7,7 +7,7 @@
     "node": ">=22"
   },
   "scripts": {
-    "lint": "eslint .",
+    "lint": "eslint src tests scripts *.js",
     "typecheck": "tsc --noEmit",
     "test": "tsx --import ./scripts/test-isolation.mjs --test tests/*.test.ts",
     "video": "tsx src/orchestration/cli.ts video",

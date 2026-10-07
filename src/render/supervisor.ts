@@ -1,25 +1,27 @@
 import {fork,type Serializable} from 'node:child_process';
 import {readdir,readFile} from 'node:fs/promises';
 
-type ProcessIdentity={pid:number;parent:number;started:string};
+type ProcessIdentity={pid:number;parent:number;started:string;rss:number};
 async function processTable():Promise<ProcessIdentity[]>{
  if(process.platform!=='linux')return [];
  const names=await readdir('/proc');
  const rows=await Promise.all(names.filter(n=>/^\d+$/.test(n)).map(async n=>{
-  try{const stat=await readFile(`/proc/${n}/stat`,'utf8');const fields=stat.slice(stat.lastIndexOf(')')+2).split(' ');return {pid:Number(n),parent:Number(fields[1]),started:fields[19]};}catch{return null;}
+  try{const stat=await readFile(`/proc/${n}/stat`,'utf8');const fields=stat.slice(stat.lastIndexOf(')')+2).split(' ');return {pid:Number(n),parent:Number(fields[1]),started:fields[19],rss:Number(fields[21])*4096};}catch{return null;}
  }));return rows.filter((row):row is ProcessIdentity=>row!==null);
 }
 async function signalOwned(identity:ProcessIdentity,signal:NodeJS.Signals){
  try{const stat=await readFile(`/proc/${identity.pid}/stat`,'utf8');if(stat.slice(stat.lastIndexOf(')')+2).split(' ')[19]===identity.started)process.kill(identity.pid,signal);}catch(error){if(!['ENOENT','ESRCH'].includes((error as NodeJS.ErrnoException).code??''))throw error;}
 }
 /** Isolate browser/encoder resources and bound cleanup, including detached Chrome descendants. */
-export function superviseWorker(modulePath:string,payload:Serializable,timeoutMs:number):Promise<void>{
+export type WorkerMetrics={elapsedSeconds:number;peakMemoryMb:number;method:string};
+export function superviseWorker(modulePath:string,payload:Serializable,timeoutMs:number,onMetrics?:(metrics:WorkerMetrics)=>void):Promise<void>{
+ const started=performance.now();let peak=0;
  return new Promise((resolve,reject)=>{
   // Plain JS workers do not need the parent's tsx test loader. Avoid spending a
   // short supervision deadline booting an unrelated compiler under CPU load.
   const child=fork(modulePath,[],{execArgv:modulePath.endsWith('.mjs')?[]:process.execArgv,detached:process.platform!=='win32',stdio:['ignore','inherit','inherit','ipc']});
   const owned=new Map<number,ProcessIdentity>();let finishing=false;
-  const scan=async()=>{if(!child.pid)return;const table=await processTable();const ids=new Set([child.pid,...table.filter(row=>owned.get(row.pid)?.started===row.started).map(row=>row.pid)]);let changed=true;while(changed){changed=false;for(const row of table)if(ids.has(row.parent)&&!ids.has(row.pid)){ids.add(row.pid);owned.set(row.pid,row);changed=true;}}};
+  const scan=async()=>{if(!child.pid)return;const table=await processTable();const ids=new Set([child.pid,...table.filter(row=>owned.get(row.pid)?.started===row.started).map(row=>row.pid)]);let changed=true;while(changed){changed=false;for(const row of table)if(ids.has(row.parent)&&!ids.has(row.pid)){ids.add(row.pid);owned.set(row.pid,row);changed=true;}}peak=Math.max(peak,table.filter(row=>ids.has(row.pid)).reduce((n,row)=>n+row.rss,0));};
   const polling=setInterval(()=>{void scan().catch(()=>{});},250);
   const killGroup=(signal:NodeJS.Signals)=>{if(!child.pid)return;try{if(process.platform==='win32')child.kill(signal);else process.kill(-child.pid,signal);}catch(error){if((error as NodeJS.ErrnoException).code!=='ESRCH')throw error;}};
   const finish=async(error?:Error)=>{
@@ -30,6 +32,7 @@ export function superviseWorker(modulePath:string,payload:Serializable,timeoutMs
     await new Promise(r=>setTimeout(r,300));
     killGroup('SIGKILL');await Promise.all([...owned.values()].map(p=>signalOwned(p,'SIGKILL')));
     if(child.connected)child.disconnect();
+    onMetrics?.({elapsedSeconds:(performance.now()-started)/1000,peakMemoryMb:peak/1024/1024,method:'Linux /proc process-tree RSS sampled every 250ms; shared pages may be counted twice; not PSS'});
     if(error)reject(error);else resolve();
    }catch(cleanupError){reject(new Error('Render worker cleanup failed',{cause:cleanupError}));}
   };

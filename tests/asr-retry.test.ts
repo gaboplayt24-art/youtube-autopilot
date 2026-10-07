@@ -12,9 +12,9 @@ test('more accurate ASR resolves merged words using actual replacement timestamp
  assert.deepEqual(models,['Xenova/whisper-tiny.en','Xenova/whisper-base.en']);
  assert.deepEqual(result,[{text:'stone',start:1,end:1.4},{text:'walls',start:1.4,end:2}]);
 });
-test('ASR retry fails closed when speech differs, preserving the exact-match gate',async()=>{
+test('ASR retry fails closed when WER/critical gates reject speech, preserving evidence',async()=>{
  let attempts=0;
- await assert.rejects(alignWithASRFallback('stone walls',async()=>{attempts++;return {chunks:[{text:'modern',timestamp:[1,1.4]},{text:'walls',timestamp:[1.4,2]}]};}),/differs from script/);
+ await assert.rejects(alignWithASRFallback('stone walls',async()=>{attempts++;return {chunks:[{text:'modern',timestamp:[1,1.4]},{text:'walls',timestamp:[1.4,2]}]};}),/Voice QA FAIL/);
  assert.equal(attempts,3);
  await assert.rejects(alignWithASRFallback('stone',async()=>({chunks:[{text:'stone',timestamp:[1,null]}]})),/missing timestamp/);
 });
@@ -39,5 +39,5 @@ test('audio-first scene cuts consume phrase tokens and reject a cut inside a mea
 
 test('Small English resolves weak recognizers with measured timestamps; it never changes missing words',async()=>{
  const models:string[]=[];const result=await alignWithASRFallback('salt spray stings',async model=>{models.push(model);return {chunks:model.endsWith('small.en')?[{text:'salt',timestamp:[.1,.3]},{text:'spray',timestamp:[.3,.6]},{text:'stings',timestamp:[.6,.9]}]:[{text:'salt',timestamp:[.1,.3]},{text:'spray',timestamp:[.3,.6]},{text:'stinks',timestamp:[.6,.9]}]};});assert.equal(models.length,3);assert.deepEqual(result.at(-1),{text:'stings',start:.6,end:.9});
- await assert.rejects(alignWithASRFallback('salt spray stings',async()=>({chunks:[{text:'salt spray',timestamp:[.1,.6]}]})),/differs from script/);
+ await assert.rejects(alignWithASRFallback('salt spray stings',async()=>({chunks:[{text:'salt spray',timestamp:[.1,.6]}]})),/Voice QA FAIL/);
 });

@@ -1,0 +1,7 @@
+# Separate environment: Nano requires transformers 5.2; Qwen requires 4.57.3.
+qwen-tts==0.1.1
+transformers==4.57.3
+accelerate==1.12.0
+gradio==5.23.1
+torch==2.6.0+cpu
+torchaudio==2.6.0+cpu

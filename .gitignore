@@ -11,3 +11,5 @@ coverage/
 data/benchmarks/*.json
 
 .venv-ai/
+
+.venv-qwen/
