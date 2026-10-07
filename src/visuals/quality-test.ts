@@ -27,17 +27,19 @@ import * as schemas from '../orchestration/schemas';
 import {renderVideo,renderPreview} from '../render';
 import {inspect} from '../qa';
 import {thumbnails} from '../thumbnail';
-import {qualityScript,createQualityScript} from './quality-script';
+import {qualityScript,createQualityScript,historicalScriptReview,correctHistoricalScript} from './quality-script';
 const {values}=parseArgs({options:{'run-id':{type:'string',default:'free-quality-test'},prepare:{type:'boolean',default:false}}});
 async function main(){const id=values['run-id']!;if(!/^[A-Za-z0-9_-]+$/.test(id))throw new Error('Invalid run ID');const dir=join('data/runs',id),assetsDir=join(dir,'assets'),pub=join('public',id);await mkdir(assetsDir,{recursive:true});await mkdir(pub,{recursive:true});const runner=new Runner(dir);await runner.lock();const costs=new CostLedger(await loadCostPolicy(),dir);const quota=new FreeQuotaLedger(dir);await costs.restore();await quota.restore();
  try{await withQuota(quota,()=>withCosts(costs,async()=>{
  if(!((await read('config/narrator.json')).voiceApproved===true&&(await read('config/strategy.json')).imageQualityApproved===true)){await json(join(dir,'approval-blocked.json'),{state:'blocked_until_manual_narrator_and_image_approval',autoPublish:false});throw new Error('Quality video is blocked until the free voice audition is manually approved and image quality is approved');}
  if(!cloudflareConfigured()||!process.env.GEMINI_API_KEY||process.env.GEMINI_FREE_TIER_CONFIRMED!=='true'||process.env.CLOUDFLARE_FREE_PLAN_CONFIRMED!=='true'){await json(join(dir,'configuration-blocked.json'),{state:'blocked_configuration',required:['GEMINI_API_KEY','GEMINI_FREE_TIER_CONFIRMED=true','CLOUDFLARE_ACCOUNT_ID','CLOUDFLARE_API_TOKEN','CLOUDFLARE_FREE_PLAN_CONFIRMED=true'],missing:['GEMINI_API_KEY','CLOUDFLARE_ACCOUNT_ID','CLOUDFLARE_API_TOKEN'].filter(k=>!process.env[k]).concat(['GEMINI_FREE_TIER_CONFIRMED','CLOUDFLARE_FREE_PLAN_CONFIRMED'].filter(k=>process.env[k]!=='true')),paidCostUsd:0});throw new Error('Missing free-provider configuration; no synthetic success or paid/stock replacement');}
  const llm=new GeminiProvider();await llm.discover();await costs.setDuration(90);
- const script=await runner.stage('script',qualityScript,()=>createQualityScript(llm));
+ let script=await runner.stage('script',qualityScript,()=>createQualityScript(llm));
  const channelIdentity=await read('config/channel-visual-identity.json');const characterRegistry=await read('config/character-registry.json');await json(join(dir,'channel-visual-identity.json'),channelIdentity);await json(join(dir,'character-registry.json'),characterRegistry);
  const bible=await runner.stage('visual-bible',visualBible,()=>createVisualBible({script,channelIdentity,characterRegistry},llm));
  const preflight=await runner.stage('visual-planning',visualPreflight,()=>planVisualAssets(script,bible,llm));
+ if(preflight.historicalReview.issues.length||!preflight.historicalReview.passed){const corrected=await runner.stage('historical-script-review',historicalScriptReview,()=>correctHistoricalScript(script,preflight.historicalReview.issues,llm));script=qualityScript.parse(corrected.script);}
+ await json(join(dir,'approved-script.json'),script);
  const pronunciationPlan=await runner.stage('pronunciations',pronunciations,()=>llm.json(`Prepare pronunciations for historical names/places/dates/dynasties/foreign words in this narration: ${script.scenes.map(s=>s.narration).join(' ')}. Candidates ${JSON.stringify(pronunciationCandidates(script.scenes.map(s=>s.narration).join(' ')))}. Return {terms:[{term,category,replacement,verified,source}]}. category people/places/Latin/Greek/Egyptian/dates/dynasties/foreign names. replacement:null unless reliable pronunciation preprocessing is needed. verified:false and source:null if uncertain. Do not alter facts.`,pronunciations));
  const plannedAssets=preflight.assets.map((a,i)=>({id:a.id,sceneId:a.sceneId,start:i,end:i+1,narration:'Untimed planning only',visualIntent:a.prompt,shotType:'generated-image' as const,motion:'parallax' as const,assetPrompt:a.prompt,assetKey:a.id,overlay:null,keywords:[],highImpact:false,transition:'cut' as const}));
  await createCharacterReferencePack(characterRegistry.characters[0],bible,assetsDir,new CloudflareWorkersAIImageProvider(),llm,true);
