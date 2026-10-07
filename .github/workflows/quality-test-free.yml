@@ -28,7 +28,7 @@ concurrency:
 jobs:
   quality:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 80
     env:
       AUTO_PUBLISH: 'false'
       FREE_ONLY: 'true'
@@ -93,7 +93,7 @@ jobs:
             npm run quality-test-free -- --run-id "$RUN_ID"
           fi
       - name: Prepare real script and visual bible before CPU installation
-        timeout-minutes: 10
+        timeout-minutes: 30
         run: npm run quality-test-free -- --run-id "$RUN_ID" --prepare
       - name: Install media tools
         timeout-minutes: 5

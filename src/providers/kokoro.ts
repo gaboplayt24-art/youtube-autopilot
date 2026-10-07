@@ -33,11 +33,11 @@ export async function alignWithASRFallback(narration:string,transcribe:(model:st
  for(const model of ['Xenova/whisper-tiny.en','Xenova/whisper-base.en','Xenova/whisper-small.en']){const raw=await transcribe(model);const transcript={...raw,text:raw.chunks.map(c=>c.text.trim()).join(' ')};transcripts.push(transcript);try{requireVoiceQA(evaluateVoice(narration,transcript,terms,policy,transcripts.slice(0,-1)));return measuredReferenceAlignment(narration,transcript);}catch(e){last=e;}}
  throw last;
 }
-export async function validatedVoiceAlignment(path:string,text:string,declared:string[]=[]){
+export async function validatedVoiceAlignment(path:string,text:string,declared:string[]=[],approvedReview=false){
  const terms=extractCriticalTerms(text,declared);await json(path+'.critical-terms.json',{criticalTerms:terms,text});
  const primary=await localTranscript(path,'Xenova/whisper-small.en');const alternatives:Transcript[]=[];
  if(evaluateVoice(text,primary,terms,await loadVoiceQAPolicy()).normalizedComparison.differences.length)alternatives.push(await localTranscript(path,'Xenova/whisper-base.en'));
- const report=await saveVoiceEvidence(path,text,primary,terms,alternatives);requireVoiceQA(report);return measuredReferenceAlignment(text,primary);
+ const report=await saveVoiceEvidence(path,text,primary,terms,alternatives);requireVoiceQA(report,approvedReview);if(report.status==='review'&&approvedReview)await json(path+'.review-authorization.json',{scope:'90-second visual quality milestone',status:'review',reason:'Channel owner approved reference-cloned Nano; critical/acoustic hard failures remain blocked'});return measuredReferenceAlignment(text,primary);
 }
 export class LocalTranscriptionProvider implements TranscriptionProvider {
  async transcribe(path:string,narration:string){return validatedVoiceAlignment(path,narration);}

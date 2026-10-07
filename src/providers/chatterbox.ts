@@ -15,7 +15,7 @@ export class ChatterboxNanoProvider implements TTSProvider {
   await json(path+'.critical-terms.json',{text,criticalTerms:extractCriticalTerms(text,context?.criticalTerms)});
   if(!cached){const id=await quota?.reserve('local',this.model==='turbo'?'ResembleAI/chatterbox-turbo':'ResembleAI/chatterbox-nano');try{await superviseWorker(resolve('scripts/cpu-worker.mjs'),{action:this.model,text,path,reference:reference??null},this.model==='turbo'?25*60000:15*60000,metrics=>{void json(path+'.metrics.json',metrics);});await json(checkpoint,{text,version:selectedVersion,referenceSha256,referenceAudioPath:reference??null,sha256:await fileDigest(path)});if(id)await quota?.finish(id,{ttsMinutes:await duration(path)/60});}catch(e){if(id)await quota?.finish(id,{},true);throw e;}}
   // Save synthesis before ASR: alignment failures must not regenerate narration.
-  const words=this.strictAlignment?await validatedVoiceAlignment(path,text,context?.criticalTerms):[];
+  const words=this.strictAlignment?await validatedVoiceAlignment(path,text,context?.criticalTerms,context?.allowVoiceReview===true):[];
   return {alignment:words,words};
  }
 }

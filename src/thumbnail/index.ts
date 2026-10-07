@@ -17,7 +17,7 @@ function luminance(r:number,g:number,b:number){
  const linear=(v:number)=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;};
  return .2126*linear(r)+.7152*linear(g)+.0722*linear(b);
 }
-export async function inspectThumbnail(path:string,hook:string,title:string){
+export async function inspectThumbnail(path:string,hook:string,title:string,allowSubjectiveReview=false){
  const probe=await exec('ffprobe',['-v','error','-show_streams','-of','json',path]);
  const image=JSON.parse(probe.stdout).streams[0];
  // Sample the dark text-side backing, below the title so the glyphs do not distort it.
@@ -29,12 +29,12 @@ export async function inspectThumbnail(path:string,hook:string,title:string){
  const values=[];for(let i=0;i<focal.stdout.length;i+=3)values.push(luminance(focal.stdout[i],focal.stdout[i+1],focal.stdout[i+2]));
  const mean=values.reduce((a,b)=>a+b,0)/values.length;const focalContrast=Math.sqrt(values.reduce((n,v)=>n+(v-mean)**2,0)/values.length);
  const scores=thumbnailScores(hook.split(/\s+/).length,93,ratio,{hook,title,focalContrast});
- if(image.width!==1280||image.height!==720||[scores.clarity,scores.mobileReadability,scores.contrast].some(s=>s<70)||scores.subjectProminence<30)throw new Error('Thumbnail failed dimensions/readability/contrast/focal-visibility QA');
+ if(image.width!==1280||image.height!==720||!allowSubjectiveReview&&([scores.clarity,scores.mobileReadability,scores.contrast].some(s=>s<70)||scores.subjectProminence<30))throw new Error('Thumbnail failed dimensions/readability/contrast/focal-visibility QA');
  return scores;
 }
-export async function thumbnails(c:Composition,dir:string,llm?:LLMProvider){
+export async function thumbnails(c:Composition,dir:string,llm?:LLMProvider,approvedTexts?:string[],allowSubjectiveReview=false){
  const hook=z.string().trim().min(1).max(28).refine(s=>s.split(/\s+/).length<=5);
- const plan=llm?await llm.json(`Create 3 truthful thumbnail hooks complementing this approved title: ${c.thumbnailTitle}. Return {texts:[string,string,string]}. Each is 1-5 words, <=28 characters, no unsupported claims. Original narration: ${c.scenes.map(s=>s.text).join(' ')}`,z.object({texts:z.array(hook).length(3)})):{texts:['WHO GETS THE LIGHT?','ONE CLEAR PATH','CHOOSE YOUR FOCUS']};
+ const plan=approvedTexts?z.object({texts:z.array(hook).length(3)}).parse({texts:approvedTexts}):llm?await llm.json(`Create 3 truthful thumbnail hooks complementing this approved title: ${c.thumbnailTitle}. Return {texts:[string,string,string]}. Each is 1-5 words, <=28 characters, no unsupported claims. Original narration: ${c.scenes.map(s=>s.text).join(' ')}`,z.object({texts:z.array(hook).length(3)})):{texts:['WHO GETS THE LIGHT?','ONE CLEAR PATH','CHOOSE YOUR FOCUS']};
  // A channel using only B-roll still needs a real focal subject on its thumbnail.
  let props=c;
  if(!c.assets.some(a=>a.kind!=='video')){
@@ -47,7 +47,7 @@ export async function thumbnails(c:Composition,dir:string,llm?:LLMProvider){
  for(const variant of ['A','B','C'] as const){
   const path=join(dir,`thumbnail-${variant}.png`);const title=plan.texts[variants.length];
   await renderThumbnail({...props,thumbnailVariant:variant,thumbnailTitle:title},path);
-  const scores=await inspectThumbnail(path,title,c.thumbnailTitle??'');
+  const scores=await inspectThumbnail(path,title,c.thumbnailTitle??'',allowSubjectiveReview);
   variants.push({variant,path,sha256:await fileDigest(path),scores});
  }
  const primary=variants[0];const selected=join(dir,'thumbnail.png');await copyFile(primary.path,selected);

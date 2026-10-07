@@ -29,5 +29,5 @@
   "referenceAudioPath": "assets/voice/narrator-reference.wav",
   "referenceCloningMode": "audio_prompt_path",
   "turboModel": "ResembleAI/chatterbox-turbo",
-  "approvalSource": "Manual narrator selection; reference WAV committed by channel owner"
+  "approvalSource": "Channel owner explicitly approved Chatterbox Nano reference-cloned narration for the 90-second visual quality milestone; preserve minor WER as REVIEW, critical failures remain blocked"
 }
