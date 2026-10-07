@@ -7,6 +7,12 @@ fi
 
 # Try cached indexes first; bound installation connections as well as update.
 options=(-o Acquire::Retries=0 -o Acquire::http::Timeout=10 -o Acquire::https::Timeout=10 -o DPkg::Lock::Timeout=10 -o Acquire::Languages=none)
+# GitHub's cached indexes use a mirror list. Its Azure HTTP mirror can spend
+# twenty seconds per package before trying the healthy official HTTPS mirror.
+# Select the official mirror up front, retaining signed cached package indexes.
+if [[ -f /etc/apt/apt-mirrors.txt && "$(dpkg --print-architecture)" == amd64 ]]; then
+  printf '%s\n' 'https://archive.ubuntu.com/ubuntu' | sudo tee /etc/apt/apt-mirrors.txt >/dev/null
+fi
 if sudo timeout --kill-after=5s 90s apt-get "${options[@]}" install --no-install-recommends -y ffmpeg; then
   command -v ffmpeg >/dev/null && command -v ffprobe >/dev/null
   exit 0
