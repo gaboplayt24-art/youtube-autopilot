@@ -5,11 +5,11 @@ import {Runner} from '../orchestration/runner';
 import {read,json,duration,exec} from '../orchestration/io';
 import {digest,fileDigest} from '../orchestration/integrity';
 import * as schemas from '../orchestration/schemas';
-import {shotPlan,media,audioMix,profile} from '../editor/schemas';
+import {shotPlan,audioMix,profile} from '../editor/schemas';
 import {ShotPlanner} from '../editor/planner';
 import {VisualThinkingDirector} from './visual-thinking';
-import {createDoodleAssets} from './doodle-assets';
 import {inspectVisualIdeas} from './doodle-qa';
+import {acceptDoodleVisuals} from './doodle-acceptance';
 import {doodleStyleLock} from './visual-approval';
 import {milestoneScript} from './quality-script';
 import {requireVoiceQA} from '../voice/qa';
@@ -22,7 +22,6 @@ import {thumbnails} from '../thumbnail';
 import {GeminiProvider} from '../providers/free';
 import {CostLedger,loadCostPolicy,withCosts} from '../cost';
 import {FreeQuotaLedger,withQuota} from '../quota';
-import {reviewDoodleSet,doodleSetQA} from './doodle-set-qa';
 import {inspect,requireQA} from '../qa';
 const {values}=parseArgs({options:{'run-id':{type:'string',default:'quality-doodle-preview'},'offline-preview':{type:'boolean',default:false}}});
 async function main(){
@@ -43,10 +42,8 @@ async function main(){
   await costs.setDuration(seconds);
   const plan=schemas.plan.parse({scenes:script.scenes.map(({id,narration,visual})=>({id,narration,visual}))}),style=profile.parse(await read('config/visual-profiles/history.json'));
   const timed=await runner.stage('speech-timed-doodle-v3',shotPlan,()=>new ShotPlanner().plan(plan,voice,style,30));
-  const shots=await runner.stage('visual-thinking-v3',shotPlan,async()=>({...timed,shots:await new VisualThinkingDirector().direct(timed.shots,llm)}));
-  const thinking=inspectVisualIdeas(shots.shots);await json(join(dir,'visual-thinking-QA.json'),thinking);if(!thinking.passed)throw new Error('Educational concept QA failed');
-  const visuals=await runner.stage('doodle-assets-v3',media,()=>createDoodleAssets(shots.shots,assets),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Doodle asset integrity failure');});
-  if(llm){const reviewed=await runner.stage('doodle-style-semantic-QA',doodleSetQA,()=>reviewDoodleSet(shots.shots,visuals.assets,llm));if(!reviewed.passed)throw new Error('Actual-image educational style/semantic QA failed; evidence retained, no render');}
+  const initial=await runner.stage('visual-thinking-v3',shotPlan,async()=>({...timed,shots:await new VisualThinkingDirector().direct(timed.shots,llm)}));
+  const accepted=await acceptDoodleVisuals(initial,dir,runner,llm),shots=accepted.shots,visuals=accepted.visuals,thinking=inspectVisualIdeas(shots.shots);
   const cues=createCaptions(plan,voice,30).cues;
   const audio=await runner.stage('audio-mix',audioMix,()=>mixAudio(voice,shots.shots,style,assets,30,new ChapterMusicProvider([{duration:seconds,direction:'restrained original educational atmosphere'}],true)));
   const sound=await runner.stage('audio-QA',audioQA,()=>inspectAudio(audio.path,{expectedDuration:seconds,narrationPath:audio.narrationPath,musicPath:audio.duckedMusicPath,requireMusic:true}));if(!sound.passed)throw new Error('Audio mastering QA failed');
@@ -59,7 +56,7 @@ async function main(){
   for(const second of [2,10,25,45,65,85])if(second<seconds)await renderPreview(composition,join(dir,'frame-'+second+'.png'),Math.round(second*30));
   const probe=await exec('ffprobe',['-v','error','-show_streams','-show_format','-of','json',video.path]);await json(join(dir,'ffprobe.json'),JSON.parse(probe.stdout));
   await json(join(dir,'narrator-QA.json'),{provider:'chatterbox-nano',referenceSha256:await fileDigest(narrator.referenceAudioPath),narrationReusedExactly:true,blocks:await Promise.all(voice.scenes.map(async s=>({id:s.id,sha256:await fileDigest(s.path),...await read(s.path+'.voice-QA.json')})))});
-  await json(join(dir,'quality-summary.json'),{styleVersion:lock.version,duration:video.duration,shots:shots.shots.length,conceptTypes:[...new Set(shots.shots.map(s=>s.visualIdea!.conceptType))],paidCostUsd:0,cloudflareRequests:0,voice:'approved-chatterbox-nano-unchanged',previewOnly:true,structuralQAPassed:thinking.passed,audioQAPassed:sound.passed,semanticReview:llm?'Actual-image Gemini pre-render QA passed':'NOT RUN: offline concept demonstration only',humanVisualApprovalRequired:true,productionApproved:false,autoPublish:false});
+  await json(join(dir,'quality-summary.json'),{styleVersion:lock.version,duration:video.duration,shots:shots.shots.length,conceptTypes:[...new Set(shots.shots.map(s=>s.visualIdea!.conceptType))],repairedShotIds:accepted.repairedShotIds,paidCostUsd:0,cloudflareRequests:0,voice:'approved-chatterbox-nano-unchanged',previewOnly:true,structuralQAPassed:thinking.passed,audioQAPassed:sound.passed,semanticReview:llm?'Actual-image Gemini pre-render QA passed':'NOT RUN: offline concept demonstration only',humanVisualApprovalRequired:true,productionApproved:false,autoPublish:false});
   // This prototype does not fabricate multimodal/historical QA or promote a
   // structural pass to production approval. WAVs, ASR and timestamps stay raw.
  }));}finally{await costs.report();await quota.report();await runner.unlock();}

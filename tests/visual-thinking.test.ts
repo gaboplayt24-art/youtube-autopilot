@@ -59,3 +59,16 @@ test('batch QA inspects actual raster bytes, validates image IDs and preserves a
   assert.equal(calls,2);assert.equal(qa.passed,false);assert.deepEqual(qa.reviews[1].issues,['Idea mismatch']);assert.equal(qa.method,'actual-image Gemini review');
  }finally{await rm(dir,{recursive:true,force:true});}
 });
+test('hierarchy and reverse relationships preserve arrow direction and keep relation text beside the graph',()=>{
+ const idea=visualIdea.parse({version:'educational-doodle-v3',conceptType:'HIERARCHY',takeaway:'Two social levels',nodes:[{id:'a',icon:'person',label:'First',pose:'neutral',emphasis:false},{id:'b',icon:'person',label:'Second',pose:'neutral',emphasis:false}],relationships:[{from:'a',to:'b',label:'next'}]});
+ const coordinates=(svg:string)=>svg.match(/d="M([\d.]+) ([\d.]+) L([\d.]+) ([\d.]+)" pathLength="1"/)!.slice(1).map(Number);
+ const forward=coordinates(doodleSVG(idea));assert.ok(forward[3]>forward[1],'Higher-to-lower relationship must point down, not overlap/invert');
+ const reverse=coordinates(doodleSVG({...idea,relationships:[{from:'b',to:'a',label:'back'}]}));assert.ok(reverse[3]<reverse[1]);assert.ok(doodleSVG(idea).includes('<text x="670"'),'Relation label must not overlap the figure column');
+ const horizontal=coordinates(doodleSVG({...idea,conceptType:'PROCESS',relationships:[{from:'b',to:'a',label:'back'}]}));assert.ok(horizontal[2]<horizontal[0],'Right-to-left edges must not use rightward anchor offsets');
+});
+test('selective idea repair preserves narration/timing and untouched shots, and rejects unknown IDs before a call',async()=>{
+ const originals=await new VisualThinkingDirector().direct([make('a','Rows of clay jars'),{...make('b','She pays coins'),start:3,end:6}]);let calls=0;
+ const llm={json:async<T>(_p:string,schema:z.ZodType<T>)=>{calls++;const idea=visualIdea.parse({version:'educational-doodle-v3',conceptType:'ICON_EXPLANATION',takeaway:'Illustrative bulk oil inventory',nodes:['j1','j2','j3'].map((id,i)=>({id,icon:'amphora',label:i===1?'ROWS OF JARS':'',pose:'neutral',emphasis:i===1})),relationships:[]});return schema.parse({ideas:[{shotId:'a',idea}]});}};
+ const fixed=await new VisualThinkingDirector().repair(originals,[{shotId:'a',issues:['Single jar cannot show a row']}],llm);assert.equal(fixed[0].visualIdea!.nodes.length,3);assert.deepEqual(fixed.map(s=>[s.id,s.start,s.end,s.narration]),originals.map(s=>[s.id,s.start,s.end,s.narration]));assert.equal(fixed[1],originals[1]);
+ await assert.rejects(new VisualThinkingDirector().repair(originals,[{shotId:'missing',issues:['unknown']}],llm),/unknown/);assert.equal(calls,1);
+});
