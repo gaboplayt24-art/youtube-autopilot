@@ -1,5 +1,6 @@
 import type {Composition} from '../orchestration/schemas';
 import {pacing} from './planner';
+export function compositionVariety(c:Pick<Composition,'shots'>){return new Set(c.shots.map(s=>s.visualIdea?.conceptType??s.shotType)).size;}
 export function visualQuality(c:Composition){const checks:{name:string;passed:boolean;detail:string}[]=[];const add=(name:string,passed:boolean,detail:string)=>checks.push({name,passed,detail});const metrics=pacing(c.shots);
  add('shot pacing',c.shots.length>0&&c.shots.every(s=>s.end>s.start&&s.end-s.start<=(c.durationInFrames/c.fps>120?(s.start<30?4.2:['map','chart','timeline','document'].includes(s.shotType)?12:7.5):4.2))&&metrics.pacingScore>=90,JSON.stringify(metrics));
  let end=0;const contiguous=c.shots.every(s=>{const ok=Math.abs(s.start-end)<0.05;end=s.end;return ok;});add('visual coverage',contiguous&&Math.abs(end-c.durationInFrames/c.fps)<0.05,'No gaps or empty timeline regions');

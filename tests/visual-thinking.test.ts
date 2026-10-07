@@ -13,10 +13,15 @@ import {loadStyleLock} from '../src/visuals/style-lock';
 import {exec} from '../src/orchestration/io';
 import {reviewDoodleSet} from '../src/visuals/doodle-set-qa';
 import type {Shot} from '../src/editor/schemas';
+import {compositionVariety} from '../src/editor/quality';
 const make=(id:string,narration:string):Shot=>({id,sceneId:'s1',start:0,end:3,narration,visualIntent:narration,shotType:'generated-image',motion:'parallax',assetPrompt:'unused old prompt',overlay:null,keywords:[],highImpact:true,transition:'light-leak'});
 test('new identity cancels realism and is inherited verbatim without Gemini style fields',async()=>{
  const lock=await loadStyleLock();assert.equal(lock.version,'educational-doodle-v3');assert.ok(lock.prefix.startsWith('Flat 2D educational historical illustration'));assert.match(lock.lineQuality,/thick/);assert.ok(lock.negativeRules.includes('no classical painterly realism'));
  assert.throws(()=>visualIdea.parse({...localVisualIdea('A merchant pays coins'),style:'photorealistic'}));
+});
+test('showcase counts actual educational concepts rather than the legacy icon-scene transport type',async()=>{
+ const inputs=['A child begins work','A jar of oil','A path across the city','A morning payment'];const shots=await new VisualThinkingDirector().direct(inputs.map((text,i)=>make('s'+i,text)));
+ assert.equal(compositionVariety({shots}),4);assert.equal(compositionVariety({shots:shots.map(s=>({...s,visualIdea:shots[0].visualIdea}))}),1);
 });
 test('visual thinking preserves speech timings, associates ideas, and produces no arbitrary statistics',async()=>{
  const originals=[make('s1','A child begins work'),{...make('s2','A sealed clay jar'),start:3,end:6}];
