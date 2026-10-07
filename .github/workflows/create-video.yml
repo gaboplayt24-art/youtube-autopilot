@@ -21,7 +21,7 @@ on:
         options: [demo, production]
         default: demo
       production_kind:
-        description: 8-12 min pilot or benchmark long-form; image/voice approval required. Use quality-test-free first.
+        description: 8-12 min pilot or benchmark long-form; visual approval required. Use doodle-quality-free first.
         type: choice
         options: [quality_test, longform]
         default: quality_test
@@ -103,10 +103,7 @@ jobs:
       - name: Ensure FFmpeg without refreshing installed dependencies
         timeout-minutes: 5
         run: |
-          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
-            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
-            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
-          fi
+          bash scripts/ensure-media-ci.sh
           ffmpeg -version
           ffprobe -version
       - run: npm run lint && npm run typecheck && npm test

@@ -65,10 +65,7 @@ jobs:
       - name: Media prerequisites
         timeout-minutes: 5
         run: |
-          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
-            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20
-            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
-          fi
+          bash scripts/ensure-media-ci.sh
           /usr/bin/google-chrome --version
       - run: npm run lint && npm run typecheck && npm test
       - name: Gemini visual thinking and native 2D prototype, unchanged approved Nano, no Cloudflare calls
