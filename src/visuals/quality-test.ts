@@ -2,6 +2,7 @@ import {parseArgs} from 'node:util';
 import {mkdir,copyFile,access,readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {z} from 'zod';
+import {validatedJSON} from '../providers/validated-json';
 import {Runner} from '../orchestration/runner';
 import {json,read,duration} from '../orchestration/io';
 import {fileDigest,digest} from '../orchestration/integrity';
@@ -56,7 +57,7 @@ async function main(){
   const board=await runner.stage('illustrated-keyframes',storyboard,()=>planIllustratedBeats(timed.shots,{script,bible,registry},lock,llm));
   if(!board.reuseReview?.passed)throw new Error('Storyboard lacks actual same-moment reuse approval');await json(join(dir,'editorial-reuse-review.json'),board.reuseReview);
   const checkPrompts=async(prompts:{id:string;prompt:string}[])=>{
-   const result=await llm.json('Review EVERY final FLUX prompt before generation for exact era, materials, architecture, clothes, boats, historical anachronisms and the SAME locked illustration style. Return {reviews:[{id,passed,issues}]} with each exact ID once. Do not rewrite prompts. Bible '+JSON.stringify(bible)+' Style '+JSON.stringify(lock)+' Prompts '+JSON.stringify(prompts),z.object({reviews:z.array(z.object({id:z.string(),passed:z.boolean(),issues:z.array(z.string())}))}));
+   const result=await validatedJSON(llm,'Review EVERY final FLUX prompt before generation for exact era, materials, architecture, clothes, boats, historical anachronisms and the SAME locked illustration style. Return {reviews:[{id,passed,issues}]} with each exact ID once. Do not rewrite prompts. Bible '+JSON.stringify(bible)+' Style '+JSON.stringify(lock)+' Prompts '+JSON.stringify(prompts),z.object({reviews:z.array(z.object({id:z.string(),passed:z.boolean(),issues:z.array(z.string())}))}));
    if(result.reviews.length!==prompts.length||new Set(result.reviews.map(r=>r.id)).size!==prompts.length||result.reviews.some(r=>!r.passed||!prompts.some(p=>p.id===r.id)))throw new Error('Historical/style prompt preflight rejected');
    return result;
   };
@@ -79,7 +80,7 @@ async function main(){
     const outliers=[...review.outliers];
     for(const pair of repetition.perceptualSimilarity.filter(p=>p.similarity===1))if(!outliers.some(o=>o.sourceImageId===pair.b))outliers.push({sourceImageId:pair.b,reason:'Identical perceptual fingerprint',repairDirection:'Use a materially distinct specific action and camera position for this narration, same locked painting technique.'});
     if(!outliers.length||round===lock.qualityTest.repairRounds)throw new Error('Pre-render visual style/repetition failed; evidence retained, no render');
-    const concise=await llm.json('Condense these visual repair directions into <=100 characters each, retaining the specific defect. Return {repairs:[{id,direction}]}. '+JSON.stringify(outliers),z.object({repairs:z.array(z.object({id:z.string(),direction:z.string().max(100)}))}));if(concise.repairs.length!==outliers.length||outliers.some(o=>!concise.repairs.some(r=>r.id===o.sourceImageId)))throw new Error('Visual repair directions omitted an outlier');
+    const concise=await validatedJSON(llm,'Condense these visual repair directions into <=100 characters each, retaining the specific defect. Return {repairs:[{id,direction}]}. '+JSON.stringify(outliers),z.object({repairs:z.array(z.object({id:z.string(),direction:z.string().max(100)}))}));if(concise.repairs.length!==outliers.length||outliers.some(o=>!concise.repairs.some(r=>r.id===o.sourceImageId)))throw new Error('Visual repair directions omitted an outlier');
     const corrected=outliers.map(original=>{const o={...original,repairDirection:concise.repairs.find(r=>r.id===original.sourceImageId)!.direction};const source=board.sources.find(s=>s.id===o.sourceImageId)!;const next={revision:(state[source.id]?.revision??0)+1,direction:o.repairDirection};state[source.id]=next;regenerated.add(source.id);return {id:source.id,prompt:sourcePrompt(source,lock,bible,identity,next.direction)};});
     await checkPrompts(corrected);await json(join(dir,'visual-generation-state.json'),state);
    }throw new Error('Visual acceptance failed');
