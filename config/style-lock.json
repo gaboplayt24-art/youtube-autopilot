@@ -18,5 +18,5 @@
   "stylizationLevel": "clearly illustrated historical realism, not simulated live action",
   "prefix": "Premium historical editorial illustration, cinematic digital painting, stylized realistic human anatomy, matte painted skin, soft painterly texture, subtle opaque brush detail, warm natural directional light, historically grounded materials, controlled ochre terracotta limestone olive umber and dusty-blue palette, strong silhouettes, simplified focal hierarchy, cohesive documentary illustration series.",
   "negativeRules": ["no photorealistic stock photo", "no glossy 3D render", "no Unreal Engine look", "no modern clothing", "no fantasy armor", "no anime", "no comic-book outlines", "no modern architecture", "no typography", "no captions inside image", "no logos", "no watermarks", "no distorted anatomy", "no extra fingers", "no duplicate faces"],
-  "qualityTest": {"shotsMin": 30, "shotsMax": 34, "uniqueMin": 24, "uniqueMax": 30, "uniqueSourceRatioMin": 0.75, "maxSourceUses": 2, "maxSourceDurationFraction": 0.1, "repairRounds": 2}
+  "qualityTest": {"hookBeatSeconds": 2.4, "bodyBeatSeconds": 3.8, "shotsMin": 30, "shotsMax": 34, "uniqueMin": 24, "uniqueMax": 30, "uniqueSourceRatioMin": 0.75, "maxSourceUses": 2, "maxSourceDurationFraction": 0.1, "repairRounds": 2}
 }
