@@ -4,7 +4,8 @@ export interface VisionProvider {images<T>(instruction:string,images:{mimeType:s
 export type Alignment={start:number;end:number;text:string}[];
 export interface TTSProvider {speak(text:string,path:string,context?:SpeechContext):Promise<{alignment:Alignment;words?:Alignment}>}
 export interface TranscriptionProvider {transcribe(path:string,narration:string):Promise<Alignment>}
-export interface ImageProvider {generate(prompt:string,path:string):Promise<void>}
+export type ImageContext={referenceImages?:string[]};
+export interface ImageProvider {generate(prompt:string,path:string,context?:ImageContext):Promise<void>}
 export interface VideoProvider {generate(prompt:string,path:string):Promise<void>;estimateCost?(seconds:number):number}
 export type SpeechContext={criticalTerms?:string[];previousText?:string;nextText?:string;performance?:{tone:string;pace:string;energy:number};pronunciations?:{term:string;replacement:string}[];referenceAudioPath?:string;cloningMode?:'audio_prompt_path';allowVoiceReview?:boolean};
 export interface SoundEffectsProvider {generate(prompt:string,seconds:number,path:string):Promise<{license:string;estimatedCost:number}>}

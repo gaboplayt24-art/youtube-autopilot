@@ -1,11 +1,12 @@
-import {mkdir,writeFile} from 'node:fs/promises';
+import {mkdir,writeFile,readFile} from 'node:fs/promises';
 import {dirname,basename} from 'node:path';
 import {z} from 'zod';
 import {extractCriticalTerms} from '../voice/qa';
 import {requireQuota,QuotaPause} from '../quota';
 import {exec,json,duration} from '../orchestration/io';
 import {validatedVoiceAlignment} from './kokoro';
-import type {ImageProvider,TTSProvider,SpeechContext} from './interfaces';
+import type {ImageProvider,TTSProvider,SpeechContext,ImageContext} from './interfaces';
+export const FLUX_REFERENCE_MODEL='@cf/black-forest-labs/flux-2-klein-4b';
 export const FLUX_MODEL='@cf/black-forest-labs/flux-1-schnell';
 export const MELO_MODEL='@cf/myshell-ai/melotts';
 export function cloudflareConfigured(){return !!process.env.CLOUDFLARE_ACCOUNT_ID&&!!process.env.CLOUDFLARE_API_TOKEN;}
@@ -13,7 +14,7 @@ async function run(model:string,input:unknown,neurons:number,request:typeof fetc
  if(!cloudflareConfigured())throw new Error('CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN required');
  if(process.env.CLOUDFLARE_FREE_PLAN_CONFIRMED!=='true')throw new Error('Confirm Workers FREE plan with CLOUDFLARE_FREE_PLAN_CONFIRMED=true. Paid accounts are refused to prevent overflow from concurrent external usage.');
  const quota=requireQuota();const id=await quota.reserve('cloudflare',model,neurons);
- try{const response=await request(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID!)}/ai/run/${model}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,'Content-Type':'application/json'},body:JSON.stringify(input),signal:AbortSignal.timeout(120000)});
+ try{const multipart=input instanceof FormData;const response=await request(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID!)}/ai/run/${model}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,...(multipart?{}:{'Content-Type':'application/json'})},body:multipart?input:JSON.stringify(input),signal:AbortSignal.timeout(120000)});
  if(!response.ok){if(response.status===429){const reset=new Date();reset.setUTCHours(24,0,0,0);await json(quota.dir+'/quota-checkpoint.json',{state:'paused_quota',resumeAfter:reset.toISOString(),paidFallback:false});throw new QuotaPause(reset.toISOString());}const body=await response.json().catch(()=>null);let detail=String(body?.errors?.map((e:{code?:number;message?:string})=>`${e.code??''} ${e.message??''}`).join('; ')||body?.error?.message||response.statusText);for(const value of [process.env.CLOUDFLARE_ACCOUNT_ID,process.env.CLOUDFLARE_API_TOKEN])if(value)detail=detail.replaceAll(value,'[redacted]');throw new Error(`Cloudflare HTTP ${response.status} for ${model}: ${detail.slice(0,500)}`);}
  return {response,id,quota};}catch(e){await quota.finish(id,{},true);throw e;}
 }
@@ -21,6 +22,23 @@ async function run(model:string,input:unknown,neurons:number,request:typeof fetc
 export class CloudflareWorkersAIImageProvider implements ImageProvider {
  constructor(private request:typeof fetch=fetch){}
  async generate(prompt:string,path:string){if(prompt.length>2048)throw new Error('FLUX prompt exceeds 2048 chars');const {response,id,quota}=await run(FLUX_MODEL,{prompt,steps:4},64,this.request);try{const result=z.object({success:z.literal(true),result:z.object({image:z.string().min(16)})}).parse(await response.json());await mkdir(dirname(path),{recursive:true});await writeFile(path,Buffer.from(result.result.image,'base64'));await exec('ffmpeg',['-v','error','-i',path,'-frames:v','1','-f','null','-'],{timeout:20000});await quota.finish(id,{images:1});}catch(e){await quota.finish(id,{},true);throw e;}}
+}
+/** Official Klein multipart contract: reference inputs must be smaller than 512 square. */
+export class CloudflareReferenceImageProvider implements ImageProvider {
+ constructor(private request:typeof fetch=fetch){}
+ async generate(prompt:string,path:string,context?:ImageContext){
+  if(prompt.length>2048)throw new Error('FLUX prompt exceeds 2048 chars');
+  const references=context?.referenceImages??[];if(references.length>4)throw new Error('FLUX Klein accepts at most four references');
+  await mkdir(dirname(path),{recursive:true});const form=new FormData();form.append('prompt',prompt);form.append('width','1024');form.append('height','1024');
+  for(const [index,reference]of references.entries()){
+   const resized=path+`.reference-${index}.png`;await exec('ffmpeg',['-y','-v','error','-i',reference,'-vf','scale=504:504:force_original_aspect_ratio=decrease','-frames:v','1',resized],{timeout:20000});
+   form.append(`input_image_${index}`,new Blob([new Uint8Array(await readFile(resized))],{type:'image/png'}),`reference-${index}.png`);
+  }
+  // 4 output tiles *26.05 plus <=4 input tiles *5.37; deliberately rounded upward.
+  const {response,id,quota}=await run(FLUX_REFERENCE_MODEL,form,128+references.length*32,this.request);
+  try{const result=z.object({success:z.literal(true),result:z.object({image:z.string().min(16)})}).parse(await response.json());await writeFile(path,Buffer.from(result.result.image,'base64'));await exec('ffmpeg',['-v','error','-i',path,'-frames:v','1','-f','null','-'],{timeout:20000});await quota.finish(id,{images:1});}
+  catch(e){await quota.finish(id,{},true);throw e;}
+ }
 }
 export class MeloTTSProvider implements TTSProvider {
  constructor(private request:typeof fetch=fetch,private strictAlignment=true){}

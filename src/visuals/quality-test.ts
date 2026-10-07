@@ -8,7 +8,7 @@ import {fileDigest,digest} from '../orchestration/integrity';
 import {CostLedger,loadCostPolicy,withCosts} from '../cost';
 import {FreeQuotaLedger,withQuota} from '../quota';
 import {GeminiProvider} from '../providers/free';
-import {CloudflareWorkersAIImageProvider,cloudflareConfigured} from '../providers/cloudflare';
+import {CloudflareReferenceImageProvider,cloudflareConfigured} from '../providers/cloudflare';
 import {createVisualBible,visualBible} from './bible';
 import {createCharacterReferencePack,characterPack} from './characters-v2';
 import {loadStyleLock} from './style-lock';
@@ -60,16 +60,16 @@ async function main(){
    if(result.reviews.length!==prompts.length||new Set(result.reviews.map(r=>r.id)).size!==prompts.length||result.reviews.some(r=>!r.passed||!prompts.some(p=>p.id===r.id)))throw new Error('Historical/style prompt preflight rejected');
    return result;
   };
-  await runner.stage('illustrated-prompt-review',z.object({reviews:z.array(z.object({id:z.string(),passed:z.boolean(),issues:z.array(z.string())}))}),()=>checkPrompts(board.sources.map(s=>({id:s.id,prompt:sourcePrompt(s,lock,bible,identity)}))));
-  const image=new CloudflareWorkersAIImageProvider();await createCharacterReferencePack(character,bible,assetsDir,image,llm,true);
+  await runner.stage('illustrated-prompt-review-v3',z.object({reviews:z.array(z.object({id:z.string(),passed:z.boolean(),issues:z.array(z.string())}))}),()=>checkPrompts(board.sources.map(s=>({id:s.id,prompt:sourcePrompt(s,lock,bible,identity)}))));
+  const image=new CloudflareReferenceImageProvider();await createCharacterReferencePack(character,bible,assetsDir,image,llm,true);
   await json(join(dir,'planning-ready.json'),{ready:true,styleHash:digest(lock),uniqueSourceTarget:board.sources.length,shotCount:timed.shots.length,narrationReused:true,paidProviderCostUsd:0});
   if(values.prepare)return;
-  const pack=await runner.stage('character-pack-v2',characterPack,()=>createCharacterReferencePack(character,bible,assetsDir,image,llm),async p=>{if(!p.qaPassed)throw new Error('Canonical QA failed');for(const a of p.assets)if(a.sha256!==await fileDigest(a.path))throw new Error('Canonical integrity failure');});
+  const pack=await runner.stage('character-pack-v3',characterPack,()=>createCharacterReferencePack(character,bible,assetsDir,image,llm),async p=>{if(!p.qaPassed)throw new Error('Canonical QA failed');for(const a of p.assets)if(a.sha256!==await fileDigest(a.path))throw new Error('Canonical integrity failure');});
   const accepted=await runner.stage('visual-acceptance',z.object({sources:z.array(sourceFrame),styleQA:setReview,repetition:repetitionQA,regeneratedStyleOutliers:z.array(z.string())}),async()=>{
    let state:z.infer<typeof generationState>={};try{state=generationState.parse(await read(join(dir,'visual-generation-state.json')));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
    const regenerated=new Set(Object.entries(state).filter(([,v])=>v.revision>0).map(([k])=>k));
    for(let round=0;round<=lock.qualityTest.repairRounds;round++){
-    const sources=[];for(const source of board.sources){const s=state[source.id]??{revision:0,direction:''};sources.push(await generateSource(source.id,sourcePrompt(source,lock,bible,identity,s.direction),source.concept,source.character,sourcesDir,s.revision,image));}
+    const sources=[];for(const source of board.sources){const s=state[source.id]??{revision:0,direction:''};sources.push(await generateSource(source.id,sourcePrompt(source,lock,bible,identity,s.direction),source.concept,source.character,sourcesDir,s.revision,image,source.character?[pack.assets[0].path]:[]));}
     await json(join(dir,'source-images.json'),sources);
     await contactSheet(sources,join(dir,'visual-contact-sheet.jpg'));
     const review=await reviewIllustratedSet(sources,join(dir,'visual-contact-sheet.jpg'),join(dir,'character-contact-sheet.jpg'),lock,bible,registry,llm);
@@ -79,7 +79,8 @@ async function main(){
     const outliers=[...review.outliers];
     for(const pair of repetition.perceptualSimilarity.filter(p=>p.similarity===1))if(!outliers.some(o=>o.sourceImageId===pair.b))outliers.push({sourceImageId:pair.b,reason:'Identical perceptual fingerprint',repairDirection:'Use a materially distinct specific action and camera position for this narration, same locked painting technique.'});
     if(!outliers.length||round===lock.qualityTest.repairRounds)throw new Error('Pre-render visual style/repetition failed; evidence retained, no render');
-    const corrected=outliers.map(o=>{const source=board.sources.find(s=>s.id===o.sourceImageId)!;const next={revision:(state[source.id]?.revision??0)+1,direction:o.repairDirection};state[source.id]=next;regenerated.add(source.id);return {id:source.id,prompt:sourcePrompt(source,lock,bible,identity,next.direction)};});
+    const concise=await llm.json('Condense these visual repair directions into <=100 characters each, retaining the specific defect. Return {repairs:[{id,direction}]}. '+JSON.stringify(outliers),z.object({repairs:z.array(z.object({id:z.string(),direction:z.string().max(100)}))}));if(concise.repairs.length!==outliers.length||outliers.some(o=>!concise.repairs.some(r=>r.id===o.sourceImageId)))throw new Error('Visual repair directions omitted an outlier');
+    const corrected=outliers.map(original=>{const o={...original,repairDirection:concise.repairs.find(r=>r.id===original.sourceImageId)!.direction};const source=board.sources.find(s=>s.id===o.sourceImageId)!;const next={revision:(state[source.id]?.revision??0)+1,direction:o.repairDirection};state[source.id]=next;regenerated.add(source.id);return {id:source.id,prompt:sourcePrompt(source,lock,bible,identity,next.direction)};});
     await checkPrompts(corrected);await json(join(dir,'visual-generation-state.json'),state);
    }throw new Error('Visual acceptance failed');
   },async a=>{for(const s of a.sources)if(s.sha256!==await fileDigest(s.path))throw new Error('Source integrity failure');});

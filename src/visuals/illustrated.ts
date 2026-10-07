@@ -52,13 +52,14 @@ export async function contactSheet(frames:{id:string;path:string}[],path:string,
  }
  await exec('ffmpeg',['-y','-v','error','-framerate','1','-i',join(folder,'%03d.jpg'),'-vf',`tile=${columns}x${Math.ceil(frames.length/columns)}:padding=4:margin=4:color=0x191817`,'-frames:v','1','-q:v','2',path],{timeout:30000});
 }
-export async function generateSource(id:string,prompt:string,concept:string,character:boolean,root:string,revision:number,image:ImageProvider):Promise<SourceFrame>{
+export async function generateSource(id:string,prompt:string,concept:string,character:boolean,root:string,revision:number,image:ImageProvider,referenceImages:string[]=[]):Promise<SourceFrame>{
  const folder=join(root,id,`revision-${revision}`);await mkdir(folder,{recursive:true});const path=join(folder,'source.png'),checkpoint=join(folder,'source.json');
  try{const previous=sourceFrame.parse(await read(checkpoint));if(previous.prompt!==prompt||previous.sha256!==await fileDigest(path))throw new Error('Source checkpoint integrity mismatch');return previous;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
- const costs=currentCosts();const generate=()=>image.generate(prompt,path);if(costs){if(costs.entries.length>=costs.policy.maxGeneratedImagesPerVideo)throw new Error('Generation cap reached; checkpoint retained');await costs.charge('generatedImages','cloudflare-flux-free',0,`${id}:revision-${revision}`,generate);}else await generate();
+ await json(join(folder,'conditioning.json'),{referenceImages:await Promise.all(referenceImages.map(async path=>({path,sha256:await fileDigest(path)}))),independentlyGenerated:true});
+ const costs=currentCosts();const generate=()=>image.generate(prompt,path,{referenceImages});if(costs){if(costs.entries.length>=costs.policy.maxGeneratedImagesPerVideo)throw new Error('Generation cap reached; checkpoint retained');await costs.charge('generatedImages','cloudflare-flux-free',0,`${id}:revision-${revision}`,generate);}else await generate();
  const result=sourceFrame.parse({id,path,sha256:await fileDigest(path),prompt,concept,character,revision});await json(checkpoint,result);return result;
 }
-export const setReview=z.object({passed:z.boolean(),mediumConsistency:z.number().min(0).max(1),paletteConsistency:z.number().min(0).max(1),characterRendering:z.number().min(0).max(1),lighting:z.number().min(0).max(1),texture:z.number().min(0).max(1),stylization:z.number().min(0).max(1),historicalSetting:z.number().min(0).max(1),cameraLanguage:z.number().min(0).max(1),compositionSimilarity:z.number().min(0).max(1),characterPoseSimilarity:z.number().min(0).max(1),outliers:z.array(z.object({sourceImageId:id,reason:z.string(),repairDirection:z.string().max(100)})),review:z.string()});
+export const setReview=z.object({passed:z.boolean(),mediumConsistency:z.number().min(0).max(1),paletteConsistency:z.number().min(0).max(1),characterRendering:z.number().min(0).max(1),lighting:z.number().min(0).max(1),texture:z.number().min(0).max(1),stylization:z.number().min(0).max(1),historicalSetting:z.number().min(0).max(1),cameraLanguage:z.number().min(0).max(1),compositionSimilarity:z.number().min(0).max(1),characterPoseSimilarity:z.number().min(0).max(1),outliers:z.array(z.object({sourceImageId:id,reason:z.string(),repairDirection:z.string().max(1200)})),review:z.string()});
 export async function reviewIllustratedSet(frames:SourceFrame[],sheet:string,canonicalSheet:string,style:StyleLock,bible:VisualBible,registry:unknown,llm:VisionProvider){
  const images=[sheet,canonicalSheet];
  // The contact sheet evaluates the production as a SET; readable single frames
@@ -86,7 +87,7 @@ export async function inspectRepetition(board:Storyboard,shots:Shot[],frames:Sou
 export async function sourceMedia(board:Storyboard,shots:Shot[],sources:SourceFrame[],root:string){
  const assets:MediaAsset[]=[];for(const [i,beat]of board.beats.entries()){
   const source=sources.find(s=>s.id===beat.sourceImageId)!;const folder=join(root,source.id,`revision-${source.revision}`,'depth');const depthLayers=await estimateDepth(source.path,folder);const path=join(root,shots[i].id+'.png');await copyFile(join(folder,'frame.png'),path);
-  assets.push({shotId:shots[i].id,sourceImageId:source.id,sourceSha256:source.sha256,editorialVariant:beat.editorialVariant,path,kind:'image',provider:'cloudflare-flux-free',license:'FLUX.1 Schnell model Apache-2.0; AI illustration, Cloudflare/BFL terms apply',sourceUrl:null,estimatedCost:0,intent:source.concept,fallbacks:[],sha256:await fileDigest(path),depthLayers});
+  assets.push({shotId:shots[i].id,sourceImageId:source.id,sourceSha256:source.sha256,editorialVariant:beat.editorialVariant,path,kind:'image',provider:'cloudflare-flux-free',license:'FLUX.2 Klein 4B model Apache-2.0; AI illustration, Cloudflare/BFL terms apply',sourceUrl:null,estimatedCost:0,intent:source.concept,fallbacks:[],sha256:await fileDigest(path),depthLayers});
  }return {assets,estimatedTotalCost:0};
 }
 export function sourcePrompt(source:Storyboard['sources'][number],style:StyleLock,bible:VisualBible,identity:string,repair=''){return lockedPrompt(style,bible,`${source.concept}${repair?' Correction: '+repair:''}`,source.character?identity:undefined);}

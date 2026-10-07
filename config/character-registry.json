@@ -24,5 +24,5 @@
       "continuityRules": ["same face, scar, braid, ochre mantle and bronze clasp in every shot", "no jewelry beyond the clasp and seal ring", "do not age or change body proportions"]
     }
   ],
-  "assetPackPolicy": "Five independently generated hidden canonical views; Gemini cross-view identity QA before scene generation. Scene keyframes inherit exact design and require cross-set QA; reference-image conditioning is unavailable in FLUX Schnell REST. No crops count as unique generated sources."
+  "assetPackPolicy": "Five independently generated hidden canonical views; Gemini cross-view identity QA before scene generation. Scene keyframes inherit exact design and require cross-set QA; the quality audition uses actual canonical-image conditioning with FLUX.2 Klein 4B and records reference hashes. No crops count as unique generated sources."
 }
