@@ -1,9 +1,9 @@
 {
   "name": "history",
-  "accent": "#e9be74",
-  "secondary": "#a46a45",
-  "background": "#0b1420",
-  "captionPreset": "restrained",
+  "accent": "#c79443",
+  "secondary": "#748367",
+  "background": "#f5edda",
+  "captionPreset": "highlight",
   "captionSize": 64,
   "shotTypes": [
     "map",
@@ -12,7 +12,7 @@
     "generated-image",
     "quote"
   ],
-  "motionStyle": "locked historical editorial illustration, motivated push/pan on narration",
+  "motionStyle": "educational-doodle-v3: simple pan, zoom, progressive icon/arrow/label reveal",
   "musicDb": -26,
   "sfxDb": -24,
   "assetBudgetUsd": 2,

@@ -30,6 +30,9 @@ import {requireVoiceQA} from '../voice/qa';
 const {values}=parseArgs({options:{'run-id':{type:'string',default:'free-quality-test'},prepare:{type:'boolean',default:false}}});
 const generationState=z.record(z.object({revision:z.number().int().nonnegative(),direction:z.string()}));
 async function main(){
+ // This entry point produced the rejected painted audition. Keep its checkpoints
+ // readable, but never invoke Gemini, Cloudflare or model installation again.
+ const activeStyle=await loadStyleLock();if(activeStyle.version==='educational-doodle-v3')throw new Error('CANCELLED: legacy cinematic/painted quality run. Use the educational doodle preview; old checkpoints are evidence only');
  const id=values['run-id']!;if(!/^[A-Za-z0-9_-]+$/.test(id))throw new Error('Invalid run ID');
  const dir=join('data/runs',id),assetsDir=join(dir,'assets'),sourcesDir=join(assetsDir,'illustrated-sources'),pub=join('public',id);
  await mkdir(assetsDir,{recursive:true});await mkdir(pub,{recursive:true});const runner=new Runner(dir);await runner.lock();

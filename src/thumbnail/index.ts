@@ -17,14 +17,15 @@ function luminance(r:number,g:number,b:number){
  const linear=(v:number)=>{v/=255;return v<=.04045?v/12.92:((v+.055)/1.055)**2.4;};
  return .2126*linear(r)+.7152*linear(g)+.0722*linear(b);
 }
-export async function inspectThumbnail(path:string,hook:string,title:string,allowSubjectiveReview=false){
+export async function inspectThumbnail(path:string,hook:string,title:string,allowSubjectiveReview=false,doodle=false){
  const probe=await exec('ffprobe',['-v','error','-show_streams','-of','json',path]);
  const image=JSON.parse(probe.stdout).streams[0];
  // Sample the dark text-side backing, below the title so the glyphs do not distort it.
  const pixels=await exec('ffmpeg',['-v','error','-i',path,'-vf','crop=400:50:80:600,scale=64:8','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
  let background=0;for(let i=0;i<pixels.stdout.length;i+=3)background+=luminance(pixels.stdout[i],pixels.stdout[i+1],pixels.stdout[i+2]);
  background/=pixels.stdout.length/3;
- const ratio=(luminance(241,192,115)+.05)/(background+.05); // Least bright title color.
+ const foreground=doodle?luminance(48,42,37):luminance(241,192,115);
+ const ratio=(Math.max(foreground,background)+.05)/(Math.min(foreground,background)+.05);
  const focal=await exec('ffmpeg',['-v','error','-i',path,'-vf','crop=550:500:660:110,scale=55:50','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
  const values=[];for(let i=0;i<focal.stdout.length;i+=3)values.push(luminance(focal.stdout[i],focal.stdout[i+1],focal.stdout[i+2]));
  const mean=values.reduce((a,b)=>a+b,0)/values.length;const focalContrast=Math.sqrt(values.reduce((n,v)=>n+(v-mean)**2,0)/values.length);
@@ -47,7 +48,7 @@ export async function thumbnails(c:Composition,dir:string,llm?:LLMProvider,appro
  for(const variant of ['A','B','C'] as const){
   const path=join(dir,`thumbnail-${variant}.png`);const title=plan.texts[variants.length];
   await renderThumbnail({...props,thumbnailVariant:variant,thumbnailTitle:title},path);
-  const scores=await inspectThumbnail(path,title,c.thumbnailTitle??'',allowSubjectiveReview);
+  const scores=await inspectThumbnail(path,title,c.thumbnailTitle??'',allowSubjectiveReview,c.shots.some(s=>s.visualIdea));
   variants.push({variant,path,sha256:await fileDigest(path),scores});
  }
  const primary=variants[0];const selected=join(dir,'thumbnail.png');await copyFile(primary.path,selected);

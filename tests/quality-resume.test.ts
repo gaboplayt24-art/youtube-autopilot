@@ -6,9 +6,16 @@ import {join} from 'node:path';
 import {qualityResumeConfig,qualityResumeDecision,assertFreeQuotaReset} from '../src/orchestration/quality-quota-resume';
 import {migrateVisualQAState,nextSourceRevision} from '../src/visuals/qa-resume';
 import {json,read} from '../src/orchestration/io';
+import visualStyle from '../config/style-lock-v3.json';
+import {doodleStyleLock,requireFreshVisualRun} from '../src/visuals/visual-approval';
 test('single approved short audition resumes only after reset, before expiry and without a newer quality run',()=>{
- const config=qualityResumeConfig.parse({enabled:true,runId:'quality-style-lock-001',sourceRunId:'123',notBefore:'2026-10-08T00:10:00.000Z',expiresAt:'2026-10-09T00:00:00.000Z'});
- assert.equal(qualityResumeDecision(config,new Date('2026-10-07T23:59:00Z')),'waiting_quota_reset');assert.equal(qualityResumeDecision(config,new Date('2026-10-08T00:11:00Z'),123),'ready');assert.equal(qualityResumeDecision(config,new Date('2026-10-08T00:11:00Z'),124),'newer_quality_run_exists');assert.equal(qualityResumeDecision(config,new Date('2026-10-09T00:00:00Z')),'expired');
+ const config=qualityResumeConfig.parse({enabled:true,runId:'quality-doodle-001',styleVersion:'educational-doodle-v3',createdAt:'2026-10-07T23:00:00.000Z',sourceRunId:'123',notBefore:'2026-10-08T00:10:00.000Z',expiresAt:'2026-10-09T00:00:00.000Z'});
+ const approval=doodleStyleLock.parse({...visualStyle,visualSystemApproved:true,approvedAt:'2026-10-07T22:00:00.000Z'});
+ assert.equal(qualityResumeDecision(config,new Date('2026-10-07T23:59:00Z'),undefined,approval),'waiting_quota_reset');assert.equal(qualityResumeDecision(config,new Date('2026-10-08T00:11:00Z'),123,approval),'ready');assert.equal(qualityResumeDecision(config,new Date('2026-10-08T00:11:00Z'),124,approval),'newer_quality_run_exists');assert.equal(qualityResumeDecision(config,new Date('2026-10-09T00:00:00Z'),undefined,approval),'expired');
+ assert.equal(qualityResumeDecision({...config,styleVersion:'historical-illustration-v1'},new Date(config.notBefore),123,approval),'obsolete_visual_style');
+ assert.equal(qualityResumeDecision(config,new Date(config.notBefore),123),'visual_approval_required');
+ assert.equal(qualityResumeDecision({...config,createdAt:approval.approvedAt!},new Date(config.notBefore),123,approval),'visual_approval_required');
+ assert.throws(()=>requireFreshVisualRun({styleVersion:'historical-illustration-v1',createdAt:config.createdAt!},approval),/Obsolete/);
  assert.throws(()=>qualityResumeConfig.parse({...config,runId:'long-pilot'}));assert.throws(()=>assertFreeQuotaReset({state:'paused_quota',resumeAfter:config.notBefore,paidFallback:true},new Date(config.notBefore)));assert.throws(()=>assertFreeQuotaReset({state:'paused_quota',resumeAfter:config.notBefore,paidFallback:false},new Date('2026-10-07T23:59:00Z')),/future/);
 });
 test('role-aware migration preserves valid supporting roles and available repairs without overwriting generations',async()=>{

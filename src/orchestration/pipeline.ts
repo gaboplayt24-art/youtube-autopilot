@@ -1,8 +1,10 @@
 import {FreeQuotaLedger,withQuota} from '../quota';
-import {CloudflareWorkersAIImageProvider} from '../providers/cloudflare';
-import {semanticQA,semanticReview} from '../visuals/semantic';
+import {semanticQA} from '../visuals/semantic';
 import {createVisualBible,visualBible} from '../visuals/bible';
-import {createHistoricalAssets} from '../visuals/ai-assets';
+import {VisualThinkingDirector} from '../visuals/visual-thinking';
+import {createDoodleAssets} from '../visuals/doodle-assets';
+import {reviewDoodleFrame} from '../visuals/doodle-qa';
+import {readFile} from 'node:fs/promises';
 import {randomUUID,createHash} from 'node:crypto';
 import {mkdir,copyFile,access,rm} from 'node:fs/promises';
 import {join,resolve} from 'node:path';
@@ -23,7 +25,6 @@ import {ChapterMusicProvider} from '../audio/chapters';
 import {DemoVoice} from '../voice';
 import {ShotPlanner} from '../editor/planner';
 import {shotPlan,media,audioMix} from '../editor/schemas';
-import {createAssets} from '../editor/assets';
 import {mixAudio} from '../audio';
 import {thumbnails} from '../thumbnail';
 import {demoResearch,investigate} from '../research';
@@ -46,7 +47,7 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
   if(!previous)await json(manifest,{...options,fingerprint,createdAt:new Date().toISOString()});
   if(input.retryFrom){const stages=['duration-plan','cost-estimate','research','ideas','scoring','selection','chapter-outline','script','script-quality','facts','pronunciations','plan','voice-selection','voice','captions','shots','cost-plan','visual-bible','visuals','semantic-QA','audio-mix','audio-qa','composition','render','metadata','qa','thumbnail'];const index=stages.indexOf(input.retryFrom);if(index<0)throw new Error('Invalid --retry-from stage');for(const stage of stages.slice(index))for(const suffix of ['.json','.integrity.json'])await rm(join(dir,stage+suffix),{force:true});}
   const llm=new FreeFirstLLM();const demo=options.mode==='demo';
-  if(!demo&&!stopAfterResearch&&(!config.narrator.voiceApproved||!strategy.imageQualityApproved))throw new Error('Approve images and pin channel narrator after the short quality-test-free workflow before any 8-12 minute pilot or long-form production');
+  if(!demo&&!stopAfterResearch&&(!config.narrator.voiceApproved||!strategy.imageQualityApproved||!config.visualSystem.visualSystemApproved))throw new Error('Human approval of the new educational-doodle-v3 visual system is required before production; narrator approval is retained');
   const durationPlan=!demo&&!stopAfterResearch?await runner.stage('duration-plan',longFormPlan,async()=>{const target=await targetDuration(options.productionKind,config.duration);return new LongFormPlanner().plan(target.seconds,config.narrator.targetWpm,options.productionKind,target.source,options.topic,config.duration.chapterMaxMinutes);}):undefined;
   await currentCosts()!.setDuration(durationPlan?durationPlan.targetSeconds:60);
   await runner.stage('cost-estimate',z.object({minutes:z.number(),strategy:z.string(),estimatedUsd:z.number(),categories:z.array(z.object({category:z.string(),classification:z.enum(['FREE','INCLUDED','PAID']),estimatedUsd:z.number()})),assumptions:z.string(),withinBudget:z.boolean()}),async()=>estimateCosts(durationPlan?durationPlan.targetSeconds/60:1,config.costPolicy));
@@ -70,11 +71,12 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
   const tts=demo?new DemoVoice():selectedProvider(selectionVoice.provider,config.narrator);
   const voice=await runner.stage('voice',schemas.voice,()=>narrateChapters(plan,tts,assets,config.narrator.targetWpm,`${selectionVoice.provider}:${selectionVoice.voiceId}:${selectionVoice.model}`,Object.fromEntries(script.scenes.map(s=>[s.id,s.performance])),criticalTerms.criticalTerms),async v=>{for(const s of [...v.scenes,...v.chapters??[]])await access(s.path);});
   const captions=await runner.stage('captions',schemas.captions,async()=>createCaptions(plan,voice,config.style.fps));
-  const shots=await runner.stage('shots',shotPlan,()=>new ShotPlanner().plan(plan,voice,config.visualProfile,config.style.fps,demo?undefined:llm));
-  await runner.stage('cost-plan',z.object({estimatedUsd:z.number(),budgetUsd:z.number(),aiVideoCandidates:z.array(z.string()),policy:z.string()}),async()=>({estimatedUsd:0,budgetUsd:config.costPolicy.maxCostPerVideoUsd,aiVideoCandidates:config.costPolicy.aiVideoEnabled?shots.shots.filter(s=>s.highImpact).map(s=>s.id):[],policy:'AI-first FLUX Schnell free allocation → Depth Anything V2 Small → cinematic 2.5D. Quota exhaustion pauses; no automatic paid fallback or stock substitution.'}));
-  const bible=!demo?await runner.stage('visual-bible',visualBible,()=>createVisualBible({script,research},llm)):undefined;
-  const visuals=await runner.stage('visuals',media,()=>demo?createAssets(shots.shots,config.visualProfile,assets,{policy:config.costPolicy}):createHistoricalAssets(shots.shots,bible!,assets,new CloudflareWorkersAIImageProvider(),llm),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Asset checksum mismatch');});
-  if(!demo){const semantic=await runner.stage('semantic-QA',semanticQA,()=>semanticReview({script,research},bible!,shots.shots,visuals.assets,llm));if(!semantic.passed)throw new Error('Semantic image/narration QA failed');}
+  const timed=await runner.stage('shots',shotPlan,()=>new ShotPlanner().plan(plan,voice,config.visualProfile,config.style.fps));
+  const shots=await runner.stage('visual-thinking-v3',shotPlan,async()=>({...timed,shots:await new VisualThinkingDirector().direct(timed.shots,demo?undefined:llm)}));
+  await runner.stage('cost-plan',z.object({estimatedUsd:z.number(),budgetUsd:z.number(),aiVideoCandidates:z.array(z.string()),policy:z.string()}),async()=>({estimatedUsd:0,budgetUsd:config.costPolicy.maxCostPerVideoUsd,aiVideoCandidates:config.costPolicy.aiVideoEnabled?shots.shots.filter(s=>s.highImpact).map(s=>s.id):[],policy:'Original 2D educational scene graph first. Optional Cloudflare imagery must inherit educational-doodle-v3 and pass strict style review; no paid fallback.'}));
+  if(!demo)await runner.stage('visual-bible',visualBible,()=>createVisualBible({script,research,styleLock:config.visualSystem},llm));
+  const visuals=await runner.stage('visuals',media,()=>createDoodleAssets(shots.shots,assets),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Asset checksum mismatch');});
+  if(!demo){const semantic=await runner.stage('semantic-QA',semanticQA,async()=>{const reviews=[];for(const asset of visuals.assets)reviews.push(await reviewDoodleFrame(shots.shots.find(s=>s.id===asset.shotId)!.narration,{mimeType:'image/png',data:(await readFile(asset.path)).toString('base64')},llm));return {passed:reviews.every(r=>r.passed),issues:reviews.flatMap(r=>r.issues),review:JSON.stringify(reviews)};});if(!semantic.passed)throw new Error('Educational style/semantic QA failed');}
   const audio=await runner.stage('audio-mix',audioMix,()=>mixAudio(voice,shots.shots,config.visualProfile,assets,config.style.fps,new ChapterMusicProvider(voice.scenes.map(s=>({duration:Math.ceil(s.duration*config.style.fps)/config.style.fps,direction:longPlan?.chapters.find(c=>c.id===s.id)?.musicDirection??'restrained original atmosphere'})),demo)),async v=>{await access(v.path);});
   const audioReport=await runner.stage('audio-qa',audioQA,()=>inspectAudio(audio.path,{expectedDuration:audio.duration,narrationPath:audio.narrationPath,musicPath:audio.duckedMusicPath,voiceIds:voice.chapters?.map(c=>c.identity),chapterBoundaries:voice.chapters?.slice(0,-1).map((_,i)=>voice.chapters!.slice(0,i+1).reduce((n,c)=>n+c.duration,0)),requireMusic:true}));if(!demo&&!audioReport.passed)throw new Error('Production audio QA failed; rendering and upload blocked');
   for(const a of [...voice.scenes,...visuals.assets,{path:audio.path}])await copyFile(a.path,join(publicDir,'shotId' in a?`${a.shotId}.png`:a.path.split('/').at(-1)!));for(const a of visuals.assets)if(a.depthLayers)for(const [key,path] of Object.entries(a.depthLayers))await copyFile(path,join(publicDir,`${a.shotId}-${key}.png`));

@@ -1,11 +1,25 @@
 {
   "channelName": "Autopilot Historical Stories",
-  "visualProfile": "documentary",
-  "style": "locked historical editorial digital painting; config/style-lock.json",
-  "imageLanguage": "stylized historical realism, matte painted skin, soft opaque brush texture, warm earth-tone palette, strong focal silhouettes",
-  "recurringLenses": ["24mm establishing", "35mm human context", "50mm story detail", "85mm artifact close-up"],
-  "cameraMotion": ["slow push-in", "measured lateral pan", "small parallax separation", "motivated cut on narration beat"],
-  "grade": "warm aged highlights, cool shadow separation, natural skin and cloth, subtle film grain",
+  "visualProfile": "history",
+  "style": "educational-doodle-v3; config/style-lock-v3.json is the only active identity",
+  "imageLanguage": "original flat 2D educational illustrations, thick dark outlines, minimal semi-stickman cast, muted earth tones, cream backgrounds",
+  "cameraMotion": [
+    "simple pan",
+    "restrained zoom",
+    "progressive construction",
+    "arrow and label reveal"
+  ],
+  "grade": "flat graphic palette; no cinematic grade, depth of field or film grain",
   "captionPreset": "documentary-bold-safe",
-  "forbidden": ["generic fantasy ancient world", "plastic CGI skin", "modern typography in historical images", "anachronistic clothes, weapons, vehicles or architecture", "unmotivated spectacle"]
+  "forbidden": [
+    "photorealism",
+    "painterly realism",
+    "CGI",
+    "movie stills",
+    "anime",
+    "modern anachronisms",
+    "unintended writing",
+    "copied competitor artwork or branding"
+  ],
+  "humanVisualApprovalRequired": true
 }

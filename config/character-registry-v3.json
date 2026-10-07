@@ -1,0 +1,5 @@
+{
+  "version": "educational-doodle-v3",
+  "characters": [{"id": "DOODLE_MERCHANT_01", "role": "merchant in the approved imagined Alexandrian passage", "design": "round head, two dot eyes, short curved mouth, simple limbs and hands, terracotta tunic silhouette, flat beige face, thick charcoal outline", "poses": ["neutral", "point", "carry", "think", "walk"], "continuity": "identical authored vector proportions and palette; no realistic actor reference or painted canonical pack"}],
+  "policy": "Original programmatic vectors; supporting roles may vary costume/pose within the same proportions. No imported competitor characters. Historical costume details require period evidence. Old character-registry.json is archived technical evidence only."
+}

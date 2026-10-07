@@ -1,0 +1,89 @@
+name: doodle-quality-free
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        type: string
+        default: quality-doodle-v3-preview-001
+      source_run_id:
+        description: Resume a NEW doodle artifact only; never an old painted run
+        type: string
+      narration_source_run_id:
+        description: Approved Nano narration source (WAV/script/ASR only)
+        type: string
+        default: '37606098544'
+      narration_source_artifact:
+        type: string
+        default: quality-test-quality-style-lock-001
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      RUN_ID: ${{ inputs.run_id }}
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      CHROME_EXECUTABLE: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        if: inputs.source_run_id != ''
+        with:
+          name: quality-test-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        if: inputs.source_run_id == ''
+        with:
+          name: ${{ inputs.narration_source_artifact }}
+          path: .cache/approved-narration
+          run-id: ${{ inputs.narration_source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Retain approved WAV and ASR evidence only
+        if: inputs.source_run_id == ''
+        run: npx tsx scripts/restore-quality-narration.ts --source .cache/approved-narration --target "$RUN_ID"
+      - name: Media prerequisites
+        timeout-minutes: 5
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20
+            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+          fi
+          /usr/bin/google-chrome --version
+      - run: npm run lint && npm run typecheck && npm test
+      - name: Gemini visual thinking and native 2D prototype, unchanged approved Nano, no Cloudflare calls
+        timeout-minutes: 22
+        run: npx tsx src/visuals/doodle-quality.ts --run-id "$RUN_ID"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: quality-test-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-quota-ledger
+          path: .cache/quota/free-quota-ledger.json
+          include-hidden-files: true
+          retention-days: 30

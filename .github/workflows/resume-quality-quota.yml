@@ -1,8 +1,6 @@
 name: resume-quality-quota
 on:
   workflow_dispatch:
-  schedule:
-    - cron: '10 0 8 10 *'
 permissions:
   contents: read
   actions: write
