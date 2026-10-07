@@ -6,7 +6,7 @@ export interface TTSProvider {speak(text:string,path:string,context?:SpeechConte
 export interface TranscriptionProvider {transcribe(path:string,narration:string):Promise<Alignment>}
 export interface ImageProvider {generate(prompt:string,path:string):Promise<void>}
 export interface VideoProvider {generate(prompt:string,path:string):Promise<void>;estimateCost?(seconds:number):number}
-export type SpeechContext={criticalTerms?:string[];previousText?:string;nextText?:string;performance?:{tone:string;pace:string;energy:number};pronunciations?:{term:string;replacement:string}[]};
+export type SpeechContext={criticalTerms?:string[];previousText?:string;nextText?:string;performance?:{tone:string;pace:string;energy:number};pronunciations?:{term:string;replacement:string}[];referenceAudioPath?:string;cloningMode?:'audio_prompt_path'};
 export interface SoundEffectsProvider {generate(prompt:string,seconds:number,path:string):Promise<{license:string;estimatedCost:number}>}
 export type StockAsset={url:string;kind:'image'|'video';license:string;sourceUrl:string;attribution:string;creator?:string;licenseUrl?:string;publicDomain?:boolean};
 export interface StockProvider {search(query:string,kind:'image'|'video',minDuration:number):Promise<StockAsset|null>}

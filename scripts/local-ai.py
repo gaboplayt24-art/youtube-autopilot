@@ -7,12 +7,16 @@ from PIL import Image, ImageFilter
 job = json.load(sys.stdin)
 torch.set_num_threads(2)
 torch.set_num_interop_threads(1)
-if job['action'] == 'nano':
+if job['action'] in ('nano','turbo'):
     import soundfile as sf
     from huggingface_hub import snapshot_download
     from chatterbox.tts_turbo import ChatterboxTurboTTS
-    directory = snapshot_download('ResembleAI/chatterbox-nano', revision='71ccd1d0081b430592cea481f4307e764e07bc64', allow_patterns=['t3_nano_v1.safetensors', 's3gen_meanflow.safetensors', 've.safetensors', 'conds.pt', '*.json', '*.txt'])
-    model = ChatterboxTurboTTS.from_local(directory, device='cpu', nano=True)
+    nano = job['action'] == 'nano'
+    repo = 'ResembleAI/chatterbox-nano' if nano else 'ResembleAI/chatterbox-turbo'
+    revision = '71ccd1d0081b430592cea481f4307e764e07bc64' if nano else None
+    patterns = ['t3_nano_v1.safetensors', 's3gen_meanflow.safetensors', 've.safetensors', 'conds.pt', '*.json', '*.txt'] if nano else ['t3_turbo_v1.safetensors', 's3gen_meanflow.safetensors', 've.safetensors', 'conds.pt', '*.json', '*.txt']
+    directory = snapshot_download(repo, revision=revision, allow_patterns=patterns)
+    model = ChatterboxTurboTTS.from_local(directory, device='cpu', nano=nano)
     torch.manual_seed(42)
     chunks = []
     # Bound autoregressive work, never switch speaker or stretch the resulting audio.

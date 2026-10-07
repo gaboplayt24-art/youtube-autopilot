@@ -1,0 +1,67 @@
+name: voice-reference-test
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Unique audition run ID
+        type: string
+        default: voice-reference-001
+permissions:
+  contents: read
+concurrency:
+  group: free-voice-reference
+  cancel-in-progress: false
+jobs:
+  compare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 50
+    env:
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+      MODEL_CACHE_DIR: ${{ github.workspace }}/.cache/models
+      HF_HOME: ${{ github.workspace }}/.cache/huggingface
+      PIP_CACHE_DIR: ${{ github.workspace }}/.cache/pip
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      RUN_ID: ${{ inputs.run_id || github.run_id }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - uses: actions/setup-python@v5
+        id: python
+        with:
+          python-version: '3.12'
+      - uses: actions/cache@v4
+        id: python-env
+        with:
+          path: |
+            .venv-ai
+            .cache/pip
+          key: cpu-ai-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-cpu-ai.sh', 'scripts/requirements-cpu-ai.lock') }}
+      - uses: actions/cache@v4
+        with:
+          path: .cache/huggingface
+          key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
+      - run: npm ci
+      - name: Install media tools
+        run: |
+          if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
+            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+          fi
+      - name: Install CPU models environment
+        if: steps.python-env.outputs.cache-hit != 'true'
+        timeout-minutes: 12
+        run: bash scripts/setup-cpu-ai.sh
+      - run: npm run voice-reference-test -- --run-id "$RUN_ID"
+        timeout-minutes: 35
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: voice-reference-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}/
+          retention-days: 30

@@ -20,10 +20,14 @@
     "monotone",
     "youtube influencer voice"
   ],
-  "identityPolicy": "One selected provider and voice per video. Never switch voice between chapters. Pin the approved provider/voice after audition; paid fallback requires an approved channel voice ID.",
+  "identityPolicy": "One selected provider and voice per video. Never switch voice between chapters. The manually selected reference voice is cloned locally with Chatterbox Nano using audio_prompt_path; paid fallback is forbidden.",
   "requireHumanVoiceApproval": true,
-  "voiceApproved": false,
-  "approvedProvider": null,
-  "approvedVoiceId": null,
-  "paidFallbackVoiceApproved": false
+  "voiceApproved": true,
+  "approvedProvider": "chatterbox-nano",
+  "approvedVoiceId": "narrator-reference",
+  "paidFallbackVoiceApproved": false,
+  "referenceAudioPath": "assets/voice/narrator-reference.wav",
+  "referenceCloningMode": "audio_prompt_path",
+  "turboModel": "ResembleAI/chatterbox-turbo",
+  "approvalSource": "Manual narrator selection; reference WAV committed by channel owner"
 }

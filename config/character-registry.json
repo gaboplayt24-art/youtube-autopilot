@@ -1,0 +1,14 @@
+{
+  "characters": [
+    {
+      "id": "CHAR_MERCHANT_01",
+      "role": "recurring harbor merchant",
+      "identity": "Mediterranean woman in her early thirties, oval face, deep-set brown eyes, broad dark brows, small scar through the left eyebrow, olive skin, black wavy hair braided at the nape",
+      "costume": "undyed linen chiton with muted ochre wool mantle, leather sandals, simple bronze clasp, no modern fasteners",
+      "props": ["wax tablet", "linen ledger", "bronze seal ring"],
+      "era": "late Ptolemaic Egypt, 30 BCE",
+      "continuityRules": ["same face, scar, braid, ochre mantle and bronze clasp in every shot", "no jewelry beyond the clasp and seal ring", "do not age or change body proportions"]
+    }
+  ],
+  "assetPackPolicy": "Canonical reference images are reused and editorially reframed; text prompts alone do not establish identity."
+}

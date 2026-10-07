@@ -19,6 +19,7 @@
     "voice-audition": "tsx src/voice/audition.ts",
     "free-first-smoke": "tsx src/cost/cli.ts",
     "voice-audition-free": "tsx src/voice/audition-free.ts",
+    "voice-reference-test": "tsx src/voice/reference-test.ts",
     "quality-test-free": "tsx src/visuals/quality-test.ts"
   },
   "dependencies": {
