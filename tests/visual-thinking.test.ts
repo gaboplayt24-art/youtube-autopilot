@@ -15,8 +15,8 @@ import {reviewDoodleSet} from '../src/visuals/doodle-set-qa';
 import type {Shot} from '../src/editor/schemas';
 import {compositionVariety} from '../src/editor/quality';
 const make=(id:string,narration:string):Shot=>({id,sceneId:'s1',start:0,end:3,narration,visualIntent:narration,shotType:'generated-image',motion:'parallax',assetPrompt:'unused old prompt',overlay:null,keywords:[],highImpact:true,transition:'light-leak'});
-test('new identity cancels realism and is inherited verbatim without Gemini style fields',async()=>{
- const lock=await loadStyleLock();assert.equal(lock.version,'educational-doodle-v3');assert.ok(lock.prefix.startsWith('Flat 2D educational historical illustration'));assert.match(lock.lineQuality,/thick/);assert.ok(lock.negativeRules.includes('no classical painterly realism'));
+test('active v4 identity cancels code clipart; legacy scene graphs remain debug evidence only',async()=>{
+ const lock=await loadStyleLock();assert.equal(lock.version,'illustrated-doodle-v4');assert.ok(lock.prefix.startsWith('Hand-drawn 2D historical educational illustration'));assert.match(lock.lineQuality,/thick/);assert.ok(lock.negativeRules.includes('no geometric stick figures'));
  assert.throws(()=>visualIdea.parse({...localVisualIdea('A merchant pays coins'),style:'photorealistic'}));
 });
 test('showcase counts actual educational concepts rather than the legacy icon-scene transport type',async()=>{

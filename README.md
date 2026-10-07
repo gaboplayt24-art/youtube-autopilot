@@ -1,5 +1,30 @@
 # youtube-autopilot
 
+## Current milestone: illustrated art v4, no video
+
+The owner rejected the programmatic v3 SVG artwork. **AI generates the art; Remotion animates the art.** The active configuration is `config/style-lock-v4.json`. People, clothing, objects and environments must be actual FLUX illustrations. React/SVG/CSS provides only camera movement, labels, arrows, underlines, captions and simple explanatory lines. The primary scene and thumbnail renderers reject geometric/debug artwork and missing FLUX/reference-QA provenance.
+
+`style-audition-v4` is the only authorized visual generation workflow for this milestone. It generates 12 original illustrated scenes, not a video. It first sends the actual positive PNG/JPG to Gemini to analyze linework, anatomy/proportions, faces, hands/feet/hair, clothing, fills/shading, backgrounds, props, palette, negative space, composition and density. The resulting descriptor and palette are pinned to the reference hash; the immutable prefix is shared across prompts. Before each FLUX call Gemini checks historical/style consistency and the absence of requested lettering. After generation it compares the reference, original FLUX image and 16:9 delivery. Photography, CGI, geometric clipart, UI/PowerPoint appearance, baked text and damaged crops fail closed.
+
+The checked-in analysis is explicitly **pending**, not a fabricated Gemini result. The inline screenshot is visible in chat but has no downloadable file ID for Actions. Supply the same positive image as a downloadable PNG/JPG, a repository file at `assets/references/style-v4.png`, or an allowed HTTPS image URL. Do not substitute the rejected examples. Study the general illustrative language; never copy exact artwork, characters, branding or compositions.
+
+Actions → **style-audition-v4** → main → `run_id=style-v4-001` → choose reference file/URL. It uses existing GitHub Secrets `GEMINI_API_KEY`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_ACCOUNT_ID` (the account ID may also be an existing variable). Free-plan attestations remain required. No production secrets are needed in Codex. `validate_only=true` runs code validation with zero inference; it is explicitly **not** a completed style audition.
+
+The artifact `style-test-<run_id>` retains:
+
+- `STYLE-TEST-CONTACT-SHEET-v4.jpg`: original FLUX sources, with diagnostic captions outside the artwork.
+- `STYLE-TEST-SCENES-v4.jpg`: selected still Remotion presentations with separate labels, arrows and gentle camera movement.
+- `style-reference-analysis-v4.json`, `style-lock-v4.json`, `reference-style-QA-v4.json`.
+- All individual originals, 16:9 deliveries, rejected attempts, prompts, Gemini evidence, checkpoints and quota/cost/runtime reports.
+
+Schnell's official endpoint returns 1024-square sources, not native 16:9. Prompts reserve a central wide composition; FFmpeg makes a 1920×1080 delivery and Gemini must confirm that heads, hands and essential props survive the crop. The contact sheet preserves the original square outputs so art and editorial framing can be judged separately. No fabricated API dimensions or geometric replacement is used.
+
+`FREE_ONLY=true`, `PAID_FALLBACK_ENABLED=false`, `MAX_PAID_COST_USD=0`, `AUTO_PUBLISH=false`. Quota exhaustion saves evidence and stops. Manually resume with the same `run_id`, `source_run_id` and reference after the reported reset. Actual vendor neuron consumption is unavailable; the report distinguishes conservative reservations from measured usage. No paid fallback and no automatic old-style continuation.
+
+Optional `bash scripts/setup-rembg-cpu.sh` installs local CPU `rembg`; `removeIllustratedBackground` extracts only accepted AI-generated sprites and retains source provenance. It is not required by the full-frame audition. `createIllustratedCharacterSheet` supports six generated poses and actual cross-image continuity QA; it is separate from the 12-image audition and does not run by default.
+
+**STOP after the style audition.** Human approval of the contact sheet is required before any demo/quality video, pilot or documentary. The approved Nano WAV/reference, audio mastering, captions, existing SFX, benchmark, Gemini retries, FFmpeg and Chromium supervisor are preserved. A future API-free demo requires a human-approved illustrated fixture manifest; missing artwork fails rather than drawing placeholder people. The remaining sections document earlier infrastructure; v3 geometric rendering and prior cinematic examples are archived, not approved directions.
+
 **Codex development requires no production secrets.** Run lint, typecheck and tests locally with public dependencies and mocked API contracts. Keep production keys exclusively in GitHub Secrets and validate live APIs through manual Actions workflows. Pexels is never required for these checks or the historical production pipeline.
 
 Cloud-first video production with TypeScript, Node.js 22+, Remotion, FFmpeg, interchangeable free/paid providers, YouTube OAuth2, and optional Supabase checkpoint mirroring. GitHub-hosted runners perform the work; no computer needs to remain online.

@@ -1,5 +1,11 @@
 import React from 'react';
 import {AbsoluteFill,Img,staticFile} from 'remotion';
 import type {Composition} from '../../src/orchestration/schemas';
-import {DoodleThumbnail} from '../components/DoodleThumbnail';
-export const Thumbnail:React.FC<Composition>=(props)=>{if(props.shots.some(s=>s.visualIdea))return <DoodleThumbnail {...props}/>;const variant=props.thumbnailVariant??'A';const images=props.assets.filter(a=>a.kind!=='video');const image=images[variant==='B'?Math.floor(images.length/2):variant==='C'?images.length-1:0];const defaultText=variant==='A'?['WHO GETS','THE LIGHT?']:variant==='B'?['ONE CLEAR','PATH']:['CHOOSE','YOUR FOCUS'];const title=props.thumbnailTitle;const tokens=title?.split(/\s+/);const text=tokens?[tokens.slice(0,Math.ceil(tokens.length/2)).join(' '),tokens.slice(Math.ceil(tokens.length/2)).join(' ')]:defaultText;return <AbsoluteFill style={{background:'#0b1620',fontFamily:'Arial, sans-serif'}}>{image&&<Img src={staticFile(image.path)} style={{position:'absolute',width:variant==='C'?2800:1450,height:variant==='C'?1575:820,left:variant==='C'?-550:variant==='A'?40:160,top:variant==='C'?-780:-45,objectFit:'cover'}}/>}<AbsoluteFill style={{background:'linear-gradient(90deg,#09131df5 0%,#09131dd0 28%,#09131d30 64%,transparent)'}}/><div style={{position:'absolute',left:70,top:190,color:'#fff3db',fontSize:93,lineHeight:1.04,fontWeight:900,letterSpacing:-4,textShadow:'0 8px 25px #0008'}}>{text.map((line,i)=><div key={line} style={{color:i?'#f1c073':'#fff4df'}}>{line}</div>)}</div><div style={{position:'absolute',left:76,top:150,height:5,width:80,background:'#edbd73'}}/><div style={{position:'absolute',inset:0,boxShadow:'inset 0 0 70px #040b1480'}}/></AbsoluteFill>;};
+import {requireIllustratedArtwork} from '../../src/visuals/illustration-schema';
+export const Thumbnail:React.FC<Composition>=(props)=>{
+ const variant=props.thumbnailVariant??'A',images=props.assets.filter(a=>a.kind==='image');
+ const image=images[variant==='B'?Math.floor(images.length/2):variant==='C'?images.length-1:0];
+ if(!image)throw new Error('Thumbnail requires an actual v4 AI illustration, never programmatic subjects');requireIllustratedArtwork(image);
+ const title=props.thumbnailTitle??'A DAY BEGINS';if(title.split(/\\s+/).length>5)throw new Error('Thumbnail label exceeds five words');
+ return <AbsoluteFill style={{background:'#f5edda',fontFamily:'Arial,sans-serif'}}><Img src={staticFile(image.path)} style={{width:'100%',height:'100%',objectFit:'cover'}}/><div style={{position:'absolute',left:65,top:65,maxWidth:600,fontSize:96,fontWeight:900,lineHeight:1.05,color:'#302a25',textShadow:'0 2px 6px #f5edda'}}>{title}</div></AbsoluteFill>;
+};

@@ -1,9 +1,11 @@
+import {rejectRetiredVisualWorkflow} from '../src/visuals/retired-visual-workflow';
 import {appendFile} from 'node:fs/promises';
 import {qualityResumeConfig,qualityResumeDecision,assertFreeQuotaReset} from '../src/orchestration/quality-quota-resume';
 import {read,json,exec} from '../src/orchestration/io';
 import {z} from 'zod';
 import {doodleStyleLock,requireFreshVisualRun} from '../src/visuals/visual-approval';
 async function main(){
+ rejectRetiredVisualWorkflow();
  const config=qualityResumeConfig.parse(await read('config/quality-quota-resume.json')),approval=doodleStyleLock.parse(await read('config/style-lock-v3.json')),now=new Date(),dir='.cache/quality-reset';let decision=qualityResumeDecision(config,now,undefined,approval);
  if(decision==='ready'){
   const repository=process.env.GITHUB_REPOSITORY;if(repository!=='gaboplayt24-art/youtube-autopilot')throw new Error('Resume is restricted to the authorized repository');

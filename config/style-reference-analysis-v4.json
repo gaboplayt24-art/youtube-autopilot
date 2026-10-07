@@ -1,0 +1,8 @@
+{
+  "version": "style-reference-analysis-v4",
+  "status": "awaiting-downloadable-reference",
+  "referenceSha256": null,
+  "multimodalAnalysisExecuted": false,
+  "observations": null,
+  "note": "The user supplied an inline channel screenshot. It is visible in chat but no downloadable PNG/JPG file ID was supplied. Gemini must analyze actual reference bytes in Actions before FLUX generation. Do not fabricate observations or mark this record analyzed."
+}

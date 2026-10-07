@@ -1,0 +1,97 @@
+name: style-audition-v4
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Fresh style-v4 ID; reuse it only with the exact same reference and configuration
+        type: string
+        default: style-v4-001
+      source_run_id:
+        description: Optional previous v4 audition containing checkpoints
+        type: string
+      reference_path:
+        description: Downloadable positive PNG/JPG committed to the repo; never rejected v3 art
+        type: string
+        default: assets/references/style-v4.png
+      reference_url:
+        description: Optional HTTPS image on GitHub user attachments/raw content or i.ytimg.com
+        type: string
+      validate_only:
+        description: Code validation only, zero inference; does NOT generate or approve a style audition
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  style:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      RUN_ID: ${{ inputs.run_id }}
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      CHROME_EXECUTABLE: /usr/bin/google-chrome
+      REFERENCE_PATH: ${{ inputs.reference_path }}
+      REFERENCE_URL: ${{ inputs.reference_url }}
+      VALIDATE_ONLY: ${{ inputs.validate_only }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        if: inputs.source_run_id != ''
+        with:
+          name: style-test-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Media prerequisites
+        timeout-minutes: 5
+        run: |
+          bash scripts/ensure-media-ci.sh
+          /usr/bin/google-chrome --version
+      - run: npm run lint && npm run typecheck && npm test
+      - name: Retrieve actual positive reference, never a generated substitute
+        if: inputs.validate_only == false && inputs.reference_url != ''
+        run: npx tsx scripts/download-style-reference.ts
+      - name: FLUX illustration audition only, no video or narrator calls
+        timeout-minutes: 32
+        run: |
+          if [ -n "$REFERENCE_URL" ]; then REFERENCE_PATH=.cache/style-reference-v4.jpg; fi
+          if [ "$VALIDATE_ONLY" = true ]; then
+            npx tsx src/visuals/style-audition-v4.ts --run-id "$RUN_ID" --reference "$REFERENCE_PATH" --validate-only
+          else
+            npx tsx src/visuals/style-audition-v4.ts --run-id "$RUN_ID" --reference "$REFERENCE_PATH"
+          fi
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID || vars.CLOUDFLARE_ACCOUNT_ID }}
+          CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED || 'true' }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: style-test-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-quota-ledger
+          path: .cache/quota/free-quota-ledger.json
+          include-hidden-files: true
+          retention-days: 30

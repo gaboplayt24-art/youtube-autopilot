@@ -1,3 +1,4 @@
+import {rejectRetiredVisualWorkflow} from './retired-visual-workflow';
 import {parseArgs} from 'node:util';
 import {mkdir,copyFile,access} from 'node:fs/promises';
 import {join} from 'node:path';
@@ -25,6 +26,7 @@ import {FreeQuotaLedger,withQuota} from '../quota';
 import {inspect,requireQA} from '../qa';
 const {values}=parseArgs({options:{'run-id':{type:'string',default:'quality-doodle-preview'},'offline-preview':{type:'boolean',default:false}}});
 async function main(){
+ rejectRetiredVisualWorkflow();
  const id=values['run-id']!;if(!/^quality-doodle-[A-Za-z0-9_-]+$/.test(id))throw new Error('New doodle run ID required; never resume the rejected visual run');
  const dir=join('data/runs',id),assets=join(dir,'assets'),pub=join('public',id),runner=new Runner(dir);
  await mkdir(assets,{recursive:true});await mkdir(pub,{recursive:true});await runner.lock();
