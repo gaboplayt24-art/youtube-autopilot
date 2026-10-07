@@ -1,5 +1,6 @@
 import {createHash} from 'node:crypto';
 import {join} from 'node:path';
+import {readFile} from 'node:fs/promises';
 import type {z} from 'zod';
 import {listGeminiModels} from './diagnostics';
 import {currentQuota} from '../quota';
@@ -7,6 +8,7 @@ import {json,read,log} from '../orchestration/io';
 
 export const preferredGeminiModels=['gemini-3.8-flash','gemini-3.6-flash','gemini-3.5-flash','gemini-3.1-flash-lite'];
 export function compatibleGeminiModels(names:string[]){const present=new Set(names.map(n=>n.replace(/^models\//,'')));return preferredGeminiModels.filter(n=>present.has(n));}
+export function quotaReset(reason:string,at:string){const match=reason.match(/Please retry in (?:(\d+)h)?(?:(\d+)m)?([\d.]+)s/);if(!/free_tier_requests/.test(reason)||!match)return null;const delay=(Number(match[1]??0)*3600+Number(match[2]??0)*60+Number(match[3]))*1000;return delay>60000?new Date(Date.parse(at)+delay).toISOString():null;}
 export function retryDelay(attempt:number,retryAfter:string|null,random=Math.random,now=Date.now()){const base=[2000,5000,10000,20000,40000][Math.min(attempt,4)];const header=retryAfter===null?0:/^\d+(?:\.\d+)?$/.test(retryAfter)?Number(retryAfter)*1000:Math.max(0,Date.parse(retryAfter)-now);return Math.max(base*(1+random()*.2),Number.isFinite(header)?header:0);}
 /** Call-level cache prevents a late failure from repeating successful planning/review calls. */
 export class GeminiSession {
@@ -14,7 +16,12 @@ export class GeminiSession {
  private exhausted=new Set<string>();
  constructor(private request:typeof fetch,private wait:(ms:number)=>Promise<void>){}
  async discover(){if(!this.discovery)this.discovery=this.load();return this.discovery;}
- private async load(){const listing:typeof fetch=async(input,init)=>{let response!:Response;for(let attempt=0;attempt<6;attempt++){response=await this.request(input,init);if(![429,500,502,503,504].includes(response.status)||attempt===5)return response;await this.wait(retryDelay(attempt,response.headers.get('retry-after')));}return response;};const report=await listGeminiModels(listing);const candidates=compatibleGeminiModels(report.generateContentModels);const dir=currentQuota()?.dir;if(dir)await json(join(dir,'gemini-models.json'),{...report,candidates,discoveredAt:new Date().toISOString()});if(!candidates.length)throw new Error('Models list returned no preferred generateContent-compatible Gemini model');return candidates;}
+ private async restoreUnavailable(dir:string){
+  const history=await readFile(join(dir,'logs.jsonl'),'utf8').catch(()=> '');const unavailable:Record<string,string>={};
+  for(const line of history.trim().split('\n').filter(Boolean)){const event=JSON.parse(line);if(event.event!=='gemini_fallback')continue;const reset=quotaReset(event.reason??'',event.time);if(reset&&Date.parse(reset)>Date.now()){unavailable[event.from]=reset;this.exhausted.add(event.from);}}
+  await json(join(dir,'gemini-unavailable-models.json'),{unavailable,reason:'Previously exhausted free requests; resumes after API-reported reset',paidFallback:false});
+ }
+ private async load(){const listing:typeof fetch=async(input,init)=>{let response!:Response;for(let attempt=0;attempt<6;attempt++){response=await this.request(input,init);if(![429,500,502,503,504].includes(response.status)||attempt===5)return response;await this.wait(retryDelay(attempt,response.headers.get('retry-after')));}return response;};const report=await listGeminiModels(listing);const candidates=compatibleGeminiModels(report.generateContentModels);const dir=currentQuota()?.dir;if(dir)await json(join(dir,'gemini-models.json'),{...report,candidates,discoveredAt:new Date().toISOString()});if(dir)await this.restoreUnavailable(dir);if(!candidates.length)throw new Error('Models list returned no preferred generateContent-compatible Gemini model');return candidates;}
  async complete<T>(instruction:string,schema:z.ZodType<T>,images:{mimeType:string;data:string}[]=[]){
   const key=process.env.GEMINI_API_KEY;if(!key)throw new Error('GEMINI_API_KEY missing');if(process.env.GEMINI_FREE_TIER_CONFIRMED!=='true')throw new Error('Confirm Gemini free-tier eligibility; paid Gemini is not enabled');
   const models=await this.discover(),quota=currentQuota(),dir=quota?.dir;const hash=createHash('sha256').update(JSON.stringify({instruction,images})).digest('hex');const path=dir?join(dir,'gemini-cache',hash+'.json'):null;

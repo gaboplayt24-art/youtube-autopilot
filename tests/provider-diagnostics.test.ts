@@ -7,7 +7,7 @@ import {mkdtemp,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {FreeQuotaLedger,withQuota} from '../src/quota';
-import {compatibleGeminiModels,retryDelay} from '../src/providers/gemini-reliability';
+import {compatibleGeminiModels,retryDelay,quotaReset} from '../src/providers/gemini-reliability';
 const discovery=()=>Response.json({models:[{name:'models/gemini-3.8-flash',supportedGenerationMethods:['generateContent']}]});
 test('official Gemini model discovery paginates metadata with mocked HTTP and never performs inference',async()=>{
  const old=process.env.GEMINI_API_KEY;process.env.GEMINI_API_KEY='mock-not-a-real-key';let requests=0;
@@ -32,4 +32,9 @@ test('Gemini retries temporary 503 on the same model with every attempt accounte
  }finally{if(old===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=old;if(flag===undefined)delete process.env.GEMINI_FREE_TIER_CONFIRMED;else process.env.GEMINI_FREE_TIER_CONFIRMED=flag;await rm(dir,{recursive:true});}
 });
 test('fallback uses only discovered compatible models and honors Retry-After',()=>{assert.deepEqual(compatibleGeminiModels(['models/gemini-3.5-flash','models/unknown']),['gemini-3.5-flash']);assert.equal(retryDelay(0,'12',()=>0),12000);assert.equal(retryDelay(4,null,()=>0),40000);});
+test('API-reported daily free quota reset survives checkpoints without treating transient failures as exhaustion',()=>{
+ assert.equal(quotaReset('generate_content_free_tier_requests Please retry in 20h47m25.5s.','2026-10-07T03:12:34.500Z'),'2026-10-08T00:00:00.000Z');
+ assert.equal(quotaReset('503 busy','2026-10-07T03:12:34.500Z'),null);
+ assert.equal(quotaReset('free_tier_requests Please retry in 5s.','2026-10-07T03:12:34.500Z'),null);
+});
 test('Gemini exhausts same-model retries before a discovered fallback and never calls absent IDs',async()=>{const old=process.env.GEMINI_API_KEY,flag=process.env.GEMINI_FREE_TIER_CONFIRMED;process.env.GEMINI_API_KEY='mock';process.env.GEMINI_FREE_TIER_CONFIRMED='true';try{const urls:string[]=[];const waits:number[]=[];const provider=new GeminiProvider(async(input)=>{const url=String(input);if(new URL(url).pathname==='/v1beta/models')return Response.json({models:[{name:'models/gemini-3.8-flash',supportedGenerationMethods:['generateContent']},{name:'models/gemini-3.5-flash',supportedGenerationMethods:['generateContent']},{name:'models/gemini-3.6-flash',supportedGenerationMethods:['embedContent']}]});urls.push(url);return url.includes('gemini-3.8-flash:')?Response.json({error:{message:'temporary'}},{status:502,headers:{'Retry-After':'3'}}):Response.json({candidates:[{content:{parts:[{text:'{"ok":true}'}]}}]});},async ms=>{waits.push(ms);});assert.deepEqual(await provider.json('fallback fixture',z.object({ok:z.boolean()})),{ok:true});assert.equal(urls.length,7);assert.ok(urls.slice(0,6).every(u=>u.includes('gemini-3.8-flash:')));assert.ok(urls[6].includes('gemini-3.5-flash:'));assert.equal(waits.length,5);assert.ok(waits[0]>=3000);}finally{if(old===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=old;if(flag===undefined)delete process.env.GEMINI_FREE_TIER_CONFIRMED;else process.env.GEMINI_FREE_TIER_CONFIRMED=flag;}});
