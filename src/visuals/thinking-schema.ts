@@ -1,6 +1,6 @@
 import {z} from 'zod';
 export const conceptTypes=z.enum(['CHARACTER_EXPLANATION','ICON_EXPLANATION','COMPARE_TWO','HIERARCHY','PROCESS','MAP','TIMELINE','WARNING']);
-export const doodleIcon=z.enum(['person','child','amphora','boat','coin','scroll','tool','sun','warning','building','clock','path','focus','book','balance','arrow']);
+export const doodleIcon=z.enum(['person','child','amphora','boat','coin','scroll','tool','sun','warning','building','clock','path','focus','book','balance','arrow','box','wind','spray']);
 export const visualIdea=z.object({
  version:z.literal('educational-doodle-v3'),
  conceptType:conceptTypes,

@@ -12,7 +12,7 @@ import {reviewDoodleSet,doodleSetQA} from './doodle-set-qa';
 import {inspectVisualIdeas} from './doodle-qa';
 const accepted=z.object({shots:shotPlan,visuals:media,review:doodleSetQA.nullable(),repairedShotIds:z.array(z.string())});
 export async function acceptDoodleVisuals(initial:ShotPlan,dir:string,runner:Runner,llm?:LLMProvider&VisionProvider){
- return runner.stage('doodle-acceptance-layout-v2',accepted,async()=>{
+ return runner.stage('doodle-acceptance-layout-v3',accepted,async()=>{
   let candidate=initial;const repaired=new Set<string>();
   const repair=async(name:string,review:z.infer<typeof doodleSetQA>)=>{
    const outliers=review.reviews.filter(r=>!r.passed||!r.styleCompliant||!r.subjectMatches||!r.historicallyPlausible||!r.readable||r.issues.length).map(r=>({shotId:r.shotId,issues:r.issues.length?r.issues:['Objective frame review failed']}));
@@ -22,15 +22,19 @@ export async function acceptDoodleVisuals(initial:ShotPlan,dir:string,runner:Run
   };
   // Migrate this NEW doodle run's first rejection; never import old painted
   // visuals. The original JSON/PNGs/review remain immutable technical evidence.
-  let prior:z.infer<typeof doodleSetQA>|undefined;try{prior=doodleSetQA.parse(await read(join(dir,'doodle-style-semantic-QA.json')));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
-  if(prior&&!prior.passed)await repair('doodle-repair-layout-v2-initial',prior);
+  const rejected=new Map<string,z.infer<typeof doodleSetQA>['reviews'][number]>();
+  for(const file of ['doodle-style-semantic-QA.json','doodle-style-semantic-layout-v2-round-0.json','doodle-style-semantic-layout-v2-round-1.json']){
+   let prior:z.infer<typeof doodleSetQA>|undefined;try{prior=doodleSetQA.parse(await read(join(dir,file)));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
+   for(const review of prior?.reviews??[])if(!review.passed||review.issues.length){const previous=rejected.get(review.shotId);rejected.set(review.shotId,{...review,issues:[...new Set([...(previous?.issues??[]),...review.issues])]});}
+  }
+  if(rejected.size)await repair('doodle-repair-layout-v3-initial',{passed:false,method:'actual-image Gemini review',reviews:[...rejected.values()]});
   for(let round=0;round<3;round++){
-   const structural=inspectVisualIdeas(candidate.shots);await json(join(dir,'visual-thinking-QA-layout-v2-round-'+round+'.json'),structural);if(!structural.passed)throw new Error('Educational concept QA failed');
-   const visuals=await runner.stage('doodle-assets-layout-v2-round-'+round,media,()=>createDoodleAssets(candidate.shots,join(dir,'assets','doodle-layout-v2','round-'+round)),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Doodle asset integrity failure');});
-   const review=llm?await runner.stage('doodle-style-semantic-layout-v2-round-'+round,doodleSetQA,()=>reviewDoodleSet(candidate.shots,visuals.assets,llm)):null;
+   const structural=inspectVisualIdeas(candidate.shots);await json(join(dir,'visual-thinking-QA-layout-v3-round-'+round+'.json'),structural);if(!structural.passed)throw new Error('Educational concept QA failed');
+   const visuals=await runner.stage('doodle-assets-layout-v3-round-'+round,media,()=>createDoodleAssets(candidate.shots,join(dir,'assets','doodle-layout-v3','round-'+round)),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Doodle asset integrity failure');});
+   const review=llm?await runner.stage('doodle-style-semantic-layout-v3-round-'+round,doodleSetQA,()=>reviewDoodleSet(candidate.shots,visuals.assets,llm)):null;
    if(!review||review.passed){await json(join(dir,'visual-thinking-QA.json'),structural);return {shots:candidate,visuals,review,repairedShotIds:[...repaired]};}
    if(round===2)throw new Error('Actual-image educational style/semantic QA failed after bounded repairs; rejected evidence preserved, no render');
-   await repair('doodle-repair-layout-v2-round-'+(round+1),review);
+   await repair('doodle-repair-layout-v3-round-'+(round+1),review);
   }
   throw new Error('Educational acceptance exhausted');
  },async a=>{for(const asset of a.visuals.assets)if(await fileDigest(asset.path)!==asset.sha256)throw new Error('Accepted doodle source integrity failure');if(llm&&!a.review?.passed)throw new Error('Missing actual-image approval');});

@@ -21,6 +21,9 @@ export function doodleGlyph(icon:VisualIdea['nodes'][number]['icon'],pose='neutr
   case 'focus':return `<circle r="65" fill="${p.sand}"/><circle r="38" fill="none"/><circle r="11" fill="${p.terracotta}"/>${path('M76 -76 L8 -8 M45 -76 L76 -76 L76 -44')}`;
   case 'balance':return path('M0 -75 L0 75 M-48 75 L48 75 M-67 -30 L67 -30 M-55 -30 L-80 20 L-30 20 Z M55 -30 L30 20 L80 20 Z',p.sand);
   case 'arrow':return path('M-75 0 L75 0 M34 -40 L75 0 L34 40');
+  case 'box':return path('M-75 -60 L75 -60 L75 65 L-75 65 Z',p.brown)+path('M-75 -20 L75 -20 M-75 22 L75 22 M-55 -60 L55 65 M55 -60 L-55 65');
+  case 'wind':return path('M-90 -35 L35 -35 Q80 -35 65 -67 Q50 -90 30 -65 M-90 0 L75 0 M-90 35 L20 35 Q65 35 50 67 Q35 90 15 65');
+  case 'spray':return path('M-95 60 Q-65 35 -35 60 Q-5 85 25 60 Q55 35 90 60')+[-60,0,60].map(x=>`<g transform="translate(${x} 0)">${path('M0 -70 Q-26 -35 -14 -20 Q0 -5 14 -20 Q26 -35 0 -70 Z',p.sand)}</g>`).join('');
  }
 }
 export function doodleLayout(idea:VisualIdea){

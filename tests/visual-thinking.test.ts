@@ -6,7 +6,7 @@ import {join} from 'node:path';
 import {tmpdir} from 'node:os';
 import {VisualThinkingDirector,localVisualIdea,validateIdeaEvidence} from '../src/visuals/visual-thinking';
 import {visualIdea} from '../src/visuals/thinking-schema';
-import {doodleSVG} from '../src/visuals/doodle-art';
+import {doodleSVG,doodleGlyph} from '../src/visuals/doodle-art';
 import {createDoodleAssets} from '../src/visuals/doodle-assets';
 import {inspectVisualIdeas,reviewDoodleFrame} from '../src/visuals/doodle-qa';
 import {loadStyleLock} from '../src/visuals/style-lock';
@@ -68,7 +68,11 @@ test('hierarchy and reverse relationships preserve arrow direction and keep rela
 });
 test('selective idea repair preserves narration/timing and untouched shots, and rejects unknown IDs before a call',async()=>{
  const originals=await new VisualThinkingDirector().direct([make('a','Rows of clay jars'),{...make('b','She pays coins'),start:3,end:6}]);let calls=0;
- const llm={json:async<T>(_p:string,schema:z.ZodType<T>)=>{calls++;const idea=visualIdea.parse({version:'educational-doodle-v3',conceptType:'ICON_EXPLANATION',takeaway:'Illustrative bulk oil inventory',nodes:['j1','j2','j3'].map((id,i)=>({id,icon:'amphora',label:i===1?'ROWS OF JARS':'',pose:'neutral',emphasis:i===1})),relationships:[]});return schema.parse({ideas:[{shotId:'a',idea}]});}};
+ const llm={json:async<T>(prompt:string,schema:z.ZodType<T>)=>{assert.match(prompt,/box,wind,spray/);assert.match(prompt,/Every relationship requires/);assert.match(prompt,/horizontal repeated nodes/);calls++;const idea=visualIdea.parse({version:'educational-doodle-v3',conceptType:'ICON_EXPLANATION',takeaway:'Illustrative bulk oil inventory',nodes:['j1','j2','j3'].map((id,i)=>({id,icon:'amphora',label:i===1?'ROWS OF JARS':'',pose:'neutral',emphasis:i===1})),relationships:[]});return schema.parse({ideas:[{shotId:'a',idea}]});}};
  const fixed=await new VisualThinkingDirector().repair(originals,[{shotId:'a',issues:['Single jar cannot show a row']}],llm);assert.equal(fixed[0].visualIdea!.nodes.length,3);assert.deepEqual(fixed.map(s=>[s.id,s.start,s.end,s.narration]),originals.map(s=>[s.id,s.start,s.end,s.narration]));assert.equal(fixed[1],originals[1]);
  await assert.rejects(new VisualThinkingDirector().repair(originals,[{shotId:'missing',issues:['unknown']}],llm),/unknown/);assert.equal(calls,1);
+});
+test('environment and cargo primitives have distinct original glyphs instead of unrelated symbols',()=>{
+ for(const icon of ['wind','spray','box'] as const){assert.ok(doodleGlyph(icon).length>40);assert.notEqual(doodleGlyph(icon),doodleGlyph('sun'));assert.notEqual(doodleGlyph(icon),doodleGlyph('tool'));}
+ assert.equal(new Set(['wind','spray','box'].map(i=>doodleGlyph(i as 'wind'|'spray'|'box'))).size,3);
 });
