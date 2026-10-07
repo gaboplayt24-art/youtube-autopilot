@@ -56,8 +56,8 @@ export function evaluateVoice(script:string,transcript:Transcript,criticalTerms:
  return {status,lexicalStatus,wordErrorRate:comparison.wordErrorRate,substitutions:comparison.substitutions,insertions:comparison.insertions,deletions:comparison.deletions,criticalTerms,criticalChecks,criticalTermAccuracy,defects,timestampStatus:validTimestamps?'pass':'review',normalizedComparison:comparison,classifications:comparison.differences.map(e=>({edit:e,classification:e.referenceIndex!==null&&other.some(c=>c.edits.some(d=>d.referenceIndex===e.referenceIndex&&d.type==='equal'))?'likelyASRError':'uncertain'})),limitations:'ASR discrepancies do not prove a TTS defect. Acoustic/prosody proxies and short benchmarks require human listening; no narrator is selected.'};
 }
 export type VoiceQA=ReturnType<typeof evaluateVoice>;
-/** REVIEW preserves evidence and lets measured alignment continue; FAIL still stops the voice gate. */
-export function requireVoiceQA(report:VoiceQA){if(report.status==='fail')throw new Error(`Voice QA FAIL: WER ${(report.wordErrorRate*100).toFixed(2)}%; critical accuracy ${(report.criticalTermAccuracy*100).toFixed(2)}%. Evidence preserved; synthesis is unusable until corrected.`);}
+/** REVIEW preserves evidence and requires listening approval; it is never an automatic PASS. */
+export function requireVoiceQA(report:VoiceQA){if(report.status!=='pass')throw new Error(`Voice QA ${report.status.toUpperCase()}: WER ${(report.wordErrorRate*100).toFixed(2)}%; critical accuracy ${(report.criticalTermAccuracy*100).toFixed(2)}%. Evidence preserved; manual review required.`);}
 /** Reference captions use DP correspondences to WHOLE measured ASR spans, never synthetic word times. */
 export function measuredReferenceAlignment(script:string,transcript:Transcript):Alignment{
  const c=compareTranscripts(script,transcript.chunks.map(t=>t.text.trim()).join(' '));const words=script.trim().split(/\s+/);const spoken=transcript.chunks.flatMap((chunk,index)=>chunk.text.trim().split(/\s+/).filter(Boolean).map(()=>index));
