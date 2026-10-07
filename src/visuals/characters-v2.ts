@@ -1,7 +1,7 @@
 import {mkdir,readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {z} from 'zod';
-import {json,read} from '../orchestration/io';
+import {json,read,exec} from '../orchestration/io';
 import type {VisualBible} from './bible';
 import type {ImageProvider,LLMProvider,VisionProvider} from '../providers/interfaces';
 import {loadStyleLock,lockedPrompt} from './style-lock';
@@ -24,7 +24,9 @@ export async function createCharacterReferencePack(character:{id:string;identity
  for(let round=0;round<=style.qualityTest.repairRounds;round++){
   frames=[];for(const [id,pose]of poses){const s=state[id]??{revision:0,direction:''};const prompt=lockedPrompt(style,bible,pose+(s.direction?'; correction: '+s.direction:''),identity);frames.push(await generateSource(id,prompt,pose,true,folder,s.revision,image));}
   const sheet=join(dir,'..','character-contact-sheet.jpg');await contactSheet(frames,sheet,5);
-  const result=await reviewer.images(`Compare all FIVE independently generated canonical views. They MUST depict the SAME perceived person, age, exact hairstyle, facial structure, costume, proportions. They must share the locked painterly illustration technique. Image is labelled A front, B three-quarter, C profile, D full body, E contextual full body. Identify only incorrect views for regeneration by exact id; never accept identity drift just to complete rendering. Return {passed,samePerson,sameAge,sameHairstyle,sameFacialStructure,sameCostume,sameBodyProportions,outliers:[{id,reason,repairDirection}],review}. Registry ${JSON.stringify(character)} Style ${JSON.stringify(style)}`,[{mimeType:'image/jpeg',data:(await readFile(sheet)).toString('base64')}],identityReview);
+  const evidence=[{mimeType:'image/jpeg',data:(await readFile(sheet)).toString('base64')}];
+  for(const frame of frames){const path=frame.path+'.identity-review.jpg';await exec('ffmpeg',['-y','-v','error','-i',frame.path,'-vf','scale=768:-2','-frames:v','1',path],{timeout:20000});evidence.push({mimeType:'image/jpeg',data:(await readFile(path)).toString('base64')});}
+  const result=await reviewer.images(`Compare all FIVE independently generated canonical views. They MUST depict the SAME perceived person, age, exact hairstyle, facial structure, costume, proportions. They must share the locked painterly illustration technique. First image is the contact sheet; next FIVE images are readable individual views in A..E order. Images are labelled A front, B three-quarter, C profile, D full body, E contextual full body. Identify only incorrect views for regeneration by exact id; never accept identity drift just to complete rendering. Return {passed,samePerson,sameAge,sameHairstyle,sameFacialStructure,sameCostume,sameBodyProportions,outliers:[{id,reason,repairDirection}],review}. Registry ${JSON.stringify(character)} Style ${JSON.stringify(style)}`,evidence,identityReview);
   await json(join(folder,`identity-QA-round-${round}.json`),result);await json(join(dir,'..','character-identity-QA.json'),{...result,round,hiddenReferences:true,limitation:base.limitation});
   if(result.passed&&[result.samePerson,result.sameAge,result.sameHairstyle,result.sameFacialStructure,result.sameCostume,result.sameBodyProportions].every(Boolean)&&!result.outliers.length)return characterPack.parse({...base,qaPassed:true,assets:frames.map(({id,path,sha256})=>({id,path,sha256}))});
   if(!result.outliers.length||result.outliers.some(o=>!poses.some(([id])=>id===o.id)))throw new Error('Canonical identity failure lacks valid actionable outliers');

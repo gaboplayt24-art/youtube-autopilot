@@ -23,6 +23,9 @@ test('consecutive reuse and unjustified fake framing diversity are blocked',asyn
 test('different IDs with identical source bytes cannot inflate unique source ratio',async()=>{
  const lock=await loadStyleLock(),b=board();const q=sourceUsage(b.beats,shots,Object.fromEntries(b.sources.map(s=>[s.id,'identical-sha'])),lock);assert.equal(q.uniqueGeneratedSources,1);assert.equal(q.consecutiveDuplicateSources,31);assert.ok(q.issues.includes('Source used more than twice'));assert.ok(q.issues.includes('Unique source ratio below .75'));
 });
+test('source contact sheet order follows first narration appearance rather than model array order',async()=>{
+ const b=board();b.sources.reverse();const ordered=validateStoryboard(b,shots,await loadStyleLock());assert.equal(ordered.sources[0].id,'source-0');assert.equal(ordered.sources.at(-1)!.id,'source-27');assert.equal(b.sources[0].id,'source-27');
+});
 test('every frame and reference inherits exact prefix and all negatives without truncation',async()=>{
  const lock=await loadStyleLock();
  const bible={era:'30 BCE',century:'1st century BCE',civilization:'Ptolemaic Egypt',location:'Alexandria',regionalArchitecture:'limestone',materials:'clay linen bronze',clothing:'linen chiton',boats:'wooden boats',technology:'papyrus',forbiddenAnachronisms:['plastic','electricity','cars']} as Parameters<typeof lockedPrompt>[1];
