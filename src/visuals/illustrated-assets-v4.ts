@@ -12,6 +12,8 @@ import {validatedJSON} from '../providers/validated-json';
 import {styleReview,primaryArtwork,type ArtworkIdea,type IllustratedStyleLock} from './illustration-schema';
 export const generatedSource=z.object({path:z.string(),sha256:z.string().length(64),model:z.literal(FLUX_MODEL),prompt:z.string()});
 export const acceptedIllustration=z.object({ideaId:z.string(),source:generatedSource,framedPath:z.string(),framedSha256:z.string().length(64),attempt:z.number().int(),review:styleReview,artwork:primaryArtwork});
+export type IllustrationEvidence=Omit<z.infer<typeof acceptedIllustration>,'artwork'>;
+export class IllustrationStyleRejected extends Error{constructor(public readonly evidence:IllustrationEvidence){super(`Style reference QA failed for ${evidence.ideaId}; rejected sources retained. No geometry fallback and no video.`);}}
 export function illustrationPrompt(style:IllustratedStyleLock,idea:ArtworkIdea,corrections:string[]=[]){
  if(style.referenceAnalysisStatus!=='analysed'||!style.referenceSha256||!style.referenceStyleDescriptor)throw new Error('Actual reference analysis is required before FLUX spending');
  const prompt=`${style.prefix} Reference traits: ${style.referenceStyleDescriptor}. Original scene: ${idea.concept}. Setting: ${idea.historicalContext}. Draw a complete wide educational scene inside the middle 56% horizontal band of the square canvas; cream margins above/below, keep all heads/hands/essential props inside that band for 16:9 crop. Reserve clear ${idea.labelPlacement} space for later editorial label, draw NO words. ${style.negativeRules.join('; ')}.${corrections.length?' Repair: '+corrections.slice(0,2).map(s=>s.slice(0,90)).join('; '):''}`;
@@ -19,7 +21,7 @@ export function illustrationPrompt(style:IllustratedStyleLock,idea:ArtworkIdea,c
  return prompt;
 }
 export async function generateIllustration(idea:ArtworkIdea,style:IllustratedStyleLock,reference:string,dir:string,runner:Runner,image:ImageProvider,vision:VisionProvider){
- await mkdir(dir,{recursive:true});let corrections:string[]=[];
+ await mkdir(dir,{recursive:true});let corrections:string[]=[],lastRejected:IllustrationEvidence|undefined;
  for(let attempt=0;attempt<=style.maxRegenerationsPerScene;attempt++){
   const name=`illustration-${idea.id}-attempt-${attempt}`,path=join(dir,`${idea.id}-attempt-${attempt}-source.png`),framedPath=join(dir,`${idea.id}-attempt-${attempt}-16x9.png`),prompt=illustrationPrompt(style,idea,corrections);
   const promptSchema=z.object({passed:z.boolean(),historicallyPlausible:z.boolean(),styleConsistent:z.boolean(),noBakedText:z.boolean(),issues:z.array(z.string())});
@@ -29,9 +31,11 @@ export async function generateIllustration(idea:ArtworkIdea,style:IllustratedSty
   const framed=await runner.stage(name+'-framing',z.object({path:z.string(),sha256:z.string().length(64)}),async()=>{await exec('ffmpeg',['-y','-v','error','-i',source.path,'-vf','scale=1920:1080:force_original_aspect_ratio=increase,crop=1920:1080','-frames:v','1',framedPath],{timeout:20000});return {path:framedPath,sha256:await fileDigest(framedPath)};},async a=>{if(a.sha256!==await fileDigest(a.path))throw new Error('Illustration crop checksum changed');});
   const review=await runner.stage(name+'-reference-QA',styleReview,()=>reviewIllustration(reference,source.path,framed.path,idea,style,vision));
   if(review.passed)return acceptedIllustration.parse({ideaId:idea.id,source,framedPath:framed.path,framedSha256:framed.sha256,attempt,review,artwork:{generationMethod:'ai-illustration',styleVersion:'illustrated-doodle-v4',model:FLUX_MODEL,referenceSha256:style.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true}});
+  lastRejected={ideaId:idea.id,source:generatedSource.parse(source),framedPath:framed.path,framedSha256:framed.sha256,attempt,review};
   corrections=review.issues.length?review.issues:['Match the positive reference: organic drawn anatomy, clothing and props; never geometric icons.'];
  }
- throw new Error(`Style reference QA failed for ${idea.id}; rejected sources retained. No geometry fallback and no video.`);
+ if(lastRejected)throw new IllustrationStyleRejected(lastRejected);
+ throw new Error('No illustration evidence available');
 }
 export function inspectIllustrationReuse(sources:{id:string;sha256:string}[],maximumUses=2){
  const issues:string[]=[],counts=new Map<string,number>();for(const [i,source]of sources.entries()){const count=(counts.get(source.sha256)??0)+1;counts.set(source.sha256,count);if(i&&sources[i-1].sha256===source.sha256)issues.push(source.id+': consecutive full-frame source reuse');if(count>maximumUses)issues.push(source.id+': excessive source reuse');}

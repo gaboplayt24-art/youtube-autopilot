@@ -9,7 +9,8 @@ import {renderToStaticMarkup} from 'react-dom/server';
 import template from '../config/style-lock-v4.json';
 import {illustratedStyleLock,referenceAnalysis,traitNames,acceptStyleReview,requireIllustratedArtwork,requireV4VideoApproval,type StyleReview} from '../src/visuals/illustration-schema';
 import {styleAuditionScenesV4} from '../src/visuals/style-audition-scenes-v4';
-import {illustrationPrompt,generateIllustration,inspectIllustrationReuse} from '../src/visuals/illustrated-assets-v4';
+import {illustrationPrompt,generateIllustration,inspectIllustrationReuse,IllustrationStyleRejected,type IllustrationEvidence} from '../src/visuals/illustrated-assets-v4';
+import {firstFourStyleGate} from '../src/visuals/preview-gate-v4';
 import {analyzeStyleReference,deriveStyleLock,reviewIllustration} from '../src/visuals/style-reference-v4';
 import {runStyleAuditionV4} from '../src/visuals/style-audition-v4';
 import {illustrationContactSheet} from '../src/visuals/style-contact-sheet-v4';
@@ -22,6 +23,14 @@ import {Thumbnail} from '../remotion/compositions/Thumbnail';
 import type {Shot,MediaAsset} from '../src/editor/schemas';
 const good=():StyleReview=>({passed:true,referenceCompared:true,referenceStyleMatches:true,conceptMatches:true,historicallyPlausible:true,cropPreservesSubjects:true,photorealism:false,cgi:false,geometricCodeLook:false,webUILook:false,bakedText:false,watermark:false,scores:{drawnAppearance:85,lineCharacter:85,humanDesign:85,colorTreatment:85,visualSimplicity:85,organicShapes:85,educationalClarity:85,sceneRichness:85,illustratedFeel:85},issues:[]});
 const active=(sha='a'.repeat(64))=>illustratedStyleLock.parse({...template,referenceAnalysisStatus:'analysed',referenceSha256:sha,referenceStyleDescriptor:'Organic expressive illustrated figures, designed garments, warm muted fills and irregular thick dark ink outlines.'});
+test('first-four gate retains four actual generation results and forbids the remaining eight after a style rejection',async()=>{
+ let calls=0,saved=0,remaining=0;
+ const evidence=(i:number):IllustrationEvidence=>({ideaId:String(i),source:{path:`unit-${i}.png`,sha256:'a'.repeat(64),model:'@cf/black-forest-labs/flux-1-schnell',prompt:'Unit test evidence'},framedPath:`unit-${i}-crop.png`,framedSha256:'b'.repeat(64),attempt:0,review:{...good(),passed:i!==1}});
+ await assert.rejects(async()=>{await firstFourStyleGate(async i=>{calls++;const sample=evidence(i);if(!sample.review.passed)throw new IllustrationStyleRejected(sample);return sample;},async samples=>{saved=samples.length;assert.equal(samples[1].review.passed,false);});remaining+=8;},/remaining eight.*NOT generated/);
+ assert.equal(calls,4);assert.equal(saved,4);assert.equal(remaining,0);
+ const passed=await firstFourStyleGate(async i=>({...evidence(i),review:good()}),async samples=>{assert.equal(samples.length,4);});assert.equal(passed.length,4);
+ let providerCalls=0;await assert.rejects(()=>firstFourStyleGate(async()=>{providerCalls++;throw new Error('Quota pause');},async()=>{throw new Error('Must not manufacture missing samples');}),/Quota pause/);assert.equal(providerCalls,1);
+});
 async function fixture(dir:string,name:string){const path=join(dir,name+'.png');await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','testsrc2=size=256x256','-frames:v','1',path],{timeout:20000});return path;}
 function shot():Shot {const i=styleAuditionScenesV4[0];return {id:i.id,sceneId:i.id,start:0,end:3,narration:i.narration,visualIntent:i.concept,shotType:'generated-image',motion:'slow-push-in',assetPrompt:i.concept,overlay:i.overlay,illustrationIdea:i,keywords:[],highImpact:false,transition:'cut'};}
 test('final scene/thumbnail renderers reject geometric SVG art even if the old shot claims a visual idea',()=>{
