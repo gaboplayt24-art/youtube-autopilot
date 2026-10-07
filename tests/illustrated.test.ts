@@ -5,13 +5,17 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {z} from 'zod';
 import {loadStyleLock,lockedPrompt} from '../src/visuals/style-lock';
-import {storyboard,validateStoryboard,sourceUsage} from '../src/visuals/illustrated';
+import {storyboard,validateStoryboard,sourceUsage,planIllustratedBeats} from '../src/visuals/illustrated';
 import {createCharacterReferencePack} from '../src/visuals/characters-v2';
 import {exec} from '../src/orchestration/io';
 import type {Shot} from '../src/editor/schemas';
 import type {LLMProvider,VisionProvider} from '../src/providers/interfaces';
 const shots=Array.from({length:32},(_,i)=>({id:'shot-'+i,sceneId:'scene-1',start:i*3,end:(i+1)*3,narration:'A specific narrated action',visualIntent:'Specific subject',shotType:'generated-image',motion:'parallax',assetPrompt:'Specific subject and action',overlay:null,keywords:[],highImpact:false,transition:'cut'} as Shot));
 function board(){return storyboard.parse({sources:Array.from({length:28},(_,i)=>({id:'source-'+i,concept:'Specific period subject '+i,character:i===1,momentId:'moment-'+i})),beats:shots.map((s,i)=>({shotId:s.id,sourceImageId:'source-'+(i<28?i:[0,3,7,12][i-28]),editorialVariant:i<28?'wide':'detail-left',reuseReason:[0,3,7,12,28,29,30,31].includes(i)?'Same exact narrated visual moment, closer object detail':null})),thumbnailTexts:['Dawn Cargo','Bronze Weights','Market Day']});}
+test('storyboard schema errors receive bounded correction feedback before generating any media',async()=>{
+ const instructions:string[]=[];const llm:LLMProvider={json:async<T>(p:string,s:z.ZodType<T>)=>{instructions.push(p);if(instructions.length===1){const invalid=board();(invalid.beats[0] as {editorialVariant:string}).editorialVariant='portrait';return s.parse(invalid);}return s.parse(instructions.length===2?board():{passed:true,issues:[]});}};
+ const result=await planIllustratedBeats(shots,{},await loadStyleLock(),llm);assert.equal(instructions.length,3);assert.match(instructions[1],/Fix structural\/schema\/editorial rejection/);assert.equal(result.reuseReview!.passed,true);assert.equal(result.beats.length,32);
+});
 test('28 generated sources produce 32 beats without counting reframes as new sources',async()=>{
  const lock=await loadStyleLock(),b=validateStoryboard(board(),shots,lock);const q=sourceUsage(b.beats,shots,Object.fromEntries(b.sources.map(s=>[s.id,s.id])),lock);assert.equal(q.uniqueSourceRatio,.875);assert.equal(q.uniqueGeneratedSources,28);assert.equal(q.consecutiveDuplicateSources,0);assert.equal(Math.max(...Object.values(q.sourceReuseCounts)),2);assert.deepEqual(q.issues,[]);
 });
