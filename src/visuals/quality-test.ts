@@ -3,6 +3,7 @@ import {mkdir,copyFile,access,readFile} from 'node:fs/promises';
 import {join} from 'node:path';
 import {z} from 'zod';
 import {validatedJSON} from '../providers/validated-json';
+import {migrateVisualQAState,nextSourceRevision} from './qa-resume';
 import {Runner} from '../orchestration/runner';
 import {json,read,duration} from '../orchestration/io';
 import {fileDigest,digest} from '../orchestration/integrity';
@@ -68,6 +69,7 @@ async function main(){
   const pack=await runner.stage('character-pack-v3',characterPack,()=>createCharacterReferencePack(character,bible,assetsDir,image,llm),async p=>{if(!p.qaPassed)throw new Error('Canonical QA failed');for(const a of p.assets)if(a.sha256!==await fileDigest(a.path))throw new Error('Canonical integrity failure');});
   const accepted=await runner.stage('visual-acceptance',z.object({sources:z.array(sourceFrame),styleQA:setReview,repetition:repetitionQA,regeneratedStyleOutliers:z.array(z.string())}),async()=>{
    let state:z.infer<typeof generationState>={};try{state=generationState.parse(await read(join(dir,'visual-generation-state.json')));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
+   state=await migrateVisualQAState(dir,sourcesDir,state);
    const regenerated=new Set(Object.entries(state).filter(([,v])=>v.revision>0).map(([k])=>k));
    for(let round=0;round<=lock.qualityTest.repairRounds;round++){
     const sources=[];for(const source of board.sources){const s=state[source.id]??{revision:0,direction:''};sources.push(await generateSource(source.id,sourcePrompt(source,lock,bible,identity,s.direction),source.concept,source.character,sourcesDir,s.revision,image,source.character?[pack.assets[0].path]:[]));}
@@ -79,10 +81,10 @@ async function main(){
     const repetition=await inspectRepetition(board,timed.shots,sources,lock,review);await json(join(dir,'visual-repetition-QA.json'),repetition);
     if(review.passed&&!review.outliers.length&&repetition.passed)return {sources,styleQA:review,repetition,regeneratedStyleOutliers:[...regenerated]};
     const outliers=[...review.outliers];
-    for(const pair of repetition.perceptualSimilarity.filter(p=>p.similarity===1))if(!outliers.some(o=>o.sourceImageId===pair.b))outliers.push({sourceImageId:pair.b,reason:'Identical perceptual fingerprint',repairDirection:'Use a materially distinct specific action and camera position for this narration, same locked painting technique.'});
+    for(const pair of repetition.perceptualSimilarity.filter(p=>p.similarity===1))if(!outliers.some(o=>o.sourceImageId===pair.b))outliers.push({sourceImageId:pair.b,category:'repetition',reason:'Identical perceptual fingerprint',repairDirection:'Use a materially distinct specific action and camera position for this narration, same locked painting technique.'});
     if(!outliers.length||round===lock.qualityTest.repairRounds)throw new Error('Pre-render visual style/repetition failed; evidence retained, no render');
     const concise=await validatedJSON(llm,'Condense these visual repair directions into <=100 characters each, retaining the specific defect. Return {repairs:[{id,direction}]}. '+JSON.stringify(outliers),z.object({repairs:z.array(z.object({id:z.string(),direction:z.string().max(100)}))}));if(concise.repairs.length!==outliers.length||outliers.some(o=>!concise.repairs.some(r=>r.id===o.sourceImageId)))throw new Error('Visual repair directions omitted an outlier');
-    const corrected=outliers.map(original=>{const o={...original,repairDirection:concise.repairs.find(r=>r.id===original.sourceImageId)!.direction};const source=board.sources.find(s=>s.id===o.sourceImageId)!;const next={revision:(state[source.id]?.revision??0)+1,direction:o.repairDirection};state[source.id]=next;regenerated.add(source.id);return {id:source.id,prompt:sourcePrompt(source,lock,bible,identity,next.direction)};});
+    const corrected=await Promise.all(outliers.map(async original=>{const o={...original,repairDirection:concise.repairs.find(r=>r.id===original.sourceImageId)!.direction};const source=board.sources.find(s=>s.id===o.sourceImageId)!;const next={revision:await nextSourceRevision(sourcesDir,source.id,state[source.id]?.revision??0),direction:o.repairDirection};state[source.id]=next;regenerated.add(source.id);return {id:source.id,prompt:sourcePrompt(source,lock,bible,identity,next.direction)};}));
     await checkPrompts(corrected);await json(join(dir,'visual-generation-state.json'),state);
    }throw new Error('Visual acceptance failed');
   },async a=>{for(const s of a.sources)if(s.sha256!==await fileDigest(s.path))throw new Error('Source integrity failure');});

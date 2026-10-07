@@ -5,7 +5,12 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import type {z} from 'zod';
 import {exec} from '../src/orchestration/io';
-import {reviewShotContent,type SourceFrame} from '../src/visuals/illustrated';
+import {reviewShotContent,stylePeriodReview,type SourceFrame} from '../src/visuals/illustrated';
+test('whole-set reviewer cannot order supporting workers replaced with merchant identity',()=>{
+ const base={passed:false,mediumConsistency:.9,paletteConsistency:.9,characterRendering:.9,lighting:.9,texture:.9,stylization:.9,historicalSetting:.9,cameraLanguage:.9,compositionSimilarity:.5,characterPoseSimilarity:.5,review:'Evidence',outliers:[{sourceImageId:'worker',category:'identity',reason:'Different person from merchant',repairDirection:'Replace worker with merchant'}]};
+ assert.equal(stylePeriodReview.safeParse(base).success,false);
+ assert.equal(stylePeriodReview.safeParse({...base,outliers:[{...base.outliers[0],category:'history',reason:'Modern zipper in period costume',repairDirection:'Use period linen fastening'}]}).success,true);
+});
 test('shot QA rejects generic portrait instead of narrated coin counting and permits supporting male workers',async()=>{
  const dir=await mkdtemp(join(tmpdir(),'shot-content-'));try{
   const sheet=join(dir,'canonical.jpg');await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','color=c=orange:s=64x64','-frames:v','1',sheet]);
