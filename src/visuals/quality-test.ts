@@ -13,7 +13,7 @@ import {CloudflareReferenceImageProvider,cloudflareConfigured} from '../provider
 import {createVisualBible,visualBible} from './bible';
 import {createCharacterReferencePack,characterPack} from './characters-v2';
 import {loadStyleLock} from './style-lock';
-import {storyboard,planIllustratedBeats,sourcePrompt,generateSource,sourceFrame,contactSheet,reviewIllustratedSet,inspectRepetition,sourceMedia,setReview,repetitionQA} from './illustrated';
+import {storyboard,planIllustratedBeats,sourcePrompt,generateSource,sourceFrame,contactSheet,reviewIllustratedSet,reviewShotContent,inspectRepetition,sourceMedia,setReview,repetitionQA} from './illustrated';
 import {ShotPlanner} from '../editor/planner';
 import {profile,shotPlan,media,audioMix} from '../editor/schemas';
 import {createCaptions} from '../captions';
@@ -75,6 +75,7 @@ async function main(){
     await contactSheet(sources,join(dir,'visual-contact-sheet.jpg'));
     const review=await reviewIllustratedSet(sources,join(dir,'visual-contact-sheet.jpg'),join(dir,'character-contact-sheet.jpg'),lock,bible,registry,llm);
     await json(join(dir,'visual-style-QA.json'),{...review,round,scoreMethod:'Gemini multimodal set estimates, not physical measurements'});await json(join(dir,'visual-style-QA-round-'+round+'.json'),review);
+    const contentOutliers=await reviewShotContent(sources,join(dir,'character-contact-sheet.jpg'),dir,llm);for(const outlier of contentOutliers)if(!review.outliers.some(o=>o.sourceImageId===outlier.sourceImageId))review.outliers.push(outlier);if(contentOutliers.length)review.passed=false;
     const repetition=await inspectRepetition(board,timed.shots,sources,lock,review);await json(join(dir,'visual-repetition-QA.json'),repetition);
     if(review.passed&&!review.outliers.length&&repetition.passed)return {sources,styleQA:review,repetition,regeneratedStyleOutliers:[...regenerated]};
     const outliers=[...review.outliers];
