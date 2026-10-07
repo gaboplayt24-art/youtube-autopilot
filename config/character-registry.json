@@ -3,12 +3,26 @@
     {
       "id": "CHAR_MERCHANT_01",
       "role": "recurring harbor merchant",
-      "identity": "Mediterranean woman in her early thirties, oval face, deep-set brown eyes, broad dark brows, small scar through the left eyebrow, olive skin, black wavy hair braided at the nape",
+      "identity": "Mediterranean woman, early thirties, oval face, rounded chin, straight medium-width nose, brown deep-set eyes, dark brows, left eyebrow scar, matte olive skin, single black wavy braid at nape, lean average-height build",
       "costume": "undyed linen chiton with muted ochre wool mantle, leather sandals, simple bronze clasp, no modern fasteners",
       "props": ["wax tablet", "linen ledger", "bronze seal ring"],
       "era": "late Ptolemaic Egypt, 30 BCE",
+      "identityFields": {
+        "face": "oval, small scar through left eyebrow",
+        "hairstyle": "single black wavy braid at the nape, no loose modern styling",
+        "skinTone": "olive, matte painterly rendering",
+        "eyes": "deep-set brown, broad dark eyebrows",
+        "nose": "straight medium-width bridge, rounded tip",
+        "jaw": "soft oval jaw, rounded chin",
+        "facialHair": "none",
+        "bodyProportions": "average height, lean adult build, natural proportions",
+        "age": "early thirties",
+        "costume": "undyed linen chiton, muted ochre mantle, leather sandals, bronze clasp",
+        "colors": "ochre, undyed linen, bronze",
+        "props": "wax tablet and bronze seal ring, no jewelry beyond clasp and ring"
+      },
       "continuityRules": ["same face, scar, braid, ochre mantle and bronze clasp in every shot", "no jewelry beyond the clasp and seal ring", "do not age or change body proportions"]
     }
   ],
-  "assetPackPolicy": "Canonical reference images are reused and editorially reframed; text prompts alone do not establish identity."
+  "assetPackPolicy": "Five independently generated hidden canonical views; Gemini cross-view identity QA before scene generation. Scene keyframes inherit exact design and require cross-set QA; reference-image conditioning is unavailable in FLUX Schnell REST. No crops count as unique generated sources."
 }

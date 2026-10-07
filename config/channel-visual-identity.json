@@ -1,8 +1,8 @@
 {
   "channelName": "Autopilot Historical Stories",
   "visualProfile": "documentary",
-  "style": "cinematic historical reconstruction with restrained documentary motion",
-  "imageLanguage": "specific material detail, lived-in environments, human-scale framing, atmospheric light",
+  "style": "locked historical editorial digital painting; config/style-lock.json",
+  "imageLanguage": "stylized historical realism, matte painted skin, soft opaque brush texture, warm earth-tone palette, strong focal silhouettes",
   "recurringLenses": ["24mm establishing", "35mm human context", "50mm story detail", "85mm artifact close-up"],
   "cameraMotion": ["slow push-in", "measured lateral pan", "small parallax separation", "motivated cut on narration beat"],
   "grade": "warm aged highlights, cool shadow separation, natural skin and cloth, subtle film grain",

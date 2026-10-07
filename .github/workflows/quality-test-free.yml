@@ -19,6 +19,13 @@ on:
       source_run_id:
         description: Actions run with the previous quality-test artifact, including quota pauses
         type: string
+      narration_source_run_id:
+        description: Optional approved quality run to copy ONLY script, raw narration and voice QA; no previous visuals
+        type: string
+      narration_source_artifact:
+        description: Name of the approved narration source artifact
+        type: string
+        default: quality-test-quality-nano-approved-001
 permissions:
   contents: read
   actions: read
@@ -87,6 +94,16 @@ jobs:
           path: data/runs/${{ env.RUN_ID }}
           run-id: ${{ inputs.source_run_id }}
           github-token: ${{ github.token }}
+      - uses: actions/download-artifact@v4
+        if: inputs.narration_source_run_id != '' && inputs.source_run_id == ''
+        with:
+          name: ${{ inputs.narration_source_artifact }}
+          path: .cache/approved-narration
+          run-id: ${{ inputs.narration_source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Restore approved narration only, never previous images
+        if: inputs.narration_source_run_id != '' && inputs.source_run_id == ''
+        run: npx tsx scripts/restore-quality-narration.ts --source .cache/approved-narration --target "$RUN_ID"
       - name: Verify free-provider configuration before model installation
         run: |
           if [ -z "$CLOUDFLARE_ACCOUNT_ID" ] || [ -z "$CLOUDFLARE_API_TOKEN" ] || [ -z "$GEMINI_API_KEY" ] || [ "$CLOUDFLARE_FREE_PLAN_CONFIRMED" != true ] || [ "$GEMINI_FREE_TIER_CONFIRMED" != true ]; then
@@ -109,7 +126,7 @@ jobs:
       - run: ffmpeg -version && ffprobe -version && /usr/bin/google-chrome --version
       - run: npm run lint && npm run typecheck && npm test
       - name: Short real AI quality test, no upload or paid fallback
-        timeout-minutes: 35
+        timeout-minutes: 55
         run: npm run quality-test-free -- --run-id "$RUN_ID"
       - name: Verify encoded media
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"

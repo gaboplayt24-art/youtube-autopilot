@@ -1,0 +1,22 @@
+{
+  "version": "historical-illustration-v1",
+  "medium": "historical editorial digital painting",
+  "renderingTechnique": "layered opaque brushwork, soft painted edges, selective fine detail",
+  "characterRendering": "stylized realistic anatomy, expressive consistent silhouettes",
+  "skinRendering": "matte painted skin, restrained tonal planes, no photographic pores",
+  "facialDetail": "clear eyes, brows and nose planes; simplified painterly facial detail",
+  "backgroundRendering": "detailed period environments with simplified focal hierarchy",
+  "texture": "soft brush texture, linen and clay material detail",
+  "lineQuality": "painted edges without ink or comic outlines",
+  "light": "warm natural directional light, soft umber shadows",
+  "colorPalette": ["ochre", "terracotta", "warm limestone", "muted olive", "deep umber", "dusty blue"],
+  "contrast": "strong focal silhouettes, moderate local contrast",
+  "depth": "layered foreground, middle distance and painted atmosphere",
+  "cameraLanguage": "24mm establishing, 35mm environment, 50mm action detail, 85mm portrait; composed 16:9",
+  "filmGrainTreatment": "subtle painterly surface texture; no photographic film emulation",
+  "historicalRealism": "period-correct architecture, materials, tools, clothes and daily actions",
+  "stylizationLevel": "clearly illustrated historical realism, not simulated live action",
+  "prefix": "Premium historical editorial illustration, cinematic digital painting, stylized realistic human anatomy, matte painted skin, soft painterly texture, subtle opaque brush detail, warm natural directional light, historically grounded materials, controlled ochre terracotta limestone olive umber and dusty-blue palette, strong silhouettes, simplified focal hierarchy, cohesive documentary illustration series.",
+  "negativeRules": ["no photorealistic stock photo", "no glossy 3D render", "no Unreal Engine look", "no modern clothing", "no fantasy armor", "no anime", "no comic-book outlines", "no modern architecture", "no typography", "no captions inside image", "no logos", "no watermarks", "no distorted anatomy", "no extra fingers", "no duplicate faces"],
+  "qualityTest": {"shotsMin": 30, "shotsMax": 34, "uniqueMin": 24, "uniqueMax": 30, "uniqueSourceRatioMin": 0.75, "maxSourceUses": 2, "maxSourceDurationFraction": 0.1, "repairRounds": 2}
+}

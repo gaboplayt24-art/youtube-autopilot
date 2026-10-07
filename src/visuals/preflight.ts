@@ -1,9 +1,7 @@
 import {z} from 'zod';
 import type {LLMProvider} from '../providers/interfaces';
-import type {Script} from '../orchestration/schemas';
-import {historicalPrompt,type VisualBible} from './bible';
+import {type VisualBible} from './bible';
 export const visualPreflight=z.object({historicalReview:z.object({passed:z.boolean(),issues:z.array(z.string())}),assets:z.array(z.object({id:z.string().regex(/^[A-Za-z0-9_-]+$/),sceneId:z.string(),prompt:z.string().min(10).max(400),character:z.boolean()})).min(8).max(16),thumbnailTexts:z.array(z.string().min(1).max(28).refine(s=>s.split(/\s+/).length<=5)).length(3)});
-export async function planVisualAssets(script:Script,bible:VisualBible,llm:LLMProvider){const value=await llm.json(`Plan a restrained cinematic historical reconstruction. Context ${JSON.stringify({script,bible})}. Return {historicalReview:{passed,issues},assets:[{id,sceneId,prompt,character}],thumbnailTexts:[three truthful different hooks,1-5 words,<=28 chars]}. Create exactly three environment/artifact image prompts for EACH of the four scenes (12 assets), IDs scene-1-detail-1 etc. Do not include people in these prompts: use harbor, ropes, jars, stone streets, ink, period documents without readable text, hands excluded, natural light. Character views are supplied separately by canonical reference reuse. Each character:false. Prompt <=180 chars; bible supplies all style/era constraints. Check narration for major factual/era conflicts, imagined story is disclosed. Lens vocabulary 24/35/50/85mm; no fantasy.`,visualPreflight);if(!value.historicalReview.passed)throw new Error('Historical preflight rejected script');for(const a of value.assets)historicalPrompt(bible,a.prompt);return value;}
 export const promptCheck=z.object({passed:z.boolean(),issues:z.array(z.string()),anachronisms:z.array(z.string())});
 export const assetCorrections=z.record(z.string().min(10).max(400));
 export function correctAssetPlan(plan:z.infer<typeof visualPreflight>,changes:z.infer<typeof assetCorrections>){
