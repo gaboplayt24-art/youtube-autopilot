@@ -8,7 +8,14 @@ import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {FreeQuotaLedger,withQuota} from '../src/quota';
 import {compatibleGeminiModels,retryDelay,quotaReset} from '../src/providers/gemini-reliability';
+import {readFile} from 'node:fs/promises';
 const discovery=()=>Response.json({models:[{name:'models/gemini-3.8-flash',supportedGenerationMethods:['generateContent']}]});
+test('truncated storyboard JSON retries the same confirmed model with bounded output budget and preserves evidence',async()=>{
+ const old=process.env.GEMINI_API_KEY,flag=process.env.GEMINI_FREE_TIER_CONFIRMED;const dir=await mkdtemp(join(tmpdir(),'gemini-truncated-'));process.env.GEMINI_API_KEY='mock';process.env.GEMINI_FREE_TIER_CONFIRMED='true';
+ try{const ledger=new FreeQuotaLedger(dir),budgets:number[]=[];const provider=new GeminiProvider(async(input,init)=>{if(new URL(String(input)).pathname==='/v1beta/models')return discovery();budgets.push(JSON.parse(String(init!.body)).generationConfig.maxOutputTokens);return Response.json({candidates:[{finishReason:budgets.length===1?'MAX_TOKENS':'STOP',content:{parts:[{text:budgets.length===1?'{"ok":':'{"ok":true}'}]}}]});},async()=>{});
+  assert.deepEqual(await withQuota(ledger,()=>provider.json('large storyboard',z.object({ok:z.boolean()}))),{ok:true});assert.deepEqual(budgets,[16384,32768]);assert.equal(ledger.events.length,2);assert.match(await readFile(join(dir,'logs.jsonl'),'utf8'),/gemini_json_rejected/);
+ }finally{if(old===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=old;if(flag===undefined)delete process.env.GEMINI_FREE_TIER_CONFIRMED;else process.env.GEMINI_FREE_TIER_CONFIRMED=flag;await rm(dir,{recursive:true});}
+});
 test('official Gemini model discovery paginates metadata with mocked HTTP and never performs inference',async()=>{
  const old=process.env.GEMINI_API_KEY;process.env.GEMINI_API_KEY='mock-not-a-real-key';let requests=0;
  try{const result=await listGeminiModels(async(input,init)=>{requests++;const url=new URL(String(input));assert.equal(url.pathname,'/v1beta/models');assert.equal((init!.headers as Record<string,string>)['x-goog-api-key'],'mock-not-a-real-key');assert.ok(!url.search.includes('key'));return Response.json(requests===1?{models:[{name:'models/free-candidate',supportedGenerationMethods:['generateContent']}],nextPageToken:'page2'}:{models:[{name:'models/embedding',supportedGenerationMethods:['embedContent']}]});});
