@@ -22,4 +22,4 @@ export function requireIllustratedArtwork(asset:{kind:string;provider:string;pat
  if(proof.model!=='@cf/black-forest-labs/flux-2-klein-4b'||proof.styleVersion!=='illustrated-doodle-v4.2'||!proof.width||!proof.height||proof.aspectRatio!=='16:9'||Math.abs(proof.width*9-proof.height*16)>9)throw new Error('Production primary artwork requires native 16:9 Klein v4.2 provenance; square/debug sources are forbidden');
  return proof;
 }
-export function requireV4VideoApproval(style:IllustratedStyleLock){if(!style.visualSystemApproved||!style.approvedAt||style.referenceAnalysisStatus!=='analysed')throw new Error('Only the v4 style audition is authorized. No demo, quality video, pilot or long-form video until human approval of STYLE-TEST-CONTACT-SHEET-v4.jpg');}
+export function requireV4VideoApproval(style:IllustratedStyleLock){if(!style.visualSystemApproved||!style.approvedAt||style.referenceAnalysisStatus!=='analysed')throw new Error('Only the native v4.2 style audition is authorized. No demo, quality video, pilot or long-form video until human approval of STYLE-PREVIEW-v4.2.jpg and packaging direction');}

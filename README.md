@@ -10,6 +10,8 @@ To run the current **real** milestone, manually dispatch **style-audition-v4-2**
 
 Local validation: `npm ci`, `npm run lint`, `npm run typecheck`, `npm test`. Resume an interrupted native milestone using the same `run_id` and the previous numeric Actions `source_run_id`; immutable reference/configuration and raw-source hashes are checked before reuse. Change the run ID if the reference or generation configuration changes.
 
+The manual `style-evidence-v4-2` workflow only repackages an existing four-source artifact: it verifies raw source/reference hashes, produces a compact wide-image preview, and recomputes cost counters from the original ledger. It has no production Secrets or inference calls. A green evidence-packaging job means artifact preparation succeeded; it never changes or approves the original style QA.
+
 Earlier milestone documentation below is retained as history; current v4.2 rules take precedence.
 
 # youtube-autopilot

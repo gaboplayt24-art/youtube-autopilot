@@ -1,0 +1,48 @@
+name: style-evidence-v4-2
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        type: string
+        default: style-v4-2-real-001
+      source_run_id:
+        type: string
+        required: true
+        description: Original native inference run; requires all four original PNGs
+permissions:
+  contents: read
+  actions: read
+jobs:
+  preserve-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      RUN_ID: ${{ inputs.run_id }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      FREE_ONLY: 'true'
+      MAX_PAID_COST_USD: '0'
+      PAID_FALLBACK_ENABLED: 'false'
+      AUTO_PUBLISH: 'false'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - uses: actions/download-artifact@v4
+        with:
+          name: native-packaging-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - run: bash scripts/ensure-media-ci.sh
+      - run: npm run lint && npm run typecheck && npm test
+      - name: Repackage existing evidence; zero external inference
+        run: npx tsx src/visuals/package-v4-2-evidence.ts --dir "data/runs/$RUN_ID" --source-run-id "$SOURCE_RUN_ID"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: native-packaging-${{ env.RUN_ID }}-review
+          path: data/runs/${{ env.RUN_ID }}/
+          retention-days: 30
