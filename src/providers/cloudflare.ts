@@ -20,15 +20,15 @@ export class CloudflareReferenceImageProvider implements ImageProvider {
  constructor(private request:typeof fetch=fetch){}
  async generate(prompt:string,path:string,context?:ImageContext){
   if(prompt.length>2048)throw new Error('FLUX prompt exceeds 2048 chars');
-  const references=context?.referenceImages??[];if(references.length>4)throw new Error('FLUX Klein accepts at most four references');
-  await mkdir(dirname(path),{recursive:true});const form=new FormData();form.append('prompt',prompt);form.append('width','1024');form.append('height','1024');
+  const references=context?.referenceImages??[];if(!references.length)throw new Error('Klein primary illustration requires actual input_image_0 reference');if(references.length>4)throw new Error('FLUX Klein accepts at most four references');
+  await mkdir(dirname(path),{recursive:true});const form=new FormData();form.append('prompt',prompt);const width=context?.width??1920,height=context?.height??1080;if(!Number.isInteger(width)||!Number.isInteger(height)||width<256||height<256||width>2048||height>2048||Math.abs(width*9-height*16)>9)throw new Error('Klein primary output must be native 16:9 within supported 256-2048 dimensions');form.append('width',String(width));form.append('height',String(height));
   for(const [index,reference]of references.entries()){
-   const resized=path+`.reference-${index}.png`;await exec('ffmpeg',['-y','-v','error','-i',reference,'-vf','scale=504:504:force_original_aspect_ratio=decrease','-frames:v','1',resized],{timeout:20000});
-   form.append(`input_image_${index}`,new Blob([new Uint8Array(await readFile(resized))],{type:'image/png'}),`reference-${index}.png`);
+   const resized=path+`.reference-${index}.png`;const ref=JSON.parse((await exec('ffprobe',['-v','error','-show_streams','-of','json',reference])).stdout).streams[0];const factor=Math.min(1,504/Math.max(ref.width,ref.height));const refWidth=Math.max(1,Math.round(ref.width*factor)),refHeight=Math.max(1,Math.round(ref.height*factor));let bytes:Buffer,mime:string;if(factor===1){bytes=await readFile(reference);mime=bytes.subarray(0,8).toString('hex')==='89504e470d0a1a0a'?'image/png':'image/jpeg';}else{await exec('ffmpeg',['-y','-v','error','-i',reference,'-vf',`scale=${refWidth}:${refHeight}`,'-frames:v','1',resized],{timeout:20000});bytes=await readFile(resized);mime='image/png';}
+   form.append(`input_image_${index}`,new Blob([new Uint8Array(bytes)],{type:mime}),`reference-${index}.${mime==='image/png'?'png':'jpg'}`);
   }
-  // 4 output tiles *26.05 plus <=4 input tiles *5.37; deliberately rounded upward.
-  const {response,id,quota}=await run(FLUX_REFERENCE_MODEL,form,128+references.length*32,this.request);
-  try{const result=z.object({success:z.literal(true),result:z.object({image:z.string().min(16)})}).parse(await response.json());await writeFile(path,Buffer.from(result.result.image,'base64'));await exec('ffmpeg',['-v','error','-i',path,'-frames:v','1','-f','null','-'],{timeout:20000});await quota.finish(id,{images:1});}
+  // Output/input 512px tiles rounded upward to 32 neurons each; reservation, not measured usage.
+  const {response,id,quota}=await run(FLUX_REFERENCE_MODEL,form,Math.ceil(width/512)*Math.ceil(height/512)*32+references.length*32,this.request);
+  try{const result=z.object({success:z.literal(true),result:z.object({image:z.string().min(16)})}).parse(await response.json());await writeFile(path,Buffer.from(result.result.image,'base64'));await exec('ffmpeg',['-v','error','-i',path,'-frames:v','1','-f','null','-'],{timeout:20000});const probe=JSON.parse((await exec('ffprobe',['-v','error','-show_streams','-of','json',path])).stdout).streams[0];await json(path+'.dimensions.json',{width:probe.width,height:probe.height,requestedWidth:width,requestedHeight:height,model:FLUX_REFERENCE_MODEL});if(probe.width!==width||probe.height!==height)throw new Error('Klein returned wrong native dimensions; no square crop fallback');await quota.finish(id,{images:1});await log(quota.dir,'cloudflare_image_returned',{model:FLUX_REFERENCE_MODEL,httpStatus:response.status,imageReturned:true,width,height});}
   catch(e){await quota.finish(id,{},true);throw e;}
  }
 }

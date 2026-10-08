@@ -1,0 +1,22 @@
+{
+  "role": "Historical internal style evidence ONLY. Not production assets; original square dimensions are not a production standard.",
+  "workflowRun": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/37728937997",
+  "sources": [
+    {
+      "file": "source-03.png",
+      "sha256": "8e5f208add85fc72b0fae1c2ce9953a4ecd3aa2b7ef7606d58acc318d6d9f925",
+      "sourceDimensions": {
+        "width": 1024,
+        "height": 1024
+      }
+    },
+    {
+      "file": "source-04.png",
+      "sha256": "bad490009eb63622e157255f6516b5a73da33b3368d2bdea0f793dbf85b4ddc8",
+      "sourceDimensions": {
+        "width": 1024,
+        "height": 1024
+      }
+    }
+  ]
+}

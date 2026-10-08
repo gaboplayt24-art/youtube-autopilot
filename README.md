@@ -1,3 +1,17 @@
+## Current milestone: native v4.2 + public packaging benchmark
+
+The active identity is a mature, hand-drawn historical editorial cartoon. `VisualStyleEngine` generates original native 16:9 illustrations using **Cloudflare FLUX.2 Klein 4B** and actual `assets/references/style-v4.jpg` bytes as `input_image_0`. Production requests 1920×1080; the four-source audition requests 1536×864. No square crop or geometric-art fallback is permitted. Reference resizing preserves aspect ratio. The old square source-03/04 are internal style evidence only, with provenance under `assets/references/v4-evidence/`.
+
+`BenchmarkPackagingEngine` resolves seed channels and additional competitors with the public YouTube Data API, samples recent long-form uploads, normalizes own-channel baselines and ranks outliers. It never claims access to competitor Analytics or audience geography. Leader scoring weights are 35% relative views, 20% velocity, 15% likes, 10% comments, 10% consistency and 10% historical relevance. Gemini analyzes actual public thumbnails and abstract title patterns. Three original packaging concepts must each score at least 82 before production scripts/assets. These scores are design assessments, not CTR predictions.
+
+To run the current **real** milestone, manually dispatch **style-audition-v4-2** on `main` with `run_id=style-v4-2-real-001`. It uses existing GitHub Secrets `YOUTUBE_DATA_API_KEY`, `GEMINI_API_KEY`, `CLOUDFLARE_API_TOKEN`, and `CLOUDFLARE_ACCOUNT_ID` (the account ID may instead be a repository variable). No production secrets or Pexels key are needed locally. The workflow generates exactly four NEW native sources, preserves raw PNGs, dimensions, QA, `STYLE-PREVIEW-v4.2.jpg`, benchmark and packaging reports in `native-packaging-<run_id>`, then stops for human approval. No video or remaining eight scenes is generated. Both stages must succeed for a green run; rejected/partial results are preserved too.
+
+`FREE_ONLY=true`, `MAX_PAID_COST_USD=0`, `PAID_FALLBACK_ENABLED=false`, and `AUTO_PUBLISH=false` remain mandatory. A Cloudflare paid-plan rejection stops the run; it never enables billing or switches to square Schnell. Quota reservations are conservative estimates, not measured usage. Successful API inference does not imply human style approval. Future approved production thumbnails use independently planned native 16:9 artwork and a 3840×2160 Remotion canvas with 0–4 overlay words.
+
+Local validation: `npm ci`, `npm run lint`, `npm run typecheck`, `npm test`. Resume an interrupted native milestone using the same `run_id` and the previous numeric Actions `source_run_id`; immutable reference/configuration and raw-source hashes are checked before reuse. Change the run ID if the reference or generation configuration changes.
+
+Earlier milestone documentation below is retained as history; current v4.2 rules take precedence.
+
 # youtube-autopilot
 
 ## Current milestone: illustrated art v4, no video

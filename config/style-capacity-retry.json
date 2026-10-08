@@ -1,7 +1,10 @@
 {
-  "enabled": true,
+  "enabled": false,
   "runId": "style-v4-real-002",
   "referencePath": "assets/references/style-v4.jpg",
   "maximumAutomaticAttempts": 3,
-  "allowedStates": ["cloudflare_out_of_capacity", "cloudflare_429_unknown"]
+  "allowedStates": [
+    "cloudflare_out_of_capacity",
+    "cloudflare_429_unknown"
+  ]
 }
