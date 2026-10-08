@@ -12,7 +12,7 @@ on:
       reference_path:
         description: Downloadable positive PNG/JPG committed to the repo; never rejected v3 art
         type: string
-        default: assets/references/style-v4.png
+        default: assets/references/style-v4.jpg
       reference_url:
         description: Optional HTTPS image on GitHub user attachments/raw content or i.ytimg.com
         type: string
