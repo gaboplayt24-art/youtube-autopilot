@@ -20,6 +20,10 @@ on:
         description: Code validation only, zero inference; does NOT generate or approve a style audition
         type: boolean
         default: false
+      capacity_resume_attempt:
+        description: Bounded automatic capacity retry counter; leave zero for manual runs
+        type: string
+        default: '0'
 permissions:
   contents: read
   actions: read
@@ -41,6 +45,7 @@ jobs:
       REFERENCE_PATH: ${{ inputs.reference_path }}
       REFERENCE_URL: ${{ inputs.reference_url }}
       VALIDATE_ONLY: ${{ inputs.validate_only }}
+      CLOUDFLARE_AUTOMATIC_RESUME_ATTEMPT: ${{ inputs.capacity_resume_attempt }}
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

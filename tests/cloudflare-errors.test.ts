@@ -1,0 +1,32 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtemp,rm,readFile} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {FreeQuotaLedger,withQuota,QuotaPause} from '../src/quota';
+import {CloudflareWorkersAIImageProvider,FLUX_MODEL} from '../src/providers/cloudflare';
+import {cloudflareRun,CloudflareRetryPause,cloudflareRetryDelay} from '../src/providers/cloudflare-request';
+import {exec,read} from '../src/orchestration/io';
+const instant=()=>new Date('2026-10-08T12:00:00Z');
+async function isolated(fn:(dir:string,q:FreeQuotaLedger)=>Promise<void>){const dir=await mkdtemp(join(tmpdir(),'cloudflare-errors-')),keys=['CLOUDFLARE_API_TOKEN','CLOUDFLARE_ACCOUNT_ID','CLOUDFLARE_FREE_PLAN_CONFIRMED','FREE_ONLY','PAID_FALLBACK_ENABLED','MAX_PAID_COST_USD'],old=Object.fromEntries(keys.map(k=>[k,process.env[k]]));try{Object.assign(process.env,{CLOUDFLARE_API_TOKEN:'test-private-token',CLOUDFLARE_ACCOUNT_ID:'test-private-account',CLOUDFLARE_FREE_PLAN_CONFIRMED:'true',FREE_ONLY:'true',PAID_FALLBACK_ENABLED:'false',MAX_PAID_COST_USD:'0'});await fn(dir,new FreeQuotaLedger(dir,join(dir,'ledger.json'),10000,instant));}finally{for(const [k,v]of Object.entries(old))if(v===undefined)delete process.env[k];else process.env[k]=v;await rm(dir,{recursive:true,force:true});}}
+const rejection=(code?:number,status=429)=>Response.json({errors:code===undefined?[]:[{code,message:'Rejected test-private-account test-private-token'}]},{status});
+test('automatic resumption excludes daily exhaustion, failed style QA, paid fallback and exhausted attempt budgets',async()=>{await exec('python3',['-B','-m','unittest','discover','-s','tests','-p','test_style_capacity_retry.py']);});
+test('429/3036 confirms daily exhaustion, releases rejected reservation and checkpoints next UTC midnight without retry',()=>isolated(async(dir,q)=>{
+ let calls=0;await assert.rejects(()=>withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>{calls++;return rejection(3036);},{now:instant,wait:async()=>{throw new Error('No retry allowed');}})),QuotaPause);assert.equal(calls,1);assert.equal(q.usedToday(),0);assert.equal(q.events[0].confirmedConsumedNeurons,0);const checkpoint=await read(join(dir,'quota-checkpoint.json'));assert.equal(checkpoint.classification,'DAILY_FREE_QUOTA_EXHAUSTED');assert.equal(checkpoint.resumeAfter,'2026-10-09T00:00:00.000Z');const logs=await readFile(join(dir,'logs.jsonl'),'utf8');assert.match(logs,/cloudflare_daily_quota_exhausted/);assert.ok(!logs.includes('test-private-token')&&!logs.includes('test-private-account'));
+}));
+test('429/3040 retries the same request then returns a genuine image, retaining only the successful reservation',()=>isolated(async(dir,q)=>{
+ const fixture=join(dir,'unit-fixture.png');await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','testsrc2=size=64x64','-frames:v','1',fixture]);const bytes=await readFile(fixture),waits:number[]=[],bodies:string[]=[];let calls=0;
+ const provider=new CloudflareWorkersAIImageProvider(async(_url,init)=>{bodies.push(String(init?.body));return ++calls===1?rejection(3040):Response.json({success:true,result:{image:bytes.toString('base64')}});},{wait:async ms=>{waits.push(ms);},random:()=>0,now:instant});const output=join(dir,'result.png');await withQuota(q,()=>provider.generate('Same illustrated scene',output));assert.equal(calls,2);assert.deepEqual(waits,[5000]);assert.equal(bodies[0],bodies[1]);assert.deepEqual(await readFile(output),bytes);assert.equal(q.usedToday(),64);assert.equal(q.events[0].releasedNeurons,64);assert.equal(q.events[0].uncertainNeurons,0);assert.equal(q.events[1].images,1);assert.equal(q.events[1].confirmedConsumedNeurons,null);await assert.rejects(()=>read(join(dir,'quota-checkpoint.json')),/ENOENT/);
+}));
+test('persistent 3040 has five retries and a short capacity checkpoint, never a daily quota pause',()=>isolated(async(dir,q)=>{
+ let calls=0;const waits:number[]=[];await assert.rejects(()=>withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>{calls++;return rejection(3040);},{now:instant,random:()=>0,wait:async ms=>{waits.push(ms);}})),CloudflareRetryPause);assert.equal(calls,6);assert.deepEqual(waits,[5000,15000,30000,60000,120000]);assert.equal(q.usedToday(),0);const checkpoint=await read(join(dir,'quota-checkpoint.json'));assert.equal(checkpoint.state,'cloudflare_out_of_capacity');assert.equal(checkpoint.resumeAfter,'2026-10-08T12:20:00.000Z');
+}));
+test('unknown 429 preserves sanitized diagnostics and bounded conservative reservations without inventing 3036',()=>isolated(async(dir,q)=>{
+ let calls=0;const waits:number[]=[];await assert.rejects(()=>withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>{calls++;return rejection();},{now:instant,random:()=>0,wait:async ms=>{waits.push(ms);}})),CloudflareRetryPause);assert.equal(calls,4);assert.deepEqual(waits,[10000,30000,60000]);assert.equal(q.usedToday(),256);const checkpoint=await read(join(dir,'quota-checkpoint.json'));assert.equal(checkpoint.state,'cloudflare_429_unknown');const diagnostic=await read(join(dir,'cloudflare-error.json'));assert.deepEqual(diagnostic.internalCodes,[]);assert.equal(diagnostic.classification,'UNKNOWN_429');
+}));
+test('403/5035 fails once as paid-plan-required under FREE_ONLY and never enables overflow',()=>isolated(async(dir,q)=>{
+ let calls=0;await assert.rejects(()=>withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>{calls++;return rejection(5035,403);},{wait:async()=>{throw new Error('No retry');}})),/paid plan.*FREE_ONLY/);assert.equal(calls,1);assert.equal(q.usedToday(),0);assert.equal((await read(join(dir,'cloudflare-error.json'))).classification,'PAID_PLAN_REQUIRED');
+}));
+test('Retry-After seconds/date take priority; reported consumption is retained even on 3040',()=>isolated(async(_dir,q)=>{
+ assert.equal(cloudflareRetryDelay(5000,'90',instant().getTime(),()=>0),90000);assert.equal(cloudflareRetryDelay(5000,'Thu, 08 Oct 2026 12:01:00 GMT',instant().getTime(),()=>0),60000);let calls=0;await withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>++calls===1?Response.json({errors:[{code:3040,message:'capacity'}],usage:{neurons:7}},{status:429}):Response.json({success:true}),{random:()=>0,wait:async()=>{}}));assert.equal(q.events[0].confirmedConsumedNeurons,7);assert.equal(q.events[0].releasedNeurons,0);assert.equal(q.events[0].uncertainNeurons,57);assert.equal(q.usedToday(),128);
+}));
