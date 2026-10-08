@@ -17,7 +17,7 @@ export async function cloudflareRun(model:string,input:unknown,neurons:number,re
  for(let attempt=1;;attempt++){
   const id=await quota.reserve('cloudflare',model,neurons);let response:Response;
   try{response=await request(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID!)}/ai/run/${model}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,...(multipart?{}:{'Content-Type':'application/json'})},body,signal:AbortSignal.timeout(120000)});}catch(error){await quota.finish(id,{},true);await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:null,message:sanitize(error)});throw new Error(sanitize(error));}
-  if(response.ok){await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:response.status,internalCodes:[],imageReturned:false});return {response,id,quota};}
+  if(response.ok){await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:response.status,internalCodes:[]});return {response,id,quota,attempt};}
   const data:unknown=await response.json().catch(()=>null);const parsed=data&&typeof data==='object'?data as Record<string,unknown>:{};
   const errors=Array.isArray(parsed.errors)?parsed.errors.slice(0,10):[];
   const entries=errors.filter((e):e is Record<string,unknown>=>!!e&&typeof e==='object');

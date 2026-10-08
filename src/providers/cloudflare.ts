@@ -3,7 +3,7 @@ import {dirname,basename} from 'node:path';
 import {z} from 'zod';
 import {extractCriticalTerms} from '../voice/qa';
 import {cloudflareRun as run,type CloudflareRetryOptions} from './cloudflare-request';
-import {exec,json,duration} from '../orchestration/io';
+import {exec,json,duration,log} from '../orchestration/io';
 import {validatedVoiceAlignment} from './kokoro';
 import type {ImageProvider,TTSProvider,SpeechContext,ImageContext} from './interfaces';
 export const FLUX_REFERENCE_MODEL='@cf/black-forest-labs/flux-2-klein-4b';
@@ -13,7 +13,7 @@ export function cloudflareConfigured(){return !!process.env.CLOUDFLARE_ACCOUNT_I
 /** Official REST schema accepts prompt/steps only, outputs a 1024-square base64 image. */
 export class CloudflareWorkersAIImageProvider implements ImageProvider {
  constructor(private request:typeof fetch=fetch,private retryOptions:CloudflareRetryOptions={}){}
- async generate(prompt:string,path:string){if(prompt.length>2048)throw new Error('FLUX prompt exceeds 2048 chars');const {response,id,quota}=await run(FLUX_MODEL,{prompt,steps:4},64,this.request,this.retryOptions);try{const result=z.object({success:z.literal(true),result:z.object({image:z.string().min(16)})}).parse(await response.json());await mkdir(dirname(path),{recursive:true});await writeFile(path,Buffer.from(result.result.image,'base64'));await exec('ffmpeg',['-v','error','-i',path,'-frames:v','1','-f','null','-'],{timeout:20000});await quota.finish(id,{images:1});}catch(e){await quota.finish(id,{},true);throw e;}}
+ async generate(prompt:string,path:string){if(prompt.length>2048)throw new Error('FLUX prompt exceeds 2048 chars');const {response,id,quota,attempt}=await run(FLUX_MODEL,{prompt,steps:4},64,this.request,this.retryOptions);try{const result=z.object({success:z.literal(true),result:z.object({image:z.string().min(16)})}).parse(await response.json());await mkdir(dirname(path),{recursive:true});await writeFile(path,Buffer.from(result.result.image,'base64'));await exec('ffmpeg',['-v','error','-i',path,'-frames:v','1','-f','null','-'],{timeout:20000});await quota.finish(id,{images:1});await log(quota.dir,'cloudflare_image_returned',{model:FLUX_MODEL,attempt,httpStatus:response.status,imageReturned:true});}catch(e){await quota.finish(id,{},true);throw e;}}
 }
 /** Official Klein multipart contract: reference inputs must be smaller than 512 square. */
 export class CloudflareReferenceImageProvider implements ImageProvider {
