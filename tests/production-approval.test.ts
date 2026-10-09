@@ -30,3 +30,9 @@ test('fact QA repairs a malformed count while preserving a substantive rejection
  const result=await factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>{calls++;return schema.parse(calls===1?{passed:false,issues:['Unsupported sanitation guarantee'],checkedClaims:[],review:'Unfounded'}:{passed:false,issues:['Unsupported sanitation guarantee'],checkedClaims:1,review:'A drain cannot guarantee hygiene'});}});
  assert.equal(calls,2);assert.equal(result.passed,false);assert.match(result.issues[0],/Unsupported/);
 });
+
+test('pacing advice cannot disable factual, audio, black-frame or asset safety checks',async()=>{
+ const {requireQA,requiredQAChecks}=await import('../src/qa');const checks=requiredQAChecks.map(name=>({name,passed:true,severity:'hard'}));
+ requireQA({passed:true,checks:checks.map(c=>c.name==='shot pacing'?{...c,passed:false,severity:'advisory'}:c)});
+ for(const name of ['factual consistency','audio duration','black frames','missing assets'])assert.throws(()=>requireQA({passed:true,checks:checks.map(c=>c.name===name?{...c,passed:false,severity:'advisory'}:c)}),/QA failed/);
+});
