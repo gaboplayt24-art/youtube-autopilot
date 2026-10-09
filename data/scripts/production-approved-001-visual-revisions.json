@@ -50,17 +50,17 @@
     {
       "sourceId": "video-source-5",
       "replacement": {
-        "id": "video-source-5-period-repair",
+        "id": "video-source-5-period-repair-2",
         "narration": "expanded into a complex series of subterranean channels. It waste toward the Tiber River. However, there was a the reality of daily life in the city. Most private dwellings,",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "An empty ancient Roman vaulted brick sewer, with shallow water flowing down an open stone channel toward the visible Tiber River through the far arch. No people, lamps, doors, plumbing pipes or modern infrastructure. Simple wide explanatory illustration with cream negative space.",
+        "concept": "Quiet empty vaulted Roman brick tunnel seen from inside: a carved stone channel of flowing water runs down the middle toward a bright arched opening onto the Tiber river bank. Bare curved brick walls and arch, nothing mounted on them. Uninhabited, simple wide explanatory view with cream negative space.",
         "overlay": null,
         "labelPlacement": "top",
         "characterRoles": [
           "None"
         ]
       },
-      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair (run 37981176063) was rejected: modern iron piping on the walls, three unrequested figures, excess density. Second repair describes only bare brick, the stone channel and the Tiber opening, without naming excluded objects."
     }
   ],
   "beatReassignments": [
