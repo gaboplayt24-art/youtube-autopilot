@@ -22,3 +22,11 @@ test('meaningful source reuse rejects adjacent repeats and inconsistent/unexplai
  assert.throws(()=>validatePlannedReuse([shot('drain',null),shot('street','STREET'),shot('drain','FLOW')]),/meaningful/);
  const changed=shot('drain','FLOW');changed.illustrationIdea!.concept='Unrelated historical imagery';assert.throws(()=>validatePlannedReuse([shot('drain','DRAIN'),shot('street','STREET'),changed]),/consistent/);
 });
+
+test('fact QA repairs a malformed count while preserving a substantive rejection',async()=>{
+ const {factcheck}=await import('../src/factcheck');let calls=0;
+ const script={title:'Roman Drainage',topic:'Roman drains',hook:'Where did the water go?',criticalTerms:[],scenes:[{id:'drains',narration:'The sewer made all of ancient Rome perfectly sanitary.',visual:'A Roman drain',claims:[]}]};
+ const research={topic:'Roman drains',summary:'A drain is not sewage treatment.',sources:[{url:'https://example.com/source',title:'Source',excerpt:'Drainage channels carried water. Hygiene was not guaranteed.'}]};
+ const result=await factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>{calls++;return schema.parse(calls===1?{passed:false,issues:['Unsupported sanitation guarantee'],checkedClaims:[],review:'Unfounded'}:{passed:false,issues:['Unsupported sanitation guarantee'],checkedClaims:1,review:'A drain cannot guarantee hygiene'});}});
+ assert.equal(calls,2);assert.equal(result.passed,false);assert.match(result.issues[0],/Unsupported/);
+});

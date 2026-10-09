@@ -8,6 +8,9 @@ on:
       source_run_id:
         description: Resume this same run ID from a preceding Actions artifact
         type: string
+      retry_from:
+        description: Optional existing stage to revise; archives previous script before invalidation
+        type: string
       gemini_model:
         description: Optional existing eligible free model override
         type: string
@@ -32,6 +35,7 @@ jobs:
       PIP_CACHE_DIR: ${{ github.workspace }}/.cache/pip
       FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
       CHROME_EXECUTABLE: /usr/bin/google-chrome
+      RETRY_FROM: ${{ inputs.retry_from }}
       RUN_ID: ${{ inputs.run_id || github.run_id }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ inputs.gemini_model || vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
@@ -94,7 +98,13 @@ jobs:
       - run: npm run lint && npm run typecheck && npm test
       - name: One human-approved 90–105s production video; no upload or paid fallback
         timeout-minutes: 60
-        run: npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene"
+        run: |
+          if [ -n "$RETRY_FROM" ]; then
+            cp "data/runs/$RUN_ID/script.json" "data/runs/$RUN_ID/script-before-correction.json"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene" --retry-from "$RETRY_FROM"
+          else
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene"
+          fi
       - name: Verify encoded media
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
       - uses: actions/upload-artifact@v4
