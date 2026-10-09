@@ -6,6 +6,20 @@ import {fileDigest} from '../src/orchestration/integrity';
 import {targetDuration,durationConfig} from '../src/longform';
 import {validatePlannedReuse} from '../src/visuals/illustrated-video-assets';
 import type {Shot} from '../src/editor/schemas';
+import {applyEditorialRevision,editorialRevision} from '../src/visuals/visual-thinking';
+test('evidence-based visual revisions preserve speech timing, refuse unknown IDs and retain independent source evidence',async()=>{
+ const revision=editorialRevision.parse(JSON.parse(await readFile('data/scripts/production-approved-001-visual-revisions.json','utf8')));
+ const idea=(id:string)=>({...revision.sourceRevisions[0].replacement,id});
+ const shots=revision.sourceRevisions.map((r,i)=>({id:'beat-'+i,assetKey:r.sourceId,illustrationIdea:idea(r.sourceId),narration:'Exact speech '+i,start:i*3,end:i*3+3,overlay:'EXPLAIN',visualIntent:'Explain actual historical mechanism'} as Shot));
+ shots.push({...shots[0],id:'rome-sewer-system-shot-16',assetKey:'video-source-8',illustrationIdea:idea('video-source-8')});
+ const before=JSON.stringify(shots),revised=applyEditorialRevision(shots,revision,revision.runId);
+ assert.equal(JSON.stringify(shots),before);
+ assert.deepEqual(revised.map(s=>[s.id,s.start,s.end,s.narration]),shots.map(s=>[s.id,s.start,s.end,s.narration]));
+ assert.equal(revised[0].assetKey,'video-source-2-period-repair');
+ assert.equal(revised.at(-1)!.assetKey,'video-source-8');
+ assert.throws(()=>applyEditorialRevision(shots,revision,'other-run'),/different run/);
+ assert.throws(()=>applyEditorialRevision(shots,{...revision,beatReassignments:[{...revision.beatReassignments[0],shotId:'unknown'}]},revision.runId),/unknown beat/);
+});
 test('human stylization exception is exact-asset only, preserves negative QA and cannot accept serious structure defects',async()=>{
  const direction=JSON.parse(await readFile('config/channel-art-direction.json','utf8')),raw=JSON.parse(await readFile('assets/approved-style/original-gemini-review.json','utf8'));
  const review=densityReview.parse(raw.source02),approval=direction.assetOverrides[0],sha=await fileDigest(approval.source);

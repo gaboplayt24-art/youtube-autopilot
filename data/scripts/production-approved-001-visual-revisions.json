@@ -1,0 +1,73 @@
+{
+  "runId": "production-approved-001",
+  "sourceRevisions": [
+    {
+      "sourceId": "video-source-2",
+      "replacement": {
+        "id": "video-source-2-period-repair",
+        "narration": "used in public baths. It sounds like a strange function: moving waste out of the city. The latrine systems. A constant stream flowed beneath",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Ancient Roman bath drainage: one barefoot adult in a plain belted knee-length wool tunic beside a stone bath basin. Used water spills through a terracotta outlet into a shallow open masonry channel. No hats, collars, trousers, modern valves or metal pipe elbows. Quiet cream space.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Roman adult in wool tunic and sandals"
+        ]
+      },
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+    },
+    {
+      "sourceId": "video-source-3",
+      "replacement": {
+        "id": "video-source-3-period-repair",
+        "narration": "the long, bench-like seats, carrying refuse; drain network. This main drainage system; to reclaim low-lying land near the Forum by",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Ancient Roman public latrine stone bench with visible round seat openings above an exposed masonry drain, leading toward a patch of low marshy ground beyond a simple arch. One sandal-wearing adult in an uncollared wool tunic points at the flow. No modern pipes or furniture.",
+        "overlay": null,
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Roman adult in wool tunic and sandals"
+        ]
+      },
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+    },
+    {
+      "sourceId": "video-source-4",
+      "replacement": {
+        "id": "video-source-4-period-repair",
+        "narration": "away from the public areas and into the urban; was a massive undertaking, initially built; draining swamps and directing runoff. Over centuries, it",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Early Roman marsh drainage works near the Forum: two adults in plain belted wool tunics and sandals use wooden shovels beside a shallow stone-lined channel draining reed-covered wet ground. A low stone wall and distant simple column suggest the city. No hats, trousers or modern infrastructure.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Roman laborer in wool tunic",
+          "Roman laborer with wooden shovel"
+        ]
+      },
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+    },
+    {
+      "sourceId": "video-source-5",
+      "replacement": {
+        "id": "video-source-5-period-repair",
+        "narration": "expanded into a complex series of subterranean channels. It waste toward the Tiber River. However, there was a the reality of daily life in the city. Most private dwellings,",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "An empty ancient Roman vaulted brick sewer, with shallow water flowing down an open stone channel toward the visible Tiber River through the far arch. No people, lamps, doors, plumbing pipes or modern infrastructure. Simple wide explanatory illustration with cream negative space.",
+        "overlay": null,
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+    }
+  ],
+  "beatReassignments": [
+    {
+      "shotId": "rome-sewer-system-shot-16",
+      "sourceId": "video-source-8",
+      "reason": "Actual source-5 component QA confirmed the apartment interior is absent. Use the already planned domestic source, not a tunnel crop."
+    }
+  ]
+}

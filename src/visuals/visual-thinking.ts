@@ -5,6 +5,15 @@ import {validatedJSON} from '../providers/validated-json';
 import {visualIdea,type VisualIdea,doodleIcon,conceptTypes} from './thinking-schema';
 import art from '../../config/style-lock-v3.json';
 import {artworkIdea} from './illustration-schema';
+export const editorialRevision=z.object({runId:z.string(),sourceRevisions:z.array(z.object({sourceId:z.string(),replacement:artworkIdea,reason:z.string().min(10)})),beatReassignments:z.array(z.object({shotId:z.string(),sourceId:z.string(),reason:z.string().min(10)}))});
+/** Explicit evidence-based corrections; the original plan remains a checkpoint. */
+export function applyEditorialRevision(shots:Shot[],revision:z.infer<typeof editorialRevision>,runId:string){
+ if(revision.runId!==runId)throw new Error('Editorial revision belongs to a different run');
+ const originals=new Map(shots.map(s=>[s.assetKey??s.id,s.illustrationIdea]));
+ for(const r of revision.sourceRevisions)if(!originals.has(r.sourceId)||r.replacement.id===r.sourceId)throw new Error('Revision needs an existing source and a fresh evidence ID');
+ for(const r of revision.beatReassignments)if(!shots.some(s=>s.id===r.shotId)||!originals.get(r.sourceId))throw new Error('Editorial reassignment references an unknown beat/source');
+ return shots.map(s=>{const key=revision.beatReassignments.find(r=>r.shotId===s.id)?.sourceId??s.assetKey??s.id;const idea=revision.sourceRevisions.find(r=>r.sourceId===key)?.replacement??originals.get(key)!;return {...s,assetKey:idea.id,illustrationIdea:idea,assetPrompt:idea.concept};});
+}
 type Icon=z.infer<typeof doodleIcon>;
 const ideaContract=`Each idea requires version:"educational-doodle-v3", conceptType, takeaway (5-240 chars), nodes (1-4), relationships (0-3). Each node requires {id,icon,label,pose,emphasis}; label <=24 characters/4 words; pose neutral|point|carry|think|walk; emphasis boolean. Every relationship requires {from,to,label}, label <=20 characters; use "" for unlabeled arrows. Endpoints reference distinct existing nodes. COMPARE_TWO requires exactly two nodes. Icons are ${doodleIcon.options.join(',')}; concept types are ${conceptTypes.options.join(',')}. Use wind for breeze, spray for sea spray, box for crates. Never substitute sun for wind or tools for water. Rows of objects use ICON_EXPLANATION with horizontal repeated nodes, no hierarchy or arrows and preferably one shared label.`;
 const nouns:[RegExp,Icon,string][]=[[/\bchild(?:ren)?\b/i,'child','CHILD'],[/\b(?:boat(?:s)?|harbor|cargo|dock|ship(?:s)?|shipment|sea|water)\b/i,'boat','CARGO'],[/\b(?:coins?|pay|payment|money|price|tax|silver|copper)\b/i,'coin','COINS'],[/\b(?:jars?|amphora|oil)\b/i,'amphora','JAR'],[/\b(?:write|record|ledger|tablet|document|scroll|papyrus|receipt|ink|pen)\b/i,'scroll','RECORD'],[/\b(?:work|tool|labor|task)\b/i,'tool','WORK'],[/\b(?:market|city|street|workshop|courtyard|pillars|home|window|signs)\b/i,'building','PLACE'],[/\b(?:time|hour|morning|dawn|noon|daylight)\b/i,'clock','TIME'],[/\b(?:book|read|library)\b/i,'book','READ'],[/\b(?:path|route|maze|journey|gate)\b/i,'path','PATH'],[/\b(?:attention|focus|spotlight)\b/i,'focus','FOCUS']];
