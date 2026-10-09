@@ -19,17 +19,17 @@
     {
       "sourceId": "video-source-3",
       "replacement": {
-        "id": "video-source-3-period-repair",
+        "id": "video-source-3-period-repair-2",
         "narration": "the long, bench-like seats, carrying refuse; drain network. This main drainage system; to reclaim low-lying land near the Forum by",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "Ancient Roman public latrine stone bench with visible round seat openings above an exposed masonry drain, leading toward a patch of low marshy ground beyond a simple arch. One sandal-wearing adult in an uncollared wool tunic points at the flow. No modern pipes or furniture.",
+        "concept": "Ancient Roman communal latrine: one long continuous stone bench along a plastered masonry wall, a row of keyhole-shaped openings cut into its top. Below, a masonry channel of flowing water exits through an arched drain. A shallow gutter runs along the floor in front. One adult in a belted wool tunic and sandals points at the flow. No separate toilets, lids, partitions, pipes, taps or tiles.",
         "overlay": null,
         "labelPlacement": "top",
         "characterRoles": [
           "Roman adult in wool tunic and sandals"
         ]
       },
-      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair was rejected for historicalAccuracy (run 37961108123); it mixed a latrine with a marsh beyond an arch and requested round openings. Second repair follows excavated foriæ (Ostia, Ephesus): continuous bench, keyhole openings, flushing channel below and floor gutter; drainage-to-marsh context stays in source-4."
     },
     {
       "sourceId": "video-source-4",
