@@ -100,3 +100,10 @@ test('every production visual revision fits the native Klein prompt limit before
  const revision=editorialRevision.parse(JSON.parse(await readFile('data/scripts/production-approved-001-visual-revisions.json','utf8')));
  for(const r of revision.sourceRevisions)assert.ok(nativePrompt(style,r.replacement).length<=2048,r.replacement.id);
 });
+test('component crops accept Gemini 0–1000 boxes but keep every crop rule',async()=>{
+ const {componentCrop}=await import('../src/editor/schemas');const crop=(bounds:number[])=>({bounds,subject:'stone bench',kind:'object',placement:'left'});
+ assert.deepEqual(componentCrop.parse(crop([100,200,500,800])).bounds,[.1,.2,.5,.8]);
+ assert.deepEqual(componentCrop.parse(crop([.1,.2,.5,.8])).bounds,[.1,.2,.5,.8]);
+ assert.throws(()=>componentCrop.parse(crop([0,0,1000,1000])),/entire completed scene/);
+ assert.throws(()=>componentCrop.parse(crop([100,200,1500,800])));
+});
