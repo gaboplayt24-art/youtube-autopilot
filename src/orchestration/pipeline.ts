@@ -1,6 +1,7 @@
 import {generatePackagedThumbnails} from '../packaging/thumbnails';
 import {BenchmarkPackagingEngine} from '../packaging/engine';
-import {packagingBenchmark,packagingPlan,requirePackaging} from '../packaging/schemas';
+import {packagingBenchmark,packagingPlan} from '../packaging/schemas';
+import {PackagingV2,packagingDNA} from '../packaging/v2';
 import {FreeQuotaLedger,withQuota} from '../quota';
 import {semanticQA} from '../visuals/semantic';
 import {createVisualBible,visualBible} from '../visuals/bible';
@@ -44,7 +45,7 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
  const config=await loadConfig();const strategy=config.strategy;const options=optionsSchema.parse({runId:input.runId??randomUUID(),mode:input.mode??'demo',topic:input.topic??strategy.topics[0],productionKind:input.productionKind??'longform'});
  const dir=join('data/runs',options.runId);const storage=options.mode==='production'&&process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY?new SupabaseStorage():undefined;const runner=new Runner(dir,storage,options.runId);await runner.lock();
  try{
-  const fingerprint=createHash('sha256').update(JSON.stringify({engineVersion:6,options,config,providers:{tts:process.env.TTS_PROVIDER,kokoroVoice:process.env.KOKORO_VOICE,elevenModel:process.env.ELEVENLABS_MODEL,elevenVoice:process.env.ELEVENLABS_VOICE_ID,llm:process.env.GEMINI_MODEL,targetDurationMode:process.env.TARGET_DURATION_MODE}})).digest('hex');
+  const fingerprint=createHash('sha256').update(JSON.stringify({engineVersion:7,options,config,packagingDNA:await read('config/channel-packaging-dna.json'),providers:{tts:process.env.TTS_PROVIDER,kokoroVoice:process.env.KOKORO_VOICE,elevenModel:process.env.ELEVENLABS_MODEL,elevenVoice:process.env.ELEVENLABS_VOICE_ID,llm:process.env.GEMINI_MODEL,targetDurationMode:process.env.TARGET_DURATION_MODE}})).digest('hex');
   const manifest=join(dir,'manifest.json');let previous;try{previous=await read(manifest);}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
   if(previous&&previous.fingerprint!==fingerprint)throw new Error('Run configuration changed; choose a new run ID');
   if(!previous)await json(manifest,{...options,fingerprint,createdAt:new Date().toISOString()});
@@ -60,9 +61,11 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
   const ideas=await runner.stage('ideas',schemas.ideas,()=>demo?Promise.resolve({ideas:[{topic:research.topic,hook:demoScript.hook,score:90,reason:'Original illustrated metaphor; no empirical claims'}]}):generateIdeas({research,audience:config.audience},llm));
   const scoring=await runner.stage('scoring',schemas.ideas,async()=>scoreIdeas(ideas,research.sources.length));
   const selection=await runner.stage('selection',schemas.schemas.selection,async()=>selectTopic(scoring));
-  if(!demo){const packagingEngine=new BenchmarkPackagingEngine();const benchmark=await runner.stage('packaging-benchmark',packagingBenchmark,()=>packagingEngine.analyze(dir,runner,llm));const patterns=await packagingEngine.patterns(benchmark,dir,runner,llm);await runner.stage('packaging-before-production',packagingPlan,()=>packagingEngine.plan(selection.topic,benchmark,patterns,llm,dir),async p=>{requirePackaging(p,benchmark);});}
-  const longPlan=durationPlan?await runner.stage('chapter-outline',longFormPlan,()=>new LongFormPlanner().outline(durationPlan,{research,selection},llm)):undefined;
-  const script=await runner.stage('script',schemas.script,()=>demo?Promise.resolve(demoScript):writeLongForm({research,selection,channel:config.channel,audience:config.audience,narrator:config.narrator},llm,longPlan!));
+  let packagingDirection:unknown;
+  if(!demo){packagingDNA.parse(await read('config/channel-packaging-dna.json'));const packagingEngine=new BenchmarkPackagingEngine(),v2=new PackagingV2();const benchmark=await runner.stage('packaging-benchmark',packagingBenchmark,()=>packagingEngine.analyze(dir,runner,llm));const channels=await v2.expand(benchmark,dir,dir,runner);const observations=await v2.inspect(channels,dir,dir,runner,llm);const roles=await v2.benchmark(benchmark,channels,observations,dir,runner,llm,await fileDigest(process.env.STYLE_REFERENCE_PATH??'assets/references/style-v4.jpg'));const candidate=await v2.direction(selection.topic,roles,dir,runner,llm);await runner.stage('packaging-before-production',packagingPlan,async()=>candidate);packagingDirection=await read(join(dir,'topic-first-direction-v2.json'));}
+  const longPlan=durationPlan?await runner.stage('chapter-outline',longFormPlan,()=>new LongFormPlanner().outline(durationPlan,{research,selection,packagingDirection},llm)):undefined;
+  const script=await runner.stage('script',schemas.script,async()=>demo?Promise.resolve(demoScript):writeLongForm({research,selection,packagingDirection,packagingCandidates:demo?undefined:await read(join(dir,'packaging-before-production.json')),channel:config.channel,audience:config.audience,narrator:config.narrator},llm,longPlan!));
+  if(!demo){const candidates=packagingPlan.parse(await read(join(dir,'packaging-before-production.json')));if(!candidates.titles.includes(script.title))throw new Error('Script title diverges from approved original packaging candidates');}
   if(new Set(script.scenes.map(s=>s.id)).size!==script.scenes.length||script.scenes.some(s=>!/^[A-Za-z0-9_-]+$/.test(s.id)))throw new Error('Invalid or duplicate scene IDs');
   await runner.stage('script-quality',z.object({score:z.number(),passed:z.boolean(),repeatedSentences:z.number(),clicheCount:z.number(),repeatedTwelveWordPhrases:z.number(),limitations:z.string()}),async()=>scriptQuality(script.scenes.map(s=>s.narration)));
   const dictionary=await runner.stage('pronunciations',pronunciations,async()=>process.env.PRONUNCIATIONS_PATH?pronunciations.parse(await read(process.env.PRONUNCIATIONS_PATH)):pronunciationCandidates(script.scenes.map(s=>s.narration).join(' ')));
