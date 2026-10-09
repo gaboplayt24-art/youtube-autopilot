@@ -98,7 +98,8 @@ test('every production visual revision fits the native Klein prompt limit before
  const {nativePrompt}=await import('../src/visuals/native-v4-2');const {illustratedStyleLock}=await import('../src/visuals/illustration-schema');
  const style=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v4.json','utf8')));
  const revision=editorialRevision.parse(JSON.parse(await readFile('data/scripts/production-approved-001-visual-revisions.json','utf8')));
- for(const r of revision.sourceRevisions)assert.ok(nativePrompt(style,r.replacement).length<=2048,r.replacement.id);
+ for(const r of revision.sourceRevisions)for(const wording of ['v1','v2'] as const)assert.ok(nativePrompt(style,r.replacement,wording).length<=2048,r.replacement.id+' '+wording);
+ const roman=revision.sourceRevisions[0].replacement;assert.match(nativePrompt(style,roman,'v1'),/Roman pipes/);assert.doesNotMatch(nativePrompt(style,roman,'v2'),/pipe/i);assert.ok(nativePrompt(style,roman,'v2').length<=nativePrompt(style,roman,'v1').length);
 });
 test('component crops accept Gemini 0–1000 boxes but keep every crop rule',async()=>{
  const {componentCrop}=await import('../src/editor/schemas');const crop=(bounds:number[])=>({bounds,subject:'stone bench',kind:'object',placement:'left'});
