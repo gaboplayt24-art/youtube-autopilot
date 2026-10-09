@@ -18,3 +18,15 @@ test('simple concepts may explicitly need no multiple-subject justification; thr
 test('commercial observations cannot override sparse illustrated channel DNA',async()=>{const {adaptThumbnailPrinciple}=await import('../src/packaging/v2');assert.match(adaptThumbnailPrinciple('Top-down schematic view showing chaotic density'),/never import chaotic density/);assert.match(adaptThumbnailPrinciple('Dramatic gritty accident or hazard'),/must be sourced/);assert.equal(adaptThumbnailPrinciple('One focal artifact close-up'),'One focal artifact close-up');});
 
 test('subjective Gemini refusal and low aesthetic scores cannot hard-fail clear reference-compatible artwork',()=>{const result=acceptDensityReview({...base,passed:false,issues:['Too simple for my preferred composition'],scores:{...base.scores,NARRATIVE_SUFFICIENCY:40,REFERENCE_DENSITY_MATCH:40}},70);assert.equal(result.passed,true);assert.equal(result.geminiAdvisoryPassed,false);assert.equal(result.scores.NARRATIVE_SUFFICIENCY,40);assert.equal(acceptDensityReview({...base,adultAnatomyCorrect:false},70).passed,false);});
+
+
+test('None cast sentinel permits human-free scenes but never missing required anatomy assessment',async()=>{
+ const {applyCastAssessment,requiresHumanAssessment}=await import('../src/visuals/density-qa');
+ const noHumans={...base,scores:{...base.scores,humanDesign:null}};
+ assert.equal(requiresHumanAssessment({characterRoles:['None']}),false);
+ assert.equal(applyCastAssessment(noHumans,{characterRoles:['None']}).passed,true);
+ assert.equal(applyCastAssessment(noHumans,{characterRoles:['Roman citizen']}).passed,false);
+ assert.equal(applyCastAssessment(noHumans,{characterRoles:['None','Roman citizen']}).passed,false);
+ assert.equal(applyCastAssessment({...noHumans,adultAnatomyCorrect:false,seriousAnatomyDefects:['extra limb']},{characterRoles:['None']}).passed,false);
+ assert.equal(applyCastAssessment({...noHumans,majorHistoricalError:true},{characterRoles:['None']}).passed,false);
+});

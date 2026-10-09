@@ -1,12 +1,12 @@
 import {z} from 'zod';
-import {copyFile} from 'node:fs/promises';
+import {copyFile,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {densityReview,reviewDensity} from './density-qa';
+import {densityReview,reviewDensity,requiresHumanAssessment,acceptDensityReview} from './density-qa';
 import {join} from 'node:path';
 import {CloudflareReferenceImageProvider,FLUX_REFERENCE_MODEL,KLEIN_PRODUCTION_SIZE,validateKleinNativeSize} from '../providers/cloudflare';
 import type {LLMProvider,VisionProvider} from '../providers/interfaces';
 import {Runner} from '../orchestration/runner';
-import {exec} from '../orchestration/io';
+import {exec,read} from '../orchestration/io';
 import {fileDigest} from '../orchestration/integrity';
 import {currentCosts} from '../cost';
 import {validatedJSON} from '../providers/validated-json';
@@ -20,6 +20,9 @@ export class VisualStyleEngine{
  async generate(idea:ArtworkIdea,style:IllustratedStyleLock,reference:string,dir:string,runner:Runner,vision:LLMProvider&VisionProvider,width:number=KLEIN_PRODUCTION_SIZE.width,height:number=KLEIN_PRODUCTION_SIZE.height){validateKleinNativeSize(width,height);if(style.referenceSha256!==await fileDigest(reference))throw new Error('Native style reference integrity mismatch before spending');const prompt=nativePrompt(style,idea),image=new CloudflareReferenceImageProvider();
   const preflight=await runner.stage('native-'+idea.id+'-prompt-QA-'+createHash('sha256').update(prompt).digest('hex').slice(0,12),z.object({passed:z.boolean(),issues:z.array(z.string())}),()=>validatedJSON(vision,`Before Klein inference, review historical plausibility (century/civilization/materials/clothing/hair/props/technology/known anachronisms), original mature cartoon identity, native full-wide composition, no copied reference character/pose and no baked text. Return {passed,issues:[string]}. ${JSON.stringify({prompt,historicalContext:idea.historicalContext})}`,z.object({passed:z.boolean(),issues:z.array(z.string())})));if(!preflight.passed||preflight.issues.length)throw new Error('Native prompt QA failed before asset spending');
   const source=await runner.stage('native-'+idea.id+'-source',nativeSource,async()=>{const path=join(dir,idea.id+'.png');try{const sha=await fileDigest(path);const rejected=path+'.rejected-'+sha.slice(0,12)+'.png';await copyFile(path,rejected);try{await copyFile(path+'.dimensions.json',rejected+'.dimensions.json');}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}const costs=currentCosts();if(!costs)throw new Error('Native generation requires cost ledger');await costs.charge('generatedImages','cloudflare-flux-free',0,idea.id,()=>image.generate(prompt,path,{referenceImages:[reference],width,height}));const probe=JSON.parse((await exec('ffprobe',['-v','error','-show_streams','-of','json',path])).stdout).streams[0];return nativeSource.parse({path,sha256:await fileDigest(path),model:FLUX_REFERENCE_MODEL,width:probe.width,height:probe.height,aspectRatio:'16:9',prompt,referenceSha256:await fileDigest(reference)});},async s=>{if(s.sha256!==await fileDigest(s.path)||s.width!==width||s.height!==height||s.prompt!==prompt||s.referenceSha256!==await fileDigest(reference))throw new Error('Native source dimensions/reference/integrity mismatch');});
-  const review=await runner.stage('native-'+idea.id+'-density-QA-v4.3',densityReview,()=>reviewDensity(reference,source.path,idea,style,vision));const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});
+  const reviewName='native-'+idea.id+'-density-QA-v4.3';const reviewPath=join(runner.dir,reviewName+'.json');
+  // Repair only our obsolete None-as-human code decision; retain prior evidence and every objective gate.
+  try{const previous=densityReview.parse(await read(reviewPath));if(!previous.passed&&!requiresHumanAssessment(idea)&&previous.scores.humanDesign===null&&previous.issues.includes('Required humans not assessed')&&acceptDensityReview(previous,0).passed){await copyFile(reviewPath,reviewPath+'.before-cast-sentinel-fix.json');await copyFile(join(runner.dir,reviewName+'.integrity.json'),reviewPath+'.before-cast-sentinel-fix.integrity.json');await rm(reviewPath);await rm(join(runner.dir,reviewName+'.integrity.json'));}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
+  const review=await runner.stage(reviewName,densityReview,()=>reviewDensity(reference,source.path,idea,style,vision));const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});
  }
 }
