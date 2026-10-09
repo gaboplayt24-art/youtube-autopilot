@@ -11,12 +11,12 @@ test('evidence-based visual revisions preserve speech timing, refuse unknown IDs
  const revision=editorialRevision.parse(JSON.parse(await readFile('data/scripts/production-approved-001-visual-revisions.json','utf8')));
  const idea=(id:string)=>({...revision.sourceRevisions[0].replacement,id});
  const shots=revision.sourceRevisions.map((r,i)=>({id:'beat-'+i,assetKey:r.sourceId,illustrationIdea:idea(r.sourceId),narration:'Exact speech '+i,start:i*3,end:i*3+3,overlay:'EXPLAIN',visualIntent:'Explain actual historical mechanism'} as Shot));
- shots.push({...shots[0],id:'rome-sewer-system-shot-16',assetKey:'video-source-8',illustrationIdea:idea('video-source-8')});
+ for(const r of revision.beatReassignments)shots.push({...shots[0],id:r.shotId,assetKey:'video-source-8',illustrationIdea:idea('video-source-8')});
  const before=JSON.stringify(shots),revised=applyEditorialRevision(shots,revision,revision.runId);
  assert.equal(JSON.stringify(shots),before);
  assert.deepEqual(revised.map(s=>[s.id,s.start,s.end,s.narration]),shots.map(s=>[s.id,s.start,s.end,s.narration]));
  assert.equal(revised[0].assetKey,revision.sourceRevisions[0].replacement.id);
- assert.equal(revised.at(-1)!.assetKey,'video-source-8');
+ for(const r of revision.beatReassignments)assert.equal(revised.find(s=>s.id===r.shotId)!.assetKey,revision.sourceRevisions.find(x=>x.sourceId===r.sourceId)?.replacement.id??r.sourceId);
  assert.throws(()=>applyEditorialRevision(shots,revision,'other-run'),/different run/);
  assert.throws(()=>applyEditorialRevision(shots,{...revision,beatReassignments:[{...revision.beatReassignments[0],shotId:'unknown'}]},revision.runId),/unknown beat/);
 });
@@ -106,4 +106,13 @@ test('component crops accept Gemini 0–1000 boxes but keep every crop rule',asy
  assert.deepEqual(componentCrop.parse(crop([.1,.2,.5,.8])).bounds,[.1,.2,.5,.8]);
  assert.throws(()=>componentCrop.parse(crop([0,0,1000,1000])),/entire completed scene/);
  assert.throws(()=>componentCrop.parse(crop([100,200,1500,800])));
+});
+test('component reuse keeps a saved plan only for the identical reused beat set',async()=>{
+ const {componentReuseStage}=await import('../src/visuals/illustrated-video-assets');const {mkdtemp,writeFile}=await import('node:fs/promises');const {tmpdir}=await import('node:os');const {join}=await import('node:path');
+ const dir=await mkdtemp(join(tmpdir(),'reuse-'));
+ assert.equal(await componentReuseStage(dir,'src',['a','b']),'native-src-component-reuse');
+ await writeFile(join(dir,'native-src-component-reuse.json'),JSON.stringify({uses:[{shotId:'b'},{shotId:'a'}]}));
+ assert.equal(await componentReuseStage(dir,'src',['a','b']),'native-src-component-reuse');
+ const changed=await componentReuseStage(dir,'src',['a','c']);assert.match(changed,/^native-src-component-reuse-[0-9a-f]{12}$/);
+ assert.equal(changed,await componentReuseStage(dir,'src',['c','a']));
 });

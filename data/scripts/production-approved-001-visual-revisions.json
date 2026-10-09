@@ -68,6 +68,11 @@
       "shotId": "rome-sewer-system-shot-16",
       "sourceId": "video-source-8",
       "reason": "Actual source-5 component QA confirmed the apartment interior is absent. Use the already planned domestic source, not a tunnel crop."
+    },
+    {
+      "shotId": "rome-sewer-system-shot-10",
+      "sourceId": "video-source-4",
+      "reason": "Actual source-3 component QA (run 37978380574) found the latrine interior cannot show land reclamation near the Forum. Use the already planned marsh-drainage source."
     }
   ]
 }
