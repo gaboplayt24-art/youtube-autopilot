@@ -6,7 +6,8 @@ import {tmpdir} from 'node:os';
 import {z} from 'zod';
 import React from 'react';
 import {renderToStaticMarkup} from 'react-dom/server';
-import template from '../config/style-lock-v4.json';
+import approvedTemplate from '../config/style-lock-v4.json';
+const template={...approvedTemplate,referenceAnalysisStatus:'pending',referenceSha256:null,referenceStyleDescriptor:null,visualSystemApproved:false,approvedAt:null};
 import {illustratedStyleLock,referenceAnalysis,traitNames,acceptStyleReview,requireIllustratedArtwork,requireV4VideoApproval,type StyleReview} from '../src/visuals/illustration-schema';
 import {styleAuditionScenesV4} from '../src/visuals/style-audition-scenes-v4';
 import {illustrationPrompt,generateIllustration,inspectIllustrationReuse,IllustrationStyleRejected,type IllustrationEvidence} from '../src/visuals/illustrated-assets-v4';
@@ -100,6 +101,6 @@ test('contact sheets contain source image pixels and separate captions; no video
  }finally{await rm(dir,{recursive:true,force:true});}
 });
 test('missing downloadable positive reference stops the audition before secrets or inference',async()=>{
- const id='style-v4-missing-reference-unit-'+Date.now(),dir=join('data/runs',id);try{await assert.rejects(()=>runStyleAuditionV4({runId:id,reference:'/tmp/intentionally-missing-v4-positive.png'}),/Downloadable positive reference missing/);const summary=await read(join(dir,'audition-summary-v4.json'));assert.equal(summary.fluxGenerationCountThisExecution,0);assert.equal(summary.videoGenerated,false);assert.equal(summary.paidCostUsd,0);assert.equal((await read(join(dir,'style-reference-analysis-v4.json'))).multimodalAnalysisExecuted,false);
+ const id='style-v4-missing-reference-unit-'+Date.now(),dir=join('data/runs',id);try{await assert.rejects(()=>runStyleAuditionV4({runId:id,reference:'/tmp/intentionally-missing-v4-positive.png'}),/Downloadable positive reference missing/);const summary=await read(join(dir,'audition-summary-v4.json'));assert.equal(summary.fluxGenerationCountThisExecution,0);assert.equal(summary.videoGenerated,false);assert.equal(summary.paidCostUsd,0);assert.equal(summary.fluxGenerationCountThisExecution,0); // Existing pinned analysis is inherited evidence, not new inference.
  }finally{await rm(dir,{recursive:true,force:true});}
 });

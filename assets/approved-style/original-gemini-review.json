@@ -1,0 +1,111 @@
+{
+  "status": "awaiting_human_review",
+  "humanApproved": false,
+  "visualSystemApproved": false,
+  "objectiveQaPassed": false,
+  "source01": {
+    "passed": true,
+    "referenceCompared": true,
+    "referenceStyleMatches": true,
+    "conceptMatches": true,
+    "historicallyPlausible": true,
+    "cropPreservesSubjects": true,
+    "photorealism": false,
+    "cgi": false,
+    "geometricCodeLook": false,
+    "webUILook": false,
+    "bakedText": false,
+    "watermark": false,
+    "scores": {
+      "drawnAppearance": 78,
+      "lineCharacter": 76,
+      "humanDesign": 77,
+      "colorTreatment": 78,
+      "visualSimplicity": 80,
+      "organicShapes": 77,
+      "educationalClarity": 80,
+      "illustratedFeel": 79,
+      "NARRATIVE_SUFFICIENCY": 80,
+      "REFERENCE_DENSITY_MATCH": 80
+    },
+    "issues": [],
+    "adultAnatomyCorrect": true,
+    "intentionalNegativeSpace": true,
+    "complexityRequiredByNarration": true,
+    "densityRationale": "The illustration matches the targeted low-to-medium density, featuring a single merchant gesturing toward an amphora with ample negative space on the left.",
+    "wrongProp": false,
+    "majorHistoricalError": false,
+    "unreadableOutput": false,
+    "geminiAdvisoryPassed": true,
+    "subjectiveScoresAdvisory": true,
+    "objectiveFailures": []
+  },
+  "source02": {
+    "passed": false,
+    "referenceCompared": true,
+    "referenceStyleMatches": false,
+    "conceptMatches": true,
+    "historicallyPlausible": true,
+    "cropPreservesSubjects": true,
+    "photorealism": false,
+    "cgi": false,
+    "geometricCodeLook": false,
+    "webUILook": false,
+    "bakedText": false,
+    "watermark": false,
+    "scores": {
+      "drawnAppearance": 70,
+      "lineCharacter": 68,
+      "humanDesign": 40,
+      "colorTreatment": 70,
+      "visualSimplicity": 55,
+      "organicShapes": 65,
+      "educationalClarity": 72,
+      "illustratedFeel": 70,
+      "NARRATIVE_SUFFICIENCY": 75,
+      "REFERENCE_DENSITY_MATCH": 58
+    },
+    "issues": [
+      "Mascot/chibi anatomical proportions with shortened lower limbs"
+    ],
+    "adultAnatomyCorrect": false,
+    "intentionalNegativeSpace": true,
+    "complexityRequiredByNarration": false,
+    "densityRationale": "The background features extra market stalls, which increases complexity beyond the minimalist reference template.",
+    "wrongProp": false,
+    "majorHistoricalError": false,
+    "unreadableOutput": false,
+    "geminiAdvisoryPassed": false,
+    "subjectiveScoresAdvisory": true,
+    "objectiveFailures": [
+      "adultAnatomy",
+      "correctStyle"
+    ],
+    "continuity": {
+      "charactersPreserved": true,
+      "stylePreserved": true,
+      "compositionPreserved": true,
+      "historicalPropsPreserved": true,
+      "legsCorrected": false,
+      "issues": [
+        "The candidate image failed to perform the requested anatomy correction on the characters' legs, which remain stout and disproportionately short rather than being lengthened to represent natural adult anatomy."
+      ]
+    }
+  },
+  "retained": [
+    {
+      "source": "source-03.png",
+      "humanApproved": true,
+      "sha256": "fc2e4c2302941f567aa77ebbd6ca2fdb78d1ce5e5b20c2114e28b83d4c2f58a1",
+      "authority": "Owner explicitly approved in production-validation instruction"
+    },
+    {
+      "source": "source-04.png",
+      "humanApproved": true,
+      "sha256": "fdd68e6321ac7dad74d4f524d8e148e8886c80d6505c176a9b793e29815953e8",
+      "authority": "Owner explicitly approved in production-validation instruction"
+    }
+  ],
+  "subjectiveScoresAdvisory": true,
+  "videoAuthorized": false
+}

@@ -1,0 +1,421 @@
+{
+  "angles": [
+    {
+      "id": "rome-001",
+      "topic": "Waste Management and Sanitation",
+      "angle": "The hidden engineering of Roman sewage and public latrine hygiene",
+      "family": "DARK-REALITY",
+      "evidenceVideoIds": [
+        "AgaY0Zvkd8I",
+        "VRzAfowLiUM"
+      ],
+      "scores": {
+        "publicEvidence": 85,
+        "historicalInterest": 90,
+        "visualExplainability": 95,
+        "curiosity": 90,
+        "evergreen": 95,
+        "competitionOpportunity": 80,
+        "packagingPotential": 90
+      },
+      "researchRequirements": [
+        "Cross-reference archaeological findings of Cloaca Maxima with street-level sanitation laws",
+        "Verify the specific use of sponges (tersorium) in public bathrooms"
+      ],
+      "uncertainty": "Exact chemical composition of waste disposal areas remains a subject of modern debate."
+    },
+    {
+      "id": "rome-002",
+      "topic": "Apartment Living",
+      "angle": "Surviving the high-density Insulae: Fire hazards and vertical collapse",
+      "family": "DAILY-LIFE",
+      "evidenceVideoIds": [
+        "csonTUj_cv0",
+        "pBJpDpMqigw"
+      ],
+      "scores": {
+        "publicEvidence": 75,
+        "historicalInterest": 85,
+        "visualExplainability": 90,
+        "curiosity": 80,
+        "evergreen": 85,
+        "competitionOpportunity": 85,
+        "packagingPotential": 85
+      },
+      "researchRequirements": [
+        "Determine average height and construction materials of typical insulae",
+        "Calculate fire suppression limitations for top-floor tenants"
+      ],
+      "uncertainty": "The extent to which landlords enforced safety codes is largely unknown."
+    },
+    {
+      "id": "rome-003",
+      "topic": "Dietary Habits",
+      "angle": "What the average plebeian actually ate: Garum, porridge and scarcity",
+      "family": "CURIOSITY",
+      "evidenceVideoIds": [
+        "Ug_7WntnVNQ",
+        "AgaY0Zvkd8I"
+      ],
+      "scores": {
+        "publicEvidence": 80,
+        "historicalInterest": 85,
+        "visualExplainability": 85,
+        "curiosity": 95,
+        "evergreen": 90,
+        "competitionOpportunity": 75,
+        "packagingPotential": 85
+      },
+      "researchRequirements": [
+        "Identify nutritional deficiencies in standard grain-based diets",
+        "Map trade routes for olive oil and garum availability"
+      ],
+      "uncertainty": "Varies significantly by social class and proximity to the grain dole."
+    },
+    {
+      "id": "rome-004",
+      "topic": "Legal Restrictions",
+      "angle": "The rigid class-based laws of everyday dress and conduct",
+      "family": "RULE",
+      "evidenceVideoIds": [
+        "H63wgtmW8fQ",
+        "302s2T1zOE4"
+      ],
+      "scores": {
+        "publicEvidence": 70,
+        "historicalInterest": 80,
+        "visualExplainability": 85,
+        "curiosity": 85,
+        "evergreen": 80,
+        "competitionOpportunity": 90,
+        "packagingPotential": 80
+      },
+      "researchRequirements": [
+        "List specific sumptuary laws governing Roman clothing colors/materials",
+        "Analyze enforcement mechanisms for non-citizens"
+      ],
+      "uncertainty": "Enforcement records for low-level infractions are sparse."
+    },
+    {
+      "id": "rome-005",
+      "topic": "Water Supply",
+      "angle": "The physics of the urban aqueduct system for the common household",
+      "family": "EXPLANATION",
+      "evidenceVideoIds": [
+        "VRzAfowLiUM",
+        "csonTUj_cv0"
+      ],
+      "scores": {
+        "publicEvidence": 75,
+        "historicalInterest": 80,
+        "visualExplainability": 95,
+        "curiosity": 85,
+        "evergreen": 90,
+        "competitionOpportunity": 70,
+        "packagingPotential": 85
+      },
+      "researchRequirements": [
+        "Explain gravity-fed delivery mechanisms to public fountains vs. private homes",
+        "Analyze lead pipe health risks for residents"
+      ],
+      "uncertainty": "Degree of lead poisoning in the general populace remains contested."
+    }
+  ],
+  "thumbnailPatterns": [
+    {
+      "principle": "High contrast silhouette of a Roman structure against a warm, muted palette",
+      "evidenceVideoIds": [
+        "5ij0tDYhIhg",
+        "KKgpIukWJdM"
+      ]
+    },
+    {
+      "principle": "Extreme close-up of a single tool or artifact with minimal environmental context",
+      "evidenceVideoIds": [
+        "VRzAfowLiUM",
+        "seA-1XZRd-Y"
+      ]
+    },
+    {
+      "principle": "Juxtaposition of a high-status figure versus a low-status worker within a single frame",
+      "evidenceVideoIds": [
+        "J8GcGn7QDTQ",
+        "pBJpDpMqigw"
+      ]
+    },
+    {
+      "principle": "Dramatic, gritty depiction of a common accident or public hazard",
+      "evidenceVideoIds": [
+        "o9sr8sviSIs",
+        "Ejk2nYlDwBM"
+      ]
+    },
+    {
+      "principle": "Top-down schematic view of an urban location showing chaotic density",
+      "evidenceVideoIds": [
+        "AgaY0Zvkd8I",
+        "-DZIkSvLGJY"
+      ]
+    }
+  ],
+  "titleStructures": [
+    {
+      "structure": "How [civilization] handled [task] without modern technology",
+      "evidenceVideoIds": [
+        "302s2T1zOE4",
+        "Ug_7WntnVNQ"
+      ]
+    },
+    {
+      "structure": "Why [civilization] was a dangerous place for [task]",
+      "evidenceVideoIds": [
+        "o9sr8sviSIs",
+        "zwOrYfdpjEo"
+      ]
+    },
+    {
+      "structure": "The hidden reality of [task] in [civilization]",
+      "evidenceVideoIds": [
+        "AgaY0Zvkd8I",
+        "csonTUj_cv0"
+      ]
+    },
+    {
+      "structure": "Everyday rules that defined life in [civilization]",
+      "evidenceVideoIds": [
+        "H63wgtmW8fQ",
+        "3Z5P_TZ0d4o"
+      ]
+    },
+    {
+      "structure": "The shocking truth about [topic] in [civilization]",
+      "evidenceVideoIds": [
+        "f7KjbemUhkw",
+        "8bHCPc-hZWQ"
+      ]
+    }
+  ],
+  "limitations": [
+    "Most archaeological evidence relates to elite structures, creating a bias in reconstructed daily life.",
+    "Textual records are biased toward the perspective of wealthy Roman authors.",
+    "Visual recreations are often interpretations rather than documented facts.",
+    "Small-scale household objects often lack provenance, making them difficult to date precisely."
+  ],
+  "policyAdaptedThumbnailPatterns": [
+    {
+      "principle": "High contrast silhouette of a Roman structure against a warm, muted palette",
+      "evidenceVideoIds": [
+        "5ij0tDYhIhg",
+        "KKgpIukWJdM"
+      ],
+      "observedCompetitorPrinciple": "High contrast silhouette of a Roman structure against a warm, muted palette",
+      "transferablePrinciple": "High contrast silhouette of a Roman structure against a warm, muted palette",
+      "adaptationSource": "Owner DNA, not a new competitor observation"
+    },
+    {
+      "principle": "Extreme close-up of a single tool or artifact with minimal environmental context",
+      "evidenceVideoIds": [
+        "VRzAfowLiUM",
+        "seA-1XZRd-Y"
+      ],
+      "observedCompetitorPrinciple": "Extreme close-up of a single tool or artifact with minimal environmental context",
+      "transferablePrinciple": "Extreme close-up of a single tool or artifact with minimal environmental context",
+      "adaptationSource": "Owner DNA, not a new competitor observation"
+    },
+    {
+      "principle": "Juxtaposition of a high-status figure versus a low-status worker within a single frame",
+      "evidenceVideoIds": [
+        "J8GcGn7QDTQ",
+        "pBJpDpMqigw"
+      ],
+      "observedCompetitorPrinciple": "Juxtaposition of a high-status figure versus a low-status worker within a single frame",
+      "transferablePrinciple": "Juxtaposition of a high-status figure versus a low-status worker within a single frame",
+      "adaptationSource": "Owner DNA, not a new competitor observation"
+    },
+    {
+      "principle": "Dramatic, gritty depiction of a common accident or public hazard",
+      "evidenceVideoIds": [
+        "o9sr8sviSIs",
+        "Ejk2nYlDwBM"
+      ],
+      "observedCompetitorPrinciple": "Dramatic, gritty depiction of a common accident or public hazard",
+      "transferablePrinciple": "Readable illustrated cause and consequence with natural body language; hazard must be sourced and covered in the script, without gritty cinematic styling",
+      "adaptationSource": "Owner DNA, not a new competitor observation"
+    },
+    {
+      "principle": "Top-down schematic view of an urban location showing chaotic density",
+      "evidenceVideoIds": [
+        "AgaY0Zvkd8I",
+        "-DZIkSvLGJY"
+      ],
+      "observedCompetitorPrinciple": "Top-down schematic view of an urban location showing chaotic density",
+      "transferablePrinciple": "Clear spatial context through a sparse illustrated map or cutaway only when the narration needs it; never import chaotic density",
+      "adaptationSource": "Owner DNA, not a new competitor observation"
+    }
+  ],
+  "patternTransferPolicy": {
+    "source": "config/channel-packaging-dna.json owner policy",
+    "allowed": "Abstract hierarchy, curiosity and faceless templates only; preserve own mature illustrated identity",
+    "forbidden": "Exact art, characters, poses, titles, layout or branding; personal creator/vlog identity; chaotic backgrounds and cinematic styling. Complexity only when narration requires it; sensational wording only for verified script-covered stakes"
+  },
+  "rankedAngles": [
+    {
+      "id": "rome-001",
+      "topic": "Waste Management and Sanitation",
+      "angle": "The hidden engineering of Roman sewage and public latrine hygiene",
+      "family": "DARK-REALITY",
+      "evidenceVideoIds": [
+        "AgaY0Zvkd8I",
+        "VRzAfowLiUM"
+      ],
+      "scores": {
+        "publicEvidence": 85,
+        "historicalInterest": 90,
+        "visualExplainability": 95,
+        "curiosity": 90,
+        "evergreen": 95,
+        "competitionOpportunity": 80,
+        "packagingPotential": 90
+      },
+      "researchRequirements": [
+        "Cross-reference archaeological findings of Cloaca Maxima with street-level sanitation laws",
+        "Verify the specific use of sponges (tersorium) in public bathrooms"
+      ],
+      "uncertainty": "Exact chemical composition of waste disposal areas remains a subject of modern debate.",
+      "heuristicScore": 89.28571428571429,
+      "notPerformancePrediction": true
+    },
+    {
+      "id": "rome-003",
+      "topic": "Dietary Habits",
+      "angle": "What the average plebeian actually ate: Garum, porridge and scarcity",
+      "family": "CURIOSITY",
+      "evidenceVideoIds": [
+        "Ug_7WntnVNQ",
+        "AgaY0Zvkd8I"
+      ],
+      "scores": {
+        "publicEvidence": 80,
+        "historicalInterest": 85,
+        "visualExplainability": 85,
+        "curiosity": 95,
+        "evergreen": 90,
+        "competitionOpportunity": 75,
+        "packagingPotential": 85
+      },
+      "researchRequirements": [
+        "Identify nutritional deficiencies in standard grain-based diets",
+        "Map trade routes for olive oil and garum availability"
+      ],
+      "uncertainty": "Varies significantly by social class and proximity to the grain dole.",
+      "heuristicScore": 85,
+      "notPerformancePrediction": true
+    },
+    {
+      "id": "rome-002",
+      "topic": "Apartment Living",
+      "angle": "Surviving the high-density Insulae: Fire hazards and vertical collapse",
+      "family": "DAILY-LIFE",
+      "evidenceVideoIds": [
+        "csonTUj_cv0",
+        "pBJpDpMqigw"
+      ],
+      "scores": {
+        "publicEvidence": 75,
+        "historicalInterest": 85,
+        "visualExplainability": 90,
+        "curiosity": 80,
+        "evergreen": 85,
+        "competitionOpportunity": 85,
+        "packagingPotential": 85
+      },
+      "researchRequirements": [
+        "Determine average height and construction materials of typical insulae",
+        "Calculate fire suppression limitations for top-floor tenants"
+      ],
+      "uncertainty": "The extent to which landlords enforced safety codes is largely unknown.",
+      "heuristicScore": 83.57142857142857,
+      "notPerformancePrediction": true
+    },
+    {
+      "id": "rome-005",
+      "topic": "Water Supply",
+      "angle": "The physics of the urban aqueduct system for the common household",
+      "family": "EXPLANATION",
+      "evidenceVideoIds": [
+        "VRzAfowLiUM",
+        "csonTUj_cv0"
+      ],
+      "scores": {
+        "publicEvidence": 75,
+        "historicalInterest": 80,
+        "visualExplainability": 95,
+        "curiosity": 85,
+        "evergreen": 90,
+        "competitionOpportunity": 70,
+        "packagingPotential": 85
+      },
+      "researchRequirements": [
+        "Explain gravity-fed delivery mechanisms to public fountains vs. private homes",
+        "Analyze lead pipe health risks for residents"
+      ],
+      "uncertainty": "Degree of lead poisoning in the general populace remains contested.",
+      "heuristicScore": 82.85714285714286,
+      "notPerformancePrediction": true
+    },
+    {
+      "id": "rome-004",
+      "topic": "Legal Restrictions",
+      "angle": "The rigid class-based laws of everyday dress and conduct",
+      "family": "RULE",
+      "evidenceVideoIds": [
+        "H63wgtmW8fQ",
+        "302s2T1zOE4"
+      ],
+      "scores": {
+        "publicEvidence": 70,
+        "historicalInterest": 80,
+        "visualExplainability": 85,
+        "curiosity": 85,
+        "evergreen": 80,
+        "competitionOpportunity": 90,
+        "packagingPotential": 80
+      },
+      "researchRequirements": [
+        "List specific sumptuary laws governing Roman clothing colors/materials",
+        "Analyze enforcement mechanisms for non-citizens"
+      ],
+      "uncertainty": "Enforcement records for low-level infractions are sparse.",
+      "heuristicScore": 81.42857142857143,
+      "notPerformancePrediction": true
+    }
+  ],
+  "selectedAngle": {
+    "id": "rome-001",
+    "topic": "Waste Management and Sanitation",
+    "angle": "The hidden engineering of Roman sewage and public latrine hygiene",
+    "family": "DARK-REALITY",
+    "evidenceVideoIds": [
+      "AgaY0Zvkd8I",
+      "VRzAfowLiUM"
+    ],
+    "scores": {
+      "publicEvidence": 85,
+      "historicalInterest": 90,
+      "visualExplainability": 95,
+      "curiosity": 90,
+      "evergreen": 95,
+      "competitionOpportunity": 80,
+      "packagingPotential": 90
+    },
+    "researchRequirements": [
+      "Cross-reference archaeological findings of Cloaca Maxima with street-level sanitation laws",
+      "Verify the specific use of sponges (tersorium) in public bathrooms"
+    ],
+    "uncertainty": "Exact chemical composition of waste disposal areas remains a subject of modern debate.",
+    "heuristicScore": 89.28571428571429,
+    "notPerformancePrediction": true
+  },
+  "selection": "Equal-weight heuristic; human approval and historical research required before production",
+  "notPerformancePrediction": true
+}

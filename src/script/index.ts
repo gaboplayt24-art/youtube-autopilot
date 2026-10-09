@@ -1,4 +1,5 @@
 import {script,type Script} from '../orchestration/schemas';
+import {validatedJSON} from '../providers/validated-json';
 import type {LLMProvider} from '../providers/interfaces';
 export const demoScript:Script={title:'Where Your Attention Goes',topic:'A visual metaphor for attention',hook:'Imagine your attention as a spotlight.',criticalTerms:[],scenes:[
 {id:'scene-1',narration:'Imagine your attention as a spotlight in a dark city. Every window is a possible story. Tonight, one small light has to choose where to look.',visual:'A luminous eye above a night city; attention as a spotlight',claims:[]},
@@ -7,7 +8,12 @@ export const demoScript:Script={title:'Where Your Attention Goes',topic:'A visua
 {id:'scene-4',narration:'Turn the metaphor into a small experiment. Put one task on a page. Choose a short window of time. Write new thoughts down instead of chasing them.',visual:'An experiment document, a clock, handwritten task and branching paths',claims:[]},
 {id:'scene-5',narration:'There is no promise of perfect focus. This is a visual story, not medical advice. The question is simpler: what deserves the light right now? Choose the next step deliberately.',visual:'A lone traveler on a mountain path; the spotlight becomes sunrise',claims:[]}
 ]};
-export async function writeScript(context:unknown,llm:LLMProvider){return llm.json(`Write an original source-grounded explainer using only the following source material: ${JSON.stringify(context)}. Return {title,topic,hook,scenes:[{id,narration,visual,claims:[{text,sourceUrl,kind:"fact"|"speculation"}]}]}. Derive narration length from the duration and word budget in context. Avoid welcome/introduction/logo filler. Every factual assertion needs a claim citation. No unsupported facts.`,script);}
+export async function writeScript(context:unknown,llm:LLMProvider):Promise<Script>{
+ const c=context as {targetWords?:number;packagingCandidates?:{titles:string[]}};
+ const contract=c.targetWords?script.superRefine((value,ctx)=>{const words=value.scenes.map(s=>s.narration).join(' ').trim().split(/\s+/).length;if(words<205||words>215||value.scenes.length!==1)ctx.addIssue({code:'custom',message:'Exactly ONE continuous scene, 205–215 spoken words, no fabricated timestamps'});if(c.packagingCandidates&&value.title!==c.packagingCandidates.titles[0])ctx.addIssue({code:'custom',message:'Title must exactly match first approved packaging candidate'});}):script;
+ return script.parse(await validatedJSON(llm,`Write an original source-grounded explainer using only the following source material: ${JSON.stringify(context)}. Return {title,topic,hook,criticalTerms:[all factual names,numbers,dates],scenes:[{id,narration,visual,claims:[{text,sourceUrl,kind:"fact"|"speculation"}]}]}. Derive narration length from the duration and word budget in context. Avoid welcome/introduction/logo filler. Every factual assertion needs a claim citation. No unsupported facts. Follow exact scene-count and title instructions in context.`,contract));
+}
+
 
 export async function writeLongForm(context:unknown,llm:LLMProvider,p:import('zod').z.infer<typeof import('../longform').longFormPlan>){
  const scenes:Script['scenes']=[];let title='';let hook='';let topic='';const {scriptQuality}=await import('../longform');

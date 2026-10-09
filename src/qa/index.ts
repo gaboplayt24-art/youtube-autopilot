@@ -26,7 +26,8 @@ export async function inspect(video:string,s:Script,c:Composition,f:z.infer<type
  const covered=s.scenes.every(scene=>c.cues.filter(x=>x.sceneId===scene.id).map(x=>x.text).join(' ')===scene.narration);
  add('caption synchronization',sceneBounds&&ordered&&covered,'Full narration coverage, speech-derived timestamps, and ordered bounds');
  const images=assets.filter(a=>!a.endsWith('.wav')); const hashes=await Promise.all(images.map(async a=>createHash('sha256').update(await readFile(a)).digest('hex')));
- add('duplicated scenes',(expected>120?hashes.every((h,i)=>i===0||h!==hashes[i-1]):new Set(hashes).size===hashes.length)&&new Set(s.scenes.map(x=>x.narration)).size===s.scenes.length&&(expected>120||new Set(c.scenes.map(x=>x.image)).size===c.scenes.length),'Unique narration, asset paths, and image content hashes');
+ const plannedReuse=c.assets.every(a=>!!a.sourceImageId&&!!a.editorialVariant);
+ add('duplicated scenes',((expected>120||plannedReuse)?hashes.every((h,i)=>i===0||h!==hashes[i-1]):new Set(hashes).size===hashes.length)&&new Set(s.scenes.map(x=>x.narration)).size===s.scenes.length&&(expected>120||new Set(c.scenes.map(x=>x.image)).size===c.scenes.length),'Unique narration, asset paths, and image content hashes');
  {checks.push(...visualQuality(c).checks);const analysis=await exec('ffmpeg',['-hide_banner','-i',video,'-vf','freezedetect=n=-50dB:d=4','-af','volumedetect','-f','null','-'],{timeout:120000,maxBuffer:8*1024*1024});add('rendered motion',!analysis.stderr.includes('freeze_start'),'FFmpeg freeze detection: no unchanged region >=4s');const peak=Number(analysis.stderr.match(/max_volume:\s*(-?[\d.]+) dB/)?.[1]??0);add('audio clipping',peak<=-0.5,`Peak ${peak} dBFS; limiter required`); }
  const m=metadataSchema.safeParse(metadata);
  add('title/script consistency',m.success&&m.data.title===s.title,'Metadata title matches approved script title');

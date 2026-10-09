@@ -1,0 +1,69 @@
+{
+  "status": "LOCKED",
+  "locked": true,
+  "referenceSha256": "7c9e1c243193a8df8e5afcaa79a5089078de2b5a39c178ea7ff520ae1115e384",
+  "illustrationStyle": "AI-generated hand-drawn educational historical illustration",
+  "linework": "Medium, consistent hand-drawn thickness; Slightly organic, ink-like variation",
+  "palette": [
+    "#fdfbf7",
+    "#33221a",
+    "#a6522c",
+    "#e2c199",
+    "#c8b195",
+    "#e2b38e"
+  ],
+  "humanProportions": "Simplified mature illustrated humans; explicitly approved short legs and expressive head/hand proportions are stylization. Extra/missing limbs, broken joints, impossible structure and seriously malformed hands/faces remain hard failures.",
+  "backgroundDensity": "Low to medium; complex scenes only when narration requires them",
+  "propComplexity": "0-3 historically readable functional supports; no decorative clutter requirement",
+  "historicalSimplification": "period-correct illustrated props, clothing and architecture; uncertainty explicit",
+  "negativeSpace": "Intentional cream space for clarity and editorial overlays",
+  "lightingShading": "Extremely minimal, restricted to basic ground plane shadows",
+  "textUsage": "Only Remotion/editorial text; optional thumbnail text 0-3 words preferred",
+  "motionLanguage": "Restrained pans, push-ins, detail crops, progressive reveals, labels/arrows/highlights/timelines; no consecutive identical completed frames",
+  "futureInheritance": "Persist and inherit after owner approval; never rediscover channel style per video",
+  "sourceApprovals": [
+    {
+      "source": "source-01.png",
+      "humanApproved": true,
+      "sha256": "7abe4070aba2fa77ed26c8ab9529bafcea45c9530c991d2ee8fb32056894f9b2",
+      "approvedAt": "2026-10-09",
+      "authority": "Explicit channel owner approval of final style preview"
+    },
+    {
+      "source": "source-02-repaired.png",
+      "humanApproved": true,
+      "sha256": "87e57c3be08f81877a4e3ab1dbc94feda71542bb10520a7b7fbd44eb84419a48",
+      "approvedAt": "2026-10-09",
+      "authority": "Explicit channel owner approval of final style preview"
+    },
+    {
+      "source": "source-03.png",
+      "humanApproved": true,
+      "sha256": "fc2e4c2302941f567aa77ebbd6ca2fdb78d1ce5e5b20c2114e28b83d4c2f58a1",
+      "approvedAt": "2026-10-09",
+      "authority": "Explicit channel owner approval of final style preview"
+    },
+    {
+      "source": "source-04.png",
+      "humanApproved": true,
+      "sha256": "fdd68e6321ac7dad74d4f524d8e148e8886c80d6505c176a9b793e29815953e8",
+      "approvedAt": "2026-10-09",
+      "authority": "Explicit channel owner approval of final style preview"
+    }
+  ],
+  "humanApproved": true,
+  "approvedAt": "2026-10-09",
+  "assetOverrides": [
+    {
+      "source": "assets/approved-style/source-02-repaired.png",
+      "sha256": "87e57c3be08f81877a4e3ab1dbc94feda71542bb10520a7b7fbd44eb84419a48",
+      "approvedAt": "2026-10-09",
+      "scope": [
+        "short-leg-proportions",
+        "associated-stylization-only"
+      ],
+      "reason": "Short-leg proportions are accepted by the channel owner as intentional/acceptable stylization.",
+      "rawEvidence": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/37874402035/artifacts/11591458301"
+    }
+  ]
+}

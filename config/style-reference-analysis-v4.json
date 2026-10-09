@@ -1,8 +1,48 @@
 {
-  "version": "style-reference-analysis-v4",
-  "status": "awaiting-downloadable-reference",
-  "referenceSha256": null,
-  "multimodalAnalysisExecuted": false,
-  "observations": null,
-  "note": "The user supplied an inline channel screenshot. It is visible in chat but no downloadable PNG/JPG file ID was supplied. Gemini must analyze actual reference bytes in Actions before FLUX generation. Do not fabricate observations or mark this record analyzed."
+  "version": "style-reference-analysis-v4.2",
+  "status": "analysed",
+  "referenceSha256": "7c9e1c243193a8df8e5afcaa79a5089078de2b5a39c178ea7ff520ae1115e384",
+  "referencePath": "assets/references/style-v4.jpg",
+  "multimodalAnalysisExecuted": true,
+  "observations": {
+    "usable": true,
+    "containsIllustrations": true,
+    "confidence": 0.9,
+    "traits": {
+      "lineThickness": "Medium, consistent hand-drawn thickness",
+      "lineIrregularity": "Slightly organic, ink-like variation",
+      "anatomySimplification": "Simplified, expressive human forms",
+      "headBodyProportions": "Mature, natural proportions; avoids exaggerated chibi scaling",
+      "eyes": "Simple black dots or curved lines",
+      "nose": "Minimalist curved hooks or small bumps",
+      "mouth": "Single expressive stroke",
+      "hands": "Simplified shapes with minimal finger detail",
+      "feet": "Basic flat shapes, wearing simple sandals",
+      "hair": "Solid blocks with clean, simple outlines",
+      "clothingConstruction": "Loose, historical drapes with minimal fold lines",
+      "colorFillStyle": "Flat, solid colors with no gradients",
+      "shadowAmount": "Extremely minimal, restricted to basic ground plane shadows",
+      "backgroundComplexity": "Minimalist; sparse environment elements",
+      "propComplexity": "Simplified, functional historical objects",
+      "negativeSpace": "Abundant cream-colored background space",
+      "composition": "Centered character interactions on a flat baseline",
+      "visualDensity": "Low; clean, uncluttered layout"
+    },
+    "palette": [
+      "#fdfbf7",
+      "#33221a",
+      "#a6522c",
+      "#e2c199",
+      "#c8b195",
+      "#e2b38e"
+    ],
+    "descriptor": "Minimalist historical illustration style featuring mature simplified humans outlined in strong, organic dark ink, filled with flat, muted earth tones on clean cream backgrounds.",
+    "limitations": [
+      "Image 1 is a low-resolution screenshot partially obscured by browser UI.",
+      "Image 2 contains stylized chibi proportions that must be rejected to align with the target mature style."
+    ],
+    "issues": [
+      "Image 1 contains heavy text overlays, UI frames, and thumbnail cropping that limit full style visibility."
+    ]
+  }
 }

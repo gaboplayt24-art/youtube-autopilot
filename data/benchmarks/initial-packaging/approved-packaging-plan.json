@@ -1,0 +1,113 @@
+{
+  "topic": "Waste Management and Sanitation",
+  "evidenceVideoIds": [
+    "AgaY0Zvkd8I",
+    "VRzAfowLiUM"
+  ],
+  "titles": [
+    "Rome's Hidden Sewers",
+    "Public Toilet Secrets",
+    "Roman Waste Engineering"
+  ],
+  "concepts": [
+    {
+      "id": "concept-001",
+      "composition": "central-object",
+      "focalSubject": "The Cloaca Maxima tunnel entrance",
+      "expressionOrSituation": "Cross-section view showing ancient brickwork and flowing darkness",
+      "background": "Cream-textured parchment",
+      "overlay": "ROMAN SEWERS",
+      "curiosity": "How did Rome keep a massive city from collapsing under its own waste?",
+      "scores": {
+        "clarity": 95,
+        "curiosity": 85,
+        "emotionalImpact": 70,
+        "mobileReadability": 90,
+        "subjectProminence": 95,
+        "differentiation": 80,
+        "brandConsistency": 95
+      },
+      "subjectCount": 1,
+      "narrativeNeedForMultipleSubjects": false,
+      "topicAlignment": "Focuses on the engineering architecture of the sewer system itself.",
+      "historicalResearchRequired": true,
+      "PackagingScore": 87
+    },
+    {
+      "id": "concept-002",
+      "composition": "left-subject",
+      "focalSubject": "Roman citizen seated on a communal stone latrine",
+      "expressionOrSituation": "Calm, stoic expression typical of daily life; reading or looking forward",
+      "background": "Simplified, earth-toned interior of a public bathhouse",
+      "overlay": "PUBLIC HYGIENE",
+      "curiosity": "The surprising social nature of ancient bathroom habits.",
+      "scores": {
+        "clarity": 90,
+        "curiosity": 95,
+        "emotionalImpact": 80,
+        "mobileReadability": 85,
+        "subjectProminence": 90,
+        "differentiation": 90,
+        "brandConsistency": 95
+      },
+      "subjectCount": 1,
+      "narrativeNeedForMultipleSubjects": false,
+      "topicAlignment": "Direct representation of the 'public latrine' aspect of the angle.",
+      "historicalResearchRequired": true,
+      "PackagingScore": 89
+    },
+    {
+      "id": "concept-003",
+      "composition": "right-subject",
+      "focalSubject": "Detailed sketch of a tersorium (sea sponge on a stick)",
+      "expressionOrSituation": "Scientific illustration style, presented as an archaeological artifact",
+      "background": "Muted tan paper texture with soft charcoal outlines",
+      "overlay": "ROMAN REALITY",
+      "curiosity": "What was the actual purpose of this controversial Roman tool?",
+      "scores": {
+        "clarity": 85,
+        "curiosity": 95,
+        "emotionalImpact": 75,
+        "mobileReadability": 90,
+        "subjectProminence": 95,
+        "differentiation": 85,
+        "brandConsistency": 95
+      },
+      "subjectCount": 1,
+      "narrativeNeedForMultipleSubjects": false,
+      "topicAlignment": "Addresses the specific research requirement regarding the tersorium.",
+      "historicalResearchRequired": true,
+      "PackagingScore": 87.75
+    }
+  ],
+  "subjectiveDesignScore": true,
+  "notCTRPrediction": true,
+  "selectedAngle": {
+    "id": "rome-001",
+    "topic": "Waste Management and Sanitation",
+    "angle": "The hidden engineering of Roman sewage and public latrine hygiene",
+    "family": "DARK-REALITY",
+    "evidenceVideoIds": [
+      "AgaY0Zvkd8I",
+      "VRzAfowLiUM"
+    ],
+    "scores": {
+      "publicEvidence": 85,
+      "historicalInterest": 90,
+      "visualExplainability": 95,
+      "curiosity": 90,
+      "evergreen": 95,
+      "competitionOpportunity": 80,
+      "packagingPotential": 90
+    },
+    "researchRequirements": [
+      "Cross-reference archaeological findings of Cloaca Maxima with street-level sanitation laws",
+      "Verify the specific use of sponges (tersorium) in public bathrooms"
+    ],
+    "uncertainty": "Exact chemical composition of waste disposal areas remains a subject of modern debate.",
+    "heuristicScore": 89.28571428571429,
+    "notPerformancePrediction": true
+  },
+  "humanApprovalRequired": true,
+  "claimsRequireResearch": true
+}

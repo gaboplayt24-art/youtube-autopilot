@@ -1,29 +1,23 @@
 {
   "version": "illustrated-doodle-v4.2",
-  "referenceAnalysisStatus": "pending",
-  "referenceSha256": null,
-  "visualSystemApproved": false,
-  "approvedAt": null,
   "medium": "AI-generated hand-drawn educational historical illustration",
   "renderingTechnique": "FLUX illustrates the subject and environment; Remotion animates raster artwork and separate editorial overlays",
-  "characterRendering": "organic simplified expressive cartoon people with designed historical clothing, hands and body language",
-  "skinRendering": "flat color fills, no realistic skin texture",
-  "facialDetail": "intentional illustrated eyes, nose and mouth; final proportions must come from reference analysis",
-  "backgroundRendering": "illustrated historical environments, supportive negative space, cream parchment family",
+  "characterRendering": "Simplified, expressive human forms; Mature, natural proportions; avoids exaggerated chibi scaling; Loose, historical drapes with minimal fold lines",
+  "skinRendering": "Flat, solid colors with no gradients",
+  "facialDetail": "Simple black dots or curved lines; Minimalist curved hooks or small bumps; Single expressive stroke",
+  "backgroundRendering": "Minimalist; sparse environment elements",
   "texture": "subtle hand-drawn digital illustration, not sterile vector icons",
-  "lineQuality": "thick slightly irregular dark ink outlines",
-  "light": "flat color with restrained soft shading, no cinematic lighting",
+  "lineQuality": "Medium, consistent hand-drawn thickness; Slightly organic, ink-like variation",
+  "light": "Extremely minimal, restricted to basic ground plane shadows",
   "colorPalette": [
-    "#f5edda",
-    "#e6d6b9",
-    "#b65f45",
-    "#c79443",
-    "#846650",
-    "#a34d43",
-    "#748367",
-    "#302a25"
+    "#fdfbf7",
+    "#33221a",
+    "#a6522c",
+    "#e2c199",
+    "#c8b195",
+    "#e2b38e"
   ],
-  "contrast": "readable illustrated silhouettes and short separate compositor labels",
+  "contrast": "Abundant cream-colored background space",
   "depth": "illustrated layered 2D only",
   "cameraLanguage": "gentle pans, zooms and reveals on actual illustrated source images",
   "filmGrainTreatment": "none",
@@ -53,9 +47,6 @@
     "no Disney",
     "no mascot proportions"
   ],
-  "referenceStyleDescriptor": null,
-  "minimumStyleScore": 70,
-  "maxRegenerationsPerScene": 1,
   "qualityTest": {
     "hookBeatSeconds": 2.4,
     "bodyBeatSeconds": 3.2,
@@ -68,5 +59,12 @@
     "maxSourceDurationFraction": 0.17,
     "repairRounds": 1
   },
-  "note": "Bootstrap constraints from the user's request, NOT a Gemini reference analysis. Actual reference-derived traits/palette and descriptor are created by the v4 audition workflow. No video until human approval."
+  "referenceAnalysisStatus": "analysed",
+  "referenceSha256": "7c9e1c243193a8df8e5afcaa79a5089078de2b5a39c178ea7ff520ae1115e384",
+  "referenceStyleDescriptor": "Minimalist historical illustration style featuring mature simplified humans outlined in strong, organic dark ink, filled with flat, muted earth tones on clean cream backgrounds.",
+  "visualSystemApproved": true,
+  "approvedAt": "2026-10-09T00:00:00.000Z",
+  "minimumStyleScore": 70,
+  "maxRegenerationsPerScene": 1,
+  "note": "Locked by explicit owner approval of final preview on 2026-10-09. Inherit reference traits; no rediscovery or new style version. Asset-specific anatomy override is in channel-art-direction.json."
 }
