@@ -21,3 +21,13 @@ test('Klein preserves small JPEG reference bytes and refuses a square returned s
  try{process.env.CLOUDFLARE_ACCOUNT_ID='mock';process.env.CLOUDFLARE_API_TOKEN='mock';process.env.CLOUDFLARE_FREE_PLAN_CONFIRMED='true';const reference=join(dir,'reference.jpg'),square=join(dir,'square.png');await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','testsrc2=size=384x240','-frames:v','1',reference]);await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','testsrc2=size=1024x1024','-frames:v','1',square]);const bytes=await readFile(reference),ledger=new FreeQuotaLedger(dir);let calls=0;const provider=new CloudflareReferenceImageProvider(async(_url,init)=>{calls++;const blob=(init!.body as FormData).get('input_image_0') as Blob;assert.equal(blob.type,'image/jpeg');assert.deepEqual(Buffer.from(await blob.arrayBuffer()),bytes);return Response.json({success:true,result:{image:(await readFile(square)).toString('base64')}});});const target=join(dir,'rejected.png');await assert.rejects(withQuota(ledger,()=>provider.generate('original mature historical illustration',target,{referenceImages:[reference],width:1536,height:864})),/wrong native dimensions/);assert.equal(calls,1);assert.deepEqual(await readFile(target),await readFile(square));const evidence=JSON.parse(await readFile(target+'.dimensions.json','utf8'));assert.equal(evidence.width,1024);assert.equal(evidence.requestedWidth,1536);await assert.rejects(withQuota(ledger,()=>provider.generate('square forbidden',target,{referenceImages:[reference],width:1024,height:1024})),/native 16:9/);assert.equal(calls,1);
  }finally{for(const [key,value]of Object.entries(old))if(value===undefined)delete process.env[key];else process.env[key]=value;await rm(dir,{recursive:true,force:true});}
 });
+
+test('production Klein grid remains native 16:9 and rejects 1080 height rounding before inference',async()=>{
+ const {validateKleinNativeSize,KLEIN_PRODUCTION_SIZE}=await import('../src/providers/cloudflare');
+ assert.deepEqual(KLEIN_PRODUCTION_SIZE,{width:2048,height:1152});
+ assert.doesNotThrow(()=>validateKleinNativeSize(2048,1152));assert.doesNotThrow(()=>validateKleinNativeSize(1536,864));
+ assert.throws(()=>validateKleinNativeSize(1920,1080),/16-pixel blocks/);
+ let calls=0;const provider=new CloudflareReferenceImageProvider(async()=>{calls++;throw new Error('Must not be requested');});
+ await assert.rejects(provider.generate('Original illustrated drain','unused.png',{referenceImages:['assets/references/style-v4.jpg'],width:1920,height:1080}),/16-pixel blocks/);
+ assert.equal(calls,0);
+});
