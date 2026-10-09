@@ -100,7 +100,7 @@ jobs:
         timeout-minutes: 60
         run: |
           if [ -n "$RETRY_FROM" ]; then
-            cp "data/runs/$RUN_ID/script.json" "data/runs/$RUN_ID/script-before-correction.json"
+            if [ -f "data/runs/$RUN_ID/script.json" ]; then cp "data/runs/$RUN_ID/script.json" "data/runs/$RUN_ID/script-before-correction.json"; fi
             npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene" --retry-from "$RETRY_FROM"
           else
             npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene"
