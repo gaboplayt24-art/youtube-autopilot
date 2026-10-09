@@ -4,17 +4,17 @@
     {
       "sourceId": "video-source-2",
       "replacement": {
-        "id": "video-source-2-period-repair-2",
+        "id": "video-source-2-period-repair-3",
         "narration": "used in public baths. It sounds like a strange function: moving waste out of the city. The latrine systems. A constant stream flowed beneath",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "An ancient Roman adult in a plain belted wool tunic, barefoot, observes a rectangular bath carved from stone. Water overflows across a lowered notch in the stone rim and runs down a shallow open stone gutter toward a drain. Every water passage is an open masonry groove, driven by gravity. A simple empty cream background.",
+        "concept": "An empty ancient Roman rectangular bathing pool built from stone blocks, with water overflowing naturally across a lowered notch in its rim into a shallow open carved masonry gutter. The gutter continues toward a brick-lined drain. Water passages are open grooves driven by gravity, with no inlet fixture. Quiet cream background; focus on the reused water mechanism.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
-          "Roman adult in wool tunic and sandals"
+          "None"
         ]
       },
-      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair was correctly rejected for a modern metal faucet. Second repair uses only open carved stone overflow channels."
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair was correctly rejected for a modern metal faucet. Second repair uses only open carved stone overflow channels. Second repair was rejected for an actual extra leg. This mechanism-only scene has no human figures; other scenes retain Roman characters."
     },
     {
       "sourceId": "video-source-3",
