@@ -69,3 +69,14 @@ test('ordinal representations normalize without equating ordinal and cardinal fa
  const report=evaluateVoice('In the 1st century AD',{text:'In the first century AD',chunks:[{text:'In the first century AD',timestamp:[0,2]}]},['1st'],await loadVoiceQAPolicy());
  assert.equal(report.criticalTermAccuracy,1);
 });
+
+test('bounded visual planning preserves every measured beat with 8–12 sources and no consecutive full-source reuse',async()=>{
+ const {planIllustratedReuse}=await import('../src/visuals/visual-thinking');
+ const {shot:schema}=await import('../src/editor/schemas');
+ const shots=Array.from({length:29},(_,i)=>schema.parse({id:`real-measured-${i}`,sceneId:'roman-drain',start:i*3.5,end:(i+1)*3.5,narration:'Roman bath water flushed public latrines.',visualIntent:'Explain the source-grounded flow.',shotType:'generated-image',motion:'pan-left',assetPrompt:'Original illustrated Roman bath and drain',overlay:'USED BATHWATER',keywords:[],highImpact:i===0,transition:'cut'}));
+ let calls=0;
+ const planned=await planIllustratedReuse(shots,{json:async<T>(prompt:string,contract:import('zod').ZodType<T>)=>{calls++;const batch=JSON.parse(prompt.split('Locked batch: ')[1]);return contract.parse({sources:batch.sourceIds.map((id:string)=>({id,narration:'Roman bath water flushed public latrines.',historicalContext:'Ancient Rome, early imperial period',concept:'Original Roman bath interior with a clothed citizen and a visible drain, flat muted 2D illustration.',overlay:null,labelPlacement:'left',characterRoles:['Roman citizen']})),edits:batch.assignments.map((a:{shotId:string})=>({shotId:a.shotId,editorialPurpose:'Explain this actual water route using the relevant illustrated component.',overlay:'USED BATHWATER',arrow:null}))});}});
+ assert.equal(calls,5);assert.deepEqual(planned.map(s=>[s.id,s.start,s.end,s.narration]),shots.map(s=>[s.id,s.start,s.end,s.narration]));
+ assert.equal(new Set(planned.map(s=>s.assetKey)).size,10);assert.ok(planned.every((s,i)=>i===0||s.assetKey!==planned[i-1].assetKey));
+ for(const id of new Set(planned.map(s=>s.assetKey)))assert.ok(planned.filter(s=>s.assetKey===id).length<=3);
+});
