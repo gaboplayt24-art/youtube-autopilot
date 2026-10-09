@@ -13,6 +13,10 @@ on:
       resume_run_id:
         type: string
         description: Optional prior v4.3 execution with this same run ID; restores checkpoints without repeating returned inference
+      benchmark_only:
+        type: boolean
+        default: false
+        description: Resume packaging only; preserve existing visual QA and images without re-review/inference
 permissions:
   contents: read
   actions: read
@@ -56,8 +60,14 @@ jobs:
       - run: bash scripts/ensure-media-ci.sh
         timeout-minutes: 5
       - run: npm run lint && npm run typecheck && npm test
+      - name: Require prior visual evidence for benchmark-only resume
+        if: inputs.benchmark_only
+        env:
+          RESUME_RUN_ID: ${{ inputs.resume_run_id }}
+        run: test -n "$RESUME_RUN_ID" && test -f "data/runs/$RUN_ID/first-four-reference-style-QA-v4.3.json" && test -f "data/runs/$RUN_ID/STYLE-PREVIEW-v4.3.jpg"
       - name: Reassess 01, selectively repair 02, keep 03 and 04
         id: style
+        if: ${{ !inputs.benchmark_only }}
         continue-on-error: true
         timeout-minutes: 18
         run: npx tsx src/visuals/audition-v4-3.ts --run-id "$RUN_ID" --stage style --prior "data/runs/$RUN_ID/prior"
@@ -89,9 +99,12 @@ jobs:
           name: free-quota-ledger
           path: .cache/quota/free-quota-ledger.json
           include-hidden-files: true
-      - name: Fail if either required milestone failed
+      - name: Fail requested stage failures; preserve cached visual verdict
         if: always()
         env:
           BENCHMARK_RESULT: ${{ steps.benchmark.outcome }}
           STYLE_RESULT: ${{ steps.style.outcome }}
-        run: test "$BENCHMARK_RESULT" = success && test "$STYLE_RESULT" = success
+          BENCHMARK_ONLY: ${{ inputs.benchmark_only }}
+        run: |
+          test "$BENCHMARK_RESULT" = success
+          if [ "$BENCHMARK_ONLY" != true ]; then test "$STYLE_RESULT" = success; fi
