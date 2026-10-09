@@ -1,0 +1,878 @@
+{
+  "selectedCount": 30,
+  "analyzedCount": 30,
+  "sampling": "Balanced per-channel relative views, velocity, engagement, recent above baseline and evergreen",
+  "thumbnails": [
+    {
+      "videoId": "HZRdKlOHogk",
+      "numberOfCharacters": 1,
+      "dominantSubject": "Presenter taking selfie in front of massive ship",
+      "faceSize": "Medium-large",
+      "facialExpression": "Anxious and concerned",
+      "backgroundComplexity": "High",
+      "warmCoolDominance": "Cool neutral",
+      "contrast": "High",
+      "textWordCount": 1,
+      "textPlacement": "Top center",
+      "subjectPlacement": "Center foreground",
+      "arrows": false,
+      "danger": false,
+      "scale": true,
+      "beforeAfter": false,
+      "visualCuriosity": "Worried expression combined with historic setting",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": [
+        "Small hull text unreadable on small screens"
+      ]
+    },
+    {
+      "videoId": "5ij0tDYhIhg",
+      "numberOfCharacters": 7,
+      "dominantSubject": "Historical figure pointing at a crown",
+      "faceSize": "medium",
+      "facialExpression": "stern",
+      "backgroundComplexity": "high",
+      "warmCoolDominance": "split-warm-cool",
+      "contrast": "high",
+      "textWordCount": 8,
+      "textPlacement": "top",
+      "subjectPlacement": "centered",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "low",
+      "mobileReadability": "high",
+      "limitations": [
+        "No creator photograph used; image is an artistic historical illustration",
+        "Text can be small on mobile devices"
+      ]
+    },
+    {
+      "videoId": "KKgpIukWJdM",
+      "numberOfCharacters": 1,
+      "dominantSubject": "Animated soldier character",
+      "faceSize": "small",
+      "facialExpression": "neutral",
+      "backgroundComplexity": "low",
+      "warmCoolDominance": "cool",
+      "contrast": "moderate",
+      "textWordCount": 7,
+      "textPlacement": "top right",
+      "subjectPlacement": "bottom right",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "high",
+      "mobileReadability": "high",
+      "limitations": [
+        "No creator photograph used",
+        "Uses stylised flat vector illustration rather than photographic elements"
+      ]
+    },
+    {
+      "videoId": "HhwPQwpbkZw",
+      "numberOfCharacters": 0,
+      "dominantSubject": "Weathered stone statues",
+      "faceSize": "Medium",
+      "facialExpression": "Static stone carving",
+      "backgroundComplexity": "High",
+      "warmCoolDominance": "Neutral with warm highlights",
+      "contrast": "Medium-high dappled light",
+      "textWordCount": 1,
+      "textPlacement": "Bottom-left corner logo",
+      "subjectPlacement": "Center foreground",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Textured ancient carvings under direct sun spots",
+      "negativeSpace": "Low",
+      "mobileReadability": "Moderate subject visibility, small logo text",
+      "limitations": [
+        "Inscriptions on stone statues are unreadable"
+      ]
+    },
+    {
+      "videoId": "kbrjnNq3aoQ",
+      "numberOfCharacters": 6,
+      "dominantSubject": "Historical figures group portrait",
+      "faceSize": "small",
+      "facialExpression": "varied",
+      "backgroundComplexity": "high",
+      "warmCoolDominance": "warm",
+      "contrast": "medium",
+      "textWordCount": 7,
+      "textPlacement": "bottom center",
+      "subjectPlacement": "centered group",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "low",
+      "mobileReadability": "medium",
+      "limitations": [
+        "Uses illustrated historical style rather than creator photograph",
+        "Dependency on character recognition for viewer engagement",
+        "Detailed background may clutter mobile view"
+      ]
+    },
+    {
+      "videoId": "VRzAfowLiUM",
+      "numberOfCharacters": 1,
+      "dominantSubject": "Close-up illustration of hands loading shotgun shells into a firearm",
+      "faceSize": "none",
+      "facialExpression": "none",
+      "backgroundComplexity": "low",
+      "warmCoolDominance": "neutral",
+      "contrast": "high",
+      "textWordCount": 0,
+      "textPlacement": "none",
+      "subjectPlacement": "center",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "medium",
+      "mobileReadability": "high",
+      "limitations": []
+    },
+    {
+      "videoId": "J8GcGn7QDTQ",
+      "numberOfCharacters": 2,
+      "dominantSubject": "Historical figure contrasted with a modern political figure",
+      "faceSize": "Large",
+      "facialExpression": "Aggressive, scheming, sinister",
+      "backgroundComplexity": "Moderate",
+      "warmCoolDominance": "Balanced",
+      "contrast": "High",
+      "textWordCount": 4,
+      "textPlacement": "Top and bottom center",
+      "subjectPlacement": "Left and right sides",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": true,
+      "visualCuriosity": "High",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": [
+        "The creator uses illustrative caricatures rather than direct photographs of the subjects.",
+        "Text relies on emotionally charged language for click-through appeal."
+      ]
+    },
+    {
+      "videoId": "302s2T1zOE4",
+      "numberOfCharacters": 2,
+      "dominantSubject": "Two illustrated military characters flanking a historical black-and-white background",
+      "faceSize": "medium",
+      "facialExpression": "somber / neutral",
+      "backgroundComplexity": "medium",
+      "warmCoolDominance": "neutral",
+      "contrast": "high",
+      "textWordCount": 2,
+      "textPlacement": "top center in a black header bar",
+      "subjectPlacement": "lower left and lower right foreground",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "juxtaposes simplified internet meme characters with an authentic historical photo and national flag header",
+      "negativeSpace": "moderate",
+      "mobileReadability": "high",
+      "limitations": [
+        "small background elements in the archival photo are blurry and hard to distinguish"
+      ]
+    },
+    {
+      "videoId": "70R2KhShCzs",
+      "numberOfCharacters": 2,
+      "dominantSubject": "Cartoon antagonist",
+      "faceSize": "Large",
+      "facialExpression": "Aggressive, wide-eyed, grinning",
+      "backgroundComplexity": "Simple",
+      "warmCoolDominance": "Neutral",
+      "contrast": "High",
+      "textWordCount": 5,
+      "textPlacement": "Left side",
+      "subjectPlacement": "Right side",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Symbolic representation of greed and cruelty",
+      "negativeSpace": "Minimal",
+      "mobileReadability": "High",
+      "limitations": [
+        "No creator photograph used",
+        "Uses stylized 2D caricature instead of reality"
+      ]
+    },
+    {
+      "videoId": "Ug_7WntnVNQ",
+      "numberOfCharacters": 3,
+      "dominantSubject": "Cartoon figures in a historical setting",
+      "faceSize": "Large",
+      "facialExpression": "Distressed and concerned",
+      "backgroundComplexity": "Moderate",
+      "warmCoolDominance": "Warm",
+      "contrast": "High",
+      "textWordCount": 2,
+      "textPlacement": "Top center",
+      "subjectPlacement": "Centered in the foreground",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Strong",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": [
+        "No creator photograph used",
+        "Entirely illustrative content",
+        "Static composition"
+      ]
+    },
+    {
+      "videoId": "-Sd1stYQp-c",
+      "numberOfCharacters": 3,
+      "dominantSubject": "Central woman taking a selfie amidst chaotic historical market vendors.",
+      "faceSize": "Large foreground close-ups",
+      "facialExpression": "Disgusted and aggressive shouting",
+      "backgroundComplexity": "High, crowded street market",
+      "warmCoolDominance": "Earthy warm neutrals",
+      "contrast": "High",
+      "textWordCount": 2,
+      "textPlacement": "Top center",
+      "subjectPlacement": "Centered with side framing",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Anachronistic selfie camera angle set in historical period.",
+      "negativeSpace": "Low, fully occupied frame",
+      "mobileReadability": "High for text and primary subjects",
+      "limitations": [
+        "Crowded background elements get lost at small scale"
+      ]
+    },
+    {
+      "videoId": "-DZIkSvLGJY",
+      "numberOfCharacters": 1,
+      "dominantSubject": "Military commander beside tactical map overlay",
+      "faceSize": "medium",
+      "facialExpression": "serious",
+      "backgroundComplexity": "high",
+      "warmCoolDominance": "cool",
+      "contrast": "high",
+      "textWordCount": 9,
+      "textPlacement": "bottom third overlay",
+      "subjectPlacement": "left foreground",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Strategic battle map and operation name generate interest.",
+      "negativeSpace": "low",
+      "mobileReadability": "moderate",
+      "limitations": [
+        "Small text labels on the map are unreadable on mobile screens."
+      ]
+    },
+    {
+      "videoId": "AgaY0Zvkd8I",
+      "numberOfCharacters": 3,
+      "dominantSubject": "Stylized historical figures overlaid on split territorial maps",
+      "faceSize": "Medium",
+      "facialExpression": "Neutral",
+      "backgroundComplexity": "High",
+      "warmCoolDominance": "Balanced",
+      "contrast": "High",
+      "textWordCount": 4,
+      "textPlacement": "Top-left angled",
+      "subjectPlacement": "Center and lower split sides",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Split map background representing divided empires",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": [
+        "Small map icons and heraldic flag details are unreadable at mobile scale"
+      ]
+    },
+    {
+      "videoId": "E3tkxZTSiPM",
+      "numberOfCharacters": 2,
+      "dominantSubject": "Split composition featuring a human presenter and an ancient golden funerary mask",
+      "faceSize": "Large, occupying approximately one-third of the thumbnail",
+      "facialExpression": "Serious, neutral, and informative",
+      "backgroundComplexity": "Simple, dark, out-of-focus background to emphasize subjects",
+      "warmCoolDominance": "Balanced; cool blue shirt on the left and warm gold tones on the right",
+      "contrast": "High contrast between the dark background and the illuminated subjects",
+      "textWordCount": 0,
+      "textPlacement": "None",
+      "subjectPlacement": "Presenter on the left, artifact on the right",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "High; utilizes the juxtaposition of historical artifact and modern human expert",
+      "negativeSpace": "Minimal, as the frame is well-filled by the two subjects",
+      "mobileReadability": "High; clearly defined, large subjects are easily legible on small screens",
+      "limitations": [
+        "The thumbnail relies entirely on the creator's curated photograph of a presenter, which is a standard approach in educational/documentary content to establish trust and human connection.",
+        "Details on the specific historical authenticity of the artifact are not verifiable via image inspection alone.",
+        "No text is present to indicate narrative focus, leaving the video's specific angle dependent on the title."
+      ]
+    },
+    {
+      "videoId": "o9sr8sviSIs",
+      "numberOfCharacters": 1,
+      "dominantSubject": "Skull wearing conical hat amidst foliage",
+      "faceSize": "Medium",
+      "facialExpression": "Grim, bleeding eye sockets",
+      "backgroundComplexity": "Moderate",
+      "warmCoolDominance": "Warm",
+      "contrast": "High",
+      "textWordCount": 2,
+      "textPlacement": "Right side, vertically stacked",
+      "subjectPlacement": "Lower left foreground",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Dramatic, gritty historical horror motif",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": []
+    },
+    {
+      "videoId": "FVwwFWZoci0",
+      "numberOfCharacters": 4,
+      "dominantSubject": "Cartoon mouse inspecting a cross-section of a tank",
+      "faceSize": "medium",
+      "facialExpression": "curious",
+      "backgroundComplexity": "low",
+      "warmCoolDominance": "cool",
+      "contrast": "high",
+      "textWordCount": 0,
+      "textPlacement": "none",
+      "subjectPlacement": "centered",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "medium",
+      "mobileReadability": "high",
+      "limitations": [
+        "no photographic source material used",
+        "the artwork is entirely illustrated"
+      ]
+    },
+    {
+      "videoId": "csonTUj_cv0",
+      "numberOfCharacters": 2,
+      "dominantSubject": "Historical figures juxtaposed",
+      "faceSize": "large",
+      "facialExpression": "serious",
+      "backgroundComplexity": "medium",
+      "warmCoolDominance": "warm",
+      "contrast": "high",
+      "textWordCount": 4,
+      "textPlacement": "top center and bottom center",
+      "subjectPlacement": "left and right third",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": true,
+      "visualCuriosity": "high",
+      "negativeSpace": "low",
+      "mobileReadability": "high",
+      "limitations": [
+        "No creator photograph used; relies entirely on digital illustration",
+        "Dependency on historical recognition rather than personal brand",
+        "Reliance on polarized imagery to drive clicks"
+      ]
+    },
+    {
+      "videoId": "6ljtIh1niOg",
+      "numberOfCharacters": 2,
+      "dominantSubject": "Two illustrated wojak-style characters in military uniforms",
+      "faceSize": "Large",
+      "facialExpression": "Neutral and weary",
+      "backgroundComplexity": "Moderate",
+      "warmCoolDominance": "Neutral",
+      "contrast": "High",
+      "textWordCount": 2,
+      "textPlacement": "Top center",
+      "subjectPlacement": "Left and right sides",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Medium",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": [
+        "The background relies on a low-contrast monochromatic historical photograph.",
+        "The creator uses digital illustrations layered over a static photograph.",
+        "Specific details of the historical photograph are blurry and obscure."
+      ]
+    },
+    {
+      "videoId": "zwOrYfdpjEo",
+      "numberOfCharacters": 1,
+      "dominantSubject": "illustrated mercenary character holding a money bag and sword",
+      "faceSize": "large",
+      "facialExpression": "manic, excited grin with wide glowing eyes",
+      "backgroundComplexity": "low-medium",
+      "warmCoolDominance": "cool",
+      "contrast": "high",
+      "textWordCount": 2,
+      "textPlacement": "left side of frame",
+      "subjectPlacement": "right side of frame",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "manic expression paired with a money bag implies a high-stakes mercenary task",
+      "negativeSpace": "moderate",
+      "mobileReadability": "high",
+      "limitations": [
+        "does not feature a real creator photograph",
+        "entirely illustrated content",
+        "no photographic dependence"
+      ]
+    },
+    {
+      "videoId": "GJKU9qYGjN8",
+      "numberOfCharacters": 1,
+      "dominantSubject": "human subject posing as a historical figure",
+      "faceSize": "large",
+      "facialExpression": "shocked or amazed",
+      "backgroundComplexity": "high",
+      "warmCoolDominance": "warm",
+      "contrast": "high",
+      "textWordCount": 3,
+      "textPlacement": "top center",
+      "subjectPlacement": "centered",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "low",
+      "mobileReadability": "high",
+      "limitations": [
+        "subject is AI-generated and not a photograph of the creator",
+        "background elements lack realistic consistency"
+      ]
+    },
+    {
+      "videoId": "Rk7QV9Gto-c",
+      "numberOfCharacters": 13,
+      "dominantSubject": "Group of historical figures representing Ottoman-era soldiers and officials",
+      "faceSize": "Medium",
+      "facialExpression": "Neutral, serious, and observant",
+      "backgroundComplexity": "High",
+      "warmCoolDominance": "Warm",
+      "contrast": "Moderate",
+      "textWordCount": 9,
+      "textPlacement": "Centered at the bottom over the subjects",
+      "subjectPlacement": "Horizontal row spanning the foreground",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "High",
+      "negativeSpace": "Low",
+      "mobileReadability": "Moderate",
+      "limitations": [
+        "High density of figures makes facial details small on mobile devices",
+        "Background map is highly detailed and may clutter view",
+        "Uses historical photography which dictates the realism of the composition"
+      ]
+    },
+    {
+      "videoId": "QFrzGhlRAkw",
+      "numberOfCharacters": 1,
+      "dominantSubject": "Historical document",
+      "faceSize": "small",
+      "facialExpression": "neutral",
+      "backgroundComplexity": "low",
+      "warmCoolDominance": "cool",
+      "contrast": "high",
+      "textWordCount": 26,
+      "textPlacement": "left and center",
+      "subjectPlacement": "right",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "low",
+      "negativeSpace": "moderate",
+      "mobileReadability": "high",
+      "limitations": [
+        "No creator photograph used",
+        "Animated illustration only",
+        "Text overlays obscure historical document details"
+      ]
+    },
+    {
+      "videoId": "qDgXVII0UFM",
+      "numberOfCharacters": 0,
+      "dominantSubject": "archaeological human skeletal remains",
+      "faceSize": "n/a",
+      "facialExpression": "n/a",
+      "backgroundComplexity": "high",
+      "warmCoolDominance": "warm",
+      "contrast": "moderate",
+      "textWordCount": 0,
+      "textPlacement": "n/a",
+      "subjectPlacement": "centered",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "low",
+      "mobileReadability": "low",
+      "limitations": [
+        "no human face to evaluate",
+        "creator photograph dependence: the image is a direct photographic documentation of an archaeological site rather than a portrait-based thumbnail",
+        "the subject is remains of a person, not a living character",
+        "text is branding-only and not content-informative"
+      ]
+    },
+    {
+      "videoId": "J9H_BOe5suY",
+      "numberOfCharacters": 3,
+      "dominantSubject": "Historical combatants",
+      "faceSize": "Medium to large",
+      "facialExpression": "Aggressive and tense",
+      "backgroundComplexity": "Low",
+      "warmCoolDominance": "Warm",
+      "contrast": "High",
+      "textWordCount": 0,
+      "textPlacement": "None",
+      "subjectPlacement": "Foreground covering central and lateral thirds",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "Action-oriented historical conflict",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": [
+        "No creator photograph used; image is a digital illustration",
+        "Source style is stylized comic-book art, not photographic"
+      ]
+    },
+    {
+      "videoId": "seA-1XZRd-Y",
+      "numberOfCharacters": 2,
+      "dominantSubject": "interaction between a first-person perspective and a secondary figure",
+      "faceSize": "none",
+      "facialExpression": "none",
+      "backgroundComplexity": "moderate",
+      "warmCoolDominance": "warm",
+      "contrast": "high",
+      "textWordCount": 0,
+      "textPlacement": "none",
+      "subjectPlacement": "central",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "low",
+      "mobileReadability": "high",
+      "limitations": [
+        "creator photograph reliance is non-existent as the image is an illustration",
+        "cannot identify specific facial expressions as the subject's face is entirely obscured by a hat",
+        "the precise nature of the interaction remains interpretive due to the stylized art format"
+      ]
+    },
+    {
+      "videoId": "pBJpDpMqigw",
+      "numberOfCharacters": 2,
+      "dominantSubject": "Historical figure contrasted with modern political leader",
+      "faceSize": "Large",
+      "facialExpression": "Serious, stoic",
+      "backgroundComplexity": "Moderate",
+      "warmCoolDominance": "Balanced",
+      "contrast": "High",
+      "textWordCount": 4,
+      "textPlacement": "Top and bottom center",
+      "subjectPlacement": "Left and right sides",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": true,
+      "visualCuriosity": "Temporal contrast of two figures across centuries",
+      "negativeSpace": "Low",
+      "mobileReadability": "High",
+      "limitations": [
+        "Heavily reliant on caricature-style illustrations rather than direct photograph of the creator",
+        "Uses stylized maps instead of realistic geographic photography"
+      ]
+    },
+    {
+      "videoId": "lXYGgtlspxY",
+      "numberOfCharacters": 2,
+      "dominantSubject": "two cartoon figures representing different political/military factions in front of a crowd",
+      "faceSize": "large",
+      "facialExpression": "stoic/neutral",
+      "backgroundComplexity": "high",
+      "warmCoolDominance": "cool",
+      "contrast": "high",
+      "textWordCount": 2,
+      "textPlacement": "top center",
+      "subjectPlacement": "foreground left and right",
+      "arrows": false,
+      "danger": false,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "juxtaposition of caricatures against historical crowd photography",
+      "negativeSpace": "low",
+      "mobileReadability": "high",
+      "limitations": [
+        "The creator relies entirely on a historical crowd photograph as a composite base, overlaying hand-drawn digital illustrations on top of it.",
+        "Details of the historical background photo are visually noisy and largely indistinct due to low resolution."
+      ]
+    },
+    {
+      "videoId": "Ejk2nYlDwBM",
+      "numberOfCharacters": 1,
+      "dominantSubject": "illustrated character",
+      "faceSize": "medium",
+      "facialExpression": "shocked or panicked",
+      "backgroundComplexity": "medium",
+      "warmCoolDominance": "warm",
+      "contrast": "high",
+      "textWordCount": 0,
+      "textPlacement": "none",
+      "subjectPlacement": "left side",
+      "arrows": true,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "burning money and historical artillery",
+      "negativeSpace": "minimal",
+      "mobileReadability": "high",
+      "limitations": [
+        "The thumbnail uses an illustrative cartoon style rather than a photograph of a creator",
+        "No text is present to analyze for readability"
+      ]
+    },
+    {
+      "videoId": "moKQeOMHqYA",
+      "numberOfCharacters": 2,
+      "dominantSubject": "human with woolly mammoth",
+      "faceSize": "large",
+      "facialExpression": "fearful and intense",
+      "backgroundComplexity": "low",
+      "warmCoolDominance": "cool",
+      "contrast": "high",
+      "textWordCount": 2,
+      "textPlacement": "background center top",
+      "subjectPlacement": "foreground center",
+      "arrows": false,
+      "danger": true,
+      "scale": true,
+      "beforeAfter": false,
+      "visualCuriosity": "interaction between human and mammoth",
+      "negativeSpace": "low",
+      "mobileReadability": "high",
+      "limitations": [
+        "The creator photograph appears to be a composite or AI-generated image rather than a standard camera capture of a specific individual, given the lighting synthesis between the subject and the prehistoric creature."
+      ]
+    },
+    {
+      "videoId": "8bHCPc-hZWQ",
+      "numberOfCharacters": 1,
+      "dominantSubject": "person with weapon",
+      "faceSize": "large",
+      "facialExpression": "neutral",
+      "backgroundComplexity": "high",
+      "warmCoolDominance": "warm",
+      "contrast": "high",
+      "textWordCount": 3,
+      "textPlacement": "bottom center",
+      "subjectPlacement": "centered",
+      "arrows": false,
+      "danger": true,
+      "scale": false,
+      "beforeAfter": false,
+      "visualCuriosity": "high",
+      "negativeSpace": "low",
+      "mobileReadability": "high",
+      "limitations": [
+        "creator photograph dependence: high as the focal point relies on a stock or documentary photograph of a subject",
+        "the specific identity of the individual is not provided",
+        "background details are aerial/satellite representations"
+      ]
+    }
+  ],
+  "provenance": [
+    {
+      "videoId": "HZRdKlOHogk",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "5ij0tDYhIhg",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "KKgpIukWJdM",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "HhwPQwpbkZw",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "kbrjnNq3aoQ",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "VRzAfowLiUM",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "J8GcGn7QDTQ",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "302s2T1zOE4",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "70R2KhShCzs",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "Ug_7WntnVNQ",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "-Sd1stYQp-c",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "-DZIkSvLGJY",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "AgaY0Zvkd8I",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "E3tkxZTSiPM",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "o9sr8sviSIs",
+      "source": "reused actual prior Gemini Vision",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "FVwwFWZoci0",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "csonTUj_cv0",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "6ljtIh1niOg",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "zwOrYfdpjEo",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "GJKU9qYGjN8",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "Rk7QV9Gto-c",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "QFrzGhlRAkw",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "qDgXVII0UFM",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "J9H_BOe5suY",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "seA-1XZRd-Y",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "pBJpDpMqigw",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "lXYGgtlspxY",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "Ejk2nYlDwBM",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "moKQeOMHqYA",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    },
+    {
+      "videoId": "8bHCPc-hZWQ",
+      "source": "recovered actual raw Gemini Vision; singleton envelope only",
+      "prior": "data/runs/style-v4-3-real-001/prior"
+    }
+  ]
+}

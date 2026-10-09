@@ -59,13 +59,13 @@
   "qualityTest": {
     "hookBeatSeconds": 2.4,
     "bodyBeatSeconds": 3.2,
-    "shotsMin": 22,
-    "shotsMax": 35,
-    "uniqueMin": 22,
-    "uniqueMax": 30,
-    "uniqueSourceRatioMin": 0.75,
-    "maxSourceUses": 2,
-    "maxSourceDurationFraction": 0.1,
+    "shotsMin": 24,
+    "shotsMax": 32,
+    "uniqueMin": 8,
+    "uniqueMax": 12,
+    "uniqueSourceRatioMin": 0.25,
+    "maxSourceUses": 4,
+    "maxSourceDurationFraction": 0.17,
     "repairRounds": 1
   },
   "note": "Bootstrap constraints from the user's request, NOT a Gemini reference analysis. Actual reference-derived traits/palette and descriptor are created by the v4 audition workflow. No video until human approval."

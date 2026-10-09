@@ -1,6 +1,5 @@
 import {generatePackagedThumbnails} from '../packaging/thumbnails';
-import {BenchmarkPackagingEngine} from '../packaging/engine';
-import {packagingBenchmark,packagingPlan} from '../packaging/schemas';
+import {packagingPlan} from '../packaging/schemas';
 import {PackagingV2,packagingDNA} from '../packaging/v2';
 import {FreeQuotaLedger,withQuota} from '../quota';
 import {semanticQA} from '../visuals/semantic';
@@ -62,7 +61,7 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
   const scoring=await runner.stage('scoring',schemas.ideas,async()=>scoreIdeas(ideas,research.sources.length));
   const selection=await runner.stage('selection',schemas.schemas.selection,async()=>selectTopic(scoring));
   let packagingDirection:unknown;
-  if(!demo){packagingDNA.parse(await read('config/channel-packaging-dna.json'));const packagingEngine=new BenchmarkPackagingEngine(),v2=new PackagingV2();const benchmark=await runner.stage('packaging-benchmark',packagingBenchmark,()=>packagingEngine.analyze(dir,runner,llm));const channels=await v2.expand(benchmark,dir,dir,runner);const observations=await v2.inspect(channels,dir,dir,runner,llm);const roles=await v2.benchmark(benchmark,channels,observations,dir,runner,llm,await fileDigest(process.env.STYLE_REFERENCE_PATH??'assets/references/style-v4.jpg'));const candidate=await v2.direction(selection.topic,roles,dir,runner,llm);await runner.stage('packaging-before-production',packagingPlan,async()=>candidate);packagingDirection=await read(join(dir,'topic-first-direction-v2.json'));}
+  if(!demo){packagingDNA.parse(await read('config/channel-packaging-dna.json'));const v2=new PackagingV2();const roles=await read('data/benchmarks/initial-packaging/packaging-benchmark-v2.json');await json(join(dir,'packaging-benchmark-v2.json'),roles);const candidate=await v2.direction(selection.topic,roles,dir,runner,llm);await runner.stage('packaging-before-production',packagingPlan,async()=>candidate);packagingDirection=await read(join(dir,'topic-first-direction-v2.json'));}
   const longPlan=durationPlan?await runner.stage('chapter-outline',longFormPlan,()=>new LongFormPlanner().outline(durationPlan,{research,selection,packagingDirection},llm)):undefined;
   const script=await runner.stage('script',schemas.script,async()=>demo?Promise.resolve(demoScript):writeLongForm({research,selection,packagingDirection,packagingCandidates:demo?undefined:await read(join(dir,'packaging-before-production.json')),channel:config.channel,audience:config.audience,narrator:config.narrator},llm,longPlan!));
   if(!demo){const candidates=packagingPlan.parse(await read(join(dir,'packaging-before-production.json')));if(!candidates.titles.includes(script.title))throw new Error('Script title diverges from approved original packaging candidates');}
