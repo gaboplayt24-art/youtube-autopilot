@@ -42,3 +42,9 @@ test('research quotations come from retrieved bytes instead of reconstructed mod
  assert.deepEqual(retrievedParagraphs(`<html><p>${paragraph}</p><p>too short</p></html>`),[paragraph]);
  const marked=retrievedParagraphs(`<p>Water from the <em>bath outfall</em> flowed into a channel beneath the street. This is a fixture.</p>`)[0];assert.match(marked,/bath outfall/);assert.equal(marked.includes('<em>'),false);
 });
+
+test('component reuse keeps meaningful source regions and rejects almost-full or inverted crop boxes',async()=>{
+ const {componentCrop}=await import('../src/editor/schemas');const crop={bounds:[.55,.08,.95,.86],subject:'Complete drawn Roman bather',kind:'character',placement:'right'};
+ assert.equal(componentCrop.safeParse(crop).success,true);
+ for(const bounds of [[0,0,1,1],[.7,.1,.3,.8],[-.1,0,.4,.8]])assert.equal(componentCrop.safeParse({...crop,bounds}).success,false);
+});
