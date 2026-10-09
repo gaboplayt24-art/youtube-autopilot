@@ -84,11 +84,11 @@ jobs:
           run-id: ${{ inputs.source_run_id }}
           github-token: ${{ github.token }}
       - name: Install media tools
-        timeout-minutes: 5
+        timeout-minutes: 7
         run: |
           if ! command -v ffmpeg >/dev/null || ! command -v ffprobe >/dev/null; then
             sudo timeout 120s apt-get update -o Acquire::Retries=1 -o Acquire::http::Timeout=20 -o Acquire::https::Timeout=20
-            sudo timeout 120s apt-get install --no-install-recommends -y ffmpeg
+            sudo timeout 240s apt-get install --no-install-recommends -y ffmpeg
           fi
       - name: Install CPU models environment
         if: steps.python-env.outputs.cache-hit != 'true'
