@@ -65,17 +65,17 @@
     {
       "sourceId": "video-source-8",
       "replacement": {
-        "id": "video-source-8-period-repair-2",
+        "id": "video-source-8-period-repair-3",
         "narration": "Most dwellings were not connected to street drains or sewers. Some wealthy households had outlets beneath their latrines, while poorer residents used pots they were supposed to empty into the sewer, or visited public toilets. Access was uneven. Waste was often dumped indiscriminately into the streets. Despite sewers, baths, and public latrines, disease remained widespread.",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "Plain ground-floor room of a Roman apartment opening onto a narrow stone street: one adult in a short-sleeved belted wool tunic, bare wrists and sandals, stands at the open wooden doorway tipping a terracotta pot into the street, where dirty water runs along an open stone gutter. Plastered walls, a wooden stool. Only this one person; cream negative space.",
+        "concept": "Plain room of a Roman apartment opening onto a narrow paved street: one adult in a short-sleeved wool tunic, bare wrists, sandals, tips a terracotta pot at the open doorway; dirty water runs along a shallow channel cut into the street paving. Bare plaster walls, nothing attached. Only this one person; cream negative space.",
         "overlay": null,
         "labelPlacement": "right",
         "characterRoles": [
           "one Roman resident emptying a terracotta pot into the street"
         ]
       },
-      "reason": "Run 37984921556 density QA rejected video-source-8 (historicalAccuracy): modern collared polo shirt, digital wristwatch, 9+ characters versus LOW/MEDIUM density. Narration grounded in data/scripts/production-approved-001-editorial-draft.json (unconnected homes, chamber pots). Repair keeps the domestic meaning with one period-dressed adult, bare wrists, simple interior. Run 37986517991: repaired source passed density QA, but component QA found no street-level dumping (shot-21) and no open drain (shot-23). Repair-2 keeps the same interior and single resident and shows the pot emptied into an open street gutter so all four assigned beats are supported."
+      "reason": "Run 37984921556 density QA rejected video-source-8 (historicalAccuracy): modern collared polo shirt, digital wristwatch, 9+ characters versus LOW/MEDIUM density. Narration grounded in data/scripts/production-approved-001-editorial-draft.json (unconnected homes, chamber pots). Repair keeps the domestic meaning with one period-dressed adult, bare wrists, simple interior. Run 37986517991: repaired source passed density QA, but component QA found no street-level dumping (shot-21) and no open drain (shot-23). Repair-2 keeps the same interior and single resident and shows the pot emptied into an open street gutter so all four assigned beats are supported. Run 37987063439: repair-2 rejected (historicalAccuracy) for an industrial iron wall pipe with threaded fitting and bracket. Repair-3 keeps the scene but places the open channel in the street paving and states bare walls with nothing attached."
     }
   ],
   "beatReassignments": [
