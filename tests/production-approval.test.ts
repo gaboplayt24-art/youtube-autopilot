@@ -36,3 +36,9 @@ test('pacing advice cannot disable factual, audio, black-frame or asset safety c
  requireQA({passed:true,checks:checks.map(c=>c.name==='shot pacing'?{...c,passed:false,severity:'advisory'}:c)});
  for(const name of ['factual consistency','audio duration','black frames','missing assets'])assert.throws(()=>requireQA({passed:true,checks:checks.map(c=>c.name===name?{...c,passed:false,severity:'advisory'}:c)}),/QA failed/);
 });
+
+test('research quotations come from retrieved bytes instead of reconstructed model prose',async()=>{
+ const {retrievedParagraphs}=await import('../src/research');const paragraph='Water from the bath outfall flowed into a channel beneath the street. This is a fixture, not historical evidence.';
+ assert.deepEqual(retrievedParagraphs(`<html><p>${paragraph}</p><p>too short</p></html>`),[paragraph]);
+ const marked=retrievedParagraphs(`<p>Water from the <em>bath outfall</em> flowed into a channel beneath the street. This is a fixture.</p>`)[0];assert.match(marked,/bath outfall/);assert.equal(marked.includes('<em>'),false);
+});
