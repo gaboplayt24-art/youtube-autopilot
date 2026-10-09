@@ -101,6 +101,19 @@ jobs:
         run: |
           if [ -n "$RETRY_FROM" ]; then
             if [ -f "data/runs/$RUN_ID/script.json" ]; then cp "data/runs/$RUN_ID/script.json" "data/runs/$RUN_ID/script-before-correction.json"; fi
+            if [ "$RETRY_FROM" = "script" ] && [ -f "data/runs/$RUN_ID/assets/narration-chapter-1.wav" ]; then
+              python - <<'PYARCHIVE'
+          import os, pathlib, shutil, datetime
+          root = pathlib.Path('data/runs') / os.environ['RUN_ID']
+          archive = root / 'previous-narration' / datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+          archive.mkdir(parents=True, exist_ok=False)
+          for path in (root / 'assets').glob('narration-chapter-*.wav*'):
+              shutil.move(str(path), archive / path.name)
+          for name in ('script.json', 'script.integrity.json', 'facts.json', 'critical-terms.json'):
+              path = root / name
+              if path.exists(): shutil.copy2(path, archive / name)
+          PYARCHIVE
+            fi
             npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene" --retry-from "$RETRY_FROM"
           else
             npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene"

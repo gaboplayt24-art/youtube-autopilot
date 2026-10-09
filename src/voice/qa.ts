@@ -7,12 +7,13 @@ export type VoiceQAPolicy=z.infer<typeof voiceQAPolicy>;
 export const loadVoiceQAPolicy=async()=>voiceQAPolicy.parse(await read('config/voice-qa.json'));
 export type Transcript={text:string;model?:string;chunks:{text:string;timestamp:[number,number|null]}[]};
 export type Token={text:string;indices:number[]};
+const ordinals:Record<string,string>={first:'1st',second:'2nd',third:'3rd',fourth:'4th',fifth:'5th',sixth:'6th',seventh:'7th',eighth:'8th',ninth:'9th',tenth:'10th',eleventh:'11th',twelfth:'12th',thirteenth:'13th',fourteenth:'14th',fifteenth:'15th',sixteenth:'16th',seventeenth:'17th',eighteenth:'18th',nineteenth:'19th',twentieth:'20th'};
 const numberWords:Record<string,number>={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
 function integerWords(words:string[]){let total=0,group=0;for(const w of words){if(w==='and')continue;if(w==='hundred')group=(group||1)*100;else if(w==='thousand'){total+=(group||1)*1000;group=0;}else group+=numberWords[w];}return total+group;}
 /** Only orthography and numeric representations change. Lexical errors remain errors. */
 export function normalizedTokens(text:string):Token[]{
  const raw=text.trim().split(/\s+/);const pieces:Token[]=[];
- raw.forEach((word,i)=>{const value=word.toLowerCase().replace(/(\d),(?=\d{3}\b)/g,'$1').replace(/(?<=[a-z])\.(?=[a-z])/g,'').replace(/[’']/g,'');for(const part of value.match(/[a-z]+|\d+(?:\.\d+)?/g)??[])pieces.push({text:part==='bc'?'bce':part==='ad'?'ce':part,indices:[i]});});
+ raw.forEach((word,i)=>{const value=word.toLowerCase().replace(/(\d),(?=\d{3}\b)/g,'$1').replace(/(?<=[a-z])\.(?=[a-z])/g,'').replace(/[’']/g,'');for(const part of value.match(/[a-z]+|\d+(?:\.\d+)?(?:st|nd|rd|th)?/g)??[])pieces.push({text:ordinals[part]??(part==='bc'?'bce':part==='ad'?'ce':part),indices:[i]});});
  const result:Token[]=[];
  for(let i=0;i<pieces.length;i++){
   const first=pieces[i];if(numberWords[first.text]===undefined){result.push(first);continue;}

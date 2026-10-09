@@ -60,3 +60,12 @@ test('production factual review anchors objections and preserves minor advice wi
  await assert.rejects(factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>{calls++;return schema.parse({observations:[{narrationQuote:'The baths were built in 101 CE.',sourceQuote:null,severity:'major',reason:'This allegation is absent from the narration'}],checkedClaims:2,review:'Unanchored assessment'});}},true));
  assert.equal(calls,3);
 });
+
+test('ordinal representations normalize without equating ordinal and cardinal facts',async()=>{
+ const {compareTranscripts,evaluateVoice,loadVoiceQAPolicy}=await import('../src/voice/qa');
+ assert.equal(compareTranscripts('In the 1st century AD','In the first century AD').wordErrorRate,0);
+ assert.notEqual(compareTranscripts('first ruler','one ruler').wordErrorRate,0);
+ assert.notEqual(compareTranscripts('second dynasty','third dynasty').wordErrorRate,0);
+ const report=evaluateVoice('In the 1st century AD',{text:'In the first century AD',chunks:[{text:'In the first century AD',timestamp:[0,2]}]},['1st'],await loadVoiceQAPolicy());
+ assert.equal(report.criticalTermAccuracy,1);
+});
