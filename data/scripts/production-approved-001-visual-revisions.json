@@ -4,17 +4,17 @@
     {
       "sourceId": "video-source-2",
       "replacement": {
-        "id": "video-source-2-period-repair",
+        "id": "video-source-2-period-repair-2",
         "narration": "used in public baths. It sounds like a strange function: moving waste out of the city. The latrine systems. A constant stream flowed beneath",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "Ancient Roman bath drainage: one barefoot adult in a plain belted knee-length wool tunic beside a stone bath basin. Used water spills through a terracotta outlet into a shallow open masonry channel. No hats, collars, trousers, modern valves or metal pipe elbows. Quiet cream space.",
+        "concept": "An ancient Roman adult in a plain belted wool tunic, barefoot, observes a rectangular bath carved from stone. Water overflows across a lowered notch in the stone rim and runs down a shallow open stone gutter toward a drain. Every water passage is an open masonry groove, driven by gravity. A simple empty cream background.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
           "Roman adult in wool tunic and sandals"
         ]
       },
-      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair was correctly rejected for a modern metal faucet. Second repair uses only open carved stone overflow channels."
     },
     {
       "sourceId": "video-source-3",

@@ -15,7 +15,7 @@ test('evidence-based visual revisions preserve speech timing, refuse unknown IDs
  const before=JSON.stringify(shots),revised=applyEditorialRevision(shots,revision,revision.runId);
  assert.equal(JSON.stringify(shots),before);
  assert.deepEqual(revised.map(s=>[s.id,s.start,s.end,s.narration]),shots.map(s=>[s.id,s.start,s.end,s.narration]));
- assert.equal(revised[0].assetKey,'video-source-2-period-repair');
+ assert.equal(revised[0].assetKey,revision.sourceRevisions[0].replacement.id);
  assert.equal(revised.at(-1)!.assetKey,'video-source-8');
  assert.throws(()=>applyEditorialRevision(shots,revision,'other-run'),/different run/);
  assert.throws(()=>applyEditorialRevision(shots,{...revision,beatReassignments:[{...revision.beatReassignments[0],shotId:'unknown'}]},revision.runId),/unknown beat/);
