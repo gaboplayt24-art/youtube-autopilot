@@ -94,3 +94,9 @@ test('bounded visual planning preserves every measured beat with 8–12 sources 
  assert.equal(new Set(planned.map(s=>s.assetKey)).size,10);assert.ok(planned.every((s,i)=>i===0||s.assetKey!==planned[i-1].assetKey));
  for(const id of new Set(planned.map(s=>s.assetKey)))assert.ok(planned.filter(s=>s.assetKey===id).length<=3);
 });
+test('every production visual revision fits the native Klein prompt limit before quota is spent',async()=>{
+ const {nativePrompt}=await import('../src/visuals/native-v4-2');const {illustratedStyleLock}=await import('../src/visuals/illustration-schema');
+ const style=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v4.json','utf8')));
+ const revision=editorialRevision.parse(JSON.parse(await readFile('data/scripts/production-approved-001-visual-revisions.json','utf8')));
+ for(const r of revision.sourceRevisions)assert.ok(nativePrompt(style,r.replacement).length<=2048,r.replacement.id);
+});

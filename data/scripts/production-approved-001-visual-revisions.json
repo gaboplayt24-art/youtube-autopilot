@@ -22,11 +22,11 @@
         "id": "video-source-3-period-repair-5",
         "narration": "the long, bench-like seats, carrying refuse; drain network. This main drainage system; to reclaim low-lying land near the Forum by",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "Ancient Roman communal latrine at eye level: one long stone bench with keyhole-shaped openings along a plain plastered wall; water flows in an open stone channel beneath it and a shallow gutter along the floor. One adult in a belted wool tunic and sandals stands with both feet on the dry stone floor beside the far end of the bench, pointing at the channel. Upper wall empty cream space.",
+        "concept": "Roman communal latrine at eye level: long stone bench with keyhole openings along a plain wall; water flows in an open stone channel beneath it and a floor gutter. One adult stands with both feet on the dry floor beside the bench end, pointing at the channel. Upper wall empty.",
         "overlay": null,
         "labelPlacement": "top",
         "characterRoles": [
-          "Roman adult standing on the dry floor beside the bench"
+          "one adult standing on the floor"
         ]
       },
       "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair was rejected for historicalAccuracy (run 37961108123); it mixed a latrine with a marsh beyond an arch and requested round openings. Second repair follows excavated foriæ (Ostia, Ephesus): continuous bench, keyhole openings, flushing channel below and floor gutter; drainage-to-marsh context stays in source-4. Second repair (run 37964960523) was rejected for majorHistoricalError: modern industrial metal pipes/elbows top right. Third repair describes only positive stone elements, omits any mention of pipes, and keeps the upper wall empty. Third repair (run 37968122681) passed historical review but failed adultAnatomy: the figure stood inside the water channel and appeared to float. Fourth repair keeps the accepted stone layout and removes the unnecessary figure, as with source-2; other scenes retain Roman characters. Fourth repair (run 37971554592) still received an unrequested figure, drawn walking on top of the bench (adultAnatomy). Fifth repair requests exactly one figure with explicit ground contact on the dry floor beside the bench."
