@@ -48,3 +48,15 @@ test('component reuse keeps meaningful source regions and rejects almost-full or
  assert.equal(componentCrop.safeParse(crop).success,true);
  for(const bounds of [[0,0,1,1],[.7,.1,.3,.8],[-.1,0,.4,.8]])assert.equal(componentCrop.safeParse({...crop,bounds}).success,false);
 });
+
+test('production factual review anchors objections and preserves minor advice without bypassing historical errors',async()=>{
+ const {factcheck}=await import('../src/factcheck');
+ const script={title:'Roman Drainage',topic:'Roman drains',hook:'Where did the water go?',criticalTerms:[],scenes:[{id:'drain',narration:'Drainage channels carried water. The sewer guaranteed disease protection.',visual:'Roman drain',claims:[]}]};
+ const research={topic:'Roman drains',summary:'Drainage is not modern treatment.',sources:[{url:'https://example.com/source',title:'Source',excerpt:'Drainage channels carried water. Disease persisted despite sanitation infrastructure.'}]};
+ const review=async(severity:'major'|'minor')=>factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>schema.parse({observations:[{narrationQuote:severity==='major'?'The sewer guaranteed disease protection.':'Drainage channels carried water.',sourceQuote:'Drainage channels carried water.',severity,reason:severity==='major'?'Unsupported disease protection guarantee':'The supported summary could name the location for editorial specificity'}],checkedClaims:2,review:'Current script assessed against supplied evidence'})},true);
+ assert.equal((await review('major')).passed,false);
+ const advice=await review('minor');assert.equal(advice.passed,true);assert.equal(advice.advisories?.length,1);
+ let calls=0;
+ await assert.rejects(factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>{calls++;return schema.parse({observations:[{narrationQuote:'The baths were built in 101 CE.',sourceQuote:null,severity:'major',reason:'This allegation is absent from the narration'}],checkedClaims:2,review:'Unanchored assessment'});}},true));
+ assert.equal(calls,3);
+});
