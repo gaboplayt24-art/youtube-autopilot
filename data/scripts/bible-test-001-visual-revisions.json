@@ -82,17 +82,17 @@
     {
       "sourceId": "video-source-6",
       "replacement": {
-        "id": "video-source-6-period-repair",
-        "narration": "Why the tunnel follows a curving path; engineers may have followed natural cracks in the rock. Carved into the wall near the pool.",
+        "id": "video-source-6-period-repair-2",
+        "narration": "The engineers followed natural cracks in the rock. Carved into the wall near the pool. Radiometric testing of the plaster. An origin several decades earlier.",
         "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
-        "concept": "A winding rock-cut tunnel curving away into darkness, shallow clear water on the floor, rough chisel marks and one long natural crack running along the wall. A small clay oil lamp sits on a ledge, and a small panel of carved ancient letters is near the water line. No people.",
+        "concept": "A winding rock-cut tunnel curving away into darkness, shallow water on the floor, chisel marks and one long natural crack along the wall. On the lower wall a patch of old grey lime plaster; a small panel of carved ancient letters near the water line; a clay oil lamp and a few broken pottery sherds on a ledge. No people.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
         ]
       },
-      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops. Run 38022561713 component QA found source-7 cannot support the plaster-dating beats, so source-6 adds a visible plaster patch and pottery sherds; regenerated under a new id so the earlier accepted bytes stay as evidence."
     },
     {
       "sourceId": "video-source-7",
@@ -114,9 +114,9 @@
       "sourceId": "video-source-8",
       "replacement": {
         "id": "video-source-8-period-repair",
-        "narration": "Their success as they met under the mountain. The era of Hezekiah.",
+        "narration": "Why the tunnel follows a curving path. Their success as they met under the mountain. Some modern excavations suggest.",
         "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
-        "concept": "A long curved tunnel cut in raw bedrock with shallow flowing water. One adult miner in a linen tunic stands ankle-deep holding a clay lamp and looks ahead toward a warm glow of lamplight at the far breakthrough point.",
+        "concept": "A long curved tunnel cut in raw bedrock with shallow flowing water. One adult miner in a linen tunic stands ankle-deep holding a clay lamp, looking toward a warm glow of lamplight at the far breakthrough point. In the foreground a few broken pottery sherds lie on a rock ledge.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
@@ -168,6 +168,21 @@
       "shotId": "scene_01-shot-4",
       "sourceId": "video-source-4",
       "reason": "Run 38022028697: the repaired source-1 fills the frame with one digger and cannot provide a separate reused crop. The narration ('Jerusalem possessed a vital water source') matches source-4, the city gate with an official pointing to the spring; shot-4 is not adjacent to source-4 shots 7, 9 and 11."
+    },
+    {
+      "shotId": "scene_01-shot-20",
+      "sourceId": "video-source-6",
+      "reason": "Run 38022561713 component-reuse QA rejected source-7 for this beat (no plaster or tunnel-path evidence). Source-6 now shows a lime plaster patch; non-adjacent to its shots 15, 17 and 22."
+    },
+    {
+      "shotId": "scene_01-shot-22",
+      "sourceId": "video-source-6",
+      "reason": "Run 38022561713 component-reuse QA rejected source-7 for this beat (no plaster or tunnel-path evidence). Source-6 shows the winding tunnel path and pottery sherds used for dating; non-adjacent to shot 20."
+    },
+    {
+      "shotId": "scene_01-shot-13",
+      "sourceId": "video-source-8",
+      "reason": "Frees a source-6 use for the dating beats (max four uses). The narration about the curving path matches source-8's long curved tunnel; non-adjacent to source-8 shots 19 and 21."
     }
   ]
 }
