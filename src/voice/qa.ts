@@ -58,7 +58,7 @@ export function evaluateVoice(script:string,transcript:Transcript,criticalTerms:
 }
 export type VoiceQA=ReturnType<typeof evaluateVoice>;
 /** REVIEW preserves evidence and requires listening approval; it is never an automatic PASS. */
-export function requireVoiceQA(report:VoiceQA,approvedReview=false){if(report.status==='fail'||report.status==='review'&&!approvedReview)throw new Error(`Voice QA ${report.status.toUpperCase()}: WER ${(report.wordErrorRate*100).toFixed(2)}%; critical accuracy ${(report.criticalTermAccuracy*100).toFixed(2)}%. Evidence preserved; manual review required.`);}
+export function requireVoiceQA(report:VoiceQA,approvedReview=false){if(report.status==='fail'||report.status==='review'&&!approvedReview)throw new Error(`Voice QA ${report.status.toUpperCase()}: WER ${(report.wordErrorRate*100).toFixed(2)}%; critical accuracy ${(report.criticalTermAccuracy*100).toFixed(2)}%; failed critical terms ${JSON.stringify([...new Set(report.criticalChecks.filter(c=>!c.passed).map(c=>c.term))])}. Evidence preserved; manual review required.`);}
 /** Reference captions use DP correspondences to WHOLE measured ASR spans, never synthetic word times. */
 export function measuredReferenceAlignment(script:string,transcript:Transcript):Alignment{
  const c=compareTranscripts(script,transcript.chunks.map(t=>t.text.trim()).join(' '));const words=script.trim().split(/\s+/);const spoken=transcript.chunks.flatMap((chunk,index)=>chunk.text.trim().split(/\s+/).filter(Boolean).map(()=>index));
