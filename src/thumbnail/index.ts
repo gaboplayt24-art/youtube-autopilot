@@ -20,8 +20,8 @@ function luminance(r:number,g:number,b:number){
 export async function inspectThumbnail(path:string,hook:string,title:string,allowSubjectiveReview=false,doodle=false){
  const probe=await exec('ffprobe',['-v','error','-show_streams','-of','json',path]);
  const image=JSON.parse(probe.stdout).streams[0];
- // Sample the dark text-side backing, below the title so the glyphs do not distort it.
- const pixels=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=400:50:80:600,scale=64:8','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
+ // Sample the text backing without glyphs: below the title for the dark cinematic band, the label panel's top padding for doodle thumbnails.
+ const pixels=await exec('ffmpeg',['-v','error','-i',path,'-vf',doodle?'scale=1280:720,crop=240:8:60:51,scale=64:8':'scale=1280:720,crop=400:50:80:600,scale=64:8','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
  let background=0;for(let i=0;i<pixels.stdout.length;i+=3)background+=luminance(pixels.stdout[i],pixels.stdout[i+1],pixels.stdout[i+2]);
  background/=pixels.stdout.length/3;
  const foreground=doodle?luminance(48,42,37):luminance(241,192,115);
