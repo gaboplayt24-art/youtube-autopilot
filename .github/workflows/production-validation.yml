@@ -126,6 +126,24 @@ jobs:
           name: production-${{ env.RUN_ID }}
           path: data/runs/${{ env.RUN_ID }}/
           retention-days: 30
+      # Small review package: only the deliverables the owner reviews, not intermediate evidence.
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: review-${{ env.RUN_ID }}
+          path: |
+            data/runs/${{ env.RUN_ID }}/final.mp4
+            data/runs/${{ env.RUN_ID }}/thumbnail-A.png
+            data/runs/${{ env.RUN_ID }}/thumbnail-B.png
+            data/runs/${{ env.RUN_ID }}/thumbnail-C.png
+            data/runs/${{ env.RUN_ID }}/titles.json
+            data/runs/${{ env.RUN_ID }}/final-script.json
+            data/runs/${{ env.RUN_ID }}/visual-plan.json
+            data/runs/${{ env.RUN_ID }}/audio-QA.json
+            data/runs/${{ env.RUN_ID }}/visual-QA.json
+            data/runs/${{ env.RUN_ID }}/sfx-QA.json
+            data/runs/${{ env.RUN_ID }}/production-summary.json
+          retention-days: 30
       - uses: actions/upload-artifact@v4
         if: always()
         with:
