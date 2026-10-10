@@ -14,6 +14,10 @@ on:
       gemini_model:
         description: Optional existing eligible free model override
         type: string
+      task:
+        description: video (default) or branding (channel logo and banner only)
+        type: string
+        default: video
       topic:
         description: Video topic; the run reads data/scripts/<run_id>-editorial-draft.json
         type: string
@@ -101,7 +105,21 @@ jobs:
         run: bash scripts/setup-cpu-ai.sh
       - run: ffmpeg -version && ffprobe -version && /usr/bin/google-chrome --version
       - run: npm run lint && npm run typecheck && npm test
+      - name: Channel logo and banner in the locked illustrated style; no upload
+        if: inputs.task == 'branding'
+        run: npm run branding -- --run-id "$RUN_ID"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.task == 'branding'
+        with:
+          name: branding-${{ env.RUN_ID }}
+          path: |
+            data/runs/${{ env.RUN_ID }}/logo.png
+            data/runs/${{ env.RUN_ID }}/banner.png
+            data/runs/${{ env.RUN_ID }}/sources/*.png
+            data/runs/${{ env.RUN_ID }}/*.json
+          retention-days: 30
       - name: One human-approved 90–105s production video; no upload or paid fallback
+        if: inputs.task != 'branding'
         timeout-minutes: 60
         run: |
           if [ -n "$RETRY_FROM" ]; then
