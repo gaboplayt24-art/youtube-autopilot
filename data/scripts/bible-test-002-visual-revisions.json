@@ -19,17 +19,17 @@
     {
       "sourceId": "tunneling-the-mountain-shot-2",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-2-repair",
+        "id": "tunneling-the-mountain-shot-2-repair2",
         "narration": "Problem number one: the water was in the wrong place.",
         "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: a spring in the valley lay outside the city walls.",
-        "concept": "Eli alone stands on top of a plain stone city wall on the left, looking worried and pointing down with one arm toward a small spring pool in the empty valley on the right, far outside the wall. Simple hills and a calm sky, lots of empty space.",
+        "concept": "Medium shot: Eli, clearly worried with raised eyebrows and an open frowning mouth, kneels beside a small round stone spring pool of bright blue water in the foreground and points at it. Far behind him, on a hill, stands the city wall. Plain sky, lots of empty space.",
         "overlay": null,
         "labelPlacement": "right",
         "characterRoles": [
           "Eli"
         ]
       },
-      "reason": "Run 38061767801 density QA rejected shot-2 (adultAnatomy, requiredConcept: malformed hand, an unrequested second figure, no head cloth); its regeneration in run 38062159157 failed only because our own regeneration wording demanded five fingers, which the approved simple cartoon hands do not show. A single-character, clearly staged replacement keeps the beat's meaning."
+      "reason": "Run 38061767801 density QA rejected shot-2 (adultAnatomy, requiredConcept: malformed hand, an unrequested second figure, no head cloth); its regeneration in run 38062159157 failed only because our own regeneration wording demanded five fingers, which the approved simple cartoon hands do not show. A single-character, clearly staged replacement keeps the beat's meaning. Run 38062475163 rejected the wall-top staging twice (requiredConcept: neutral pose, spring too small to read), so the spring is now the large foreground subject next to a visibly worried Eli."
     }
   ],
   "beatReassignments": []
