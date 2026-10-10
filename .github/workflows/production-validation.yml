@@ -142,6 +142,7 @@ jobs:
             npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC"
           fi
       - name: Verify encoded media
+        if: inputs.task != 'branding'
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
       - uses: actions/upload-artifact@v4
         if: always()
