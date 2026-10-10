@@ -20,6 +20,16 @@
       ],
       "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: the moment the two tunnel crews broke through the rock to each other.",
       "reason": "Run 38073416309 rejected both draws of thumbnail-B (requiredConcept): its concept asked for a split screen and a single focal point at once. The repair keeps the breakthrough idea and approved title as one simple focal scene with Eli."
+    },
+    {
+      "variant": "C",
+      "id": "thumbnail-C-v5-repair",
+      "concept": "Eli stands on the right side of the frame with both arms relaxed at his sides, amazed with an open mouth, looking at a smooth flat blank rectangular stone panel cut into the rough tunnel wall on the left, lit by a warm glow from a small clay oil lamp resting on a rock ledge below it. Simple dark background, clear empty top quarter, no lettering.",
+      "characterRoles": [
+        "Eli"
+      ],
+      "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: the smoothed panel near the tunnel's end where an inscription records the breakthrough.",
+      "reason": "Run 38073814301 rejected thumbnail-C (baked lettering on the wall, a second character and pottery) and its regeneration was refused by the provider's output filter. The repair keeps the inscription idea and approved overlay with a blank panel, as in the accepted shot-21 beat."
     }
   ]
 }
