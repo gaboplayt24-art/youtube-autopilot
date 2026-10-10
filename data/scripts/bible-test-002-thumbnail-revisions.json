@@ -3,12 +3,12 @@
   "revisions": [
     {
       "variant": "A",
-      "id": "thumbnail-A-v5-repair2",
-      "concept": "Close-up: Eli, large and expressive, fills the right half of the frame with an amazed open-mouthed face, holding up a small lit clay oil lamp inside a dark rough rock tunnel; a thin stream of bright blue water runs along the tunnel floor beside him. Simple dark background, clear empty top quarter, no clutter, no lettering.",
+      "id": "thumbnail-A-v5-repair3",
+      "concept": "Big close-up: Eli's head and shoulders fill the whole right half of the frame, his face amazed with an open mouth, holding a small lit clay oil lamp up beside his face inside a dark rock tunnel; a thin stream of bright blue water runs along the bare floor. Nothing else at all. Simple dark background, clear empty top quarter, no lettering.",
       "characterRoles": [
         "Eli"
       ],
-      "reason": "Run 38067238906 stopped at thumbnail-A: Cloudflare refused the Klein output with 3030 'Your output has been flagged' before any review. The repair keeps the approved title and overlay with one simple, clearly safe focal subject: Eli amazed in the tunnel by lamplight. Run 38067868246 prompt QA then stopped the first repair: the thumbnail inherited shot-0's modern-day context and the concept placed Eli left while the approved composition puts the subject right; the repair states its own period context and the approved placement.",
+      "reason": "Run 38067238906 stopped at thumbnail-A: Cloudflare refused the Klein output with 3030 'Your output has been flagged' before any review. The repair keeps the approved title and overlay with one simple, clearly safe focal subject: Eli amazed in the tunnel by lamplight. Run 38067868246 prompt QA then stopped the first repair: the thumbnail inherited shot-0's modern-day context and the concept placed Eli left while the approved composition puts the subject right; the repair states its own period context and the approved placement. Run 38068239952 rejected repair2 (Eli too small, extra pottery, head-cloth pattern); the repair is a tighter close-up with a bare floor, and the reviewer now accepts a plain or striped head cloth.",
       "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: inside the rock-cut water tunnel, lit by a clay oil lamp."
     }
   ]
