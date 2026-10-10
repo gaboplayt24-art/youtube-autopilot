@@ -23,10 +23,11 @@ export async function inspectThumbnail(path:string,hook:string,title:string,allo
  // Cinematic: sample the dark backing below the title. Doodle: the label is yellow with a black outline, so measure the rendered fill against the darkest 5% of the label band (its outline), and require the fill to be present.
  let background=0,ratio:number;
  if(doodle){
-  const band=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=1200:100:40:20,scale=300:25','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
+  // The label block sits top-left (remotion/compositions/Thumbnail.tsx): white lead line above a yellow payoff line.
+  const band=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=660:260:30:40,scale=165:65','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
   const lums:number[]=[];let fill=0;for(let i=0;i<band.stdout.length;i+=3){const [r,g,b]=[band.stdout[i],band.stdout[i+1],band.stdout[i+2]];lums.push(luminance(r,g,b));if(r>200&&g>170&&b<130)fill++;}
   lums.sort((a,b)=>a-b);background=lums[Math.floor(lums.length*.05)];const fillPresent=fill/lums.length>=.02;
-  ratio=fillPresent?(luminance(255,226,61)+.05)/(background+.05):1;
+  ratio=fillPresent?(luminance(255,210,31)+.05)/(background+.05):1;
  }else{
   const pixels=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=400:50:80:600,scale=64:8','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
   for(let i=0;i<pixels.stdout.length;i+=3)background+=luminance(pixels.stdout[i],pixels.stdout[i+1],pixels.stdout[i+2]);
