@@ -30,7 +30,7 @@ export async function inspectThumbnail(path:string,hook:string,title:string,allo
  const values=[];for(let i=0;i<focal.stdout.length;i+=3)values.push(luminance(focal.stdout[i],focal.stdout[i+1],focal.stdout[i+2]));
  const mean=values.reduce((a,b)=>a+b,0)/values.length;const focalContrast=Math.sqrt(values.reduce((n,v)=>n+(v-mean)**2,0)/values.length);
  const scores=thumbnailScores(hook.split(/\s+/).length,93,ratio,{hook,title,focalContrast});
- if(image.width!==3840||image.height!==2160||!allowSubjectiveReview&&([scores.clarity,scores.mobileReadability,scores.contrast].some(s=>s<70)||scores.subjectProminence<30))throw new Error('Thumbnail failed dimensions/readability/contrast/focal-visibility QA');
+ if(image.width!==3840||image.height!==2160||!allowSubjectiveReview&&([scores.clarity,scores.mobileReadability,scores.contrast].some(s=>s<70)||scores.subjectProminence<30))throw new Error('Thumbnail failed dimensions/readability/contrast/focal-visibility QA: '+JSON.stringify({path,hook,width:image.width,height:image.height,textBackingLuminance:background,contrastRatio:ratio,focalContrast,scores}));
  return scores;
 }
 export async function thumbnails(c:Composition,dir:string,llm?:LLMProvider,approvedTexts?:string[],allowSubjectiveReview=false){
