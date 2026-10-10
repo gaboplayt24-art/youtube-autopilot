@@ -170,13 +170,13 @@
     },
     {
       "shotId": "scene_01-shot-20",
-      "sourceId": "video-source-6",
-      "reason": "Run 38022561713 component-reuse QA rejected source-7 for this beat (no plaster or tunnel-path evidence). Source-6 now shows a lime plaster patch; non-adjacent to its shots 15, 17 and 22."
+      "sourceId": "video-source-3",
+      "reason": "Run 38029110581 component-reuse QA still found source-6's empty tunnel cannot support this dating beat. Source-3 shows masons applying wet clay and stone, the closest visible plaster work; fourth source-3 use, non-adjacent to shots 6, 8 and 10."
     },
     {
       "shotId": "scene_01-shot-22",
-      "sourceId": "video-source-6",
-      "reason": "Run 38022561713 component-reuse QA rejected source-7 for this beat (no plaster or tunnel-path evidence). Source-6 shows the winding tunnel path and pottery sherds used for dating; non-adjacent to shot 20."
+      "sourceId": "video-source-2",
+      "reason": "Run 38029110581 component-reuse QA still found source-6's empty tunnel cannot support this dating beat. Source-2 shows the hillside with the tunnel mouth cut into the mountain; fourth source-2 use, non-adjacent to shots 1, 3 and 5."
     },
     {
       "shotId": "scene_01-shot-13",
