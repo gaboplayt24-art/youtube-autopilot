@@ -179,3 +179,10 @@ test('one-image-per-beat mode uses a revised beat fresh evidence ID and keeps un
  const shots=[{id:'a',assetKey:'a'},{id:'b',assetKey:'b-modern-repair'},{id:'c',assetKey:'shared'},{id:'d',assetKey:'shared'},{id:'e'}] as unknown as Shot[];
  assert.deepEqual(shots.map(s=>uniqueRevisionKey(shots,s)),['a','b-modern-repair','c','d','e']);
 });
+test('the single v5 regeneration states the cast and anatomy positively within prompt limits',async()=>{
+ const {regenerationIdea}=await import('../src/visuals/illustrated-video-assets');const {illustratedStyleLock}=await import('../src/visuals/illustration-schema');
+ const style=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v5.json','utf8')));
+ const idea={id:'shot-2',narration:'Eli looks at the valley with worry.',historicalContext:'Judah, late 8th century BCE, outside the city wall.',concept:'Eli stands on a rocky ridge gesturing toward the valley below with a worried expression, simple sky. '.repeat(4).slice(0,400),overlay:null,labelPlacement:'left' as const,characterRoles:['Eli']};
+ const next=regenerationIdea(idea,style);
+ assert.equal(next.id,'shot-2-regen1');assert.ok(next.concept.length<=420&&next.concept.length>=30);assert.match(next.concept,/Exactly 1 adult character \(Eli\)/);assert.match(next.concept,/striped ochre head cloth/);assert.doesNotMatch(next.concept,/avoid|extra|second/i);
+});
