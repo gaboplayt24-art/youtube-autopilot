@@ -143,10 +143,10 @@
     {
       "sourceId": "video-source-10",
       "replacement": {
-        "id": "video-source-10-period-repair",
+        "id": "video-source-10-period-repair-2",
         "narration": "The work reflects a sophisticated understanding. Under the threat of an Assyrian invasion, the people inside the city.",
         "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
-        "concept": "Top of an Iron Age limestone city wall at dusk. A guard in a plain tunic and leather cap holds a wooden spear and watches a distant enemy camp of tents on the plain. Below, inside the wall, a woman carries a clay water jar on her shoulder.",
+        "concept": "Outdoors on top of an Iron Age limestone city wall at dusk, open sky. One adult guard in a plain tunic and leather cap holds a wooden spear and looks out at a few distant enemy tents on the plain below. Far below inside the wall, one woman carries a clay jar on her shoulder. Outdoor scene only: no rooms, furniture, lamps or tools.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
@@ -154,7 +154,7 @@
           "woman with water jar"
         ]
       },
-      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops. Run 38028355176 density QA rejected the first repair for an indoor alcove with a modern glass lamp and scale-like apparatus; the second repair is outdoor-only with no furniture, lamps or tools."
     }
   ],
   "beatReassignments": [
