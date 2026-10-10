@@ -1,0 +1,19 @@
+{
+  "runId": "bible-test-002",
+  "sourceRevisions": [
+    {
+      "sourceId": "tunneling-the-mountain-shot-0",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-0-modern-repair",
+        "narration": "Right now, you can turn a tap and get clean water in seconds.",
+        "historicalContext": "Modern-day comparison beat (today): a present-day kitchen tap is correct here; no ancient objects and no people.",
+        "concept": "Simple close-up of one modern chrome kitchen tap pouring clear water into a plain drinking glass, on a flat plain warm background with lots of empty space. No people, no kitchen counters or furniture, nothing else in the frame.",
+        "overlay": null,
+        "labelPlacement": "right",
+        "characterRoles": ["None"]
+      },
+      "reason": "Run 38061095163 density QA rejected shot-0 (correctStyle, historicalAccuracy, correctProp): the Eli reference put Eli inside a busy modern kitchen. The modern hook beat is now a people-free tap close-up with a simple background, explicitly marked as a present-day comparison."
+    }
+  ],
+  "beatReassignments": []
+}
