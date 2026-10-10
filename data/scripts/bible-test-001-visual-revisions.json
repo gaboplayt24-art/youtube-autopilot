@@ -51,18 +51,17 @@
     {
       "sourceId": "video-source-4",
       "replacement": {
-        "id": "video-source-4-period-repair",
+        "id": "video-source-4-period-repair-2",
         "narration": "Jerusalem possessed a vital water source. It could fall into enemy hands. Divert the flow. A tunnel channels water inside the city walls.",
         "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
-        "concept": "Outside an Iron Age stone city gate, a bearded official in a long wool robe points down the slope toward a spring; a mason holding a wooden mallet listens beside him. At the foot of the hill the spring water runs into a dark rock-cut tunnel mouth that leads under the wall.",
+        "concept": "Outside an Iron Age limestone city gate on a hilltop, one bearded adult official in a long wool robe stands full-length and points down the slope with one arm. At the foot of the hill a spring flows from the rock into a dark rock-cut tunnel mouth that leads under the city wall. One complete figure only, both feet on the ground.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
-          "royal official",
-          "mason"
+          "royal official"
         ]
       },
-      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops. Run 38027806605 density QA rejected the first repair for a floating headless mason fragment with a mallet; the second repair keeps only the complete official, the gate and the tunnel mouth for the four reused beats."
     },
     {
       "sourceId": "video-source-5",
