@@ -49,17 +49,17 @@
     {
       "sourceId": "tunneling-the-mountain-shot-6",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-6-repair4",
+        "id": "tunneling-the-mountain-shot-6-repair5",
         "narration": "a siege, an enemy could seize it, and",
         "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: in a siege an enemy army could take the spring outside the walls.",
-        "concept": "One round-head enemy soldier in a pointed helmet and plain tunic stands beside a small spring pool of blue water in an empty valley, pointing at the water with a sly grin; far behind him a plain stone city wall sits on a hill. Nobody else. Plain sky, lots of empty space.",
+        "concept": "One round-head enemy soldier in a pointed helmet and plain tunic stands beside a small spring pool of blue water in an empty valley, hands on his hips, with a sly grin; far behind him a plain stone city wall sits on a hill. Nobody else. Plain sky, lots of empty space.",
         "overlay": "Vulnerable Water Source",
         "labelPlacement": "top",
         "characterRoles": [
           "Enemy soldier"
         ]
       },
-      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed four figures and a dense army camp; the beat now has exactly two figures and an empty background. Run 38064629541: the reviewer read the guard as Eli, so Eli is now the watcher and the only other figure is the enemy soldier. Run 38065234514: peeking hid Eli's body and the soldier stood in the pool; both now stand clearly beside the wall and the pool. Run 38066111832: the second figure kept disappearing; the beat now shows only the enemy soldier seizing the exposed spring."
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed four figures and a dense army camp; the beat now has exactly two figures and an empty background. Run 38064629541: the reviewer read the guard as Eli, so Eli is now the watcher and the only other figure is the enemy soldier. Run 38065234514: peeking hid Eli's body and the soldier stood in the pool; both now stand clearly beside the wall and the pool. Run 38066111832: the second figure kept disappearing; the beat now shows only the enemy soldier seizing the exposed spring. Run 38066581263: the pointing arm was attached impossibly; the soldier now stands with hands on hips."
     },
     {
       "sourceId": "tunneling-the-mountain-shot-7",
