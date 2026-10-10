@@ -192,6 +192,11 @@
       "shotId": "scene_01-shot-7",
       "sourceId": "video-source-10",
       "reason": "Keeps source-4 at four uses after shot-21 moves there. 'Into enemy hands, leaving the city defenseless' matches source-10's guard watching the enemy camp; non-adjacent to source-10 shots 24 and 26."
+    },
+    {
+      "shotId": "scene_01-shot-24",
+      "sourceId": "video-source-7",
+      "reason": "Run 38028613621 component-reuse QA found source-10's guard cannot support the engineering-skill beat; source-7 shows the miners' breakthrough with iron picks. Third source-7 use, non-adjacent to its shots 2 and 18."
     }
   ]
 }
