@@ -136,3 +136,10 @@ test('biblical production test reads its own draft and gets ancient Near East pe
  const prompt=nativePrompt(style,idea,'v3');
  assert.match(prompt,/Ancient Near East dress/);assert.match(prompt,/Ancient setting/);assert.doesNotMatch(prompt,/Roman/);assert.ok(prompt.length<=2048);
 });
+test('packaged thumbnail concepts keep close-up focal guidance within the artwork concept limit',async()=>{
+ const {thumbnailConcept}=await import('../src/packaging/thumbnails');
+ const short=thumbnailConcept({focalSubject:'worried digger',expressionOrSituation:'Shocked as the rock wall cracks',background:'dark tunnel'});
+ assert.match(short,/Close-up/);assert.ok(short.length<=420);
+ const long=thumbnailConcept({focalSubject:'x'.repeat(150),expressionOrSituation:'y'.repeat(150),background:'z'.repeat(150)});
+ assert.ok(long.length<=420);
+});
