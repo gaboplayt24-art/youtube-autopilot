@@ -81,17 +81,17 @@
     {
       "sourceId": "video-source-6",
       "replacement": {
-        "id": "video-source-6-period-repair-2",
+        "id": "video-source-6-period-repair-3",
         "narration": "The engineers followed natural cracks in the rock. Carved into the wall near the pool. Radiometric testing of the plaster. An origin several decades earlier.",
         "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
-        "concept": "A winding rock-cut tunnel curving away into darkness, shallow water on the floor, chisel marks and one long natural crack along the wall. On the lower wall a patch of old grey lime plaster; a small panel of carved ancient letters near the water line; a clay oil lamp and a few broken pottery sherds on a ledge. No people.",
+        "concept": "An empty winding rock-cut tunnel curving away into darkness, shallow clear water on the floor, chisel marks and one long natural crack along the wall. A patch of old grey lime plaster on the lower wall, a small panel of carved ancient letters near the water line, and a few broken pottery sherds on a ledge. The only light is the small flame of one clay oil lamp on the ledge. No people, no hands.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
         ]
       },
-      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops. Run 38022561713 component QA found source-7 cannot support the plaster-dating beats, so source-6 adds a visible plaster patch and pottery sherds; regenerated under a new id so the earlier accepted bytes stay as evidence."
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops. Run 38022561713 component QA found source-7 cannot support the plaster-dating beats, so source-6 adds a visible plaster patch and pottery sherds; regenerated under a new id so the earlier accepted bytes stay as evidence. Run 38028829717 rejected the second repair for an unrequested figure with a modern flashlight; the third repair is an explicitly empty tunnel lit only by a clay lamp flame."
     },
     {
       "sourceId": "video-source-7",
