@@ -150,3 +150,12 @@ test('editorial arrows accept 0–1000 coordinates by rescaling and keep 0–1 c
  assert.deepEqual(normalizedArrow([.1,.2,.3,.4]),[.1,.2,.3,.4]);
  assert.deepEqual(normalizedArrow([-5,2,3,4]),[-5,2,3,4]);
 });
+test('thumbnail concepts are shortened at word boundaries until Near East prompts fit the Klein limit',async()=>{
+ const {nativePrompt,fitNativeConcept}=await import('../src/visuals/native-v4-2');const {illustratedStyleLock}=await import('../src/visuals/illustration-schema');
+ const style=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v4.json','utf8')));
+ const idea={id:'thumbnail-A-hq',narration:"Hezekiah's Tunnel",historicalContext:'Iron Age Judah, about 700 BCE; '.padEnd(180,'x'),concept:('One focal bearded digger raising an iron pick in a lamplit tunnel, ').repeat(7).slice(0,420),overlay:null,labelPlacement:'top' as const,characterRoles:[]};
+ assert.throws(()=>nativePrompt(style,idea,'v3'),/exceeds 2048/);
+ const fitted=fitNativeConcept(style,idea);assert.ok(fitted.concept.length<idea.concept.length&&fitted.concept.startsWith('One focal bearded digger'));
+ for(const w of ['v1','v2','v3'] as const)assert.ok(nativePrompt(style,fitted,w).length<=2048);
+ assert.equal(fitNativeConcept(style,{...idea,historicalContext:'Iron Age Judah',concept:'Short concept with a digger and lamp.'}).concept,'Short concept with a digger and lamp.');
+});
