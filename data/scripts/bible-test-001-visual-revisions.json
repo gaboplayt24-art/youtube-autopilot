@@ -182,6 +182,16 @@
       "shotId": "scene_01-shot-13",
       "sourceId": "video-source-8",
       "reason": "Frees a source-6 use for the dating beats (max four uses). The narration about the curving path matches source-8's long curved tunnel; non-adjacent to source-8 shots 19 and 21."
+    },
+    {
+      "shotId": "scene_01-shot-21",
+      "sourceId": "video-source-4",
+      "reason": "Run 38028030368 component-reuse QA found source-8's tunnel interior cannot support 'the era of Hezekiah'; source-4 shows the Iron Age royal official at the city gate. Non-adjacent to its shots 4, 9 and 11."
+    },
+    {
+      "shotId": "scene_01-shot-7",
+      "sourceId": "video-source-10",
+      "reason": "Keeps source-4 at four uses after shot-21 moves there. 'Into enemy hands, leaving the city defenseless' matches source-10's guard watching the enemy camp; non-adjacent to source-10 shots 24 and 26."
     }
   ]
 }
