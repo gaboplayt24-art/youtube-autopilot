@@ -170,8 +170,8 @@
     },
     {
       "shotId": "scene_01-shot-20",
-      "sourceId": "video-source-3",
-      "reason": "Run 38029110581 component-reuse QA still found source-6's empty tunnel cannot support this dating beat. Source-3 shows masons applying wet clay and stone, the closest visible plaster work; fourth source-3 use, non-adjacent to shots 6, 8 and 10."
+      "sourceId": "video-source-1",
+      "reason": "Runs 38029110581 and 38029860590: radiometric plaster dating is a modern laboratory method that no period-only illustration can show, and the reuse checker kept asking for testing equipment. The approved Iron Age digger (source-1) illustrates 'the work' being dated."
     },
     {
       "shotId": "scene_01-shot-22",
@@ -197,6 +197,11 @@
       "shotId": "scene_01-shot-24",
       "sourceId": "video-source-7",
       "reason": "Run 38028613621 component-reuse QA found source-10's guard cannot support the engineering-skill beat; source-7 shows the miners' breakthrough with iron picks. Third source-7 use, non-adjacent to its shots 2 and 18."
+    },
+    {
+      "shotId": "scene_01-shot-0",
+      "sourceId": "video-source-7",
+      "reason": "Frees source-1 for the dating beat. 'Two teams of workers carved through solid rock' matches source-7's two miners breaking through; source-7 uses become 0, 2, 18 and 24 (max four, none adjacent)."
     }
   ]
 }
