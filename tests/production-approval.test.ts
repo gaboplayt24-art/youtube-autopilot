@@ -12,6 +12,7 @@ test('evidence-based visual revisions preserve speech timing, refuse unknown IDs
  const idea=(id:string)=>({...revision.sourceRevisions[0].replacement,id});
  const shots=revision.sourceRevisions.map((r,i)=>({id:'beat-'+i,assetKey:r.sourceId,illustrationIdea:idea(r.sourceId),narration:'Exact speech '+i,start:i*3,end:i*3+3,overlay:'EXPLAIN',visualIntent:'Explain actual historical mechanism'} as Shot));
  for(const r of revision.beatReassignments)shots.push({...shots[0],id:r.shotId,assetKey:'video-source-8',illustrationIdea:idea('video-source-8')});
+ for(const id of new Set(revision.beatReassignments.map(r=>r.sourceId)))if(!shots.some(s=>s.assetKey===id))shots.push({...shots[0],id:'original-'+id,assetKey:id,illustrationIdea:idea(id)});
  const before=JSON.stringify(shots),revised=applyEditorialRevision(shots,revision,revision.runId);
  assert.equal(JSON.stringify(shots),before);
  assert.deepEqual(revised.map(s=>[s.id,s.start,s.end,s.narration]),shots.map(s=>[s.id,s.start,s.end,s.narration]));
