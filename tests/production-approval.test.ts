@@ -166,3 +166,12 @@ test('v5 audition prompts fit Klein, failed reviews never pass, and only the aud
  assert.ok(v5Passed(ok));for(const bad of [{frameOrBorder:true},{textInImage:true},{anatomyDefects:['extra arm']},{anachronisms:['flashlight']},{roundHeadStyle:false}])assert.ok(!v5Passed({...ok,...bad}));
  await assert.rejects(new CloudflareReferenceImageProvider(async()=>{throw new Error('must not call');}).generate('x','/tmp/never.png',{width:1536,height:864}),/requires actual input_image_0 reference/);
 });
+test('owner-approved v5 lock pins the Eli reference and its Near East prompts fit Klein',async()=>{
+ const {nativePrompt}=await import('../src/visuals/native-v4-2');const {illustratedStyleLock}=await import('../src/visuals/illustration-schema');const {fileDigest}=await import('../src/orchestration/integrity');
+ const style=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v5.json','utf8')));
+ assert.equal(style.version,'round-head-v5');assert.equal(style.referenceSha256,await fileDigest('assets/references/style-v5-eli.png'));
+ const idea={id:'x',narration:'n n n n n',historicalContext:'Iron Age Judah, about 700 BCE; '.padEnd(180,'x'),concept:'c'.repeat(420),overlay:null,labelPlacement:'top' as const,characterRoles:['Eli','city guard']};
+ const prompt=nativePrompt(style,idea,'v3');assert.ok(prompt.length<=2048);assert.match(prompt,/Eli/);assert.doesNotMatch(prompt,/no mascot heads/);
+ const v4=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v4.json','utf8')));assert.match(nativePrompt(v4,{...idea,concept:'c'.repeat(200)},'v3'),/Mature human cartoon anatomy/);
+ const draft=JSON.parse(await readFile('data/scripts/bible-test-002-editorial-draft.json','utf8'));const words=draft.narration.split(/\s+/).length;assert.ok(words>=241&&words<=255,String(words));assert.match(draft.narration,/^Right now, you can turn a tap/);
+});

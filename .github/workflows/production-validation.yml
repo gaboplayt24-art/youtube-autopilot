@@ -18,6 +18,10 @@ on:
         description: video (default) or branding (channel logo and banner only)
         type: string
         default: video
+      style:
+        description: v4 (locked doodle) or v5 (owner-approved round-head Eli style)
+        type: string
+        default: v4
       topic:
         description: Video topic; the run reads data/scripts/<run_id>-editorial-draft.json
         type: string
@@ -72,6 +76,8 @@ jobs:
       FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
       CHROME_EXECUTABLE: /usr/bin/google-chrome
       RETRY_FROM: ${{ inputs.retry_from }}
+      STYLE_LOCK_PATH: ${{ inputs.style == 'v5' && 'config/style-lock-v5.json' || 'config/style-lock-v4.json' }}
+      STYLE_REFERENCE_PATH: ${{ inputs.style == 'v5' && 'assets/references/style-v5-eli.png' || 'assets/references/style-v4.jpg' }}
       RUN_ID: ${{ inputs.run_id || github.run_id }}
       TOPIC: ${{ inputs.topic || 'The hidden engineering of Roman sewage and public latrine hygiene' }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}

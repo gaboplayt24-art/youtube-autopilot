@@ -1,8 +1,10 @@
 import {z} from 'zod';
 import {styleLock} from './style-lock-schema';
 export const ILLUSTRATED_V4='illustrated-doodle-v4' as const;
+/** Owner-approved 2026-10-10 round-head style with the recurring character Eli (config/style-lock-v5.json). */
+export const ROUND_HEAD_V5='round-head-v5' as const;
 export const illustratedStyleLock=styleLock.extend({
- version:z.enum([ILLUSTRATED_V4,'illustrated-doodle-v4.2']),referenceAnalysisStatus:z.enum(['pending','analysed']),referenceSha256:z.string().length(64).nullable(),
+ version:z.enum([ILLUSTRATED_V4,'illustrated-doodle-v4.2',ROUND_HEAD_V5]),referenceAnalysisStatus:z.enum(['pending','analysed']),referenceSha256:z.string().length(64).nullable(),
  referenceStyleDescriptor:z.string().min(30).max(280).nullable(),visualSystemApproved:z.boolean(),approvedAt:z.string().datetime().nullable(),minimumStyleScore:z.number().min(60).max(95),maxRegenerationsPerScene:z.number().int().min(0).max(2),
 }).superRefine((s,ctx)=>{if(s.referenceAnalysisStatus==='analysed'&&(!s.referenceSha256||!s.referenceStyleDescriptor))ctx.addIssue({code:'custom',message:'Analyzed style requires actual reference hash and descriptor'});if(s.visualSystemApproved&&(!s.approvedAt||s.referenceAnalysisStatus!=='analysed'))ctx.addIssue({code:'custom',message:'Human approval requires dated, actual reference analysis'});});
 export type IllustratedStyleLock=z.infer<typeof illustratedStyleLock>;
@@ -11,7 +13,7 @@ export const referenceObservations=z.object({usable:z.boolean(),containsIllustra
 export const referenceAnalysis=z.object({version:z.enum(['style-reference-analysis-v4','style-reference-analysis-v4.2']),status:z.literal('analysed'),referenceSha256:z.string().length(64),referencePath:z.string(),multimodalAnalysisExecuted:z.literal(true),observations:referenceObservations});
 export const artworkIdea=z.object({id:z.string().regex(/^[a-zA-Z0-9_-]+$/),narration:z.string().min(5),historicalContext:z.string().min(10).max(180),concept:z.string().min(30).max(420),overlay:z.string().max(35).refine(s=>s.split(/\s+/).filter(Boolean).length<=5).nullable(),labelPlacement:z.enum(['left','right','top','bottom']),characterRoles:z.array(z.string().max(60)).max(4)}).strict();
 export type ArtworkIdea=z.infer<typeof artworkIdea>;
-export const primaryArtwork=z.object({generationMethod:z.literal('ai-illustration'),styleVersion:z.enum([ILLUSTRATED_V4,'illustrated-doodle-v4.2']),model:z.enum(['@cf/black-forest-labs/flux-1-schnell','@cf/black-forest-labs/flux-2-klein-4b']),width:z.number().int().positive().optional(),height:z.number().int().positive().optional(),aspectRatio:z.literal('16:9').optional(),referenceSha256:z.string().length(64),sourceSha256:z.string().length(64),referenceQAPassed:z.literal(true)});
+export const primaryArtwork=z.object({generationMethod:z.literal('ai-illustration'),styleVersion:z.enum([ILLUSTRATED_V4,'illustrated-doodle-v4.2',ROUND_HEAD_V5]),model:z.enum(['@cf/black-forest-labs/flux-1-schnell','@cf/black-forest-labs/flux-2-klein-4b']),width:z.number().int().positive().optional(),height:z.number().int().positive().optional(),aspectRatio:z.literal('16:9').optional(),referenceSha256:z.string().length(64),sourceSha256:z.string().length(64),referenceQAPassed:z.literal(true)});
 export const styleScores=z.object({drawnAppearance:z.number().min(0).max(100),lineCharacter:z.number().min(0).max(100),humanDesign:z.number().min(0).max(100).nullable(),colorTreatment:z.number().min(0).max(100),visualSimplicity:z.number().min(0).max(100),organicShapes:z.number().min(0).max(100),educationalClarity:z.number().min(0).max(100),sceneRichness:z.number().min(0).max(100),illustratedFeel:z.number().min(0).max(100)});
 export const styleReview=z.object({passed:z.boolean(),referenceCompared:z.boolean(),referenceStyleMatches:z.boolean(),conceptMatches:z.boolean(),historicallyPlausible:z.boolean(),cropPreservesSubjects:z.boolean(),photorealism:z.boolean(),cgi:z.boolean(),geometricCodeLook:z.boolean(),webUILook:z.boolean(),bakedText:z.boolean(),watermark:z.boolean(),scores:styleScores,issues:z.array(z.string())});
 export type StyleReview=z.infer<typeof styleReview>;
@@ -19,7 +21,7 @@ export function acceptStyleReview(review:StyleReview,minimum:number){return {...
 export function requireIllustratedArtwork(asset:{kind:string;provider:string;path:string;sourceSha256?:string;artwork?:unknown}){
  const parsed=primaryArtwork.safeParse(asset.artwork);if(!parsed.success)throw new Error('Primary artwork requires reviewed AI illustration provenance; primitive/debug art is forbidden');const proof=parsed.data;
  if(asset.kind!=='image'||asset.provider!=='cloudflare-flux-free'||! /\.(png|jpe?g)$/i.test(asset.path)||asset.sourceSha256!==proof.sourceSha256)throw new Error('Primary artwork must be reference-reviewed FLUX illustration; primitive SVG/CSS/debug art is forbidden');
- if(proof.model!=='@cf/black-forest-labs/flux-2-klein-4b'||proof.styleVersion!=='illustrated-doodle-v4.2'||!proof.width||!proof.height||proof.aspectRatio!=='16:9'||Math.abs(proof.width*9-proof.height*16)>9)throw new Error('Production primary artwork requires native 16:9 Klein v4.2 provenance; square/debug sources are forbidden');
+ if(proof.model!=='@cf/black-forest-labs/flux-2-klein-4b'||(proof.styleVersion!=='illustrated-doodle-v4.2'&&proof.styleVersion!==ROUND_HEAD_V5)||!proof.width||!proof.height||proof.aspectRatio!=='16:9'||Math.abs(proof.width*9-proof.height*16)>9)throw new Error('Production primary artwork requires native 16:9 Klein v4.2 provenance; square/debug sources are forbidden');
  return proof;
 }
 export function requireV4VideoApproval(style:IllustratedStyleLock){if(!style.visualSystemApproved||!style.approvedAt||style.referenceAnalysisStatus!=='analysed')throw new Error('Only the native v4.2 style audition is authorized. No demo, quality video, pilot or long-form video until human approval of STYLE-PREVIEW-v4.2.jpg and packaging direction');}
