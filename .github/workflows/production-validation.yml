@@ -29,7 +29,35 @@ concurrency:
   group: free-provider-account
   cancel-in-progress: false
 jobs:
+  # Owner-approved v5 reference (2026-10-10): copy the single Eli pose from the audition artifact into the repo.
+  import-v5-reference:
+    if: inputs.task == 'import-v5-reference'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: style-v5-style-v5-001
+          path: .v5-artifact
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Commit the approved Eli reference pose
+        run: |
+          mkdir -p assets/references
+          cp .v5-artifact/stills/eli-front-pose.png assets/references/style-v5-eli.png
+          cp .v5-artifact/stills/v5-00-character-sheet.png assets/references/style-v5-eli-sheet.png
+          sha256sum assets/references/style-v5-eli*.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/references/style-v5-eli.png assets/references/style-v5-eli-sheet.png
+          git commit -m "Import owner-approved v5 Eli reference from style audition run ${{ inputs.source_run_id }}"
+          git push origin HEAD:${{ github.ref_name }}
   quality:
+    if: inputs.task != 'import-v5-reference'
     runs-on: ubuntu-latest
     timeout-minutes: 80
     env:
