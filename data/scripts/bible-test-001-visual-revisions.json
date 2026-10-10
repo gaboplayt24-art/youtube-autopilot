@@ -175,8 +175,8 @@
     },
     {
       "shotId": "scene_01-shot-22",
-      "sourceId": "video-source-2",
-      "reason": "Run 38029110581 component-reuse QA still found source-6's empty tunnel cannot support this dating beat. Source-2 shows the hillside with the tunnel mouth cut into the mountain; fourth source-2 use, non-adjacent to shots 1, 3 and 5."
+      "sourceId": "video-source-8",
+      "reason": "Runs 38029375374 and 38029633321: source-2's sparse hillside only yielded near-full-frame crops for a third reuse. Source-8 shows the curved tunnel and pottery sherds used as dating evidence; third source-8 use, non-adjacent to shots 13 and 19."
     },
     {
       "shotId": "scene_01-shot-13",
