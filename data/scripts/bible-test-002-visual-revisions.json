@@ -19,17 +19,230 @@
     {
       "sourceId": "tunneling-the-mountain-shot-2",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-2-repair2",
-        "narration": "Problem number one: the water was in the wrong place.",
+        "id": "tunneling-the-mountain-shot-2-repair3",
+        "narration": "could decide whether a whole city lived or died. Problem",
         "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: a spring in the valley lay outside the city walls.",
-        "concept": "Medium shot: Eli, clearly worried with raised eyebrows and an open frowning mouth, kneels beside a small round stone spring pool of bright blue water in the foreground and points at it. Far behind him, on a hill, stands the city wall. Plain sky, lots of empty space.",
-        "overlay": null,
+        "concept": "Full-body Eli stands alone on a dry, cracked hilltop in front of a plain stone city wall, holding up an empty clay water jar with both hands and looking at it with a clearly worried face. Plain sky, lots of empty space.",
+        "overlay": "Water determined survival",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38061767801 density QA rejected shot-2 (adultAnatomy, requiredConcept: malformed hand, an unrequested second figure, no head cloth); its regeneration in run 38062159157 failed only because our own regeneration wording demanded five fingers, which the approved simple cartoon hands do not show. A single-character, clearly staged replacement keeps the beat's meaning. Run 38062475163 rejected the wall-top staging twice (requiredConcept: neutral pose, spring too small to read), so the spring is now the large foreground subject next to a visibly worried Eli. Run 38062820153 rejected the kneeling-spring staging too (pointing direction and pose unclear), so the beat now uses one unmistakable action: Eli holding an empty jar, matching the beat's actual narration."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-5",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-5-repair",
+        "narration": "in the valley, sat outside the walls. In",
+        "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: the spring lay in the Kidron Valley, outside the city wall.",
+        "concept": "Wide simple landscape: on the left a hill topped by a plain stone city wall; far below on the right, in the empty valley outside the wall, a small round spring pool of bright blue water. No people. Plain sky, lots of empty space.",
+        "overlay": "Vulnerable spring",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the concept asked for a character beside the wall and the review read the staging as wrong; the beat now shows only the wall and the exposed spring."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-6",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-6-repair",
+        "narration": "a siege, an enemy could seize it, and",
+        "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: in a siege an enemy army could take the spring outside the walls.",
+        "concept": "Exactly two figures: a round-head Judean guard in a plain tunic with a round wooden shield stands worried on a low stone wall at left, watching one round-head enemy soldier in a pointed helmet who strides toward a small spring pool in the valley at right. Plain hills and sky, lots of empty space.",
+        "overlay": "Vulnerable Water Source",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Judean guard",
+          "Enemy soldier"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed four figures and a dense army camp; the beat now has exactly two figures and an empty background."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-7",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-7-repair",
+        "narration": "the people inside would die of thirst. The",
+        "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: inside the walls, without the spring, people would have no water.",
+        "concept": "Full-body Eli stands alone in a plain stone courtyard under a hot yellow sun, tipping an empty clay water jug upside down; not a single drop falls out. His face is worried and tired. Simple background, lots of empty space.",
+        "overlay": "Drought Anxiety",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the concept asked for a crowded courtyard; the beat is now one clear action with Eli alone."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-8",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-8-repair",
+        "narration": "Bible says King Hezekiah of Judah blocked the spring's",
+        "historicalContext": "Judah, late 8th century BCE; 2 Chronicles 32:30 says Hezekiah stopped the upper outlet of the Gihon waters.",
+        "concept": "Exactly two figures: a round-head King Hezekiah with a simple gold crown and red robe points at a rock spring outlet, while one round-head worker in a plain tunic sets a large stone block over it with his bare hands. No tools. Plain rocky hillside and sky, lots of empty space.",
+        "overlay": "Redirecting the Spring",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Hezekiah",
+          "Worker"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the worker held a tool that read as a modern metal pry bar; the beat now uses only stones and bare hands."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-9",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-9-repair",
+        "narration": "upper outlet and brought its water down to the",
+        "historicalContext": "Judah, late 8th century BCE: workers began cutting a tunnel into the limestone hill by hand.",
+        "concept": "Full-body Eli kneels at the small dark mouth of a new tunnel in a plain limestone hillside, striking a short chisel with a round wooden mallet; a small clay oil lamp glows on a rock beside him. Simple background, lots of empty space.",
+        "overlay": "Starting the Tunnel",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: Eli's design and the tools were unclear in a two-worker scene; the beat is now Eli alone with one clear mallet and chisel."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-11",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-11-repair",
+        "narration": "work with the threat of an Assyrian invasion, although the exact",
+        "historicalContext": "Late 8th century BCE: most scholars link the tunnel to the Assyrian threat to Judah.",
+        "concept": "Exactly one round-head Judean scout in a plain tunic crouches on a rocky ridge at left, shading his eyes and looking alarmed toward the far right horizon, where one tall Assyrian army banner on a pole rises behind a hill. No soldiers visible. Plain sky, lots of empty space.",
+        "overlay": "Assyrian Threat",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Scout"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed a marching army of over twenty soldiers; the threat is now a single distant banner seen by one scout."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-13",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-13-repair",
+        "narration": "digging blind. Two teams started at opposite ends of a hill and",
+        "historicalContext": "Judah, late 8th century BCE: two crews cut toward each other from opposite ends of the hill.",
+        "concept": "Simple cross-section of one plain limestone hill: at its left foot full-body Eli holds a lamp at a small tunnel mouth, and at its right foot one round-head worker in a plain tunic holds a pick at another tunnel mouth; they cannot see each other. Plain sky, lots of empty space.",
+        "overlay": "Digging blind",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli",
+          "Worker"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the second character's face was distorted; the beat is restaged as a clear two-sided cross-section."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-14",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-14-repair",
+        "narration": "cut toward each other through solid rock, in total",
+        "historicalContext": "Judah, late 8th century BCE: tunnelers cut limestone by hand with iron picks.",
+        "concept": "Full-body Eli stands in a narrow rock tunnel, swinging a simple iron pick with a wooden handle against the solid limestone wall in front of him; small chips fly. A clay oil lamp glows on the floor. Simple dark background.",
+        "overlay": "Through solid rock",
         "labelPlacement": "right",
         "characterRoles": [
           "Eli"
         ]
       },
-      "reason": "Run 38061767801 density QA rejected shot-2 (adultAnatomy, requiredConcept: malformed hand, an unrequested second figure, no head cloth); its regeneration in run 38062159157 failed only because our own regeneration wording demanded five fingers, which the approved simple cartoon hands do not show. A single-character, clearly staged replacement keeps the beat's meaning. Run 38062475163 rejected the wall-top staging twice (requiredConcept: neutral pose, spring too small to read), so the spring is now the large foreground subject next to a visibly worried Eli."
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the only objection was the simple hand style, now judged against the approved reference; the same idea is redrawn under a fresh evidence ID."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-15",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-15-repair",
+        "narration": "darkness, by dim lamplight. The finished tunnel",
+        "historicalContext": "Iron Age Judah: tunnelers worked by small clay oil lamps burning olive oil.",
+        "concept": "Full-body Eli, head to sandals visible, stands in a dark rock tunnel holding a small clay oil lamp up near his face; its warm glow lights a small circle of rough rock around him, the rest is deep shadow.",
+        "overlay": "Dim lamplight",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: his legs were out of frame and his design drifted; the beat now asks for a full-body Eli."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-16",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-16-repair",
+        "narration": "runs 533 meters, from the spring to a pool",
+        "historicalContext": "Jerusalem, late 8th century BCE: the tunnel carried spring water about 533 meters to a pool inside the city.",
+        "concept": "Simple cross-section diagram-like cartoon of a plain hill: a small spring pool at the lower left, a thin winding dark tunnel line running through the inside of the hill, and a small square pool at the lower right inside the city wall. No people, no tools. Plain sky, lots of empty space.",
+        "overlay": "533 meters",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it drew an open trench with scattered tools; the beat is now a clean cross-section of the route."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-17",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-17-repair",
+        "narration": "inside the city. It is not straight. It curves like",
+        "historicalContext": "Iron Age Judah: the tunnel route curves through the rock instead of running straight.",
+        "concept": "Full-body Eli walks along a narrow rock tunnel that bends sharply to the left ahead of him, holding a small clay oil lamp and touching the curved wall with his other hand, looking surprised. Simple dark background.",
+        "overlay": "A serpentine path",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the only objection was the simple hand style, now judged against the approved reference; redrawn under a fresh evidence ID."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-19",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-19-repair",
+        "narration": "natural cracks in the rock. Problem number three: proving",
+        "historicalContext": "Iron Age Judah; one scholarly idea, still debated, is that the crews followed natural cracks.",
+        "concept": "Full-body Eli stands beside a rough limestone tunnel wall with one long thin dark crack running across it, tracing the crack with one finger and looking thoughtful. A clay oil lamp glows on the floor. Simple background.",
+        "overlay": "Cracks in the stone",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: Eli's design deviated from the reference; the beat is restaged as a simple full-body shot."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-21",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-21-repair",
+        "narration": "tunnel wall. It describes the final moments: the",
+        "historicalContext": "Iron Age Judah: an inscription carved near the tunnel's end describes the breakthrough.",
+        "concept": "Full-body Eli holds a small clay oil lamp up toward a smooth flat rectangular panel cut into the rough tunnel wall, looking amazed. The panel is plain and blank. Simple dark background, lots of empty space.",
+        "overlay": "Ancient record",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: prompt QA stopped the beat before drawing because it asked for carved lines of text, and baked text is forbidden; the panel is now blank and the overlay carries the meaning."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-24",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-24-modern-repair",
+        "narration": "the next time you turn on a tap, remember the people who cut a",
+        "historicalContext": "Modern-day comparison beat (today): a present-day kitchen tap is correct here; no ancient objects and no people.",
+        "concept": "Simple close-up of one modern chrome kitchen tap filling a plain drinking glass to the brim with clear water, on a flat plain warm background with lots of empty space. No people, no kitchen counters or furniture, nothing else in the frame.",
+        "overlay": "Modern Water Access",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: not yet drawn; like shot-0, the Eli reference would put Eli in a modern kitchen, so the callback beat is a people-free tap close-up."
     }
   ],
   "beatReassignments": []
