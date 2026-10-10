@@ -5,6 +5,12 @@
       "license": "YouTube Audio Library track 'Tiburtina' by Schwartzy, downloaded and supplied by the channel owner on 2026-10-10 for use on YouTube. License type (attribution required or not) to be confirmed by the owner from the Audio Library listing; credit 'Music: Tiburtina - Schwartzy' in the description if required.",
       "direction": "calm mysterious documentary bed",
       "sha256": "1a14eeabf7e65ef9001eb83936c96a80643cb51fab63fb72d0d8b1a2ae8e9423"
+    },
+    {
+      "path": "assets/music/jomon-grove-the-mini-vandals.mp3",
+      "license": "YouTube Audio Library track 'Jomon Grove' by The Mini Vandals, downloaded and supplied by the channel owner on 2026-10-10 for use on YouTube. License type (attribution required or not) to be confirmed by the owner from the Audio Library listing; credit 'Music: Jomon Grove - The Mini Vandals' in the description if required.",
+      "direction": "ancient world ambient bed",
+      "sha256": "347eb34472bd3881148517133e32bea44170765144fa3bf0c1f9fd98dc34cf4b"
     }
   ],
   "note": "Add multiple distinct local/licensed instrumental beds. Each entry: path, license, direction. Supply files through the runner workspace/artifacts, never credentials."
