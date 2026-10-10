@@ -10,9 +10,26 @@
         "concept": "Simple close-up of one modern chrome kitchen tap pouring clear water into a plain drinking glass, on a flat plain warm background with lots of empty space. No people, no kitchen counters or furniture, nothing else in the frame.",
         "overlay": null,
         "labelPlacement": "right",
-        "characterRoles": ["None"]
+        "characterRoles": [
+          "None"
+        ]
       },
       "reason": "Run 38061095163 density QA rejected shot-0 (correctStyle, historicalAccuracy, correctProp): the Eli reference put Eli inside a busy modern kitchen. The modern hook beat is now a people-free tap close-up with a simple background, explicitly marked as a present-day comparison."
+    },
+    {
+      "sourceId": "tunneling-the-mountain-shot-2",
+      "replacement": {
+        "id": "tunneling-the-mountain-shot-2-repair",
+        "narration": "Problem number one: the water was in the wrong place.",
+        "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: a spring in the valley lay outside the city walls.",
+        "concept": "Eli alone stands on top of a plain stone city wall on the left, looking worried and pointing down with one arm toward a small spring pool in the empty valley on the right, far outside the wall. Simple hills and a calm sky, lots of empty space.",
+        "overlay": null,
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Run 38061767801 density QA rejected shot-2 (adultAnatomy, requiredConcept: malformed hand, an unrequested second figure, no head cloth); its regeneration in run 38062159157 failed only because our own regeneration wording demanded five fingers, which the approved simple cartoon hands do not show. A single-character, clearly staged replacement keeps the beat's meaning."
     }
   ],
   "beatReassignments": []

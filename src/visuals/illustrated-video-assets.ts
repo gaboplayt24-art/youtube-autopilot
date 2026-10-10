@@ -24,7 +24,7 @@ export function validatePlannedReuse(shots:Shot[]){
 /** Corrective concept for the single allowed regeneration, phrased positively (naming a defect makes FLUX draw it); the rejected review stays as evidence. */
 export function regenerationIdea(idea:ArtworkIdea,style:IllustratedStyleLock):ArtworkIdea{
  const roles=idea.characterRoles.filter(r=>!/^none$/i.test(r));const eli=roles.some(r=>/eli/i.test(r));
- const fix=roles.length?'Exactly '+roles.length+' adult character'+(roles.length>1?'s':'')+' ('+roles.join(', ')+'), each with two clear hands of five fingers'+(eli?'; Eli wears his striped ochre head cloth':'')+'.':'An empty scene with no people at all.';
+ const fix=roles.length?'Exactly '+roles.length+' adult character'+(roles.length>1?'s':'')+' ('+roles.join(', ')+'), each with two simple clear cartoon hands drawn like input_image_0'+(eli?'; Eli wears his striped ochre head cloth':'')+'.':'An empty scene with no people at all.';
  const base=idea.concept.length+fix.length+1>420?idea.concept.slice(0,420-fix.length-1).replace(/\s+\S*$/,''):idea.concept;
  return fitNativeConcept(style,{...idea,id:idea.id+'-regen1',concept:base+' '+fix});
 }
