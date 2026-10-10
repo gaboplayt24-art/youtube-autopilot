@@ -4,7 +4,7 @@ import {readFile} from 'node:fs/promises';
 import {densityReview,applyHumanAssetApproval,acceptDensityReview} from '../src/visuals/density-qa';
 import {fileDigest} from '../src/orchestration/integrity';
 import {targetDuration,durationConfig} from '../src/longform';
-import {validatePlannedReuse} from '../src/visuals/illustrated-video-assets';
+import {validatePlannedReuse,uniqueRevisionKey} from '../src/visuals/illustrated-video-assets';
 import type {Shot} from '../src/editor/schemas';
 import {applyEditorialRevision,editorialRevision} from '../src/visuals/visual-thinking';
 test('evidence-based visual revisions preserve speech timing, refuse unknown IDs and retain independent source evidence',async()=>{
@@ -174,4 +174,8 @@ test('owner-approved v5 lock pins the Eli reference and its Near East prompts fi
  const prompt=nativePrompt(style,idea,'v3');assert.ok(prompt.length<=2048);assert.match(prompt,/Eli/);assert.doesNotMatch(prompt,/no mascot heads/);
  const v4=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v4.json','utf8')));assert.match(nativePrompt(v4,{...idea,concept:'c'.repeat(200)},'v3'),/Mature human cartoon anatomy/);
  const draft=JSON.parse(await readFile('data/scripts/bible-test-002-editorial-draft.json','utf8'));const words=draft.narration.split(/\s+/).length;assert.ok(words>=241&&words<=255,String(words));assert.match(draft.narration,/^Right now, you can turn a tap/);
+});
+test('one-image-per-beat mode uses a revised beat fresh evidence ID and keeps unrevised beat IDs',()=>{
+ const shots=[{id:'a',assetKey:'a'},{id:'b',assetKey:'b-modern-repair'},{id:'c',assetKey:'shared'},{id:'d',assetKey:'shared'},{id:'e'}] as unknown as Shot[];
+ assert.deepEqual(shots.map(s=>uniqueRevisionKey(shots,s)),['a','b-modern-repair','c','d','e']);
 });
