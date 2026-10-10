@@ -184,5 +184,5 @@ test('the single v5 regeneration states the cast and anatomy positively within p
  const style=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v5.json','utf8')));
  const idea={id:'shot-2',narration:'Eli looks at the valley with worry.',historicalContext:'Judah, late 8th century BCE, outside the city wall.',concept:'Eli stands on a rocky ridge gesturing toward the valley below with a worried expression, simple sky. '.repeat(4).slice(0,400),overlay:null,labelPlacement:'left' as const,characterRoles:['Eli']};
  const next=regenerationIdea(idea,style);
- assert.equal(next.id,'shot-2-regen1');assert.ok(next.concept.length<=420&&next.concept.length>=30);assert.match(next.concept,/Exactly 1 adult character \(Eli\)/);assert.match(next.concept,/striped ochre head cloth/);assert.doesNotMatch(next.concept,/avoid|extra|second/i);
+ assert.equal(next.id,'shot-2-regen1');assert.ok(next.concept.length<=420&&next.concept.length>=30);assert.match(next.concept,/Exactly 1 adult character \(Eli\)/);assert.match(next.concept,/nobody else, Eli drawn exactly as in input_image_0/);assert.doesNotMatch(next.concept,/avoid|extra|second/i);
 });

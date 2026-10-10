@@ -24,7 +24,7 @@ export function validatePlannedReuse(shots:Shot[]){
 /** Corrective concept for the single allowed regeneration, phrased positively (naming a defect makes FLUX draw it); the rejected review stays as evidence. */
 export function regenerationIdea(idea:ArtworkIdea,style:IllustratedStyleLock):ArtworkIdea{
  const roles=idea.characterRoles.filter(r=>!/^none$/i.test(r));const eli=roles.some(r=>/eli/i.test(r));
- const fix=roles.length?'Exactly '+roles.length+' adult character'+(roles.length>1?'s':'')+' ('+roles.join(', ')+'), each with two simple clear cartoon hands drawn like input_image_0'+(eli?'; Eli wears his striped ochre head cloth':'')+'.':'An empty scene with no people at all.';
+ const fix=roles.length?'Exactly '+roles.length+' adult character'+(roles.length>1?'s':'')+' ('+roles.join(', ')+'), nobody else'+(eli?', Eli drawn exactly as in input_image_0':'')+'.':'An empty scene with no people at all.';
  const base=idea.concept.length+fix.length+1>420?idea.concept.slice(0,420-fix.length-1).replace(/\s+\S*$/,''):idea.concept;
  return fitNativeConcept(style,{...idea,id:idea.id+'-regen1',concept:base+' '+fix});
 }
@@ -37,7 +37,9 @@ export async function createIllustratedVideoAssets(shots:Shot[],style:Illustrate
  const results=new Map<string,Awaited<ReturnType<VisualStyleEngine['generate']>>>();const crops=new Map<string,z.infer<typeof componentCrop>>();
  const failures:string[]=[];
  for(const shot of shots){if(!shot.illustrationIdea)throw new Error('Full illustrated source IDEA is required, never a primitive SVG scene');const key=plannedReuse?shot.assetKey??shot.id:uniqueRevisionKey(shots,shot);
- let result=results.get(key);if(!result){result=await engine.generate({...shot.illustrationIdea,id:key},style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
+ let result=results.get(key);if(!result){
+  // One-image-per-beat mode records a failed prompt QA with the other rejections instead of stopping at the first beat.
+  try{result=await engine.generate({...shot.illustrationIdea,id:key},style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);}catch(e){if(plannedReuse||!/^Native prompt QA failed/.test(String((e as Error).message)))throw e;failures.push((e as Error).message);await log(runner.dir,'illustration_rejected',{shotId:shot.id,key,failure:(e as Error).message});continue;}
   // One-image-per-beat mode: the style lock's single regeneration retries a rejected beat under a fresh evidence ID; the rejection stays recorded and every gate still applies.
   if(!plannedReuse&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork))result=await engine.generate(regenerationIdea({...shot.illustrationIdea,id:key},style),style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
   if(!result.review.passed||!result.artwork){const failure='Native production illustration QA failed: '+key+' '+JSON.stringify(result.review.objectiveFailures)+' evidence '+JSON.stringify({issues:result.review.issues,seriousAnatomyDefects:result.review.seriousAnatomyDefects??[],densityRationale:result.review.densityRationale});

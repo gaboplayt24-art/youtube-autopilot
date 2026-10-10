@@ -60,8 +60,30 @@ jobs:
           git add assets/references/style-v5-eli.png assets/references/style-v5-eli-sheet.png
           git commit -m "Import owner-approved v5 Eli reference from style audition run ${{ inputs.source_run_id }}"
           git push origin HEAD:${{ github.ref_name }}
+  # Read-only: print a run's planned beats (id, narration, concept, cast) so editorial revisions can cite them exactly.
+  show-plan:
+    if: inputs.task == 'show-plan'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: production-${{ inputs.run_id }}
+          path: .run
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Print planned beats
+        run: |
+          python3 - <<'PY'
+          import json
+          shots = json.load(open('.run/visual-thinking-v5.json'))
+          shots = shots.get('shots', shots) if isinstance(shots, dict) else shots
+          for s in shots:
+              i = s.get('illustrationIdea') or {}
+              print(json.dumps({'id': s['id'], 'narration': s.get('narration'), 'concept': i.get('concept'), 'historicalContext': i.get('historicalContext'), 'roles': i.get('characterRoles'), 'overlay': i.get('overlay'), 'labelPlacement': i.get('labelPlacement')}, ensure_ascii=False))
+          PY
   quality:
-    if: inputs.task != 'import-v5-reference'
+    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
     runs-on: ubuntu-latest
     timeout-minutes: 80
     env:
