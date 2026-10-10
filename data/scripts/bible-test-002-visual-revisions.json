@@ -19,17 +19,17 @@
     {
       "sourceId": "tunneling-the-mountain-shot-2",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-2-repair4",
+        "id": "tunneling-the-mountain-shot-2-repair5",
         "narration": "could decide whether a whole city lived or died. Problem",
         "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: a spring in the valley lay outside the city walls.",
-        "concept": "Full-body Eli stands alone on a dry, cracked hilltop in front of a plain stone city wall, holding up an empty clay water jar with both hands and looking at it with a clearly worried face. Plain sky, lots of empty space.",
+        "concept": "Full-body Eli kneels on dry cracked ground in front of a plain stone city wall, leaning over a large empty clay jar that stands on the ground and peering into it with a clearly worried face. Plain sky, lots of empty space.",
         "overlay": "Water determined survival",
         "labelPlacement": "top",
         "characterRoles": [
           "Eli"
         ]
       },
-      "reason": "Run 38061767801 density QA rejected shot-2 (adultAnatomy, requiredConcept: malformed hand, an unrequested second figure, no head cloth); its regeneration in run 38062159157 failed only because our own regeneration wording demanded five fingers, which the approved simple cartoon hands do not show. A single-character, clearly staged replacement keeps the beat's meaning. Run 38062475163 rejected the wall-top staging twice (requiredConcept: neutral pose, spring too small to read), so the spring is now the large foreground subject next to a visibly worried Eli. Run 38062820153 rejected the kneeling-spring staging too (pointing direction and pose unclear), so the beat now uses one unmistakable action: Eli holding an empty jar, matching the beat's actual narration. Run 38064186324 rejected the empty-jar staging only because our own over-calibrated hand wording demanded mitten hands; the same idea is redrawn under a fresh evidence ID with neutral hand-style QA."
+      "reason": "Run 38061767801 density QA rejected shot-2 (adultAnatomy, requiredConcept: malformed hand, an unrequested second figure, no head cloth); its regeneration in run 38062159157 failed only because our own regeneration wording demanded five fingers, which the approved simple cartoon hands do not show. A single-character, clearly staged replacement keeps the beat's meaning. Run 38062475163 rejected the wall-top staging twice (requiredConcept: neutral pose, spring too small to read), so the spring is now the large foreground subject next to a visibly worried Eli. Run 38062820153 rejected the kneeling-spring staging too (pointing direction and pose unclear), so the beat now uses one unmistakable action: Eli holding an empty jar, matching the beat's actual narration. Run 38064186324 rejected the empty-jar staging only because our own over-calibrated hand wording demanded mitten hands; the same idea is redrawn under a fresh evidence ID with neutral hand-style QA. Run 38064629541: the jar was held in malformed hands; Eli now peers into a jar standing on the ground."
     },
     {
       "sourceId": "tunneling-the-mountain-shot-5",
@@ -49,38 +49,38 @@
     {
       "sourceId": "tunneling-the-mountain-shot-6",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-6-repair",
+        "id": "tunneling-the-mountain-shot-6-repair2",
         "narration": "a siege, an enemy could seize it, and",
         "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: in a siege an enemy army could take the spring outside the walls.",
-        "concept": "Exactly two figures: a round-head Judean guard in a plain tunic with a round wooden shield stands worried on a low stone wall at left, watching one round-head enemy soldier in a pointed helmet who strides toward a small spring pool in the valley at right. Plain hills and sky, lots of empty space.",
+        "concept": "Exactly two figures: on the left full-body Eli peeks worried over a low stone wall; on the right one round-head enemy soldier in a pointed helmet and plain tunic walks toward a small spring pool of blue water in the valley. Plain hills and sky, lots of empty space.",
         "overlay": "Vulnerable Water Source",
         "labelPlacement": "top",
         "characterRoles": [
-          "Judean guard",
+          "Eli",
           "Enemy soldier"
         ]
       },
-      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed four figures and a dense army camp; the beat now has exactly two figures and an empty background."
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed four figures and a dense army camp; the beat now has exactly two figures and an empty background. Run 38064629541: the reviewer read the guard as Eli, so Eli is now the watcher and the only other figure is the enemy soldier."
     },
     {
       "sourceId": "tunneling-the-mountain-shot-7",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-7-repair",
+        "id": "tunneling-the-mountain-shot-7-repair2",
         "narration": "the people inside would die of thirst. The",
         "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: inside the walls, without the spring, people would have no water.",
-        "concept": "Full-body Eli stands alone in a plain stone courtyard under a hot yellow sun, tipping an empty clay water jug upside down; not a single drop falls out. His face is worried and tired. Simple background, lots of empty space.",
+        "concept": "Full-body Eli sits on the dusty ground of a plain stone courtyard beside an empty clay jug lying on its side, looking up at a hot yellow sun with a tired, worried face. Simple background, lots of empty space.",
         "overlay": "Drought Anxiety",
         "labelPlacement": "bottom",
         "characterRoles": [
           "Eli"
         ]
       },
-      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the concept asked for a crowded courtyard; the beat is now one clear action with Eli alone."
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the concept asked for a crowded courtyard; the beat is now one clear action with Eli alone. Run 38064629541: tipping the jug was drawn as holding it to his head; the empty jug now lies on the ground beside a tired Eli."
     },
     {
       "sourceId": "tunneling-the-mountain-shot-8",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-8-repair",
+        "id": "tunneling-the-mountain-shot-8-repair2",
         "narration": "Bible says King Hezekiah of Judah blocked the spring's",
         "historicalContext": "Judah, late 8th century BCE; 2 Chronicles 32:30 says Hezekiah stopped the upper outlet of the Gihon waters.",
         "concept": "Exactly two figures: a round-head King Hezekiah with a simple gold crown and red robe points at a rock spring outlet, while one round-head worker in a plain tunic sets a large stone block over it with his bare hands. No tools. Plain rocky hillside and sky, lots of empty space.",
@@ -91,37 +91,37 @@
           "Worker"
         ]
       },
-      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the worker held a tool that read as a modern metal pry bar; the beat now uses only stones and bare hands."
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: the worker held a tool that read as a modern metal pry bar; the beat now uses only stones and bare hands. Run 38064629541: the reviewer's own issues state the image matches the two-figure concept, yet it flagged requiredConcept; the same idea is redrawn under a fresh evidence ID."
     },
     {
       "sourceId": "tunneling-the-mountain-shot-9",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-9-repair",
+        "id": "tunneling-the-mountain-shot-9-repair2",
         "narration": "upper outlet and brought its water down to the",
         "historicalContext": "Judah, late 8th century BCE: workers began cutting a tunnel into the limestone hill by hand.",
-        "concept": "Full-body Eli kneels at the small dark mouth of a new tunnel in a plain limestone hillside, striking a short chisel with a round wooden mallet; a small clay oil lamp glows on a rock beside him. Simple background, lots of empty space.",
+        "concept": "Full-body Eli kneels at the small dark mouth of a new tunnel in a plain limestone hillside, swinging a simple iron pick with a wooden handle at the rock; a small clay oil lamp glows on a rock beside him. Simple background, lots of empty space.",
         "overlay": "Starting the Tunnel",
         "labelPlacement": "bottom",
         "characterRoles": [
           "Eli"
         ]
       },
-      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: Eli's design and the tools were unclear in a two-worker scene; the beat is now Eli alone with one clear mallet and chisel."
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: Eli's design and the tools were unclear in a two-worker scene; the beat is now Eli alone with one clear mallet and chisel. Run 38064629541: the mallet and chisel did not read clearly; Eli now uses one simple pick."
     },
     {
       "sourceId": "tunneling-the-mountain-shot-11",
       "replacement": {
-        "id": "tunneling-the-mountain-shot-11-repair",
+        "id": "tunneling-the-mountain-shot-11-repair2",
         "narration": "work with the threat of an Assyrian invasion, although the exact",
         "historicalContext": "Late 8th century BCE: most scholars link the tunnel to the Assyrian threat to Judah.",
-        "concept": "Exactly one round-head Judean scout in a plain tunic crouches on a rocky ridge at left, shading his eyes and looking alarmed toward the far right horizon, where one tall Assyrian army banner on a pole rises behind a hill. No soldiers visible. Plain sky, lots of empty space.",
+        "concept": "Full-body Eli crouches on a rocky ridge at left, shading his eyes with one hand and looking alarmed toward a distant hill at far right, where one tall red banner on a pole stands against the sky. Nobody else. Plain sky, lots of empty space.",
         "overlay": "Assyrian Threat",
         "labelPlacement": "bottom",
         "characterRoles": [
-          "Scout"
+          "Eli"
         ]
       },
-      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed a marching army of over twenty soldiers; the threat is now a single distant banner seen by one scout."
+      "reason": "Run 38062820153 density QA rejected this beat after its single regeneration: it showed a marching army of over twenty soldiers; the threat is now a single distant banner seen by one scout. Run 38064629541: the scout staging was rejected and its regeneration was refused by the provider's output filter; Eli now watches a single distant banner."
     },
     {
       "sourceId": "tunneling-the-mountain-shot-13",
