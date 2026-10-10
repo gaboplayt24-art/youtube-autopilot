@@ -17,5 +17,16 @@
       "reason": "Run 38021582788 density QA rejected the first raw output for a serious anatomy defect (an extra arm protruding from the right figure's back). Preserve the raw output and its Gemini review as rejection evidence. The repair reduces the scene to one waist-up digger with an iron pick and an oil lamp to remove limb overlap between two figures, while keeping the narrated tunnel-carving beat."
     }
   ],
-  "beatReassignments": []
+  "beatReassignments": [
+    {
+      "shotId": "scene_01-shot-2",
+      "sourceId": "video-source-7",
+      "reason": "Run 38022028697 component-reuse QA could not crop the repaired single-digger source-1 under 75% of its area. The narration ('the sound of each other's picks') matches source-7, two miners breaking through with iron picks; shot-2 is not adjacent to source-7 shots 18, 20 and 22."
+    },
+    {
+      "shotId": "scene_01-shot-4",
+      "sourceId": "video-source-4",
+      "reason": "Run 38022028697: the repaired source-1 fills the frame with one digger and cannot provide a separate reused crop. The narration ('Jerusalem possessed a vital water source') matches source-4, the city gate with an official pointing to the spring; shot-4 is not adjacent to source-4 shots 7, 9 and 11."
+    }
+  ]
 }
