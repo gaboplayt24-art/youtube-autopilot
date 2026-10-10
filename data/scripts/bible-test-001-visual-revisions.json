@@ -15,6 +15,147 @@
         ]
       },
       "reason": "Run 38021582788 density QA rejected the first raw output for a serious anatomy defect (an extra arm protruding from the right figure's back). Preserve the raw output and its Gemini review as rejection evidence. The repair reduces the scene to one waist-up digger with an iron pick and an oil lamp to remove limb overlap between two figures, while keeping the narrated tunnel-carving beat."
+    },
+    {
+      "sourceId": "video-source-2",
+      "replacement": {
+        "id": "video-source-2-period-repair",
+        "narration": "Total darkness, meeting in the center. A feat of ancient engineering in Iron Age Judah. A spring located outside the city walls.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "Rocky hillside below an Iron Age limestone city wall. At the foot of the slope spring water flows from a small rock cave into a pool. Beside it a dark tunnel opening is cut into the rock. One adult man in a linen tunic kneels at the pool filling a clay jar.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "water carrier"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-3",
+      "replacement": {
+        "id": "video-source-3-period-repair",
+        "narration": "During an impending siege, the leadership decided to divert the flow; the upper outlet of the spring was blocked.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "Two adult men in plain wool tunics stack large boulders and wet clay to seal a spring's rock opening. Above them on the ridge stands an Iron Age limestone city wall where one lookout gazes toward the horizon.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "mason",
+          "mason",
+          "lookout"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-4",
+      "replacement": {
+        "id": "video-source-4-period-repair",
+        "narration": "Jerusalem possessed a vital water source. It could fall into enemy hands. Divert the flow. A tunnel channels water inside the city walls.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "Outside an Iron Age stone city gate, a bearded official in a long wool robe points down the slope toward a spring; a mason holding a wooden mallet listens beside him. At the foot of the hill the spring water runs into a dark rock-cut tunnel mouth that leads under the wall.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "royal official",
+          "mason"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-5",
+      "replacement": {
+        "id": "video-source-5-period-repair",
+        "narration": "To the Pool of Siloam; the tunnel measures 533 meters. A subject of uncertainty. An inscription discovered by a student in 1880.",
+        "historicalContext": "1880 discovery inside the ancient rock-cut tunnel: 19th-century waistcoat, rolled sleeves and flat cap, candle light; ancient tunnel walls; no electric light or modern gear.",
+        "concept": "Inside a low damp rock-cut tunnel with ankle-deep water, a young adult man in 1880s clothes, waistcoat, rolled sleeves and flat cap, holds a candle up to a small rectangular panel of ancient carved letters on the wall. The tunnel continues into darkness behind him.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "19th-century student"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-6",
+      "replacement": {
+        "id": "video-source-6-period-repair",
+        "narration": "Why the tunnel follows a curving path; engineers may have followed natural cracks in the rock. Carved into the wall near the pool.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "A winding rock-cut tunnel curving away into darkness, shallow clear water on the floor, rough chisel marks and one long natural crack running along the wall. A small clay oil lamp sits on a ledge, and a small panel of carved ancient letters is near the water line. No people.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-7",
+      "replacement": {
+        "id": "video-source-7-period-repair",
+        "narration": "The sound of each other's picks. The two teams finally broke through. Testing of the plaster. An origin several decades earlier.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "Two adult miners in linen tunics face each other through a freshly broken hole in a thin rock wall, each holding one iron pick, faces lit by small clay oil lamps on the damp floor. Surprised, joyful expressions; dust in the air.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "miner",
+          "miner"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-8",
+      "replacement": {
+        "id": "video-source-8-period-repair",
+        "narration": "Their success as they met under the mountain. The era of Hezekiah.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "A long curved tunnel cut in raw bedrock with shallow flowing water. One adult miner in a linen tunic stands ankle-deep holding a clay lamp and looks ahead toward a warm glow of lamplight at the far breakthrough point.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "miner"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-9",
+      "replacement": {
+        "id": "video-source-9-period-repair",
+        "narration": "Early 8th century BC. Water management. A hidden, secure supply of water.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "The ancient stone-lined Pool of Siloam: clear water pours from a dark rock tunnel mouth into the basin. An adult woman in a long wool dress and head covering fills a clay jar on the stone steps while a bearded man stands nearby, smiling with relief.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "woman with water jar",
+          "city resident"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
+    },
+    {
+      "sourceId": "video-source-10",
+      "replacement": {
+        "id": "video-source-10-period-repair",
+        "narration": "The work reflects a sophisticated understanding. Under the threat of an Assyrian invasion, the people inside the city.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; limestone, clay jars and oil lamps, iron tools, plain wool or linen tunics; no pipes, poles, wires or modern items.",
+        "concept": "Top of an Iron Age limestone city wall at dusk. A guard in a plain tunic and leather cap holds a wooden spear and watches a distant enemy camp of tents on the plain. Below, inside the wall, a woman carries a clay water jar on her shoulder.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "city guard",
+          "woman with water jar"
+        ]
+      },
+      "reason": "Run 38022290478 rejected source-2 for modern pipes and utility poles (majorHistoricalError). Remaining Bible sources share the same busy multi-part concepts, so each is simplified before generation to period-only props and 2-3 separable components for reused crops."
     }
   ],
   "beatReassignments": [
