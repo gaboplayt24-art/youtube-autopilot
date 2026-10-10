@@ -110,17 +110,17 @@
     {
       "sourceId": "video-source-10",
       "replacement": {
-        "id": "video-source-10-period-repair-2",
+        "id": "video-source-10-period-repair-3",
         "narration": "remarkable skill in fluid management, yet it failed to population. The hidden reality is that grand engineering",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "Quiet deserted Tiber river bank at dawn: the grand arched stone outlet of the main Roman drain opens in a plain stone embankment, water flowing out into the river. A small heap of discarded refuse lies on the empty muddy bank. Deserted scene, an empty landscape with only stone, water and refuse; simple wide view with cream negative space.",
+        "concept": "Close view of the massive arched stone mouth of the main Roman drain set in a plain stone river embankment wall, grey water pouring out of the arch into the river below, with a few pieces of discarded refuse floating on the water. Only stone, water and refuse fill the frame; simple composition with cream sky as negative space.",
         "overlay": null,
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
         ]
       },
-      "reason": "Run 38010133963 beat map: planned source-10 combined a bathhouse sluice, the Tiber outlet and an alley of waste (multi-scene, dense). Repair keeps the engineering-versus-waste contrast for shots 25/27 in one uninhabited outlet view, distinct from source-5's interior tunnel. Run 38010483893: repair rejected (requiredConcept) because figures appeared in the uninhabited view. Repair-2 describes a deserted landscape containing only stone, water and refuse."
+      "reason": "Run 38010133963 beat map: planned source-10 combined a bathhouse sluice, the Tiber outlet and an alley of waste (multi-scene, dense). Repair keeps the engineering-versus-waste contrast for shots 25/27 in one uninhabited outlet view, distinct from source-5's interior tunnel. Run 38010483893: repair rejected (requiredConcept) because figures appeared in the uninhabited view. Repair-2 describes a deserted landscape containing only stone, water and refuse. Run 38012142075: repair-2 again drew three figures on the open bank. Repair-3 frames only the arch, embankment wall and water, leaving no ground where figures could stand."
     }
   ],
   "beatReassignments": [
