@@ -1,5 +1,7 @@
 {
-  "autoPublish": false,
+  "autoPublish": true,
   "privacyStatus": "private",
-  "publishAt": null
+  "publishAt": null,
+  "publishTimeUtc": "17:00",
+  "minLeadHours": 3
 }

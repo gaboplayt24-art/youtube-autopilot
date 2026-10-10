@@ -6,7 +6,8 @@ import {createBranding} from '../branding';
 import {json,read,log} from './io';
 import {Runner} from './runner';
 import {artifact,fileDigest} from './integrity';
-import {uploadPrivate,setThumbnail,scheduleAllowed,scheduleVideo} from '../youtube';
+import {uploadPrivate,setThumbnail,scheduleAllowed,scheduleVideo,nextPublishSlot,findUploadByTag} from '../youtube';
+import {schedule as scheduleConfig} from './config';
 import {requireQA,inspect} from '../qa';
 import * as s from './schemas';
 import {collect,learn} from '../analytics';
@@ -27,17 +28,24 @@ async function main(){
    const m=await artifact(dir,'metadata',s.metadata);const video=await artifact(dir,'render',s.rendered);const thumb=await artifact(dir,'thumbnail',s.thumbnail);const composition=await artifact(dir,'composition',s.composition);const script=await artifact(dir,'script',s.script);const facts=await artifact(dir,'facts',s.facts);
    if(await fileDigest(video.path)!==video.sha256||await fileDigest(thumb.path)!==thumb.sha256)throw new Error('Media checksum mismatch');
    const v=await artifact(dir,'voice',s.voice);const a=await artifact(dir,'visuals',media);
-   if((await read(join(dir,'manifest.json'))).mode==='production'){const audioCheck=await inspectAudio(video.path,{expectedDuration:video.duration});if(!audioCheck.passed)throw new Error('Production audio QA failed; upload blocked');}
-   const qa=await inspect(video.path,script,composition,facts,m,[...v.scenes,...a.assets,{path:(await artifact(dir,'audio-mix',audioMix)).path}].map(x=>x.path));requireQA(qa);await json(join(dir,'qa-upload.json'),qa);
-   const schedule=await read('config/schedule.json');scheduleAllowed({...schedule,publishAt:m.publishAt},process.env.AUTO_PUBLISH);
+   const production=(await read(join(dir,'manifest.json'))).mode==='production';
+   if(production){const audioCheck=await inspectAudio(video.path,{expectedDuration:video.duration});if(!audioCheck.passed)throw new Error('Production audio QA failed; upload blocked');}
+   const qa=await inspect(video.path,script,composition,facts,m,[...v.scenes,...a.assets,{path:(await artifact(dir,'audio-mix',audioMix)).path}].map(x=>x.path),production);requireQA(qa);await json(join(dir,'qa-upload.json'),qa);
+   // Owner-authorized 2026-10-10: with autoPublish and AUTO_PUBLISH=true a QA-passed video is uploaded private and scheduled for the next daily slot.
+   const schedule=scheduleConfig.parse(await read('config/schedule.json'));const publishAt=m.publishAt??(schedule.autoPublish&&process.env.AUTO_PUBLISH==='true'?nextPublishSlot(schedule):null);scheduleAllowed({...schedule,publishAt},process.env.AUTO_PUBLISH);
    const uploadFile=join(dir,'upload.json');let uploaded;try{uploaded=s.upload.parse(await read(uploadFile));}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
-   if(!process.env.SUPABASE_URL||!process.env.SUPABASE_SERVICE_ROLE_KEY)throw new Error('Supabase is required for durable upload deduplication');
-   const storage=new SupabaseStorage();const key=`upload-${runId}`;const fingerprint=(await read(join(dir,'manifest.json'))).fingerprint;
-   const reservation=await storage.create(key,{state:'pending',fingerprint,startedAt:new Date().toISOString()});
-   if(!reservation){const existing=z.object({state:z.enum(['pending','uploaded']),fingerprint:z.string(),videoId:z.string().optional()}).parse(await storage.get(key));if(existing.fingerprint!==fingerprint)throw new Error('Upload run identity conflicts with durable ledger');if(existing.state==='pending'||!existing.videoId)throw new Error('Upload outcome uncertain. Reconcile the durable upload ledger with YouTube Studio before retrying.');uploaded={videoId:existing.videoId,privacyStatus:'private',publishAt:null};await json(uploadFile,uploaded);}
-   else{if(uploaded)throw new Error('Local upload exists but durable ledger is missing; reconcile before uploading');const videoId=await uploadPrivate(video.path,thumb.path,m,qa);await storage.put(key,{state:'uploaded',fingerprint,videoId});uploaded={videoId,privacyStatus:'private',publishAt:null};await json(uploadFile,uploaded);}
+   const runTag='bu-'+runId.toLowerCase();
+   if(!process.env.SUPABASE_URL||!process.env.SUPABASE_SERVICE_ROLE_KEY){
+    // No Supabase ledger: the channel itself is the durable record, keyed by a hidden per-run tag.
+    if(!uploaded){const existing=await findUploadByTag(runTag);if(existing){uploaded={videoId:existing,privacyStatus:'private' as const,publishAt:null};await json(uploadFile,uploaded);}else{const videoId=await uploadPrivate(video.path,thumb.path,{...m,tags:[...m.tags,runTag]},qa);uploaded={videoId,privacyStatus:'private' as const,publishAt:null};await json(uploadFile,uploaded);}}
+   }else{
+     const storage=new SupabaseStorage();const key=`upload-${runId}`;const fingerprint=(await read(join(dir,'manifest.json'))).fingerprint;
+     const reservation=await storage.create(key,{state:'pending',fingerprint,startedAt:new Date().toISOString()});
+     if(!reservation){const existing=z.object({state:z.enum(['pending','uploaded']),fingerprint:z.string(),videoId:z.string().optional()}).parse(await storage.get(key));if(existing.fingerprint!==fingerprint)throw new Error('Upload run identity conflicts with durable ledger');if(existing.state==='pending'||!existing.videoId)throw new Error('Upload outcome uncertain. Reconcile the durable upload ledger with YouTube Studio before retrying.');uploaded={videoId:existing.videoId,privacyStatus:'private',publishAt:null};await json(uploadFile,uploaded);}
+     else{if(uploaded)throw new Error('Local upload exists but durable ledger is missing; reconcile before uploading');const videoId=await uploadPrivate(video.path,thumb.path,m,qa);await storage.put(key,{state:'uploaded',fingerprint,videoId});uploaded={videoId,privacyStatus:'private',publishAt:null};await json(uploadFile,uploaded);}
+   }
    await runner.stage('youtube-thumbnail',s.thumbnail,async()=>{await setThumbnail(uploaded.videoId,thumb.path);return thumb;});
-   if(m.publishAt)await runner.stage('schedule',s.upload,async()=>{await scheduleVideo(uploaded.videoId,m.publishAt!);return {...uploaded,publishAt:m.publishAt};});
+   if(publishAt)await runner.stage('schedule',s.upload,async()=>{await scheduleVideo(uploaded.videoId,publishAt);return {...uploaded,publishAt};});
    await log(dir,'private_upload_completed',{videoId:uploaded.videoId});
   }finally{await runner.unlock();}return;
  }

@@ -22,6 +22,10 @@ on:
         description: v4 (locked doodle) or v5 (owner-approved round-head Eli style)
         type: string
         default: v4
+      publish:
+        description: After every QA gate passes, upload private to YouTube and schedule the next daily slot (owner-authorized 2026-10-10)
+        type: boolean
+        default: false
       topic:
         description: Video topic; the run reads data/scripts/<run_id>-editorial-draft.json
         type: string
@@ -167,6 +171,9 @@ jobs:
         run: bash scripts/setup-cpu-ai.sh
       - run: ffmpeg -version && ffprobe -version && /usr/bin/google-chrome --version
       - run: npm run lint && npm run typecheck && npm test
+      - name: Fetch the Anton display font (SIL OFL) for thumbnail labels
+        continue-on-error: true
+        run: mkdir -p public/fonts && curl -fsSL --retry 3 -o public/fonts/Anton-Regular.ttf https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf
       - name: Channel logo and banner in the locked illustrated style; no upload
         if: inputs.task == 'branding'
         run: npm run branding -- --run-id "$RUN_ID"
@@ -257,3 +264,12 @@ jobs:
             .cache/models
             .cache/huggingface
           key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
+  publish:
+    needs: quality
+    if: success() && inputs.publish && inputs.task != 'branding' && inputs.task != 'style-v5' && inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
+    uses: ./.github/workflows/publish.yml
+    with:
+      run_id: ${{ inputs.run_id }}
+      source_run_id: ${{ github.run_id }}
+      artifact_prefix: production
+    secrets: inherit

@@ -6,6 +6,8 @@ export const ROUND_HEAD_V5='round-head-v5' as const;
 export const illustratedStyleLock=styleLock.extend({
  version:z.enum([ILLUSTRATED_V4,'illustrated-doodle-v4.2',ROUND_HEAD_V5]),referenceAnalysisStatus:z.enum(['pending','analysed']),referenceSha256:z.string().length(64).nullable(),
  referenceStyleDescriptor:z.string().min(30).max(280).nullable(),visualSystemApproved:z.boolean(),approvedAt:z.string().datetime().nullable(),minimumStyleScore:z.number().min(60).max(95),maxRegenerationsPerScene:z.number().int().min(0).max(2),
+ /** Optional close-up crop of the approved reference, used only as the thumbnail input_image_0. */
+ thumbnailReference:z.object({path:z.string(),sha256:z.string().length(64),note:z.string().optional()}).optional(),
 }).superRefine((s,ctx)=>{if(s.referenceAnalysisStatus==='analysed'&&(!s.referenceSha256||!s.referenceStyleDescriptor))ctx.addIssue({code:'custom',message:'Analyzed style requires actual reference hash and descriptor'});if(s.visualSystemApproved&&(!s.approvedAt||s.referenceAnalysisStatus!=='analysed'))ctx.addIssue({code:'custom',message:'Human approval requires dated, actual reference analysis'});});
 export type IllustratedStyleLock=z.infer<typeof illustratedStyleLock>;
 export const traitNames=['lineThickness','lineIrregularity','anatomySimplification','headBodyProportions','eyes','nose','mouth','hands','feet','hair','clothingConstruction','colorFillStyle','shadowAmount','backgroundComplexity','propComplexity','negativeSpace','composition','visualDensity'] as const;

@@ -60,5 +60,10 @@
   "approvedAt": "2026-10-10T12:00:00.000Z",
   "minimumStyleScore": 70,
   "maxRegenerationsPerScene": 1,
-  "note": "Owner approved STYLE-PREVIEW-v5.jpg (run 38036423669) on 2026-10-10. Reference assets/references/style-v5-eli.png is the single front pose cropped from the approved character sheet (sha 76013aad...). Selected with STYLE_LOCK_PATH=config/style-lock-v5.json and STYLE_REFERENCE_PATH=assets/references/style-v5-eli.png."
+  "note": "Owner approved STYLE-PREVIEW-v5.jpg (run 38036423669) on 2026-10-10. Reference assets/references/style-v5-eli.png is the single front pose cropped from the approved character sheet (sha 76013aad...). Selected with STYLE_LOCK_PATH=config/style-lock-v5.json and STYLE_REFERENCE_PATH=assets/references/style-v5-eli.png.",
+  "thumbnailReference": {
+    "path": "assets/references/style-v5-eli-face.png",
+    "sha256": "ed97c3fb51546ba2dc5ec73e925d2a68ef204375aa7da7f9aa6c680ceda7338b",
+    "note": "Head-and-shoulders crop (400x400 at 1040,60) of the owner-approved character sheet style-v5-eli-sheet.png; same pixels, no new artwork. Used only as input_image_0 for thumbnails so Klein draws a large expressive face."
+  }
 }
