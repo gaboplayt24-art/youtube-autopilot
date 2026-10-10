@@ -32,3 +32,17 @@ test('legacy quota history remains conservative but is excluded from measured co
  }finally{await rm(dir,{recursive:true});}
 });
 test('free Cloudflare artwork is never double-counted as a paid asset',async()=>{const dir=await mkdtemp(join(tmpdir(),'free-asset-count-'));try{const ledger=new CostLedger(await loadCostPolicy(),dir);await ledger.charge('generatedImages','cloudflare-flux-free',0,'local mocked output',async()=>true);const report=JSON.parse(await readFile(join(dir,'cost-report.json'),'utf8'));assert.equal(report.freeAssets,1);assert.equal(report.paidAssets,0);assert.equal(report.actual,0);}finally{await rm(dir,{recursive:true,force:true});}});
+test('owner-capped Cloudflare Workers Paid overflow bills only neurons above the free allocation and stops at the monthly cap',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'cf-paid-overflow-'));const keys=['CLOUDFLARE_PLAN','CLOUDFLARE_PAID_MONTHLY_CAP_USD'];const old=Object.fromEntries(keys.map(k=>[k,process.env[k]]));
+ try{const now=new Date('2026-10-10T05:00:00Z');
+  delete process.env.CLOUDFLARE_PLAN;const free=new FreeQuotaLedger(dir,join(dir,'free.json'),1000,()=>now);await free.reserve('cloudflare','m',900);await assert.rejects(free.reserve('cloudflare','m',416),QuotaPause);
+  process.env.CLOUDFLARE_PLAN='workers_paid';process.env.CLOUDFLARE_PAID_MONTHLY_CAP_USD='5';await assert.rejects(free.reserve('cloudflare','m',416),/above the plan fee/);
+  process.env.CLOUDFLARE_PAID_MONTHLY_CAP_USD='5.01';const ledger=new FreeQuotaLedger(dir,join(dir,'paid.json'),1000,()=>now);
+  await ledger.reserve('cloudflare','m',900);assert.equal(ledger.paidThisMonth(),0);
+  await ledger.reserve('cloudflare','m',416);assert.ok(Math.abs(ledger.paidThisMonth()-316*0.011/1000)<1e-9,'only the 316 neurons beyond the allocation are billable');
+  await ledger.reserve('cloudflare','m',416);
+  await assert.rejects(ledger.reserve('cloudflare','m',416),QuotaPause,'0.01 USD overflow budget is never exceeded');
+  assert.equal(JSON.parse(await readFile(join(dir,'quota-checkpoint.json'),'utf8')).state,'paused_paid_cap');
+  const report=JSON.parse(await readFile(join(dir,'free-quota-report.json'),'utf8'));assert.equal(report.cloudflarePaid.monthlyCapUsd,5.01);assert.match(report.cloudflarePaid.note,/not a vendor invoice/);
+ }finally{for(const k of keys){if(old[k]===undefined)delete process.env[k];else process.env[k]=old[k];}await rm(dir,{recursive:true,force:true});}
+});
