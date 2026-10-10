@@ -143,3 +143,9 @@ test('packaged thumbnail concepts keep close-up focal guidance within the artwor
  const long=thumbnailConcept({focalSubject:'x'.repeat(150),expressionOrSituation:'y'.repeat(150),background:'z'.repeat(150)});
  assert.ok(long.length<=420);
 });
+test('editorial arrows accept 0–1000 coordinates by rescaling and keep 0–1 coordinates',async()=>{
+ const {normalizedArrow}=await import('../src/visuals/visual-thinking');
+ assert.deepEqual(normalizedArrow([100,200,500,1000]),[.1,.2,.5,1]);
+ assert.deepEqual(normalizedArrow([.1,.2,.3,.4]),[.1,.2,.3,.4]);
+ assert.deepEqual(normalizedArrow([-5,2,3,4]),[-5,2,3,4]);
+});
