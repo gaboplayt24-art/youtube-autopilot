@@ -125,3 +125,14 @@ test('thumbnail revisions are run-scoped, evidence-based and fit the Klein promp
  for(const x of r.revisions){assert.match(x.id,new RegExp('^thumbnail-'+x.variant+'-'));assert.doesNotMatch(x.concept,/isometric|hose|valve|pipe/i);}
  assert.throws(()=>thumbnailRevision.parse({runId:'x',revisions:[{variant:'C',id:'source-1',concept:'x'.repeat(40),characterRoles:[],reason:'evidence reason'}]}));
 });
+test('biblical production test reads its own draft and gets ancient Near East period rules',async()=>{
+ const draft=JSON.parse(await readFile('data/scripts/bible-test-001-editorial-draft.json','utf8'));
+ assert.ok(draft.sourceUrls.length>=2&&draft.sourceUrls.every((u:string)=>u.startsWith('https://en.wikipedia.org/')));
+ const words=draft.narration.trim().split(/\s+/).length;assert.ok(words>=230&&words<=265,String(words));
+ assert.match(draft.scriptGuidance,/uncertain/);assert.match(draft.instruction,/Iron Age Judah/);
+ const {nativePrompt}=await import('../src/visuals/native-v4-2');const {illustratedStyleLock}=await import('../src/visuals/illustration-schema');
+ const style=illustratedStyleLock.parse(JSON.parse(await readFile('config/style-lock-v4.json','utf8')));
+ const idea={id:'bible-source-1',narration:'Two teams dug toward each other.',historicalContext:'Iron Age Judah, Jerusalem, around 700 BCE; rock-cut tunnel, oil lamps, wool tunics.',concept:'Two adult diggers with iron picks break through the last thin wall of rock inside a narrow tunnel lit by a clay oil lamp.',overlay:null,labelPlacement:'top' as const,characterRoles:['digger','digger']};
+ const prompt=nativePrompt(style,idea,'v3');
+ assert.match(prompt,/Ancient Near East dress/);assert.match(prompt,/Ancient setting/);assert.doesNotMatch(prompt,/Roman/);assert.ok(prompt.length<=2048);
+});

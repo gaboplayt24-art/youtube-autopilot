@@ -1,18 +1,49 @@
 {
   "version": "channel-packaging-dna-v1",
-  "identity": "Faceless mature illustrated educational history",
+  "identity": "Faceless mature illustrated educational history focused on biblical history and curiosities (owner decision 2026-10-10)",
   "market": "International English-language viewers, including US, UK, Canada, Australia and Europe; competitor audience percentages unknown",
   "titleTone": "Clear, curious, historically grounded; no personal creator/vlog identity",
-  "titleFamilies": ["DAILY-LIFE", "DARK-REALITY", "RULE", "CURIOSITY", "EXPLANATION", "INSIDE", "SURPRISING"],
-  "thumbnailSubjectCount": {"ideal": 1, "common": 2, "threeOrMoreRequiresNarrativeNeed": true},
-  "textLimits": {"preferredMaxWords": 3, "hardMaxWords": 4, "optional": true, "renderedBy": "Remotion; never FLUX"},
-  "palette": ["#f5edda", "#e6d6b9", "#b65f45", "#c79443", "#846650", "#748367", "#302a25"],
+  "titleFamilies": [
+    "DAILY-LIFE",
+    "DARK-REALITY",
+    "RULE",
+    "CURIOSITY",
+    "EXPLANATION",
+    "INSIDE",
+    "SURPRISING"
+  ],
+  "thumbnailSubjectCount": {
+    "ideal": 1,
+    "common": 2,
+    "threeOrMoreRequiresNarrativeNeed": true
+  },
+  "textLimits": {
+    "preferredMaxWords": 3,
+    "hardMaxWords": 4,
+    "optional": true,
+    "renderedBy": "Remotion; never FLUX"
+  },
+  "palette": [
+    "#f5edda",
+    "#e6d6b9",
+    "#b65f45",
+    "#c79443",
+    "#846650",
+    "#748367",
+    "#302a25"
+  ],
   "characterScale": "Large readable focal silhouette; mature human anatomy; no mascot heads or giant anime eyes",
   "negativeSpace": "Large purposeful readable space, low-to-medium density, 0-3 supporting elements; complexity only when story requires it",
   "emotionalIntensity": "Moderate to strong readable body language, natural fear/exhaustion/disgust/confusion; no screaming-face parody or childish acting",
   "curiosityLevel": "Strong visual question supported by the actual proposed topic; never a guaranteed CTR claim",
-  "acceptableSensationalism": "Only historically supportable stakes actually covered by the video; uncertainty and research requirements explicit",
-  "forbiddenClickbait": ["guaranteed views/CTR/revenue/RPM", "unsupported danger, facts or statistics", "personal time-travel/selfie/vlog identity", "misleading thumbnail-topic mismatch", "copied title, character, exact pose/layout or branding"],
+  "acceptableSensationalism": "Only historically supportable stakes actually covered by the video; uncertainty and research requirements explicit; biblical texts are presented respectfully as ancient sources, never as staged proof or disproof",
+  "forbiddenClickbait": [
+    "guaranteed views/CTR/revenue/RPM",
+    "unsupported danger, facts or statistics",
+    "personal time-travel/selfie/vlog identity",
+    "misleading thumbnail-topic mismatch",
+    "copied title, character, exact pose/layout or branding"
+  ],
   "visualConsistency": "Ancient Lives HQ high-level explanation grammar plus our actual positive reference; organic mature outlined 2D earth-tone art, native 16:9",
   "learningPolicy": "Recommendations remain separate; automated analysis must never rewrite this identity",
   "heuristicScoresAreNotPerformancePredictions": true

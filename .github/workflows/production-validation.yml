@@ -14,6 +14,10 @@ on:
       gemini_model:
         description: Optional existing eligible free model override
         type: string
+      topic:
+        description: Video topic; the run reads data/scripts/<run_id>-editorial-draft.json
+        type: string
+        default: The hidden engineering of Roman sewage and public latrine hygiene
 permissions:
   contents: read
   actions: read
@@ -37,6 +41,7 @@ jobs:
       CHROME_EXECUTABLE: /usr/bin/google-chrome
       RETRY_FROM: ${{ inputs.retry_from }}
       RUN_ID: ${{ inputs.run_id || github.run_id }}
+      TOPIC: ${{ inputs.topic || 'The hidden engineering of Roman sewage and public latrine hygiene' }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ inputs.gemini_model || vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
       GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
@@ -114,9 +119,9 @@ jobs:
               if path.exists(): shutil.copy2(path, archive / name)
           PYARCHIVE
             fi
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene" --retry-from "$RETRY_FROM"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC" --retry-from "$RETRY_FROM"
           else
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC"
           fi
       - name: Verify encoded media
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
