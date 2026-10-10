@@ -1,0 +1,21 @@
+{
+  "runId": "bible-test-001",
+  "sourceRevisions": [
+    {
+      "sourceId": "video-source-1",
+      "replacement": {
+        "id": "video-source-1-period-repair",
+        "narration": "Two teams of workers carved through solid rock, following the sound of each other's picks.",
+        "historicalContext": "Iron Age Judah, about 700 BCE; hand-cut limestone tunnel, iron pick, clay oil lamp, plain linen tunic and belt.",
+        "concept": "Narrow low limestone tunnel lit by one small clay oil lamp on a rock ledge. One adult male digger, side view, waist up, swings an iron pick with both hands at the rock face; chips fly. Exactly two arms. Dark rough stone fills the frame.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Iron Age tunnel digger"
+        ]
+      },
+      "reason": "Run 38021582788 density QA rejected the first raw output for a serious anatomy defect (an extra arm protruding from the right figure's back). Preserve the raw output and its Gemini review as rejection evidence. The repair reduces the scene to one waist-up digger with an iron pick and an oil lamp to remove limb overlap between two figures, while keeping the narrated tunnel-carving beat."
+    }
+  ],
+  "beatReassignments": []
+}
