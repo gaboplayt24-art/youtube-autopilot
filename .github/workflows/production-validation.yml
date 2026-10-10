@@ -121,8 +121,20 @@ jobs:
             data/runs/${{ env.RUN_ID }}/sources/*.png
             data/runs/${{ env.RUN_ID }}/*.json
           retention-days: 30
+      - name: Owner-authorized v5 style audition stills only; STOP for approval
+        if: inputs.task == 'style-v5'
+        run: npm run style-v5 -- --run-id "$RUN_ID"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.task == 'style-v5'
+        with:
+          name: style-v5-${{ env.RUN_ID }}
+          path: |
+            data/runs/${{ env.RUN_ID }}/STYLE-PREVIEW-v5.jpg
+            data/runs/${{ env.RUN_ID }}/stills/*.png
+            data/runs/${{ env.RUN_ID }}/*.json
+          retention-days: 30
       - name: One human-approved 90–105s production video; no upload or paid fallback
-        if: inputs.task != 'branding'
+        if: inputs.task != 'branding' && inputs.task != 'style-v5'
         timeout-minutes: 60
         run: |
           if [ -n "$RETRY_FROM" ]; then
@@ -145,7 +157,7 @@ jobs:
             npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC"
           fi
       - name: Verify encoded media
-        if: inputs.task != 'branding'
+        if: inputs.task != 'branding' && inputs.task != 'style-v5'
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
       - uses: actions/upload-artifact@v4
         if: always()

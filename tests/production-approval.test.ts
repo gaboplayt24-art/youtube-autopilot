@@ -159,3 +159,10 @@ test('thumbnail concepts are shortened at word boundaries until Near East prompt
  for(const w of ['v1','v2','v3'] as const)assert.ok(nativePrompt(style,fitted,w).length<=2048);
  assert.equal(fitNativeConcept(style,{...idea,historicalContext:'Iron Age Judah',concept:'Short concept with a digger and lamp.'}).concept,'Short concept with a digger and lamp.');
 });
+test('v5 audition prompts fit Klein, failed reviews never pass, and only the audition flag permits a reference-free draw',async()=>{
+ const {v5Prompt,v5Scenes,v5Passed}=await import('../src/visuals/style-audition-v5');const {CloudflareReferenceImageProvider}=await import('../src/providers/cloudflare');
+ for(const s of v5Scenes)assert.ok(v5Prompt(s.prompt).length<=2048,s.id);
+ const ok={characterConsistent:true,roundHeadStyle:true,anatomyDefects:[],anachronisms:[],frameOrBorder:false,textInImage:false,matchesScene:true,notes:''};
+ assert.ok(v5Passed(ok));for(const bad of [{frameOrBorder:true},{textInImage:true},{anatomyDefects:['extra arm']},{anachronisms:['flashlight']},{roundHeadStyle:false}])assert.ok(!v5Passed({...ok,...bad}));
+ await assert.rejects(new CloudflareReferenceImageProvider(async()=>{throw new Error('must not call');}).generate('x','/tmp/never.png',{width:1536,height:864}),/requires actual input_image_0 reference/);
+});

@@ -19,6 +19,7 @@ const command=positionals[0];
 async function main(){
  if(command==='video'||command==='research'){const result=await runVideo({runId:values['run-id'],mode:values.mode,topic:values.topic,retryFrom:values['retry-from'],productionKind:values['production-kind']},command==='research');console.log(JSON.stringify(result));return;}
  if(command==='branding'){console.log(JSON.stringify(await createBranding(values['run-id'])));return;}
+ if(command==='style-v5'){const {runStyleAuditionV5}=await import('../visuals/style-audition-v5');console.log(JSON.stringify(await runStyleAuditionV5(values['run-id']??'style-v5-001')));return;}
  if(command==='learn'){const files=await readdir('data/analytics');const rows=[];for(const file of files.filter(x=>x.endsWith('.json')))rows.push(await read(join('data/analytics',file)));if(process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY)rows.push(...await new SupabaseStorage().list('analytics-'));const unique=[...new Map(rows.filter(x=>'videoId' in x).map(x=>[x.videoId,x])).values()];await json('data/analytics/recommendations.json',await learn(unique));return;}
  const runId=values['run-id'];if(!runId||!/^[A-Za-z0-9_-]+$/.test(runId))throw new Error('A valid --run-id is required');const dir=join('data/runs',runId);
  if(command==='publish'){
