@@ -75,7 +75,52 @@
           "one Roman resident carrying a terracotta pot"
         ]
       },
-      "reason": "Run 37984921556 density QA rejected video-source-8 (historicalAccuracy): modern collared polo shirt, digital wristwatch, 9+ characters versus LOW/MEDIUM density. Narration grounded in data/scripts/production-approved-001-editorial-draft.json (unconnected homes, chamber pots). Repair keeps the domestic meaning with one period-dressed adult, bare wrists, simple interior. Run 37986517991: repaired source passed density QA, but component QA found no street-level dumping (shot-21) and no open drain (shot-23). Repair-2 keeps the same interior and single resident and shows the pot emptied into an open street gutter so all four assigned beats are supported. Run 37987063439: repair-2 rejected (historicalAccuracy) for an industrial iron wall pipe with threaded fitting and bracket. Repair-3 keeps the scene but places the open channel in the street paving and states bare walls with nothing attached. Run 38007331932: repair-3 rejected (requiredConcept, historicalAccuracy): modern metal pipes and elbows on the exterior street wall; pot not tipped. Every street-facing exterior produced wall pipes, so repair-4 stays fully interior: the resident tips the pot out of a window showing only sky. The disease/open-drain beat (shot-23) moves to approved source-5. Run 38007938968: repair-4 rejected (requiredConcept, correctProp): terracotta pot missing, character idle. Repair-5 leads with the pot and the pouring action so the required prop and action are explicit. Run 38008541655: repair-5 showed the pot and pour but was rejected (adultAnatomy) for a detached extra lower leg on the floor. Repair-6 keeps the same composition framed waist-up so no legs are drawn. Run 38008876621: repair-6 rejected (correctStyle, requiredConcept): pot held inside, not poured out; figure too realistic. Window-pouring repairs 2-6 each failed differently, so source-8 returns to the exact accepted repair-1 (passed density QA in run 37986517991; cached, no new FLUX call) for its domestic beats, and the street-dumping beat shot-21 moves to approved source-6. Run 38009266791: source-6 component QA confirmed it has no figure dumping waste from a window (shot-21). Repair-7 shows exactly that from the street with v3 wording, which no longer mentions water works (the likely source of repeated modern wall plumbing); shot-21 returns to source-8. Run 38009820061: repair-7 (street view, v3 wording) still drew a modern facade drainpipe and a body severed between window and street. Source-8 returns to accepted repair-1 (cached) while the exact beat map is logged to choose a supported source for shot-21."
+      "reason": "Run 37984921556 density QA rejected video-source-8 (historicalAccuracy): modern collared polo shirt, digital wristwatch, 9+ characters versus LOW/MEDIUM density. Narration grounded in data/scripts/production-approved-001-editorial-draft.json (unconnected homes, chamber pots). Repair keeps the domestic meaning with one period-dressed adult, bare wrists, simple interior. Run 37986517991: repaired source passed density QA, but component QA found no street-level dumping (shot-21) and no open drain (shot-23). Repair-2 keeps the same interior and single resident and shows the pot emptied into an open street gutter so all four assigned beats are supported. Run 37987063439: repair-2 rejected (historicalAccuracy) for an industrial iron wall pipe with threaded fitting and bracket. Repair-3 keeps the scene but places the open channel in the street paving and states bare walls with nothing attached. Run 38007331932: repair-3 rejected (requiredConcept, historicalAccuracy): modern metal pipes and elbows on the exterior street wall; pot not tipped. Every street-facing exterior produced wall pipes, so repair-4 stays fully interior: the resident tips the pot out of a window showing only sky. The disease/open-drain beat (shot-23) moves to approved source-5. Run 38007938968: repair-4 rejected (requiredConcept, correctProp): terracotta pot missing, character idle. Repair-5 leads with the pot and the pouring action so the required prop and action are explicit. Run 38008541655: repair-5 showed the pot and pour but was rejected (adultAnatomy) for a detached extra lower leg on the floor. Repair-6 keeps the same composition framed waist-up so no legs are drawn. Run 38008876621: repair-6 rejected (correctStyle, requiredConcept): pot held inside, not poured out; figure too realistic. Window-pouring repairs 2-6 each failed differently, so source-8 returns to the exact accepted repair-1 (passed density QA in run 37986517991; cached, no new FLUX call) for its domestic beats, and the street-dumping beat shot-21 moves to approved source-6. Run 38009266791: source-6 component QA confirmed it has no figure dumping waste from a window (shot-21). Repair-7 shows exactly that from the street with v3 wording, which no longer mentions water works (the likely source of repeated modern wall plumbing); shot-21 returns to source-8. Run 38009820061: repair-7 (street view, v3 wording) still drew a modern facade drainpipe and a body severed between window and street. Source-8 returns to accepted repair-1 (cached) while the exact beat map is logged to choose a supported source for shot-21. Run 38010133963 confirmed the cached repair-1 cannot serve shot-21 (no one dumping); shot-21 moves to repaired source-9, leaving source-8 shots 16 and 19."
+    },
+    {
+      "sourceId": "video-source-7",
+      "replacement": {
+        "id": "video-source-7-period-repair",
+        "narration": "to the sewer network. While the wealthy might have had specific outlets facilities. Even with sophisticated water flow, waste was system was designed primarily for drainage rather than modern",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Cutaway of a wealthy Roman house: a private latrine seat with a carved stone opening sits over a sloping masonry channel that runs beneath the floor and out to a large stone street drain. One adult in a plain belted wool tunic stands beside the seat. Simple plaster walls with nothing attached; low density, cream negative space.",
+        "overlay": null,
+        "labelPlacement": "right",
+        "characterRoles": [
+          "one Roman householder"
+        ]
+      },
+      "reason": "Run 38010133963 beat map: planned source-7 combined a lead pipe from a basin, a communal latrine and a storm drain tunnel; prior QA rejected every metal pipe and dense multi-scene concept. Repair keeps the wealthy private outlet for shots 18/20/22 as one low-density masonry cutaway."
+    },
+    {
+      "sourceId": "video-source-9",
+      "replacement": {
+        "id": "video-source-9-period-repair",
+        "narration": "often dumped indiscriminately into the streets. existence of a vast, partially covered canal system showed solve the fundamental sanitary challenges of a dense, growing did not guarantee hygiene for the average inhabitant.",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Narrow muddy Roman lane at street level: one adult in a plain wool tunic empties a terracotta pot onto a heap of refuse in the lane. Beside the lane an open stone ditch of stagnant water runs toward a dark half-covered drain arch. Low blank plaster walls with nothing attached. Only this one person; cream negative space.",
+        "overlay": null,
+        "labelPlacement": "top",
+        "characterRoles": [
+          "one Roman resident emptying a pot"
+        ]
+      },
+      "reason": "Run 38010133963 beat map: planned source-9 combined a tunnel, a resident, a family and a market (too dense). Repair serves shots 24/26/28 (partially covered canals, unsolved sanitation, average inhabitant) and the street-dumping shot-21 at ground level, after seven window/doorway versions of source-8 failed."
+    },
+    {
+      "sourceId": "video-source-10",
+      "replacement": {
+        "id": "video-source-10-period-repair",
+        "narration": "remarkable skill in fluid management, yet it failed to population. The hidden reality is that grand engineering",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Exterior view of the grand arched stone outlet of the main Roman drain opening onto the Tiber river bank, water flowing out into the river. On the muddy bank nearby lies a small heap of discarded refuse. Uninhabited; simple wide view with cream negative space.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Run 38010133963 beat map: planned source-10 combined a bathhouse sluice, the Tiber outlet and an alley of waste (multi-scene, dense). Repair keeps the engineering-versus-waste contrast for shots 25/27 in one uninhabited outlet view, distinct from source-5's interior tunnel."
     }
   ],
   "beatReassignments": [
@@ -93,6 +138,11 @@
       "shotId": "rome-sewer-system-shot-23",
       "sourceId": "video-source-5",
       "reason": "Run 37986517991 component QA found no open drain in domestic source-8 for shot-23 (disease despite sanitation). Approved source-5 shows the open main-drain channel; neighbours shot-22 (source-7) and shot-24 (source-9) differ, and source-5 reaches four uses (10, 12, 14, 23)."
+    },
+    {
+      "shotId": "rome-sewer-system-shot-21",
+      "sourceId": "video-source-9",
+      "reason": "Component QA rejected source-8 (runs 37986517991, 38010133963) and source-6 (run 38009266791) for shot-21: no one dumping waste. Repaired source-9 shows a resident emptying a pot into the street; neighbours shot-20 and shot-22 use source-7, and source-9 reaches four uses (21, 24, 26, 28)."
     }
   ]
 }
