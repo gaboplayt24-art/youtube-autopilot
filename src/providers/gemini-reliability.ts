@@ -41,7 +41,8 @@ export class GeminiSession {
     last=String(e);malformed++;if(dir)await log(dir,'gemini_json_rejected',{model,hash,finishReason:candidate?.finishReason??null,maxOutputTokens,error:last});
     if(attempt<5&&malformed<3){maxOutputTokens=32768;continue;}throw new Error('Gemini malformed/truncated JSON after bounded retry; raw evidence preserved: '+last);
    }
-   const value=schema.parse(parsed);if(path)await json(path,{hash,model,value});return value;
+   // A lone object wrapped in a one-element array is the same decision; anything else must still match the schema.
+   const direct=schema.safeParse(parsed),single=!direct.success&&Array.isArray(parsed)&&parsed.length===1?schema.safeParse(parsed[0]):null;if(!direct.success&&!single?.success)throw direct.error;const value=direct.success?direct.data:single!.data!;if(path)await json(path,{hash,model,value});return value;
   }this.exhausted.add(model);if(dir)await log(dir,'gemini_fallback',{from:model,to:models[models.indexOf(model)+1]??null,reason:last});}
   throw new Error(last+'; all discovered preferred models exhausted; checkpoints preserved');
  }
