@@ -3,12 +3,12 @@
   "revisions": [
     {
       "variant": "A",
-      "id": "thumbnail-A-v5-repair4",
-      "concept": "Medium shot: Eli stands on the right side of the frame, amazed with an open mouth, holding up a small lit clay oil lamp inside a dark rock tunnel; a thin stream of bright blue water runs along the bare floor beside him. Nothing else. Simple dark background, clear empty top quarter, no lettering.",
+      "id": "thumbnail-A-v5-repair5",
+      "concept": "Medium shot: Eli stands on the right side of the frame with both arms raised in joy and an amazed open mouth, as a bright blue stream of water bursts out of a crack in the dark rock tunnel wall beside him. Nothing else. Simple dark background, clear empty top quarter, no lettering.",
       "characterRoles": [
         "Eli"
       ],
-      "reason": "Run 38067238906 stopped at thumbnail-A: Cloudflare refused the Klein output with 3030 'Your output has been flagged' before any review. The repair keeps the approved title and overlay with one simple, clearly safe focal subject: Eli amazed in the tunnel by lamplight. Run 38067868246 prompt QA then stopped the first repair: the thumbnail inherited shot-0's modern-day context and the concept placed Eli left while the approved composition puts the subject right; the repair states its own period context and the approved placement. Run 38068239952 rejected repair2 (Eli too small, extra pottery, head-cloth pattern); the repair is a tighter close-up with a bare floor, and the reviewer now accepts a plain or striped head cloth. Run 38068552235 rejected repair3 only for framing (a medium shot instead of the requested close-up); the full-body Eli reference reliably yields medium shots, so the repair asks for one.",
+      "reason": "Run 38067238906 stopped at thumbnail-A: Cloudflare refused the Klein output with 3030 'Your output has been flagged' before any review. The repair keeps the approved title and overlay with one simple, clearly safe focal subject: Eli amazed in the tunnel by lamplight. Run 38067868246 prompt QA then stopped the first repair: the thumbnail inherited shot-0's modern-day context and the concept placed Eli left while the approved composition puts the subject right; the repair states its own period context and the approved placement. Run 38068239952 rejected repair2 (Eli too small, extra pottery, head-cloth pattern); the repair is a tighter close-up with a bare floor, and the reviewer now accepts a plain or striped head cloth. Run 38068552235 rejected repair3 only for framing (a medium shot instead of the requested close-up); the full-body Eli reference reliably yields medium shots, so the repair asks for one. Run 38068802659 rejected repair4 for the hand gripping the lamp; the repair removes held objects and reuses the breakthrough idea whose beat (shot-23) already passed review.",
       "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: inside the rock-cut water tunnel, lit by a clay oil lamp."
     }
   ]
