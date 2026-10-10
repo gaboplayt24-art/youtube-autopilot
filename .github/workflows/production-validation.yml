@@ -81,6 +81,9 @@ jobs:
           for s in shots:
               i = s.get('illustrationIdea') or {}
               print(json.dumps({'id': s['id'], 'narration': s.get('narration'), 'concept': i.get('concept'), 'historicalContext': i.get('historicalContext'), 'roles': i.get('characterRoles'), 'overlay': i.get('overlay'), 'labelPlacement': i.get('labelPlacement')}, ensure_ascii=False))
+          import glob
+          for path in sorted(glob.glob('.run/thumbnail-concept-*.json')) + sorted(glob.glob('.run/native-thumbnail-*-density-QA-v4.3.json')):
+              print(path, json.dumps(json.load(open(path)), ensure_ascii=False)[:1500])
           PY
   quality:
     if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
