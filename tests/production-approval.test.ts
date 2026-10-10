@@ -118,3 +118,10 @@ test('component reuse keeps a saved plan only for the identical reused beat set'
  const changed=await componentReuseStage(dir,'src',['a','c']);assert.match(changed,/^native-src-component-reuse-[0-9a-f]{12}$/);
  assert.equal(changed,await componentReuseStage(dir,'src',['c','a']));
 });
+test('thumbnail revisions are run-scoped, evidence-based and fit the Klein prompt limit',async()=>{
+ const {thumbnailRevision}=await import('../src/packaging/thumbnails');
+ const r=thumbnailRevision.parse(JSON.parse(await readFile('data/scripts/production-approved-001-thumbnail-revisions.json','utf8')));
+ assert.equal(r.runId,'production-approved-001');
+ for(const x of r.revisions){assert.match(x.id,new RegExp('^thumbnail-'+x.variant+'-'));assert.doesNotMatch(x.concept,/isometric|hose|valve|pipe/i);}
+ assert.throws(()=>thumbnailRevision.parse({runId:'x',revisions:[{variant:'C',id:'source-1',concept:'x'.repeat(40),characterRoles:[],reason:'evidence reason'}]}));
+});
