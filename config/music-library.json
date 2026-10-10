@@ -1,1 +1,11 @@
-{"beds":[],"note":"Add multiple distinct local/licensed instrumental beds. Each entry: path, license, direction. Supply files through the runner workspace/artifacts, never credentials."}
+{
+  "beds": [
+    {
+      "path": "assets/music/tiburtina-schwartzy.mp3",
+      "license": "YouTube Audio Library track 'Tiburtina' by Schwartzy, downloaded and supplied by the channel owner on 2026-10-10 for use on YouTube. License type (attribution required or not) to be confirmed by the owner from the Audio Library listing; credit 'Music: Tiburtina - Schwartzy' in the description if required.",
+      "direction": "calm mysterious documentary bed",
+      "sha256": "1a14eeabf7e65ef9001eb83936c96a80643cb51fab63fb72d0d8b1a2ae8e9423"
+    }
+  ],
+  "note": "Add multiple distinct local/licensed instrumental beds. Each entry: path, license, direction. Supply files through the runner workspace/artifacts, never credentials."
+}
