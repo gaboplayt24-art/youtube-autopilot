@@ -6,7 +6,7 @@ import {createBranding} from '../branding';
 import {json,read,log} from './io';
 import {Runner} from './runner';
 import {artifact,fileDigest} from './integrity';
-import {uploadPrivate,setThumbnail,scheduleAllowed,scheduleVideo,nextPublishSlot,findUploadByTag} from '../youtube';
+import {uploadPrivate,setThumbnail,scheduleAllowed,scheduleVideo,nextPublishSlot,findUploadByTag,setLocalizations} from '../youtube';
 import {schedule as scheduleConfig} from './config';
 import {requireQA,inspect} from '../qa';
 import * as s from './schemas';
@@ -44,6 +44,9 @@ async function main(){
      if(!reservation){const existing=z.object({state:z.enum(['pending','uploaded']),fingerprint:z.string(),videoId:z.string().optional()}).parse(await storage.get(key));if(existing.fingerprint!==fingerprint)throw new Error('Upload run identity conflicts with durable ledger');if(existing.state==='pending'||!existing.videoId)throw new Error('Upload outcome uncertain. Reconcile the durable upload ledger with YouTube Studio before retrying.');uploaded={videoId:existing.videoId,privacyStatus:'private',publishAt:null};await json(uploadFile,uploaded);}
      else{if(uploaded)throw new Error('Local upload exists but durable ledger is missing; reconcile before uploading');const videoId=await uploadPrivate(video.path,thumb.path,m,qa);await storage.put(key,{state:'uploaded',fingerprint,videoId});uploaded={videoId,privacyStatus:'private',publishAt:null};await json(uploadFile,uploaded);}
    }
+   // Owner-approved 2026-10-11: translated titles/descriptions when the run produced them (older runs have none).
+   let loc;try{loc=s.localizations.parse(await read(join(dir,'localizations.json')));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
+   if(loc){const l=loc;await runner.stage('youtube-localizations',s.localizations,async()=>{await setLocalizations(uploaded.videoId,m,l,process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY?m.tags:[...m.tags,runTag]);return l;});}
    await runner.stage('youtube-thumbnail',s.thumbnail,async()=>{await setThumbnail(uploaded.videoId,thumb.path);return thumb;});
    if(publishAt)await runner.stage('schedule',s.upload,async()=>{await scheduleVideo(uploaded.videoId,publishAt);return {...uploaded,publishAt};});
    await log(dir,'private_upload_completed',{videoId:uploaded.videoId});

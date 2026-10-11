@@ -20,7 +20,9 @@ export const Thumbnail:React.FC<Composition>=(props)=>{
  const {top,accent}=thumbnailLines(title);
  return <AbsoluteFill style={{background:'#0d0a07',fontFamily:DISPLAY_FONT}}>
   <Img src={staticFile(image.path)} style={{width:'100%',height:'100%',objectFit:'cover',filter:'saturate(1.25) contrast(1.12)'}}/>
-  <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 70% 55%, rgba(0,0,0,0) 45%, rgba(0,0,0,.45) 100%)'}}/>
+  {/* Soft rim glow behind the focal face (right) separates it from the backdrop; the corner vignette keeps the eye inside the frame. */}
+  <div style={{position:'absolute',inset:0,background:'radial-gradient(circle at 72% 40%, rgba(255,214,140,.38) 0%, rgba(255,214,140,0) 32%)',mixBlendMode:'screen'}}/>
+  <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 65% 50%, rgba(0,0,0,0) 50%, rgba(0,0,0,.4) 100%)'}}/>
   {title.trim()?<div style={{position:'absolute',left:110,top:150,width:'54%',transform:'rotate(-3deg)',transformOrigin:'left top',lineHeight:.92,textTransform:'uppercase',letterSpacing:2}}>
    {top?<div style={{fontSize:accent.length+top.length<=12?300:250,color:'#ffffff',...stroke(22)}}>{top}</div>:null}
    <div style={{display:'inline-block',marginTop:24,fontSize:accent.length<=8?380:300,color:'#ffd21f',...stroke(26)}}>{accent}</div>

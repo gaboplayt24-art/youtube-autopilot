@@ -37,3 +37,10 @@ test('automatic publish picks the next daily UTC slot with enough processing lea
  assert.equal(nextPublishSlot({publishTimeUtc:'17:00',minLeadHours:3},new Date('2026-10-10T15:30:00Z')),'2026-10-11T17:00:00.000Z');
  assert.equal(nextPublishSlot({},new Date('2026-10-10T22:00:00Z')),'2026-10-11T17:00:00.000Z');
 });
+test('v5 thumbnail concepts give each variant its own backdrop, an exaggerated face and a gaze toward the object',async()=>{
+ const {thumbnailConcept}=await import('../src/packaging/thumbnails');
+ const c={focalSubject:'Breakthrough',expressionOrSituation:'light bursts through the rock',background:'tunnel'};
+ const a=thumbnailConcept(c,true,0),b=thumbnailConcept(c,true,1),d=thumbnailConcept(c,true,2);
+ for(const x of [a,b,d]){assert.ok(x.length<=420);assert.match(x,/EXAGGERATED/);assert.match(x,/looking toward/);assert.match(x,/No lettering/);}
+ assert.notEqual(a,b);assert.notEqual(b,d);
+});
