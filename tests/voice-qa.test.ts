@@ -43,3 +43,9 @@ test('a cut beat phrase echoed in its completed sentence still identifies the be
  assert.equal(sameWords('who wrote the scrolls','Scholars still debate who wrote the scrolls.'),true);
  assert.equal(sameWords('who wrote the scrolls','Scholars still debate who hid the scrolls.'),false);
 });
+test('a bare array of visual ideas is accepted as the same answer without its wrapper',async()=>{
+ const {VisualThinkingDirector}=await import('../src/visuals/visual-thinking');
+ const shots=[{id:'s0',start:0,end:1,narration:'A shepherd threw a stone.',transition:'cut'}] as any;
+ const llm={json:async(_p:string,schema:any)=>schema.parse([{id:'s0',narration:'A shepherd threw a stone.',historicalContext:'Judean desert, 1940s.',concept:'An original illustrated scene of a young shepherd throwing a stone into a dark cave.',overlay:null,labelPlacement:'top',characterRoles:['shepherd']}])} as any;
+ const out=await new VisualThinkingDirector().illustrate(shots,llm,true);assert.equal(out[0].assetPrompt?.includes('shepherd'),true);
+});
