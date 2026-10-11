@@ -70,3 +70,16 @@ test('owner approval accepts only the exact listed SHA-256 for this run',async()
  const sha='a'.repeat(64),file='data/scripts/test-owner-approval-owner-approved-illustrations.json';await writeFile(file,JSON.stringify({approved:[sha]}));
  try{assert.deepEqual(await ownerApproval(sha,'test-owner-approval'),{sha256:sha,file});assert.equal(await ownerApproval('b'.repeat(64),'test-owner-approval'),undefined);assert.equal(await ownerApproval(sha,'no-such-run'),undefined);}finally{await rm(file);}
 });
+test('an owner-approved earlier take is used without drawing or reviewing again',async()=>{
+ const {VisualStyleEngine,nativePrompt}=await import('../src/visuals/native-v4-2');const {densityReview}=await import('../src/visuals/density-qa');const {writeFile,rm,mkdtemp}=await import('node:fs/promises');const {join}=await import('node:path');const {tmpdir}=await import('node:os');const {createHash}=await import('node:crypto');
+ void nativePrompt;const dir=await mkdtemp(join(tmpdir(),'approved-take-'));const reference=join(dir,'ref.png'),png=join(dir,'take.png');await writeFile(reference,'reference');await writeFile(png,'take');
+ const digest=(s:string)=>createHash('sha256').update(s).digest('hex'),sha=digest('take');
+ const review=densityReview.parse({passed:false,referenceCompared:true,referenceStyleMatches:false,conceptMatches:true,historicallyPlausible:true,cropPreservesSubjects:true,photorealism:false,cgi:false,geometricCodeLook:false,webUILook:false,bakedText:false,watermark:false,issues:['style'],scores:{drawnAppearance:85,lineCharacter:85,humanDesign:85,colorTreatment:85,visualSimplicity:95,organicShapes:85,educationalClarity:95,illustratedFeel:85,NARRATIVE_SUFFICIENCY:100,REFERENCE_DENSITY_MATCH:100},adultAnatomyCorrect:true,intentionalNegativeSpace:true,complexityRequiredByNarration:false,densityRationale:'One shepherd on a ridge explains the beat.'});
+ await writeFile(join(dir,'native-beat-1-regen1-p4-source.json'),JSON.stringify({path:png,sha256:sha,model:'@cf/black-forest-labs/flux-2-klein-4b',width:2048,height:1152,aspectRatio:'16:9',prompt:'old wording',referenceSha256:digest('reference')}));
+ await writeFile(join(dir,'native-beat-1-regen1-p4-density-QA-v4.3.json'),JSON.stringify(review));
+ const approvals='data/scripts/test-approved-take-owner-approved-illustrations.json';await writeFile(approvals,JSON.stringify({approved:[sha]}));const before=process.env.RUN_ID;process.env.RUN_ID='test-approved-take';
+ try{const out=await new VisualStyleEngine().generate({id:'beat-1'} as never,{referenceSha256:digest('reference')} as never,reference,dir,{dir} as never,undefined as never);
+  assert.equal(out.source.sha256,sha);assert.equal(out.review.passed,true);assert.equal(out.artwork?.ownerApproval?.sha256,sha);
+  process.env.RUN_ID='no-such-run';await assert.rejects(new VisualStyleEngine().generate({id:'beat-1'} as never,{referenceSha256:digest('reference')} as never,reference,dir,{dir} as never,undefined as never));
+ }finally{if(before===undefined)delete process.env.RUN_ID;else process.env.RUN_ID=before;await rm(approvals);await rm(dir,{recursive:true});}
+});
