@@ -241,6 +241,7 @@ jobs:
             data/runs/${{ env.RUN_ID }}/thumbnail-A.png
             data/runs/${{ env.RUN_ID }}/thumbnail-B.png
             data/runs/${{ env.RUN_ID }}/thumbnail-C.png
+            data/runs/${{ env.RUN_ID }}/thumbnail-*-*.png
             data/runs/${{ env.RUN_ID }}/titles.json
             data/runs/${{ env.RUN_ID }}/final-script.json
             data/runs/${{ env.RUN_ID }}/visual-plan.json
