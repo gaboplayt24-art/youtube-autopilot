@@ -41,6 +41,14 @@ jobs:
     env:
       # Owner-authorized 2026-10-10: upload private and schedule publishAt for the next config/schedule.json slot.
       AUTO_PUBLISH: 'true'
+      # Translations (owner-approved 2026-10-11) use the free Gemini tier through the shared quota ledger.
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.1-flash-lite' }}
+      GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
       RUN_ID: ${{ inputs.run_id || github.run_id }}
       SOURCE_RUN_ID: ${{ inputs.source_run_id }}
     steps:
@@ -50,6 +58,9 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/download-artifact@v4
         with:
           name: ${{ inputs.artifact_prefix || 'production' }}-${{ env.RUN_ID }}
@@ -65,6 +76,10 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      - name: Show titles and translations for the owner's Test & Compare and review
+        if: always()
+        run: |
+          for f in titles.json localizations.json; do echo "== $f"; cat "data/runs/$RUN_ID/$f" 2>/dev/null || echo "(missing)"; echo; done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -75,6 +90,15 @@ jobs:
             data/runs/${{ env.RUN_ID }}/qa-upload.json
             data/runs/${{ env.RUN_ID }}/schedule.json
             data/runs/${{ env.RUN_ID }}/youtube-thumbnail.json
+            data/runs/${{ env.RUN_ID }}/localizations.json
+            data/runs/${{ env.RUN_ID }}/youtube-localizations.json
             data/runs/${{ env.RUN_ID }}/events.jsonl
           retention-days: 30
           if-no-files-found: warn
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-quota-ledger
+          path: .cache/quota/free-quota-ledger.json
+          include-hidden-files: true
+          retention-days: 30
