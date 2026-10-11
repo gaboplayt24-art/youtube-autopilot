@@ -57,3 +57,11 @@ test('v4 prompt wording keeps Eli and ancient dress out of 1940s and modern beat
  const ancient=nativePrompt(style,{...idea,historicalContext:'Judea, first century BCE scribes'},'v4');assert.ok(ancient.includes('Ancient Near East dress'));assert.ok(ancient.includes('Eli studies'));
  assert.equal(nativePrompt(style,idea,'v3').includes('Ancient Near East dress'),true,'v3 stays byte-identical for cached evidence');
 });
+test('rejected beats are narrated over the neighbouring accepted image, never shown',async()=>{
+ const {mergeRejectedBeats}=await import('../src/visuals/illustrated-video-assets');
+ const b=(id:string,start:number,end:number)=>({id,sceneId:'s',start,end,narration:id,visualIntent:'intent',shotType:'generated-image',motion:'push-in',assetPrompt:'prompt text',transition:'cut'}) as any;
+ const merged=mergeRejectedBeats([b('a',0,5),b('b',5,10),b('c',10,15),b('d',15,20)],new Set(['b','d']));
+ assert.deepEqual(merged.map(s=>[s.id,s.start,s.end,s.narration]),[['b',0,15,'a b c'],['d',15,20,'d']]);
+ assert.throws(()=>mergeRejectedBeats([b('a',0,5),b('b',5,30)],new Set(['a'])),/too long/);
+ assert.throws(()=>mergeRejectedBeats([b('a',0,5)],new Set()),/No accepted/);
+});
