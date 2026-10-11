@@ -12,3 +12,10 @@ test('a sentence-initial common word is not a critical name when the text also u
  const terms=extractCriticalTerms('Scholars date the scrolls. Most scholars agree. Bethlehem dealers sold them in 1947.',['Scholars']);
  assert.ok(!terms.includes('Scholars'));assert.ok(terms.includes('Bethlehem'));assert.ok(terms.includes('1947'));
 });
+test('Chapter timing allows an exact 20 ms ASR overlap despite float rounding but rejects larger ones',async()=>{
+ const {invalidTimingIndex}=await import('../src/voice/chapters');
+ assert.equal(invalidTimingIndex([{start:64.6,end:64.76},{start:64.74,end:65.1}],99.44),-1);
+ assert.equal(invalidTimingIndex([{start:64.6,end:64.76},{start:64.73,end:65.1}],99.44),1);
+ assert.equal(invalidTimingIndex([{start:1,end:1}],5),0);
+ assert.equal(invalidTimingIndex([{start:1,end:6}],5),0);
+});
