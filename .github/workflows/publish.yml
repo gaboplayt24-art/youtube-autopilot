@@ -69,6 +69,12 @@ jobs:
         if: always()
         with:
           name: upload-${{ env.RUN_ID }}
-          path: data/runs/
+          # Small upload record only; the full run already lives in the production artifact.
+          path: |
+            data/runs/${{ env.RUN_ID }}/upload.json
+            data/runs/${{ env.RUN_ID }}/qa-upload.json
+            data/runs/${{ env.RUN_ID }}/schedule.json
+            data/runs/${{ env.RUN_ID }}/youtube-thumbnail.json
+            data/runs/${{ env.RUN_ID }}/events.jsonl
           retention-days: 30
           if-no-files-found: warn
