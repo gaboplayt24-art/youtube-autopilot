@@ -1,0 +1,38 @@
+{
+  "runId": "bible-test-002",
+  "revisions": [
+    {
+      "variant": "A",
+      "id": "thumbnail-A-v5-face",
+      "concept": "Big close-up: Eli's head and shoulders fill the right half of the frame, eyes wide and mouth open in alarm, inside a pitch-dark rock tunnel; one tiny clay oil lamp flame glows low on the lower left. The upper left is plain dark rock. Bright saturated colours, nothing else, no lettering.",
+      "characterRoles": [
+        "Eli"
+      ],
+      "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: tunnelers cut through solid rock in darkness by lamplight.",
+      "overlay": "DIGGING BLIND",
+      "reason": "Owner review of the bible-test-002 thumbnails (2026-10-10): Eli was too small and the A/B labels repeated. Each variant now uses the close-up face crop of the approved sheet, a big expressive face, the curiosity object low on the left under the label, and a distinct fact-supported label. Previous history: Run 38067238906 stopped at thumbnail-A: Cloudflare refused the Klein output with 3030 'Your output has been flagged' before any review. The repair keeps the approved title and overlay with one simple, clearly safe focal subject: Eli amazed in the tunnel by lamplight. Run 38067868246 prompt QA then stopped the first repair: the thumbnail inherited shot-0's modern-day context and the concept placed Eli left while the approved composition puts the subject right; the repair states its own period context and the approved placement. Run 38068239952 rejected repair2 (Eli too small, extra pottery, head-cloth pattern); the repair is a tighter close-up with a bare floor, and the reviewer now accepts a plain or striped head cloth. Run 38068552235 rejected repair3 only for framing (a medium shot instead of the requested close-up); the full-body Eli reference reliably yields medium shots, so the repair asks for one. Run 38068802659 rejected repair4 for the hand gripping the lamp; the repair removes held objects and reuses the breakthrough idea whose beat (shot-23) already passed review. Run 38069154957 rejected repair5 because Klein added a shovel and pots inside the tunnel; the repair moves outside to the tunnel mouth, where scenes have stayed uncluttered. Run 38069454418 drew an isolated character-sheet pose without the tunnel or pool; the same concept is redrawn, now with the single v5 regeneration. Run 38069828705 rejected both draws of repair7 (the flowing-water tunnel mouth became a modern concrete pipe); flowing water keeps inviting plumbing, so the repair uses the listeni"
+    },
+    {
+      "variant": "B",
+      "id": "thumbnail-B-v5-face",
+      "concept": "Big close-up: Eli's head and shoulders fill the right half of the frame, amazed with an open mouth, his face lit gold by bright daylight bursting through a small broken hole in the rock wall on the lower left. The upper left is plain dark rock. Bright saturated colours, nothing else, no lettering.",
+      "characterRoles": [
+        "Eli"
+      ],
+      "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: the moment the two tunnel crews broke through the rock to each other.",
+      "overlay": "THE FINAL STRIKE",
+      "reason": "Owner review of the bible-test-002 thumbnails (2026-10-10): Eli was too small and the A/B labels repeated. Each variant now uses the close-up face crop of the approved sheet, a big expressive face, the curiosity object low on the left under the label, and a distinct fact-supported label. Previous history: Run 38073416309 rejected both draws of thumbnail-B (requiredConcept): its concept asked for a split screen and a single focal point at once. The repair keeps the breakthrough idea and approved title as one simple focal scene with Eli."
+    },
+    {
+      "variant": "C",
+      "id": "thumbnail-C-v5-face",
+      "concept": "Big close-up: Eli's head and shoulders fill the right half of the frame, amazed with an open mouth, looking toward a smooth blank stone panel glowing in warm lamplight on the lower left of a dark rock tunnel. The upper left is plain dark rock. Bright saturated colours, nothing else, no lettering.",
+      "characterRoles": [
+        "Eli"
+      ],
+      "historicalContext": "Jerusalem, Kingdom of Judah, late 8th century BCE: the smoothed panel near the tunnel's end where an inscription records the breakthrough.",
+      "overlay": "THE PROOF",
+      "reason": "Owner review of the bible-test-002 thumbnails (2026-10-10): Eli was too small and the A/B labels repeated. Each variant now uses the close-up face crop of the approved sheet, a big expressive face, the curiosity object low on the left under the label, and a distinct fact-supported label. Previous history: Run 38073814301 rejected thumbnail-C (baked lettering on the wall, a second character and pottery) and its regeneration was refused by the provider's output filter. The repair keeps the inscription idea and approved overlay with a blank panel, as in the accepted shot-21 beat."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "status": "PROPOSED_AWAITING_OWNER_APPROVAL",
+  "name": "Bible Unearthed",
+  "handleSuggestion": "@BibleUnearthed",
+  "tagline": "Life in Bible Times, Explained",
+  "language": "en",
+  "description": "What was daily life really like in the world of the Bible? Bible Unearthed explores the people, places, customs and discoveries behind the stories: tunnels dug through solid rock, ancient cities, everyday food, work, laws and beliefs.\n\nEach illustrated episode tells you what the biblical text says, what historians and archaeologists have found, and what is still debated. We respect the Bible as an ancient text and we never present speculation as fact.\n\nNew illustrated history videos every week. Subscribe and dig in.",
+  "keywords": ["bible history", "biblical archaeology", "bible times", "ancient israel", "daily life in the bible", "bible explained", "ancient history", "old testament history", "bible facts", "history documentary"],
+  "spanishChannelPlan": "A separate Spanish channel (working name: La Biblia Desenterrada) only after the owner approves a Spanish narrator.",
+  "notes": "Name and handle availability must be checked by the owner in YouTube Studio. This file is not read by the video pipeline fingerprint."
+}

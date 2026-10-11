@@ -31,3 +31,23 @@ test('FFmpeg QA rejects black video and silence',async()=>{const {exec}=await im
 test('offline factual review rejects altered claims even with known source URLs',async()=>{const changed=structuredClone(demoScript);changed.scenes[1].narration='Remotion guarantees every video receives a million views.';changed.scenes[1].claims.push({text:changed.scenes[1].narration,sourceUrl:demoResearch.sources[0].url,kind:'fact'});assert.equal((await factcheck(changed,demoResearch)).passed,false);});
 
 test('a timeout leaves recoverable dead PID evidence but live and malformed locks stay protected',async()=>{const dir=await mkdtemp(join(tmpdir(),'autopilot-lock-'));try{await writeFile(join(dir,'.lock'),'2147483647');const runner=new Runner(dir);await runner.lock();assert.equal(await readFile(join(dir,'.lock'),'utf8'),String(process.pid));await assert.rejects(new Runner(dir).lock());await runner.unlock();await writeFile(join(dir,'.lock'),'not-a-pid');await assert.rejects(runner.lock());assert.equal(await readFile(join(dir,'.lock'),'utf8'),'not-a-pid');}finally{await rm(dir,{recursive:true,force:true});}});
+test('automatic publish picks the next daily UTC slot with enough processing lead time',async()=>{
+ const {nextPublishSlot}=await import('../src/youtube');
+ assert.equal(nextPublishSlot({publishTimeUtc:'17:00',minLeadHours:3},new Date('2026-10-10T12:00:00Z')),'2026-10-10T17:00:00.000Z');
+ assert.equal(nextPublishSlot({publishTimeUtc:'17:00',minLeadHours:3},new Date('2026-10-10T15:30:00Z')),'2026-10-11T17:00:00.000Z');
+ assert.equal(nextPublishSlot({},new Date('2026-10-10T22:00:00Z')),'2026-10-11T17:00:00.000Z');
+});
+test('v5 thumbnail concepts give each variant its own backdrop, an exaggerated face and a gaze toward the object',async()=>{
+ const {thumbnailConcept}=await import('../src/packaging/thumbnails');
+ const c={focalSubject:'Breakthrough',expressionOrSituation:'light bursts through the rock',background:'tunnel'};
+ const a=thumbnailConcept(c,true,0),b=thumbnailConcept(c,true,1),d=thumbnailConcept(c,true,2);
+ for(const x of [a,b,d]){assert.ok(x.length<=420);assert.match(x,/EXAGGERATED/);assert.match(x,/looking toward/);assert.match(x,/No lettering/);}
+ assert.notEqual(a,b);assert.notEqual(b,d);
+});
+test('title candidates never frame archaeology as proving or disproving the Bible',async()=>{
+ const {faithProofTitle}=await import('../src/orchestration/production-summary');
+ assert.equal(faithProofTitle("The 1880 Discovery That Proved the Bible's Tunnel"),true);
+ assert.equal(faithProofTitle('Archaeology Debunks the Bible?'),true);
+ assert.equal(faithProofTitle('How Hezekiah Cut a River Through a Mountain'),false);
+ assert.equal(faithProofTitle('The Proof Carved in Stone'),false);
+});

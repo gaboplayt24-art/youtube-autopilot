@@ -19,17 +19,17 @@
     {
       "sourceId": "video-source-3",
       "replacement": {
-        "id": "video-source-3-period-repair",
+        "id": "video-source-3-period-repair-5",
         "narration": "the long, bench-like seats, carrying refuse; drain network. This main drainage system; to reclaim low-lying land near the Forum by",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "Ancient Roman public latrine stone bench with visible round seat openings above an exposed masonry drain, leading toward a patch of low marshy ground beyond a simple arch. One sandal-wearing adult in an uncollared wool tunic points at the flow. No modern pipes or furniture.",
+        "concept": "Roman communal latrine at eye level: long stone bench with keyhole openings along a plain wall; water flows in an open stone channel beneath it and a floor gutter. One adult stands with both feet on the dry floor beside the bench end, pointing at the channel. Upper wall empty.",
         "overlay": null,
         "labelPlacement": "top",
         "characterRoles": [
-          "Roman adult in wool tunic and sandals"
+          "one adult standing on the floor"
         ]
       },
-      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair was rejected for historicalAccuracy (run 37961108123); it mixed a latrine with a marsh beyond an arch and requested round openings. Second repair follows excavated foriæ (Ostia, Ephesus): continuous bench, keyhole openings, flushing channel below and floor gutter; drainage-to-marsh context stays in source-4. Second repair (run 37964960523) was rejected for majorHistoricalError: modern industrial metal pipes/elbows top right. Third repair describes only positive stone elements, omits any mention of pipes, and keeps the upper wall empty. Third repair (run 37968122681) passed historical review but failed adultAnatomy: the figure stood inside the water channel and appeared to float. Fourth repair keeps the accepted stone layout and removes the unnecessary figure, as with source-2; other scenes retain Roman characters. Fourth repair (run 37971554592) still received an unrequested figure, drawn walking on top of the bench (adultAnatomy). Fifth repair requests exactly one figure with explicit ground contact on the dry floor beside the bench."
     },
     {
       "sourceId": "video-source-4",
@@ -50,17 +50,77 @@
     {
       "sourceId": "video-source-5",
       "replacement": {
-        "id": "video-source-5-period-repair",
+        "id": "video-source-5-period-repair-2",
         "narration": "expanded into a complex series of subterranean channels. It waste toward the Tiber River. However, there was a the reality of daily life in the city. Most private dwellings,",
         "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
-        "concept": "An empty ancient Roman vaulted brick sewer, with shallow water flowing down an open stone channel toward the visible Tiber River through the far arch. No people, lamps, doors, plumbing pipes or modern infrastructure. Simple wide explanatory illustration with cream negative space.",
+        "concept": "Quiet empty vaulted Roman brick tunnel seen from inside: a carved stone channel of flowing water runs down the middle toward a bright arched opening onto the Tiber river bank. Bare curved brick walls and arch, nothing mounted on them. Uninhabited, simple wide explanatory view with cream negative space.",
         "overlay": null,
         "labelPlacement": "top",
         "characterRoles": [
           "None"
         ]
       },
-      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence."
+      "reason": "Manual inspection of raw FLUX output found non-Roman clothing/technology. Preserve original output and its prior Gemini review as rejection evidence. First repair (run 37981176063) was rejected: modern iron piping on the walls, three unrequested figures, excess density. Second repair describes only bare brick, the stone channel and the Tiber opening, without naming excluded objects."
+    },
+    {
+      "sourceId": "video-source-8",
+      "replacement": {
+        "id": "video-source-8-period-repair",
+        "narration": "Most dwellings were not connected to street drains or sewers. Some wealthy households had outlets beneath their latrines, while poorer residents used pots they were supposed to empty into the sewer, or visited public toilets. Access was uneven.",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Quiet ground-floor room of a plain Roman apartment: one adult in a short-sleeved belted wool tunic, bare wrists and sandals, carries a lidded terracotta pot toward an open wooden doorway onto a narrow stone street. Plastered walls, a simple wooden stool, small high window. Only this one person; empty street beyond with cream negative space.",
+        "overlay": null,
+        "labelPlacement": "right",
+        "characterRoles": [
+          "one Roman resident carrying a terracotta pot"
+        ]
+      },
+      "reason": "Run 37984921556 density QA rejected video-source-8 (historicalAccuracy): modern collared polo shirt, digital wristwatch, 9+ characters versus LOW/MEDIUM density. Narration grounded in data/scripts/production-approved-001-editorial-draft.json (unconnected homes, chamber pots). Repair keeps the domestic meaning with one period-dressed adult, bare wrists, simple interior. Run 37986517991: repaired source passed density QA, but component QA found no street-level dumping (shot-21) and no open drain (shot-23). Repair-2 keeps the same interior and single resident and shows the pot emptied into an open street gutter so all four assigned beats are supported. Run 37987063439: repair-2 rejected (historicalAccuracy) for an industrial iron wall pipe with threaded fitting and bracket. Repair-3 keeps the scene but places the open channel in the street paving and states bare walls with nothing attached. Run 38007331932: repair-3 rejected (requiredConcept, historicalAccuracy): modern metal pipes and elbows on the exterior street wall; pot not tipped. Every street-facing exterior produced wall pipes, so repair-4 stays fully interior: the resident tips the pot out of a window showing only sky. The disease/open-drain beat (shot-23) moves to approved source-5. Run 38007938968: repair-4 rejected (requiredConcept, correctProp): terracotta pot missing, character idle. Repair-5 leads with the pot and the pouring action so the required prop and action are explicit. Run 38008541655: repair-5 showed the pot and pour but was rejected (adultAnatomy) for a detached extra lower leg on the floor. Repair-6 keeps the same composition framed waist-up so no legs are drawn. Run 38008876621: repair-6 rejected (correctStyle, requiredConcept): pot held inside, not poured out; figure too realistic. Window-pouring repairs 2-6 each failed differently, so source-8 returns to the exact accepted repair-1 (passed density QA in run 37986517991; cached, no new FLUX call) for its domestic beats, and the street-dumping beat shot-21 moves to approved source-6. Run 38009266791: source-6 component QA confirmed it has no figure dumping waste from a window (shot-21). Repair-7 shows exactly that from the street with v3 wording, which no longer mentions water works (the likely source of repeated modern wall plumbing); shot-21 returns to source-8. Run 38009820061: repair-7 (street view, v3 wording) still drew a modern facade drainpipe and a body severed between window and street. Source-8 returns to accepted repair-1 (cached) while the exact beat map is logged to choose a supported source for shot-21. Run 38010133963 confirmed the cached repair-1 cannot serve shot-21 (no one dumping); shot-21 moves to repaired source-9, leaving source-8 shots 16 and 19."
+    },
+    {
+      "sourceId": "video-source-7",
+      "replacement": {
+        "id": "video-source-7-period-repair",
+        "narration": "to the sewer network. While the wealthy might have had specific outlets facilities. Even with sophisticated water flow, waste was system was designed primarily for drainage rather than modern",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Cutaway of a wealthy Roman house: a private latrine seat with a carved stone opening sits over a sloping masonry channel that runs beneath the floor and out to a large stone street drain. One adult in a plain belted wool tunic stands beside the seat. Simple plaster walls with nothing attached; low density, cream negative space.",
+        "overlay": null,
+        "labelPlacement": "right",
+        "characterRoles": [
+          "one Roman householder"
+        ]
+      },
+      "reason": "Run 38010133963 beat map: planned source-7 combined a lead pipe from a basin, a communal latrine and a storm drain tunnel; prior QA rejected every metal pipe and dense multi-scene concept. Repair keeps the wealthy private outlet for shots 18/20/22 as one low-density masonry cutaway."
+    },
+    {
+      "sourceId": "video-source-9",
+      "replacement": {
+        "id": "video-source-9-period-repair",
+        "narration": "often dumped indiscriminately into the streets. existence of a vast, partially covered canal system showed solve the fundamental sanitary challenges of a dense, growing did not guarantee hygiene for the average inhabitant.",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Narrow muddy Roman lane at street level: one adult in a plain wool tunic empties a terracotta pot onto a heap of refuse in the lane. Beside the lane an open stone ditch of stagnant water runs toward a dark half-covered drain arch. Low blank plaster walls with nothing attached. Only this one person; cream negative space.",
+        "overlay": null,
+        "labelPlacement": "top",
+        "characterRoles": [
+          "one Roman resident emptying a pot"
+        ]
+      },
+      "reason": "Run 38010133963 beat map: planned source-9 combined a tunnel, a resident, a family and a market (too dense). Repair serves shots 24/26/28 (partially covered canals, unsolved sanitation, average inhabitant) and the street-dumping shot-21 at ground level, after seven window/doorway versions of source-8 failed."
+    },
+    {
+      "sourceId": "video-source-10",
+      "replacement": {
+        "id": "video-source-10-period-repair-3",
+        "narration": "remarkable skill in fluid management, yet it failed to population. The hidden reality is that grand engineering",
+        "historicalContext": "Ancient Rome, early imperial period; stone/brick masonry, terracotta channels, uncollared wool tunics and sandals; no modern clothing or technology.",
+        "concept": "Close view of the massive arched stone mouth of the main Roman drain set in a plain stone river embankment wall, grey water pouring out of the arch into the river below, with a few pieces of discarded refuse floating on the water. Only stone, water and refuse fill the frame; simple composition with cream sky as negative space.",
+        "overlay": null,
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Run 38010133963 beat map: planned source-10 combined a bathhouse sluice, the Tiber outlet and an alley of waste (multi-scene, dense). Repair keeps the engineering-versus-waste contrast for shots 25/27 in one uninhabited outlet view, distinct from source-5's interior tunnel. Run 38010483893: repair rejected (requiredConcept) because figures appeared in the uninhabited view. Repair-2 describes a deserted landscape containing only stone, water and refuse. Run 38012142075: repair-2 again drew three figures on the open bank. Repair-3 frames only the arch, embankment wall and water, leaving no ground where figures could stand."
     }
   ],
   "beatReassignments": [
@@ -68,6 +128,21 @@
       "shotId": "rome-sewer-system-shot-16",
       "sourceId": "video-source-8",
       "reason": "Actual source-5 component QA confirmed the apartment interior is absent. Use the already planned domestic source, not a tunnel crop."
+    },
+    {
+      "shotId": "rome-sewer-system-shot-10",
+      "sourceId": "video-source-5",
+      "reason": "Actual source-3 component QA (run 37978380574) found the latrine interior cannot show land reclamation near the Forum. Marsh source-4 already covers adjacent shots 9 and 11 (run 37979565827 beat map), so use the approved main-drain channel source-5, non-adjacent to its shots 12 and 14."
+    },
+    {
+      "shotId": "rome-sewer-system-shot-23",
+      "sourceId": "video-source-5",
+      "reason": "Run 37986517991 component QA found no open drain in domestic source-8 for shot-23 (disease despite sanitation). Approved source-5 shows the open main-drain channel; neighbours shot-22 (source-7) and shot-24 (source-9) differ, and source-5 reaches four uses (10, 12, 14, 23)."
+    },
+    {
+      "shotId": "rome-sewer-system-shot-21",
+      "sourceId": "video-source-9",
+      "reason": "Component QA rejected source-8 (runs 37986517991, 38010133963) and source-6 (run 38009266791) for shot-21: no one dumping waste. Repaired source-9 shows a resident emptying a pot into the street; neighbours shot-20 and shot-22 use source-7, and source-9 reaches four uses (21, 24, 26, 28)."
     }
   ]
 }

@@ -1,1 +1,23 @@
-{"beds":[],"note":"Add multiple distinct local/licensed instrumental beds. Each entry: path, license, direction. Supply files through the runner workspace/artifacts, never credentials."}
+{
+  "beds": [
+    {
+      "path": "assets/music/tiburtina-schwartzy.mp3",
+      "license": "YouTube Audio Library track 'Tiburtina' by Schwartzy, downloaded and supplied by the channel owner on 2026-10-10 for use on YouTube. Owner confirmed on 2026-10-10 that the Audio Library listing says attribution is not required.",
+      "direction": "calm mysterious documentary bed",
+      "sha256": "1a14eeabf7e65ef9001eb83936c96a80643cb51fab63fb72d0d8b1a2ae8e9423"
+    },
+    {
+      "path": "assets/music/jomon-grove-the-mini-vandals.mp3",
+      "license": "YouTube Audio Library track 'Jomon Grove' by The Mini Vandals, downloaded and supplied by the channel owner on 2026-10-10 for use on YouTube. Owner confirmed on 2026-10-10 that the Audio Library listing says attribution is not required.",
+      "direction": "ancient world ambient bed",
+      "sha256": "347eb34472bd3881148517133e32bea44170765144fa3bf0c1f9fd98dc34cf4b"
+    },
+    {
+      "path": "assets/music/rapid-unscheduled-disassembly-the-grey-room.mp3",
+      "license": "YouTube Audio Library track 'Rapid Unscheduled Disassembly' by The Grey Room / Density & Time, downloaded and supplied by the channel owner on 2026-10-10 for use on YouTube. Owner confirmed on 2026-10-10 that the Audio Library listing says attribution is not required.",
+      "direction": "tense energetic bed for reveals",
+      "sha256": "799ae8fcec452cc856adca8d05bda72674f2644c86215a1db5c3ea3d109cddc5"
+    }
+  ],
+  "note": "Add multiple distinct local/licensed instrumental beds. Each entry: path, license, direction. Supply files through the runner workspace/artifacts, never credentials."
+}

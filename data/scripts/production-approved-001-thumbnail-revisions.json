@@ -1,0 +1,12 @@
+{
+  "runId": "production-approved-001",
+  "revisions": [
+    {
+      "variant": "C",
+      "id": "thumbnail-C-period-repair",
+      "concept": "One focal Roman communal latrine seen from the front at eye level: a long carved stone bench with keyhole openings, clear water flowing in an open stone channel beneath it. Simple background: plain warm plaster wall. One single scene, clear silhouette, safe margins; no clutter, no lettering.",
+      "characterRoles": ["None"],
+      "reason": "Run 38014013365 rejected thumbnail-C (adultAnatomy, historicalAccuracy, correctProp): a 'technical isometric' latrine cutaway produced a modern flexible hose, a metal valve and multi-panel cells with detached floating legs. The repair keeps the approved latrine subject, title and overlay as one uninhabited period scene."
+    }
+  ]
+}

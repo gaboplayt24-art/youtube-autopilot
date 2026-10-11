@@ -14,6 +14,22 @@ on:
       gemini_model:
         description: Optional existing eligible free model override
         type: string
+      task:
+        description: video (default) or branding (channel logo and banner only)
+        type: string
+        default: video
+      style:
+        description: v4 (locked doodle) or v5 (owner-approved round-head Eli style)
+        type: string
+        default: v4
+      publish:
+        description: After every QA gate passes, upload private to YouTube and schedule the next daily slot (owner-authorized 2026-10-10)
+        type: boolean
+        default: false
+      topic:
+        description: Video topic; the run reads data/scripts/<run_id>-editorial-draft.json
+        type: string
+        default: The hidden engineering of Roman sewage and public latrine hygiene
 permissions:
   contents: read
   actions: read
@@ -21,7 +37,60 @@ concurrency:
   group: free-provider-account
   cancel-in-progress: false
 jobs:
+  # Owner-approved v5 reference (2026-10-10): copy the single Eli pose from the audition artifact into the repo.
+  import-v5-reference:
+    if: inputs.task == 'import-v5-reference'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          name: style-v5-style-v5-001
+          path: .v5-artifact
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Commit the approved Eli reference pose
+        run: |
+          mkdir -p assets/references
+          cp .v5-artifact/stills/eli-front-pose.png assets/references/style-v5-eli.png
+          cp .v5-artifact/stills/v5-00-character-sheet.png assets/references/style-v5-eli-sheet.png
+          sha256sum assets/references/style-v5-eli*.png
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/references/style-v5-eli.png assets/references/style-v5-eli-sheet.png
+          git commit -m "Import owner-approved v5 Eli reference from style audition run ${{ inputs.source_run_id }}"
+          git push origin HEAD:${{ github.ref_name }}
+  # Read-only: print a run's planned beats (id, narration, concept, cast) so editorial revisions can cite them exactly.
+  show-plan:
+    if: inputs.task == 'show-plan'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: production-${{ inputs.run_id }}
+          path: .run
+          run-id: ${{ inputs.source_run_id }}
+          github-token: ${{ github.token }}
+      - name: Print planned beats
+        run: |
+          python3 - <<'PY'
+          import json
+          shots = json.load(open('.run/visual-thinking-v5.json'))
+          shots = shots.get('shots', shots) if isinstance(shots, dict) else shots
+          for s in shots:
+              i = s.get('illustrationIdea') or {}
+              print(json.dumps({'id': s['id'], 'narration': s.get('narration'), 'concept': i.get('concept'), 'historicalContext': i.get('historicalContext'), 'roles': i.get('characterRoles'), 'overlay': i.get('overlay'), 'labelPlacement': i.get('labelPlacement')}, ensure_ascii=False))
+          import glob
+          for path in sorted(glob.glob('.run/thumbnail-concept-*.json')) + sorted(glob.glob('.run/native-thumbnail-*-density-QA-v4.3.json')):
+              print(path, json.dumps(json.load(open(path)), ensure_ascii=False)[:1500])
+          PY
   quality:
+    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
     runs-on: ubuntu-latest
     timeout-minutes: 80
     env:
@@ -36,13 +105,19 @@ jobs:
       FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
       CHROME_EXECUTABLE: /usr/bin/google-chrome
       RETRY_FROM: ${{ inputs.retry_from }}
+      STYLE_LOCK_PATH: ${{ inputs.style == 'v5' && 'config/style-lock-v5.json' || 'config/style-lock-v4.json' }}
+      STYLE_REFERENCE_PATH: ${{ inputs.style == 'v5' && 'assets/references/style-v5-eli.png' || 'assets/references/style-v4.jpg' }}
       RUN_ID: ${{ inputs.run_id || github.run_id }}
+      TOPIC: ${{ inputs.topic || 'The hidden engineering of Roman sewage and public latrine hygiene' }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ inputs.gemini_model || vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
       GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
       CLOUDFLARE_ACCOUNT_ID: ${{ vars.CLOUDFLARE_ACCOUNT_ID || secrets.CLOUDFLARE_ACCOUNT_ID }}
       CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-      CLOUDFLARE_FREE_PLAN_CONFIRMED: ${{ vars.CLOUDFLARE_FREE_PLAN_CONFIRMED || 'true' }}
+      # Owner upgraded to Workers Paid on 2026-10-10: overflow beyond the daily free neurons is capped at $8/month total (incl. $5 fee).
+      CLOUDFLARE_FREE_PLAN_CONFIRMED: 'false'
+      CLOUDFLARE_PLAN: workers_paid
+      CLOUDFLARE_PAID_MONTHLY_CAP_USD: '8'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -96,7 +171,36 @@ jobs:
         run: bash scripts/setup-cpu-ai.sh
       - run: ffmpeg -version && ffprobe -version && /usr/bin/google-chrome --version
       - run: npm run lint && npm run typecheck && npm test
+      - name: Fetch the Anton display font (SIL OFL) for thumbnail labels
+        continue-on-error: true
+        run: mkdir -p public/fonts && curl -fsSL --retry 3 -o public/fonts/Anton-Regular.ttf https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf
+      - name: Channel logo and banner in the locked illustrated style; no upload
+        if: inputs.task == 'branding'
+        run: npm run branding -- --run-id "$RUN_ID"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.task == 'branding'
+        with:
+          name: branding-${{ env.RUN_ID }}
+          path: |
+            data/runs/${{ env.RUN_ID }}/logo.png
+            data/runs/${{ env.RUN_ID }}/banner.png
+            data/runs/${{ env.RUN_ID }}/sources/*.png
+            data/runs/${{ env.RUN_ID }}/*.json
+          retention-days: 30
+      - name: Owner-authorized v5 style audition stills only; STOP for approval
+        if: inputs.task == 'style-v5'
+        run: npm run style-v5 -- --run-id "$RUN_ID"
+      - uses: actions/upload-artifact@v4
+        if: always() && inputs.task == 'style-v5'
+        with:
+          name: style-v5-${{ env.RUN_ID }}
+          path: |
+            data/runs/${{ env.RUN_ID }}/STYLE-PREVIEW-v5.jpg
+            data/runs/${{ env.RUN_ID }}/stills/*.png
+            data/runs/${{ env.RUN_ID }}/*.json
+          retention-days: 30
       - name: One human-approved 90–105s production video; no upload or paid fallback
+        if: inputs.task != 'branding' && inputs.task != 'style-v5'
         timeout-minutes: 60
         run: |
           if [ -n "$RETRY_FROM" ]; then
@@ -114,17 +218,36 @@ jobs:
               if path.exists(): shutil.copy2(path, archive / name)
           PYARCHIVE
             fi
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene" --retry-from "$RETRY_FROM"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC" --retry-from "$RETRY_FROM"
           else
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "The hidden engineering of Roman sewage and public latrine hygiene"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC"
           fi
       - name: Verify encoded media
+        if: inputs.task != 'branding' && inputs.task != 'style-v5'
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: production-${{ env.RUN_ID }}
           path: data/runs/${{ env.RUN_ID }}/
+          retention-days: 30
+      # Small review package: only the deliverables the owner reviews, not intermediate evidence.
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: review-${{ env.RUN_ID }}
+          path: |
+            data/runs/${{ env.RUN_ID }}/final.mp4
+            data/runs/${{ env.RUN_ID }}/thumbnail-A.png
+            data/runs/${{ env.RUN_ID }}/thumbnail-B.png
+            data/runs/${{ env.RUN_ID }}/thumbnail-C.png
+            data/runs/${{ env.RUN_ID }}/titles.json
+            data/runs/${{ env.RUN_ID }}/final-script.json
+            data/runs/${{ env.RUN_ID }}/visual-plan.json
+            data/runs/${{ env.RUN_ID }}/audio-QA.json
+            data/runs/${{ env.RUN_ID }}/visual-QA.json
+            data/runs/${{ env.RUN_ID }}/sfx-QA.json
+            data/runs/${{ env.RUN_ID }}/production-summary.json
           retention-days: 30
       - uses: actions/upload-artifact@v4
         if: always()
@@ -141,3 +264,12 @@ jobs:
             .cache/models
             .cache/huggingface
           key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
+  publish:
+    needs: quality
+    if: success() && inputs.publish && inputs.task != 'branding' && inputs.task != 'style-v5' && inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
+    uses: ./.github/workflows/publish.yml
+    with:
+      run_id: ${{ inputs.run_id }}
+      source_run_id: ${{ github.run_id }}
+      artifact_prefix: production
+    secrets: inherit

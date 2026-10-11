@@ -23,7 +23,9 @@
     "quality-test-free": "tsx src/visuals/quality-test.ts",
     "style-audition-v4": "tsx src/visuals/style-audition-v4.ts",
     "style-audition-v4-2": "tsx src/visuals/audition-v4-2.ts",
-    "benchmark-packaging": "tsx src/visuals/audition-v4-2.ts --stage benchmark"
+    "benchmark-packaging": "tsx src/visuals/audition-v4-2.ts --stage benchmark",
+    "branding": "tsx src/orchestration/cli.ts branding",
+    "style-v5": "tsx src/orchestration/cli.ts style-v5"
   },
   "dependencies": {
     "@echogarden/espeak-ng-emscripten": "^0.3.5",

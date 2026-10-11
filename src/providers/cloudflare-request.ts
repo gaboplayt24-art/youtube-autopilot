@@ -1,5 +1,5 @@
 import {join} from 'node:path';
-import {requireQuota,QuotaPause} from '../quota';
+import {requireQuota,QuotaPause,cloudflarePaidOverflow} from '../quota';
 import {json,log} from '../orchestration/io';
 export type CloudflareRetryOptions={wait?:(ms:number)=>Promise<void>;random?:()=>number;now?:()=>Date};
 export class CloudflareRetryPause extends QuotaPause{
@@ -9,7 +9,7 @@ export function cloudflareRetryDelay(base:number,retryAfter:string|null,now:numb
 function sanitize(value:unknown){let text=String(value??'');for(const secret of [process.env.CLOUDFLARE_API_TOKEN,process.env.CLOUDFLARE_ACCOUNT_ID])if(secret){text=text.replaceAll(secret,'[redacted]').replaceAll(encodeURIComponent(secret),'[redacted]');}return text.replace(/[\u0000-\u001f\u007f]/g,' ').slice(0,700);}
 export async function cloudflareRun(model:string,input:unknown,neurons:number,request:typeof fetch,options:CloudflareRetryOptions={}){
  if(!process.env.CLOUDFLARE_ACCOUNT_ID||!process.env.CLOUDFLARE_API_TOKEN)throw new Error('CLOUDFLARE_ACCOUNT_ID and CLOUDFLARE_API_TOKEN required');
- if(process.env.CLOUDFLARE_FREE_PLAN_CONFIRMED!=='true')throw new Error('Confirm Workers FREE plan with CLOUDFLARE_FREE_PLAN_CONFIRMED=true. Paid accounts are refused to prevent overflow from concurrent external usage.');
+ if(process.env.CLOUDFLARE_FREE_PLAN_CONFIRMED!=='true'&&!cloudflarePaidOverflow())throw new Error('Confirm Workers FREE plan with CLOUDFLARE_FREE_PLAN_CONFIRMED=true. Paid accounts are refused to prevent overflow from concurrent external usage.');
  if(process.env.FREE_ONLY==='false'||process.env.PAID_FALLBACK_ENABLED==='true'||Number(process.env.MAX_PAID_COST_USD??0)!==0)throw new Error('Cloudflare requires FREE_ONLY with zero paid budget and no paid fallback');
  const quota=requireQuota(),wait=options.wait??(ms=>new Promise(resolve=>setTimeout(resolve,ms))),random=options.random??Math.random,now=options.now??(()=>new Date());
  let capacityRetries=0,unknownRetries=0;

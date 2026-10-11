@@ -1,0 +1,12 @@
+{
+  "runId": "bible-test-001",
+  "revisions": [
+    {
+      "variant": "C",
+      "id": "thumbnail-C-period-repair",
+      "concept": "Close-up: one large expressive adult Iron Age digger, bearded, in a plain linen tunic, fills half the frame on one side, holding an iron pick and listening with intense focus. Behind him only a dark rough rock tunnel wall and one small clay oil lamp flame. Brighter saturated colours, simple top quarter, no machines, no clutter, no lettering.",
+      "characterRoles": ["Iron Age tunnel digger"],
+      "reason": "Run 38030855354 rejected thumbnail-C (historicalAccuracy, correctProp): a jointed pump-like mechanical contraption and cluttered tools and vessels behind the worker. The repair keeps the approved listening-digger subject with only the rock wall and one clay lamp behind him."
+    }
+  ]
+}

@@ -20,17 +20,26 @@ function luminance(r:number,g:number,b:number){
 export async function inspectThumbnail(path:string,hook:string,title:string,allowSubjectiveReview=false,doodle=false){
  const probe=await exec('ffprobe',['-v','error','-show_streams','-of','json',path]);
  const image=JSON.parse(probe.stdout).streams[0];
- // Sample the dark text-side backing, below the title so the glyphs do not distort it.
- const pixels=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=400:50:80:600,scale=64:8','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
- let background=0;for(let i=0;i<pixels.stdout.length;i+=3)background+=luminance(pixels.stdout[i],pixels.stdout[i+1],pixels.stdout[i+2]);
- background/=pixels.stdout.length/3;
- const foreground=doodle?luminance(48,42,37):luminance(241,192,115);
- const ratio=(Math.max(foreground,background)+.05)/(Math.min(foreground,background)+.05);
+ // Cinematic: sample the dark backing below the title. Doodle: the label is yellow with a black outline, so measure the rendered fill against the darkest 5% of the label band (its outline), and require the fill to be present.
+ let background=0,ratio:number;
+ if(doodle){
+  // The label block sits top-left (remotion/compositions/Thumbnail.tsx): white lead line above a yellow payoff line.
+  const band=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=660:260:30:40,scale=165:65','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
+  const lums:number[]=[];let fill=0;for(let i=0;i<band.stdout.length;i+=3){const [r,g,b]=[band.stdout[i],band.stdout[i+1],band.stdout[i+2]];lums.push(luminance(r,g,b));if(r>200&&g>170&&b<130)fill++;}
+  lums.sort((a,b)=>a-b);background=lums[Math.floor(lums.length*.05)];const fillPresent=fill/lums.length>=.02;
+  ratio=fillPresent?(luminance(255,210,31)+.05)/(background+.05):1;
+ }else{
+  const pixels=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=400:50:80:600,scale=64:8','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
+  for(let i=0;i<pixels.stdout.length;i+=3)background+=luminance(pixels.stdout[i],pixels.stdout[i+1],pixels.stdout[i+2]);
+  background/=pixels.stdout.length/3;
+  const foreground=luminance(241,192,115);
+  ratio=(Math.max(foreground,background)+.05)/(Math.min(foreground,background)+.05);
+ }
  const focal=await exec('ffmpeg',['-v','error','-i',path,'-vf','scale=1280:720,crop=1120:560:80:80,scale=112:56','-frames:v','1','-pix_fmt','rgb24','-f','rawvideo','-'],{encoding:'buffer',timeout:20000});
  const values=[];for(let i=0;i<focal.stdout.length;i+=3)values.push(luminance(focal.stdout[i],focal.stdout[i+1],focal.stdout[i+2]));
  const mean=values.reduce((a,b)=>a+b,0)/values.length;const focalContrast=Math.sqrt(values.reduce((n,v)=>n+(v-mean)**2,0)/values.length);
  const scores=thumbnailScores(hook.split(/\s+/).length,93,ratio,{hook,title,focalContrast});
- if(image.width!==3840||image.height!==2160||!allowSubjectiveReview&&([scores.clarity,scores.mobileReadability,scores.contrast].some(s=>s<70)||scores.subjectProminence<30))throw new Error('Thumbnail failed dimensions/readability/contrast/focal-visibility QA');
+ if(image.width!==3840||image.height!==2160||!allowSubjectiveReview&&([scores.clarity,scores.mobileReadability,scores.contrast].some(s=>s<70)||scores.subjectProminence<30))throw new Error('Thumbnail failed dimensions/readability/contrast/focal-visibility QA: '+JSON.stringify({path,hook,width:image.width,height:image.height,textBackingLuminance:background,contrastRatio:ratio,focalContrast,scores}));
  return scores;
 }
 export async function thumbnails(c:Composition,dir:string,llm?:LLMProvider,approvedTexts?:string[],allowSubjectiveReview=false){
