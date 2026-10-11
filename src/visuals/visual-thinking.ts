@@ -33,8 +33,8 @@ export function validateIdeaEvidence(idea:VisualIdea,narration:string){
  for(const numeric of labels.match(/\d+(?:[.,]\d+)?/g)??[])if(!narration.includes(numeric))throw new Error('Visual label invents a number not present in narration');
  return idea;
 }
-/** The echoed narration only proves the idea belongs to this beat; punctuation, quote style and case may differ, words may not. */
-export function sameWords(a:string,b:string){const words=(t:string)=>t.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9' ]+/g,' ').split(/\s+/).filter(Boolean).join(' ');return words(a)===words(b);}
+/** The echoed narration only proves the idea belongs to this beat; punctuation, quote style and case may differ, and a cut phrase may be echoed completed from its neighbours, but its own words must appear unchanged and in order. */
+export function sameWords(a:string,b:string){const words=(t:string)=>t.toLowerCase().replace(/[’‘]/g,"'").replace(/[^a-z0-9' ]+/g,' ').split(/\s+/).filter(Boolean).join(' ');const x=words(a),y=words(b);return x===y||!!x&&!!y&&(` ${y} `.includes(` ${x} `)||` ${x} `.includes(` ${y} `));}
 export class VisualThinkingDirector{
  async illustrate(shots:Shot[],llm:LLMProvider,roundHeadV5=false,guidance?:string,checkpoint?:string):Promise<Shot[]>{
   const ideas=new Map<string,z.infer<typeof artworkIdea>>();

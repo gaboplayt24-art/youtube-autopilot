@@ -38,3 +38,8 @@ test('visual direction resumes finished batches from its checkpoint',async()=>{
   await new VisualThinkingDirector().illustrate(shots,llm,true,undefined,path);assert.equal(calls,2);
  }finally{await rm(dir,{recursive:true});}
 });
+test('a cut beat phrase echoed in its completed sentence still identifies the beat',async()=>{
+ const {sameWords}=await import('../src/visuals/visual-thinking');
+ assert.equal(sameWords('who wrote the scrolls','Scholars still debate who wrote the scrolls.'),true);
+ assert.equal(sameWords('who wrote the scrolls','Scholars still debate who hid the scrolls.'),false);
+});
