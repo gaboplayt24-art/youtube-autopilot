@@ -162,6 +162,13 @@ jobs:
           path: node_modules/.cache/remotion
           key: remotion-linux-${{ hashFiles('package-lock.json') }}
       - run: npm ci
+      # The shared quota ledger also lives in the Actions cache: artifact storage can be full, and a lost ledger would
+      # under-count Cloudflare usage. The restore script keeps whichever copy (cache or artifact) is newest.
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache/quota/free-quota-ledger.json
+          key: free-quota-ledger-${{ github.run_id }}-${{ github.job }}
+          restore-keys: free-quota-ledger-
       - run: python scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
@@ -263,12 +270,16 @@ jobs:
       # A published video is reviewed in YouTube Studio, so its large final.mp4 stays out of artifact storage.
       - uses: actions/upload-artifact@v4
         if: success() && !inputs.publish && inputs.task != 'branding' && inputs.task != 'style-v5'
+        # Review copies must never block the upload when artifact storage is full.
+        continue-on-error: true
         with:
           name: review-video-${{ env.RUN_ID }}
           path: data/runs/${{ env.RUN_ID }}/final.mp4
           retention-days: 14
       - uses: actions/upload-artifact@v4
         if: success()
+        # Review copies must never block the upload when artifact storage is full.
+        continue-on-error: true
         with:
           name: review-${{ env.RUN_ID }}
           path: |
@@ -285,8 +296,14 @@ jobs:
             data/runs/${{ env.RUN_ID }}/sfx-QA.json
             data/runs/${{ env.RUN_ID }}/production-summary.json
           retention-days: 30
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache/quota/free-quota-ledger.json
+          key: free-quota-ledger-${{ github.run_id }}-${{ github.job }}
       - uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
           name: free-quota-ledger
           path: .cache/quota/free-quota-ledger.json

@@ -58,6 +58,13 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      # The shared quota ledger also lives in the Actions cache: artifact storage can be full, and a lost ledger would
+      # under-count Cloudflare usage. The restore script keeps whichever copy (cache or artifact) is newest.
+      - uses: actions/cache/restore@v4
+        with:
+          path: .cache/quota/free-quota-ledger.json
+          key: free-quota-ledger-${{ github.run_id }}-${{ github.job }}
+          restore-keys: free-quota-ledger-
       - run: python3 scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
@@ -77,6 +84,11 @@ jobs:
           run-id: ${{ inputs.source_run_id }}
           github-token: ${{ github.token }}
       # Previous publish records (YouTube Short, playlist, TikTok) so a re-run resumes instead of posting twice.
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/runs/${{ env.RUN_ID }}/.records
+          key: upload-record-${{ env.RUN_ID }}-${{ github.run_id }}
+          restore-keys: upload-record-${{ env.RUN_ID }}-
       - run: python3 scripts/restore-upload-record.py
         env:
           GH_TOKEN: ${{ github.token }}
@@ -97,8 +109,19 @@ jobs:
         if: always()
         run: |
           for f in titles.json localizations.json short-upload.json short-schedule.json playlist.json tiktok.json; do echo "== $f"; cat "data/runs/$RUN_ID/$f" 2>/dev/null || echo "(missing)"; echo; done
+      - name: Collect publish records
+        if: always()
+        run: |
+          cd "data/runs/$RUN_ID" && mkdir -p .records
+          for f in upload.json tiktok.json schedule*.json youtube-*.json localizations*.json short-*.json playlist*.json; do [ -f "$f" ] && cp "$f" .records/; done; ls .records
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: data/runs/${{ env.RUN_ID }}/.records
+          key: upload-record-${{ env.RUN_ID }}-${{ github.run_id }}
       - uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
           name: upload-${{ env.RUN_ID }}
           # Small upload record only; the full run already lives in the production artifact.
@@ -114,8 +137,14 @@ jobs:
             data/runs/${{ env.RUN_ID }}/logs.jsonl
           retention-days: 30
           if-no-files-found: warn
+      - uses: actions/cache/save@v4
+        if: always()
+        with:
+          path: .cache/quota/free-quota-ledger.json
+          key: free-quota-ledger-${{ github.run_id }}-${{ github.job }}
       - uses: actions/upload-artifact@v4
         if: always()
+        continue-on-error: true
         with:
           name: free-quota-ledger
           path: .cache/quota/free-quota-ledger.json

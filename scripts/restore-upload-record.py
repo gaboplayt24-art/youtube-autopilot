@@ -5,14 +5,25 @@ no duplicate Short, playlist item or TikTok post, and no overwrite of owner-edit
 import json, os, subprocess, zipfile, io
 from pathlib import Path
 repo, run = os.environ['GITHUB_REPOSITORY'], os.environ['RUN_ID']
+target = Path('data/runs') / run
+cached = target / '.records'
 artifacts = json.loads(subprocess.check_output(['gh', 'api', f'repos/{repo}/actions/artifacts?name=upload-{run}&per_page=100']))['artifacts']
 eligible = [a for a in artifacts if not a['expired']]
-if not eligible:
+if cached.is_dir() and any(cached.iterdir()):
+    # Records restored from the Actions cache are newer than any artifact (artifact storage may be full).
+    names = {p.name for p in cached.iterdir()}
+    restored = []
+    for name in sorted(names):
+        stage = name[:-len('.integrity.json')] if name.endswith('.integrity.json') else name[:-len('.json')]
+        if name in ('upload.json', 'tiktok.json') or (stage + '.json' in names and stage + '.integrity.json' in names):
+            (target / name).write_bytes((cached / name).read_bytes())
+            restored.append(name)
+    print(json.dumps({'event': 'upload_record_restored', 'source': 'cache', 'files': restored}))
+elif not eligible:
     print(json.dumps({'event': 'upload_record_first_publish', 'runId': run}))
 else:
     a = max(eligible, key=lambda a: (a['created_at'], a['id']))
     archive = zipfile.ZipFile(io.BytesIO(subprocess.check_output(['gh', 'api', f'repos/{repo}/actions/artifacts/{a["id"]}/zip'])))
-    target = Path('data/runs') / run
     target.mkdir(parents=True, exist_ok=True)
     names = set(archive.namelist())
     restored = []
