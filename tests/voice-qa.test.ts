@@ -19,3 +19,9 @@ test('Chapter timing allows an exact 20 ms ASR overlap despite float rounding bu
  assert.equal(invalidTimingIndex([{start:1,end:1}],5),0);
  assert.equal(invalidTimingIndex([{start:1,end:6}],5),0);
 });
+test('small ASR boundary overlaps are split at the midpoint and recorded; large ones still fail',async()=>{
+ const {resolveAsrOverlaps,invalidTimingIndex}=await import('../src/voice/chapters');
+ const r=resolveAsrOverlaps([{text:'of',start:34.54,end:34.78},{text:'scholars',start:34.7,end:35}]);
+ assert.equal(r.words[0].end,34.74);assert.equal(r.words[1].start,34.74);assert.deepEqual(r.adjustments,[{index:1,previous:'of',word:'scholars',overlapMs:80}]);assert.equal(invalidTimingIndex(r.words,40),-1);
+ const big=resolveAsrOverlaps([{text:'a',start:1,end:1.6},{text:'b',start:1.3,end:2}]);assert.equal(big.adjustments.length,0);assert.equal(invalidTimingIndex(big.words,5),1);
+});
