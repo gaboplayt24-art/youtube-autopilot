@@ -44,3 +44,10 @@ test('v5 thumbnail concepts give each variant its own backdrop, an exaggerated f
  for(const x of [a,b,d]){assert.ok(x.length<=420);assert.match(x,/EXAGGERATED/);assert.match(x,/looking toward/);assert.match(x,/No lettering/);}
  assert.notEqual(a,b);assert.notEqual(b,d);
 });
+test('title candidates never frame archaeology as proving or disproving the Bible',async()=>{
+ const {faithProofTitle}=await import('../src/orchestration/production-summary');
+ assert.equal(faithProofTitle("The 1880 Discovery That Proved the Bible's Tunnel"),true);
+ assert.equal(faithProofTitle('Archaeology Debunks the Bible?'),true);
+ assert.equal(faithProofTitle('How Hezekiah Cut a River Through a Mountain'),false);
+ assert.equal(faithProofTitle('The Proof Carved in Stone'),false);
+});
