@@ -33,3 +33,7 @@ test('a chapter take left without its verified sidecar is kept as evidence and r
  await copyFile(source,join(dir,'narration-chapter-1.wav'));await narrateChapters(p,tts,dir);assert.equal(calls,1);
  const {readdir}=await import('node:fs/promises');assert.ok((await readdir(dir)).some(f=>/^narration-chapter-1\.unverified-\d+\.wav$/.test(f)));
 }finally{await rm(dir,{recursive:true});}});
+test('a short trailing chapter is narrated together with the previous chapter',async()=>{const dir=await mkdtemp(join(tmpdir(),'chapters-'));try{const source=join(dir,'source.wav');await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','sine=frequency=200:duration=2','-ar','48000',source]);const texts:string[]=[];const tts={speak:async(text:string,path:string)=>{texts.push(text);await copyFile(source,path);const words=text.split(' ').map((text,i)=>({text,start:i*.01,end:(i+1)*.01}));return {alignment:words,words};}};
+ const long=Array.from({length:130},(_,i)=>'w'+i).join(' ');const p={scenes:[{id:'scene-1',narration:long,visual:'a'},{id:'scene-2',narration:'So the next time you hear a stone fall remember them.',visual:'b'}]};
+ const output=await narrateChapters(p,tts,dir);assert.equal(texts.length,1);assert.equal(output.chapters!.length,1);assert.equal(output.scenes.length,2);
+}finally{await rm(dir,{recursive:true});}});
