@@ -2,9 +2,9 @@ import React,{useEffect,useState} from 'react';
 import {AbsoluteFill,Img,continueRender,delayRender,staticFile} from 'remotion';
 import type {Composition} from '../../src/orchestration/schemas';
 import {requireIllustratedArtwork} from '../../src/visuals/illustration-schema';
-const DISPLAY_FONT='"Anton","Arial Black","Liberation Sans",Impact,sans-serif';
+export const DISPLAY_FONT='"Anton","Arial Black","Liberation Sans",Impact,sans-serif';
 // Anton (SIL OFL) is fetched into public/fonts by the workflow; without it the render falls back to Arial Black.
-function useDisplayFont(){
+export function useDisplayFont(){
  const [handle]=useState(()=>delayRender('thumbnail display font'));
  useEffect(()=>{const font=new FontFace('Anton',`url(${staticFile('fonts/Anton-Regular.ttf')})`);font.load().then(f=>{document.fonts.add(f);continueRender(handle);}).catch(()=>continueRender(handle));},[handle]);
 }

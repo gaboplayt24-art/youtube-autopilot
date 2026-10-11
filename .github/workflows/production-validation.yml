@@ -26,6 +26,10 @@ on:
         description: After every QA gate passes, upload private to YouTube and schedule the next daily slot (owner-authorized 2026-10-10)
         type: boolean
         default: false
+      production_kind:
+        description: production_test (90–105 s) or production_long (6–8 min, owner-authorized 2026-10-11)
+        type: string
+        default: production_test
       topic:
         description: Video topic; the run reads data/scripts/<run_id>-editorial-draft.json
         type: string
@@ -70,12 +74,20 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
+      - uses: actions/cache/restore@v4
+        id: runcache
+        with:
+          path: data/runs/${{ inputs.run_id }}
+          key: run-${{ inputs.run_id }}-none
+          restore-keys: run-${{ inputs.run_id }}-
       - uses: actions/download-artifact@v4
+        if: steps.runcache.outputs.cache-matched-key == ''
         with:
           name: production-${{ inputs.run_id }}
-          path: .run
+          path: data/runs/${{ inputs.run_id }}
           run-id: ${{ inputs.source_run_id }}
           github-token: ${{ github.token }}
+      - run: ln -s "data/runs/${{ inputs.run_id }}" .run
       - name: Print planned beats
         run: |
           python3 - <<'PY'
@@ -92,7 +104,8 @@ jobs:
   quality:
     if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
     runs-on: ubuntu-latest
-    timeout-minutes: 80
+    # A 6–8 minute production draws ~80–100 illustrations and narrates/renders 7 minutes on CPU.
+    timeout-minutes: ${{ inputs.production_kind == 'production_long' && 340 || 80 }}
     env:
       AUTO_PUBLISH: 'false'
       FREE_ONLY: 'true'
@@ -108,6 +121,7 @@ jobs:
       STYLE_LOCK_PATH: ${{ inputs.style == 'v5' && 'config/style-lock-v5.json' || 'config/style-lock-v4.json' }}
       STYLE_REFERENCE_PATH: ${{ inputs.style == 'v5' && 'assets/references/style-v5-eli.png' || 'assets/references/style-v4.jpg' }}
       RUN_ID: ${{ inputs.run_id || github.run_id }}
+      PRODUCTION_KIND: ${{ inputs.production_kind == 'production_long' && 'production_long' || 'production_test' }}
       TOPIC: ${{ inputs.topic || 'The hidden engineering of Roman sewage and public latrine hygiene' }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ inputs.gemini_model || vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
@@ -151,8 +165,16 @@ jobs:
       - run: python scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
+      # Run state lives in the Actions cache (10 GB, free) instead of artifact storage (500 MB on this plan),
+      # so a 6–8 minute run fits; older runs saved only as artifacts are still restored from source_run_id.
+      - uses: actions/cache/restore@v4
+        id: runcache
+        with:
+          path: data/runs/${{ env.RUN_ID }}
+          key: run-${{ env.RUN_ID }}-${{ github.run_id }}
+          restore-keys: run-${{ env.RUN_ID }}-
       - uses: actions/download-artifact@v4
-        if: inputs.source_run_id != ''
+        if: inputs.source_run_id != '' && steps.runcache.outputs.cache-matched-key == ''
         with:
           name: production-${{ env.RUN_ID }}
           path: data/runs/${{ env.RUN_ID }}
@@ -199,9 +221,9 @@ jobs:
             data/runs/${{ env.RUN_ID }}/stills/*.png
             data/runs/${{ env.RUN_ID }}/*.json
           retention-days: 30
-      - name: One human-approved 90–105s production video; no upload or paid fallback
+      - name: One owner-authorized production video (90–105 s or 6–8 min); no paid fallback
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
-        timeout-minutes: 60
+        timeout-minutes: ${{ inputs.production_kind == 'production_long' && 310 || 60 }}
         run: |
           if [ -n "$RETRY_FROM" ]; then
             if [ -f "data/runs/$RUN_ID/script.json" ]; then cp "data/runs/$RUN_ID/script.json" "data/runs/$RUN_ID/script-before-correction.json"; fi
@@ -218,26 +240,39 @@ jobs:
               if path.exists(): shutil.copy2(path, archive / name)
           PYARCHIVE
             fi
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC" --retry-from "$RETRY_FROM"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind "$PRODUCTION_KIND" --topic "$TOPIC" --retry-from "$RETRY_FROM"
           else
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind "$PRODUCTION_KIND" --topic "$TOPIC"
           fi
       - name: Verify encoded media
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
+      - name: Save run state (resume and publish read it back)
+        if: always() && inputs.task != 'branding' && inputs.task != 'style-v5'
+        uses: actions/cache/save@v4
+        with:
+          path: data/runs/${{ env.RUN_ID }}
+          key: run-${{ env.RUN_ID }}-${{ github.run_id }}
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && (inputs.task == 'branding' || inputs.task == 'style-v5')
         with:
           name: production-${{ env.RUN_ID }}
           path: data/runs/${{ env.RUN_ID }}/
-          retention-days: 30
+          retention-days: 7
       # Small review package: only the deliverables the owner reviews, not intermediate evidence.
+      # A published video is reviewed in YouTube Studio, so its large final.mp4 stays out of artifact storage.
+      - uses: actions/upload-artifact@v4
+        if: success() && !inputs.publish && inputs.task != 'branding' && inputs.task != 'style-v5'
+        with:
+          name: review-video-${{ env.RUN_ID }}
+          path: data/runs/${{ env.RUN_ID }}/final.mp4
+          retention-days: 14
       - uses: actions/upload-artifact@v4
         if: success()
         with:
           name: review-${{ env.RUN_ID }}
           path: |
-            data/runs/${{ env.RUN_ID }}/final.mp4
+            data/runs/${{ env.RUN_ID }}/short.mp4
             data/runs/${{ env.RUN_ID }}/thumbnail-A.png
             data/runs/${{ env.RUN_ID }}/thumbnail-B.png
             data/runs/${{ env.RUN_ID }}/thumbnail-C.png

@@ -13,7 +13,7 @@ async function execute(input:unknown){
  const options=browserOptions(browserExecutable);
  await withBrowser(()=>openBrowser('chrome',options),async browser=>{
   const common={serveUrl,inputProps:props,puppeteerInstance:browser,...options,timeoutInMilliseconds:30000};
-  const composition=await selectComposition({...common,id:kind==='thumbnail'?'Thumbnail':'Explainer'});
+  const composition=await selectComposition({...common,id:kind==='thumbnail'?'Thumbnail':props.short?'Short':'Explainer'});
   let lastProgress=-300;
   if(kind==='video')await renderMedia({...common,composition,codec:'h264',audioCodec:'aac',outputLocation:path,concurrency:2,onProgress:({renderedFrames})=>{if(renderedFrames-lastProgress>=300){lastProgress=renderedFrames;console.log(JSON.stringify({event:'render_progress',renderedFrames,totalFrames:composition.durationInFrames}));}}});
   else await renderStill({...common,composition,output:path,imageFormat:'png',frame});

@@ -36,7 +36,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 60
     environment: youtube-private
     env:
       # Owner-authorized 2026-10-10: upload private and schedule publishAt for the next config/schedule.json slot.
@@ -61,12 +61,25 @@ jobs:
       - run: python3 scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
+      # Production runs keep their state in the Actions cache; older runs (and create-video) fall back to the artifact.
+      - uses: actions/cache/restore@v4
+        id: runcache
+        if: (inputs.artifact_prefix || 'production') == 'production'
+        with:
+          path: data/runs/${{ env.RUN_ID }}
+          key: run-${{ env.RUN_ID }}-${{ inputs.source_run_id }}
+          restore-keys: run-${{ env.RUN_ID }}-
       - uses: actions/download-artifact@v4
+        if: steps.runcache.outputs.cache-matched-key == ''
         with:
           name: ${{ inputs.artifact_prefix || 'production' }}-${{ env.RUN_ID }}
           path: ${{ (inputs.artifact_prefix || 'production') == 'pipeline' && 'data/runs' || format('data/runs/{0}', env.RUN_ID) }}
           run-id: ${{ inputs.source_run_id }}
           github-token: ${{ github.token }}
+      # Previous publish records (YouTube Short, playlist, TikTok) so a re-run resumes instead of posting twice.
+      - run: python3 scripts/restore-upload-record.py
+        env:
+          GH_TOKEN: ${{ github.token }}
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Private upload, scheduled publish (protected environment approval)
         run: npm run publish -- --run-id "$RUN_ID"
@@ -76,10 +89,14 @@ jobs:
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          # Optional (owner-authorized 2026-10-11): without these secrets the TikTok step is skipped and logged.
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
       - name: Show titles and translations for the owner's Test & Compare and review
         if: always()
         run: |
-          for f in titles.json localizations.json; do echo "== $f"; cat "data/runs/$RUN_ID/$f" 2>/dev/null || echo "(missing)"; echo; done
+          for f in titles.json localizations.json short-upload.json short-schedule.json playlist.json tiktok.json; do echo "== $f"; cat "data/runs/$RUN_ID/$f" 2>/dev/null || echo "(missing)"; echo; done
       - uses: actions/upload-artifact@v4
         if: always()
         with:
@@ -88,11 +105,13 @@ jobs:
           path: |
             data/runs/${{ env.RUN_ID }}/upload.json
             data/runs/${{ env.RUN_ID }}/qa-upload.json
-            data/runs/${{ env.RUN_ID }}/schedule.json
-            data/runs/${{ env.RUN_ID }}/youtube-thumbnail.json
-            data/runs/${{ env.RUN_ID }}/localizations.json
-            data/runs/${{ env.RUN_ID }}/youtube-localizations.json
-            data/runs/${{ env.RUN_ID }}/events.jsonl
+            data/runs/${{ env.RUN_ID }}/schedule*.json
+            data/runs/${{ env.RUN_ID }}/youtube-*.json
+            data/runs/${{ env.RUN_ID }}/localizations*.json
+            data/runs/${{ env.RUN_ID }}/short-*.json
+            data/runs/${{ env.RUN_ID }}/playlist*.json
+            data/runs/${{ env.RUN_ID }}/tiktok.json
+            data/runs/${{ env.RUN_ID }}/logs.jsonl
           retention-days: 30
           if-no-files-found: warn
       - uses: actions/upload-artifact@v4

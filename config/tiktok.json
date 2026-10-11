@@ -1,0 +1,13 @@
+{
+  "_note": "Owner-authorized 2026-10-11. mode 'inbox' sends each Short to the owner's TikTok inbox as a draft to review and post in the app (no app audit needed). mode 'direct' posts with privacyLevel; unaudited apps may only use SELF_ONLY. Switch to PUBLIC_TO_EVERYONE only after TikTok approves the app and the owner decides.",
+  "enabled": true,
+  "mode": "inbox",
+  "privacyLevel": "SELF_ONLY",
+  "isAigc": true,
+  "hashtags": [
+    "#bible",
+    "#history",
+    "#archaeology",
+    "#biblicalhistory"
+  ]
+}

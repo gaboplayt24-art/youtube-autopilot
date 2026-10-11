@@ -1,0 +1,8 @@
+{
+  "_note": "Owner-approved 2026-10-11: each published video joins a series playlist (created once by exact title). Map a run ID to another series to start a new playlist.",
+  "defaultPlaylist": {
+    "title": "Life in Biblical Times",
+    "description": "Illustrated stories about the people, places, customs and discoveries of the biblical world: what the text says, what archaeologists found, and what is still debated."
+  },
+  "runs": {}
+}
