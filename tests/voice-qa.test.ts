@@ -65,3 +65,8 @@ test('rejected beats are narrated over the neighbouring accepted image, never sh
  assert.throws(()=>mergeRejectedBeats([b('a',0,5),b('b',5,30)],new Set(['a'])),/too long/);
  assert.throws(()=>mergeRejectedBeats([b('a',0,5)],new Set()),/No accepted/);
 });
+test('owner approval accepts only the exact listed SHA-256 for this run',async()=>{
+ const {ownerApproval}=await import('../src/visuals/native-v4-2');const {writeFile,rm}=await import('node:fs/promises');
+ const sha='a'.repeat(64),file='data/scripts/test-owner-approval-owner-approved-illustrations.json';await writeFile(file,JSON.stringify({approved:[sha]}));
+ try{assert.deepEqual(await ownerApproval(sha,'test-owner-approval'),{sha256:sha,file});assert.equal(await ownerApproval('b'.repeat(64),'test-owner-approval'),undefined);assert.equal(await ownerApproval(sha,'no-such-run'),undefined);}finally{await rm(file);}
+});
