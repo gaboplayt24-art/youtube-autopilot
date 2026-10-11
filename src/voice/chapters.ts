@@ -1,4 +1,5 @@
 import {join} from 'node:path';
+import {stat} from 'node:fs/promises';
 import {z} from 'zod';
 import {voice,plan} from '../orchestration/schemas';
 import type {TTSProvider} from '../providers/interfaces';
@@ -18,7 +19,9 @@ export async function narrateChapters(p:z.infer<typeof plan>,tts:TTSProvider,dir
  const result:z.infer<typeof voice>={scenes:[],chapters:[]};
  for(let index=0;index<groups.length;index++){const chapter=groups[index];const text=chapter.map(s=>s.narration).join(' ');const path=join(dir,`narration-chapter-${index+1}.wav`);const sidecar=path+'.json';await json(path+'.critical-terms.json',{text,criticalTerms:extractCriticalTerms(text,criticalTerms)});let spoken:{alignment:import('../providers/interfaces').Alignment;words?:import('../providers/interfaces').Alignment};let cached=false;try{const data=await read(sidecar);if(data.text!==text||data.identity!==identity||data.sha256!==await fileDigest(path))throw new Error('Narration checkpoint identity/text/hash mismatch');spoken=data.spoken;cached=true;}catch(e){
    // A take recorded for different chapter text (e.g. after regrouping) is kept as evidence and re-synthesized, never reused.
-   if(String((e as Error).message).startsWith('Narration checkpoint'))await keepRejectedTake(path,'superseded-'+Date.now());else if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;const speak=()=>tts.speak(text,path,{previousText:groups[index-1]?.map(s=>s.narration).join(' '),nextText:groups[index+1]?.map(s=>s.narration).join(' '),criticalTerms:extractCriticalTerms(text,criticalTerms),performance:performancePlans[chapter[0].id]});
+   if(String((e as Error).message).startsWith('Narration checkpoint'))await keepRejectedTake(path,'superseded-'+Date.now());else if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;
+   // A take left by an interrupted run never passed the chapter checks: it is kept as evidence and re-synthesized, never reused.
+   else if(await stat(path).then(()=>true,()=>false))await keepRejectedTake(path,'unverified-'+Date.now());const speak=()=>tts.speak(text,path,{previousText:groups[index-1]?.map(s=>s.narration).join(' '),nextText:groups[index+1]?.map(s=>s.narration).join(' '),criticalTerms:extractCriticalTerms(text,criticalTerms),performance:performancePlans[chapter[0].id]});
    // One fresh synthesis when measured voice QA rejects a take; the rejected take and its evidence are kept, and the new take must pass the same gate.
    try{spoken=await speak();}catch(e){if(!/^Voice QA (FAIL|REVIEW)/.test(String((e as Error).message)))throw e;await keepRejectedTake(path,'rejected-1');spoken=await speak();}}
  const words=spoken.words??spoken.alignment;if(!words.length)throw new Error('Narration has no measured ASR spans');const seconds=await duration(path);const badTiming=invalidTimingIndex(words,seconds);if(badTiming>=0)throw new Error('Invalid chapter measured timing: '+JSON.stringify({path,seconds,index:badTiming,word:words[badTiming],previous:words[badTiming-1]??null}));if(!cached)await json(sidecar,{text,identity,spoken,sha256:await fileDigest(path)});
