@@ -25,3 +25,16 @@ test('small ASR boundary overlaps are split at the midpoint and recorded; large 
  assert.equal(r.words[0].end,34.74);assert.equal(r.words[1].start,34.74);assert.deepEqual(r.adjustments,[{index:1,previous:'of',word:'scholars',overlapMs:80}]);assert.equal(invalidTimingIndex(r.words,40),-1);
  const big=resolveAsrOverlaps([{text:'a',start:1,end:1.6},{text:'b',start:1.3,end:2}]);assert.equal(big.adjustments.length,0);assert.equal(invalidTimingIndex(big.words,5),1);
 });
+test('an echoed beat narration may differ in punctuation and case but not in words',async()=>{
+ const {sameWords}=await import('../src/visuals/visual-thinking');
+ assert.equal(sameWords('The shepherd’s stone — fell.','the shepherd\'s stone fell'),true);
+ assert.equal(sameWords('The scribes who wrote','The scribes who rode'),false);
+});
+test('visual direction resumes finished batches from its checkpoint',async()=>{
+ const {VisualThinkingDirector}=await import('../src/visuals/visual-thinking');const {mkdtemp,rm}=await import('node:fs/promises');const {tmpdir}=await import('node:os');const {join}=await import('node:path');
+ const dir=await mkdtemp(join(tmpdir(),'vt-'));try{const shots=Array.from({length:8},(_,i)=>({id:'s'+i,start:i,end:i+1,narration:'Beat number word '+i+'.',transition:'cut'})) as any;let calls=0;
+  const llm={json:async(_p:string,schema:any)=>{calls++;const ids=[..._p.matchAll(/"id":"(s\d)","narration":"([^"]+)"/g)].map(m=>({id:m[1],narration:m[2]}));return schema.parse({ideas:ids.map(x=>({...x,historicalContext:'Second Temple period Judea, uncertain details.',concept:'An original illustrated scene of a shepherd near desert caves holding a lamp at dusk.',overlay:null,labelPlacement:'top',characterRoles:['Eli']}))});}} as any;
+  const path=join(dir,'vt.json');const first=await new VisualThinkingDirector().illustrate(shots,llm,true,undefined,path);assert.equal(calls,2);assert.equal(first.length,8);
+  await new VisualThinkingDirector().illustrate(shots,llm,true,undefined,path);assert.equal(calls,2);
+ }finally{await rm(dir,{recursive:true});}
+});
