@@ -49,3 +49,11 @@ test('a bare array of visual ideas is accepted as the same answer without its wr
  const llm={json:async(_p:string,schema:any)=>schema.parse([{id:'s0',narration:'A shepherd threw a stone.',historicalContext:'Judean desert, 1940s.',concept:'An original illustrated scene of a young shepherd throwing a stone into a dark cave.',overlay:null,labelPlacement:'top',characterRoles:['shepherd']}])} as any;
  const out=await new VisualThinkingDirector().illustrate(shots,llm,true);assert.equal(out[0].assetPrompt?.includes('shepherd'),true);
 });
+test('v4 prompt wording keeps Eli and ancient dress out of 1940s and modern beats only',async()=>{
+ const {nativePrompt,isModernContext}=await import('../src/visuals/native-v4-2');const style=(await import('../config/style-lock-v5.json')).default as any;
+ assert.equal(isModernContext('1940s Judean desert, Bedouin shepherd'),true);assert.equal(isModernContext('Modern museum in Jerusalem'),true);assert.equal(isModernContext('Judea, first century BCE scribes'),false);
+ const idea={id:'x',narration:'n',historicalContext:'1950s Jerusalem office, scholars',concept:'Eli studies a scroll fragment at a desk under a lamp.',overlay:null,labelPlacement:'top',characterRoles:['Eli']} as any;
+ const v4=nativePrompt(style,idea,'v4');assert.ok(!v4.includes('Ancient Near East dress'));assert.ok(v4.includes('Eli does not appear'));assert.ok(v4.includes('a round-head adult studies'));
+ const ancient=nativePrompt(style,{...idea,historicalContext:'Judea, first century BCE scribes'},'v4');assert.ok(ancient.includes('Ancient Near East dress'));assert.ok(ancient.includes('Eli studies'));
+ assert.equal(nativePrompt(style,idea,'v3').includes('Ancient Near East dress'),true,'v3 stays byte-identical for cached evidence');
+});
