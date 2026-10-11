@@ -24,6 +24,9 @@ export async function videoStatus(videoId:string){const youtube=google.youtube({
 export async function addToPlaylist(videoId:string,title:string,description:string){const youtube=google.youtube({version:'v3',auth:auth()});let playlistId:string|undefined;let page:string|undefined;
  do{const res=await youtube.playlists.list({part:['snippet'],mine:true,maxResults:50,pageToken:page});playlistId=res.data.items?.find(p=>p.snippet?.title===title)?.id??undefined;page=playlistId?undefined:res.data.nextPageToken??undefined;}while(page);
  if(!playlistId){const created=await youtube.playlists.insert({part:['snippet','status'],requestBody:{snippet:{title,description},status:{privacyStatus:'public'}}});playlistId=created.data.id??undefined;if(!playlistId)throw new Error('YouTube did not return a playlist ID');}
- const items=await youtube.playlistItems.list({part:['contentDetails'],playlistId,maxResults:50,videoId});if(!items.data.items?.length)await youtube.playlistItems.insert({part:['snippet'],requestBody:{snippet:{playlistId,resourceId:{kind:'youtube#video',videoId}}}});return playlistId;}
+ // A just-created playlist can briefly read as "not found": retry a few times before giving up.
+ for(let attempt=0;;attempt++){try{const items=await youtube.playlistItems.list({part:['contentDetails'],playlistId,maxResults:50,videoId});if(!items.data.items?.length)await youtube.playlistItems.insert({part:['snippet'],requestBody:{snippet:{playlistId,resourceId:{kind:'youtube#video',videoId}}}});return playlistId;}
+  catch(error){if(attempt>=4||!/cannot be found|playlistNotFound/i.test(String((error as Error).message)))throw error;await new Promise(r=>setTimeout(r,5000*(attempt+1)));}}
+}
 /** The Short releases shortsOffsetHours after the full video, and never sooner than minLeadHours from now. */
 export function shortPublishAt(mainAt:string,slot:{shortsOffsetHours?:number;minLeadHours?:number},now=new Date()){return new Date(Math.max(Date.parse(mainAt)+(slot.shortsOffsetHours??3)*3600000,now.getTime()+(slot.minLeadHours??3)*3600000)).toISOString();}

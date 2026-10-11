@@ -62,9 +62,11 @@ async function main(){
    }
    await log(dir,'private_upload_completed',{videoId:uploaded.videoId});
    const series=seriesConfig.parse(await read('config/series.json'));const playlist=series.runs[runId]??series.defaultPlaylist;
-   await runner.stage('playlist',z.object({playlistId:z.string(),title:z.string()}),async()=>({playlistId:await addToPlaylist(uploaded.videoId,playlist.title,playlist.description),title:playlist.title}));
-   // Owner-authorized 2026-10-11: the vertical Short links the full video and releases after it.
+   // Owner-authorized 2026-10-11: the vertical Short links the full video and releases after it. A playlist or TikTok
+   // problem is reported at the end but never blocks the Short.
    const failures:string[]=[];
+   try{await runner.stage('playlist',z.object({playlistId:z.string(),title:z.string()}),async()=>({playlistId:await addToPlaylist(uploaded.videoId,playlist.title,playlist.description),title:playlist.title}));}
+   catch(error){failures.push('Playlist: '+(error instanceof Error?error.message:'failed'));await log(dir,'playlist_failed',{message:failures.at(-1)});}
    if(await access(join(dir,'short.json')).then(()=>true,()=>false)){
     const short=await artifact(dir,'short',shortRendered);if(await fileDigest(short.path)!==short.sha256)throw new Error('Short checksum mismatch');
     const url=`https://youtu.be/${uploaded.videoId}`,shortTag=runTag+'-short';
