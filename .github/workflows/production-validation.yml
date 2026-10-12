@@ -147,6 +147,8 @@ jobs:
           mkdir .preview
           ffmpeg -v error -i "$src" -vf scale=-2:720 -c:v libx264 -preset medium -b:v 1500k -maxrate 1800k -bufsize 3600k -c:a aac -b:a 128k -movflags +faststart ".preview/${{ inputs.run_id }}-preview.mp4"
           ls -l .preview; test "$(stat -c %s .preview/*.mp4)" -lt 99000000
+          for f in data/runs/${{ inputs.run_id }}/thumbnail-sources/*.png data/runs/${{ inputs.run_id }}/thumbnail*.png; do [ -f "$f" ] && ffmpeg -v error -i "$f" -vf scale=960:-2 -q:v 3 ".preview/$(basename "${f%.png}").jpg"; done || true
+          cp data/runs/${{ inputs.run_id }}/native-thumbnail-*-density-QA-v4.3.json .preview/ 2>/dev/null || true
       - name: Push the preview to its own branch
         run: |
           cd .preview
