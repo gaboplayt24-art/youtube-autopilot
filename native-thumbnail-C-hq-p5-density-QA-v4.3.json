@@ -1,0 +1,45 @@
+{
+  "passed": false,
+  "referenceCompared": true,
+  "referenceStyleMatches": true,
+  "conceptMatches": false,
+  "historicallyPlausible": false,
+  "cropPreservesSubjects": true,
+  "photorealism": false,
+  "cgi": false,
+  "geometricCodeLook": false,
+  "webUILook": false,
+  "bakedText": false,
+  "watermark": false,
+  "scores": {
+    "drawnAppearance": 100,
+    "lineCharacter": 100,
+    "humanDesign": 90,
+    "colorTreatment": 90,
+    "visualSimplicity": 70,
+    "organicShapes": 90,
+    "educationalClarity": 80,
+    "illustratedFeel": 100,
+    "NARRATIVE_SUFFICIENCY": 50,
+    "REFERENCE_DENSITY_MATCH": 60
+  },
+  "issues": [
+    "The glowing object in the lower left resembles a modern spotlight or industrial lamp rather than an ancient curiosity object, violating historical plausibility.",
+    "The concept specified a crimson-red background for the character, but the output included additional environmental elements not requested, increasing complexity."
+  ],
+  "adultAnatomyCorrect": true,
+  "seriousAnatomyDefects": [],
+  "intentionalNegativeSpace": false,
+  "complexityRequiredByNarration": false,
+  "densityRationale": "The image includes a cave environment with multiple rock structures and a light source, exceeding the requested density of a simple background for Eli's close-up.",
+  "wrongProp": true,
+  "majorHistoricalError": true,
+  "unreadableOutput": false,
+  "geminiAdvisoryPassed": false,
+  "subjectiveScoresAdvisory": true,
+  "objectiveFailures": [
+    "requiredConcept",
+    "historicalAccuracy",
+    "correctProp"
+  ]
+}
