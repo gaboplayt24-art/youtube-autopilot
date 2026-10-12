@@ -83,3 +83,9 @@ test('an owner-approved earlier take is used without drawing or reviewing again'
   process.env.RUN_ID='no-such-run';await assert.rejects(new VisualStyleEngine().generate({id:'beat-1'} as never,{referenceSha256:digest('reference')} as never,reference,dir,{dir} as never,undefined as never));
  }finally{if(before===undefined)delete process.env.RUN_ID;else process.env.RUN_ID=before;await rm(approvals);await rm(dir,{recursive:true});}
 });
+test('caption cues overlapping by at most 20 ms are split at the midpoint; larger overlaps stay for QA to reject',async()=>{
+ const {settleCueBoundaries}=await import('../src/captions');
+ const out=settleCueBoundaries([{start:64.0,end:64.793,words:[{start:64.0,end:64.793}]},{start:64.773,end:66.693,words:[{start:64.773,end:65}]}]);
+ assert.ok(Math.abs(out[0].end-64.783)<1e-9&&out[1].start===out[0].end&&out[0].words![0].end===out[0].end&&out[1].words![0].start===out[1].start);
+ const big=settleCueBoundaries([{start:0,end:1.05},{start:1,end:2}]);assert.equal(big[1].start,1);assert.equal(big[0].end,1.05);
+});
