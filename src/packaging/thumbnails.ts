@@ -13,6 +13,10 @@ import {z} from 'zod';
 import {KLEIN_PRODUCTION_SIZE} from '../providers/cloudflare';
 import {json,read} from '../orchestration/io';
 import {validatedJSON} from '../providers/validated-json';
+import {execFile} from 'node:child_process';
+import {stat} from 'node:fs/promises';
+import {promisify} from 'node:util';
+const exec=promisify(execFile);
 /** Evidence-based editorial repair of a rejected thumbnail artwork concept; the approved title, overlay and PackagingScore stay unchanged. */
 export const thumbnailRevision=z.object({runId:z.string(),revisions:z.array(z.object({variant:z.enum(['A','B','C']),id:z.string().regex(/^thumbnail-[ABC]-/),concept:z.string().min(30).max(420),characterRoles:z.array(z.string().max(60)).max(4),historicalContext:z.string().min(10).max(180).optional(),overlay:z.string().max(35).refine(t=>t.trim().split(/\s+/).length<=4,'At most four words').optional(),localizedOverlays:z.record(z.string().min(2),z.string().max(35).refine(t=>t.trim().split(/\s+/).length<=4,'At most four words')).optional(),reason:z.string().min(10)}))});
 async function thumbnailRevisions(runId:string){try{const r=thumbnailRevision.parse(await read(join('data','scripts',runId+'-thumbnail-revisions.json')));if(r.runId!==runId)throw new Error('Thumbnail revision belongs to a different run');return r.revisions;}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return [];throw e;}}
@@ -25,7 +29,26 @@ export function thumbnailConcept(c:{focalSubject:string;expressionOrSituation:st
  const full=`One focal ${c.focalSubject}. ${c.expressionOrSituation}. Background: ${c.background}. ${tail}`;
  return full.length<=420?full:`One focal ${c.focalSubject}. ${c.expressionOrSituation}. ${tail}`.slice(0,420);
 }
+/** Owner decision 2026-10-12: thumbnails the owner made (labels included) replace drawn ones for a run; each is pinned by SHA-256. */
+export const ownerThumbnails=z.object({runId:z.string(),approvedBy:z.string().min(3),variants:z.array(z.object({variant:z.enum(['A','B','C']),path:z.string(),sha256:z.string().length(64),label:z.string().max(35)})).length(3)});
+/** Uniformly fits each owner thumbnail into 1920x1080 (never cropped or stretched) as a JPEG under YouTube's 2 MB limit. */
+export async function ownerSuppliedThumbnails(runId:string,dir:string){
+ let owner;try{owner=ownerThumbnails.parse(await read(join('data','scripts',runId+'-owner-thumbnails.json')));}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return null;throw e;}
+ if(owner.runId!==runId)throw new Error('Owner thumbnails belong to a different run');
+ if(new Set(owner.variants.map(v=>v.variant)).size!==3)throw new Error('Owner thumbnails need distinct variants A, B and C');
+ const variants=[];
+ for(const v of owner.variants){
+  if(await fileDigest(v.path)!==v.sha256)throw new Error('Owner thumbnail integrity mismatch: '+v.path);
+  const out=join(dir,`thumbnail-${v.variant}.jpg`);let quality=2;
+  for(;;){await exec('ffmpeg',['-v','error','-y','-i',v.path,'-vf','scale=1920:1080:force_original_aspect_ratio=decrease:flags=lanczos,pad=1920:1080:(ow-iw)/2:(oh-ih)/2:color=black','-frames:v','1','-q:v',String(quality),out]);if((await stat(out)).size<2_000_000)break;if(++quality>10)throw new Error('Owner thumbnail cannot fit under 2 MB: '+v.path);}
+  const probe=JSON.parse((await exec('ffprobe',['-v','error','-show_streams','-of','json',out])).stdout).streams[0];
+  if(probe.width!==1920||probe.height!==1080)throw new Error('Owner thumbnail has wrong dimensions: '+out);
+  variants.push({variant:v.variant,path:out,sha256:await fileDigest(out),scores:{ownerApproved:1}});
+ }
+ const selected=join(dir,'thumbnail.jpg');await copyFile(variants[0].path,selected);return {path:selected,variant:variants[0].variant,sha256:variants[0].sha256,variants};
+}
 export async function generatePackagedThumbnails(plan:z.infer<typeof packagingPlan>,composition:Composition,style:IllustratedStyleLock,reference:string,dir:string,runId:string,runner:Runner,vision:LLMProvider&VisionProvider,historicalContext:string){
+ const owner=await ownerSuppliedThumbnails(runId,dir);if(owner)return owner;
  // A close-up crop of the approved reference, when the style lock pins one, lets Klein draw a large expressive face for thumbnails.
  const thumbReference=style.thumbnailReference?.path??reference,thumbStyle=style.thumbnailReference?{...style,referenceSha256:style.thumbnailReference.sha256}:style;
  if(style.thumbnailReference&&await fileDigest(thumbReference)!==style.thumbnailReference.sha256)throw new Error('Thumbnail reference integrity mismatch');

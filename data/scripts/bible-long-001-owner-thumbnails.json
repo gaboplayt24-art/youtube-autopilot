@@ -1,0 +1,9 @@
+{
+  "runId": "bible-long-001",
+  "approvedBy": "channel owner, 2026-10-12 (made by the owner; labels drawn in the owner's own image tool)",
+  "variants": [
+    {"variant": "A", "path": "assets/owner-thumbnails/bible-long-001/A.png", "sha256": "0b5c138f53366f34dcbad8658a497fb6f421aac627ef93bacb97fac88123ecd2", "label": "WHO HID THEM?"},
+    {"variant": "B", "path": "assets/owner-thumbnails/bible-long-001/B.png", "sha256": "3477cfdf412b8842fba7038078a4cc5571558169a8d3b8521eac71aecebc61c5", "label": "1,000 YEARS OLDER"},
+    {"variant": "C", "path": "assets/owner-thumbnails/bible-long-001/C.png", "sha256": "8b24c94ed12e750b3bbd33ac7bbfcfa785977611b92a0f4d2c82fc71fb1c1205", "label": "HIDDEN 2,000 YEARS"}
+  ]
+}
