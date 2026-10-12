@@ -15,7 +15,7 @@ on:
         description: Optional existing eligible free model override
         type: string
       task:
-        description: video (default) or branding (channel logo and banner only)
+        description: video (default), branding (channel logo and banner only), review-sheet or preview (720p copy of the rendered video on branch preview/<run_id>)
         type: string
         default: video
       style:
@@ -126,8 +126,37 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add -A && git commit -qm "Owner review sheet for ${{ inputs.run_id }} (no approvals)"
           git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:review/${{ inputs.run_id }}"
+  preview:
+    # Owner preview of the rendered final.mp4 before upload: a smaller 720p copy pushed to its own branch (artifact storage is full).
+    if: inputs.task == 'preview'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      actions: read
+    steps:
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/runs/${{ inputs.run_id }}
+          key: run-${{ inputs.run_id }}-none
+          restore-keys: run-${{ inputs.run_id }}-
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Encode a 720p preview under GitHub's 100 MB file limit
+        run: |
+          src="data/runs/${{ inputs.run_id }}/final.mp4"; test -f "$src"
+          mkdir .preview
+          ffmpeg -v error -i "$src" -vf scale=-2:720 -c:v libx264 -preset medium -b:v 1500k -maxrate 1800k -bufsize 3600k -c:a aac -b:a 128k -movflags +faststart ".preview/${{ inputs.run_id }}-preview.mp4"
+          ls -l .preview; test "$(stat -c %s .preview/*.mp4)" -lt 99000000
+      - name: Push the preview to its own branch
+        run: |
+          cd .preview
+          git init -q -b "preview/${{ inputs.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A && git commit -qm "Owner preview of ${{ inputs.run_id }} (not uploaded anywhere)"
+          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" "HEAD:preview/${{ inputs.run_id }}"
   quality:
-    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan' && inputs.task != 'review-sheet'
+    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan' && inputs.task != 'review-sheet' && inputs.task != 'preview'
     runs-on: ubuntu-latest
     # A 6–8 minute production draws ~80–100 illustrations and narrates/renders 7 minutes on CPU.
     timeout-minutes: ${{ inputs.production_kind == 'production_long' && 340 || 80 }}
