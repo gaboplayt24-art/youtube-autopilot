@@ -79,6 +79,36 @@ class CheckpointTests(unittest.TestCase):
         self.assertTrue(result['historyUnverified'])
         self.assertEqual(result['adjustments'], [{'id': 'audit'}])
 
+    def test_upload_retry_restores_complete_base_then_overlays_existing_video_id(self):
+        import shutil
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            base, record, assets_dir = root/'base', root/'record', root/'assets'
+            base.mkdir(); record.mkdir(); assets_dir.mkdir()
+            (base/'final.mp4').write_bytes(b'original-video-fixture')
+            (base/'metadata.json').write_text('{"title":"Original title"}')
+            (record/'upload.json').write_text('{"videoId":"already-uploaded"}')
+            store.pack(base, assets_dir, 'episode', '100', '1')
+            with patch.dict(os.environ, {'SOURCE_RUN_ID':'100'}):
+                store.pack(record, assets_dir, 'episode', '200', '1', record_only=True)
+            assets = [{'id':i,'name':p.name,'created_at':'2026-10-14T10:00:00Z'} for i,p in enumerate(assets_dir.glob('*.manifest.json'))]
+            def api(repo, route, optional=False):
+                return {'private':True} if not route else {'assets':assets}
+            def download(*args):
+                name=args[args.index('--pattern')+1]; target=Path(args[args.index('--dir')+1])/name
+                shutil.copyfile(assets_dir/name,target)
+                return b''
+            previous=Path.cwd()
+            try:
+                os.chdir(root)
+                with patch.object(store,'api_json',side_effect=api),patch.object(store,'gh',side_effect=download):
+                    store.restore('owner/repo','episode','200','production')
+                target=root/'data/runs/episode'
+                self.assertEqual((target/'final.mp4').read_bytes(),b'original-video-fixture')
+                self.assertEqual(json.loads((target/'upload.json').read_text())['videoId'],'already-uploaded')
+            finally:
+                os.chdir(previous)
+
     def test_upload_record_does_not_duplicate_video_and_has_separate_version_name(self):
         with tempfile.TemporaryDirectory() as directory:
             root = Path(directory) / 'source'; root.mkdir()

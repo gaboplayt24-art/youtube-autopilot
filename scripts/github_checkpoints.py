@@ -109,7 +109,7 @@ def pack(root, directory, run_id, source_run_id, attempt, chunk_bytes=CHUNK_BYTE
     archive.unlink()
     manifest = {'version': 1, 'runId': run_id, 'sourceRunId': source_run_id, 'attempt': attempt,
                 'commit': os.environ.get('GITHUB_SHA'), 'files': count, 'parts': parts,
-                'recordOnly': record_only, 'createdAt': datetime.now(timezone.utc).isoformat()}
+                'recordOnly': record_only, 'baseSourceRunId': os.environ.get('SOURCE_RUN_ID') if record_only else None, 'createdAt': datetime.now(timezone.utc).isoformat()}
     path = directory / (stem + '.manifest.json')
     path.write_text(json.dumps(manifest, indent=2))
     return path, manifest
@@ -142,28 +142,52 @@ def unpack(manifest, directory, destination, run_id, source_run_id):
         zipped.extractall(destination)
 
 
-def restore(repo, run_id, source_run_id, prefix):
+def restore(repo, run_id, source_run_id, prefix, visited=None):
     require_private(repo)
+    visited = set() if visited is None else set(visited)
+    if source_run_id in visited or len(visited) >= 8:
+        raise ValueError('Checkpoint base chain repeats or is too deep')
+    visited.add(source_run_id)
     tag = 'pipeline-checkpoint-' + identity(run_id)
     data = api_json(repo, 'releases/tags/' + tag, optional=True)
-    stem = f'{"upload" if prefix == "upload" else "run"}-{identity(source_run_id)}-attempt-'
-    candidates = [] if not data else [a for a in data['assets'] if a['name'].startswith(stem) and a['name'].endswith('.manifest.json')]
-    if candidates:
-        asset = max(candidates, key=lambda a: (a['created_at'], a['id']))
+    assets = [] if not data else data['assets']
+
+    def candidate(kind):
+        stem = f'{kind}-{identity(source_run_id)}-attempt-'
+        matches = [a for a in assets if a['name'].startswith(stem) and a['name'].endswith('.manifest.json')]
+        return max(matches, key=lambda a: (a['created_at'], a['id'])) if matches else None
+
+    def extract(asset, restore_base=False):
         with tempfile.TemporaryDirectory() as directory:
             gh('release', 'download', tag, '--repo', repo, '--pattern', asset['name'], '--dir', directory)
             manifest = json.loads((Path(directory) / asset['name']).read_text())
+            if manifest.get('runId') != run_id or manifest.get('sourceRunId') != source_run_id:
+                raise ValueError('Checkpoint archive identity mismatch')
+            if restore_base:
+                base = manifest.get('baseSourceRunId')
+                if not base or base == source_run_id:
+                    raise ValueError('Upload checkpoint has no distinct complete base archive')
+                restore(repo, run_id, identity(base), 'production', visited)
             for part in manifest['parts']:
                 if Path(part['name']).name != part['name']:
                     raise ValueError('Unsafe archive part path')
                 gh('release', 'download', tag, '--repo', repo, '--pattern', part['name'], '--dir', directory)
             unpack(manifest, directory, Path('data/runs') / run_id, run_id, source_run_id)
-        print(json.dumps({'event': 'checkpoint_restored', 'tag': tag, 'sourceRunId': source_run_id}))
+
+    complete, record = candidate('run'), candidate('upload')
+    if complete:
+        extract(complete)
+        if record:
+            extract(record)  # Preserve uploaded video ID and scheduling evidence on retry.
+    elif record:
+        extract(record, restore_base=True)
+    else:
+        # Original Actions artifacts remain readable during the migration.
+        destination = 'data/runs' if prefix == 'pipeline' else 'data/runs/' + run_id
+        gh('run', 'download', identity(source_run_id), '--repo', repo, '--name', prefix + '-' + run_id, '--dir', destination)
+        print(json.dumps({'event': 'legacy_artifact_restored', 'sourceRunId': source_run_id}))
         return
-    # Original Actions artifacts remain readable during the migration.
-    destination = 'data/runs' if prefix == 'pipeline' else 'data/runs/' + run_id
-    gh('run', 'download', identity(source_run_id), '--repo', repo, '--name', prefix + '-' + run_id, '--dir', destination)
-    print(json.dumps({'event': 'legacy_artifact_restored', 'sourceRunId': source_run_id}))
+    print(json.dumps({'event': 'checkpoint_restored', 'tag': tag, 'sourceRunId': source_run_id}))
 
 
 def latest_quota(repo):
