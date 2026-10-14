@@ -1,6 +1,14 @@
 import {script,type Script} from '../orchestration/schemas';
 import {validatedJSON} from '../providers/validated-json';
 import type {LLMProvider} from '../providers/interfaces';
+import {z} from 'zod';
+import {join} from 'node:path';
+import {read} from '../orchestration/io';
+export const editorialDraftSchema=z.object({sourceUrls:z.array(z.string().url()).min(1),researchFocus:z.string().min(10).optional(),scriptGuidance:z.string().min(10).optional(),instruction:z.string().min(10).optional(),narration:z.string().min(10).optional()}).passthrough();
+export async function loadEditorialDraft(runId:string,required:boolean,directory='data/scripts'){
+ z.string().regex(/^[A-Za-z0-9_-]+$/).parse(runId);
+ try{return editorialDraftSchema.parse(await read(join(directory,runId+'-editorial-draft.json')));}catch(error){if(!required&&(error as NodeJS.ErrnoException).code==='ENOENT')return undefined;throw error;}
+}
 export const demoScript:Script={title:'Where Your Attention Goes',topic:'A visual metaphor for attention',hook:'Imagine your attention as a spotlight.',criticalTerms:[],scenes:[
 {id:'scene-1',narration:'Imagine your attention as a spotlight in a dark city. Every window is a possible story. Tonight, one small light has to choose where to look.',visual:'A luminous eye above a night city; attention as a spotlight',claims:[]},
 {id:'scene-2',narration:'Messages arrive like bright signs along a crowded street. Follow every sign, and the route becomes a maze. The destination slips out of view. Pause at the corner before choosing another turn.',visual:'A city street, notification signs and a maze map',claims:[]},

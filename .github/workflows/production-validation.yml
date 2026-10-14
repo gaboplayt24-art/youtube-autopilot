@@ -22,6 +22,11 @@ on:
         description: v4 (locked doodle) or v5 (owner-approved round-head Eli style)
         type: string
         default: v4
+      production_kind:
+        description: Existing 90-second format or approximately ten-minute documentary
+        type: choice
+        options: [production_test, quality_test]
+        default: production_test
       publish:
         description: After every QA gate passes, upload private to YouTube and schedule the next daily slot (owner-authorized 2026-10-10)
         type: boolean
@@ -109,6 +114,7 @@ jobs:
       STYLE_REFERENCE_PATH: ${{ inputs.style == 'v5' && 'assets/references/style-v5-eli.png' || 'assets/references/style-v4.jpg' }}
       RUN_ID: ${{ inputs.run_id || github.run_id }}
       TOPIC: ${{ inputs.topic || 'The hidden engineering of Roman sewage and public latrine hygiene' }}
+      PRODUCTION_KIND: ${{ inputs.production_kind || 'production_test' }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ inputs.gemini_model || vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
       GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
@@ -119,6 +125,15 @@ jobs:
       CLOUDFLARE_PLAN: workers_paid
       CLOUDFLARE_PAID_MONTHLY_CAP_USD: '8'
     steps:
+      - name: Prepare artifact-capacity check before any inference
+        run: mkdir -p .storage-preflight && printf 'Production outputs must be retainable before inference.\n' > .storage-preflight/check.txt
+      - name: Verify artifact storage is available before generating assets
+        uses: actions/upload-artifact@v4
+        with:
+          name: production-storage-preflight-${{ github.run_id }}
+          path: .storage-preflight/check.txt
+          include-hidden-files: true
+          retention-days: 1
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
@@ -199,7 +214,7 @@ jobs:
             data/runs/${{ env.RUN_ID }}/stills/*.png
             data/runs/${{ env.RUN_ID }}/*.json
           retention-days: 30
-      - name: One human-approved 90–105s production video; no upload or paid fallback
+      - name: Source-grounded approved episode; all QA gates and provider budgets enforced
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
         timeout-minutes: 60
         run: |
@@ -218,9 +233,9 @@ jobs:
               if path.exists(): shutil.copy2(path, archive / name)
           PYARCHIVE
             fi
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC" --retry-from "$RETRY_FROM"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind "$PRODUCTION_KIND" --topic "$TOPIC" --retry-from "$RETRY_FROM"
           else
-            npm run video -- --run-id "$RUN_ID" --mode production --production-kind production_test --topic "$TOPIC"
+            npm run video -- --run-id "$RUN_ID" --mode production --production-kind "$PRODUCTION_KIND" --topic "$TOPIC"
           fi
       - name: Verify encoded media
         if: inputs.task != 'branding' && inputs.task != 'style-v5'

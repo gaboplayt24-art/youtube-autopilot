@@ -1,5 +1,5 @@
 {
-  "status": "blocked-pending-GitHub-artifact-quota-recalculation",
+  "status": "superseded-before-generation-by-owner-selected-reference-channel-topic",
   "runId": "bible-noah-001",
   "topic": "Three construction details of Noahs ark in Genesis, and how later illustrations differ from the text",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38507511351",
@@ -163,5 +163,6 @@
     "probeStatus": "failed: GitHub storage quota not recalculated yet",
     "backupManifest": "/workspace/artifact-backups/before-biblical-production/verified-backups.json",
     "reasonNotGenerated": "The next video/checkpoints cannot be preserved until artifact uploads work. Avoid spending new generation quota on outputs that cannot be retained."
-  }
+  },
+  "supersededBy": "bible-angels-001"
 }

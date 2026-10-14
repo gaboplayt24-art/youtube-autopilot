@@ -1,0 +1,75 @@
+{
+  "provenance": "Original Codex editorial brief for the owner-authorized next documentary, 2026-10-14. The reference channel public metadata identified the topic; no competitor narration or transcript was downloaded or copied.",
+  "sourceUrls": [
+    "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Luke%201%3A11-20&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Daniel%2010%3A10-21&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Jude%201%3A8-10&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Ezekiel%2010%3A15-22&version=KJV"
+  ],
+  "researchFocus": "Compare source-attributed biblical messengers, named figures, six-winged beings in Isaiah, and the visionary creatures/wheels in Ezekiel. Retrieve evidence from every supplied passage. Distinguish literary narrative, symbolic vision, terminology and interpretations; do not present supernatural imagery as archaeological footage or scientifically established creatures.",
+  "scriptGuidance": "An original roughly ten-minute illustrated documentary, target eight to ten minutes when the source material supports it; existing quality_test plan targets 600 seconds at the approved narrator pace. Never pad to reach duration. Topic inspired by Every Angel in the Bible Drawn and Explained, but do not reuse its title, narration, chapter sequence, distinctive analogies, artwork or characters. Use original Eli v5, real voice QA, mobile captions and evidence-based claims. Every claim must be explicitly attributed to its biblical passage or identified as interpretation. Not every celestial being in a vision is simply called an angel. State which passage has which wing/face/eye description. Do not claim a universal taxonomy, confirmed appearance of every angel, secretly revealed knowledge, predictions, proof/disproof of religion or a recovered physical being. Distinguish Gabriel in Luke, Michael in Daniel/Jude, and Isaiah/Ezekiel visions. Proper names and factual numbers actually spoken remain critical terms and must pass ASR QA. Do not use unverified pronunciation respelling. One new idea per measured shot, meaningful visual changes every two to four seconds, direct hook and unresolved source-based question early, callback ending without filler.",
+  "instruction": "Use the existing long-form chapter pipeline and one approved narrator throughout; approximately 1400 words for the existing 600-second quality_test plan, respecting each chapter budget. First title must come from the original packaging candidates, never copy the reference title. Scripture references may appear as editorial overlays. No baked text in FLUX. Heavenly visions are expressly symbolic illustrated interpretations, not photographed creatures; intentional source-described wings/faces must match the exact passage, while unintended duplicated limbs, malformed bodies or wrong counts remain hard failures. Ordinary people are historically appropriate ancient Near Eastern reconstructions; Luke scenes are first-century Judaea, prophetic visions have no claim of a physically excavated being. Modern comparisons, if any, are explicitly modern.",
+  "chapters": [
+    {
+      "act": "HOOK",
+      "purpose": "Would a person in a biblical story recognize a heavenly messenger? Establish the difference between narrative visitors and prophetic visions without claiming an encounter happens to viewers.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 1",
+      "purpose": "Messengers who interact with people: visitors received in Genesis, and the warning about hospitality in Hebrews. Explain the narrative context respectfully; omit the later sexual violence in Genesis 19. No universal rule that angels have no wings.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 2",
+      "purpose": "Named figures and different terms: Gabriel identifies himself in Luke; Michael is described as a chief prince in Daniel and as an archangel in Jude. Do not call Gabriel an archangel as if Luke assigns that title, or invent a universal hierarchy.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Luke%201%3A11-20&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Daniel%2010%3A10-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Jude%201%3A8-10&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 3",
+      "purpose": "Compare symbolic visions carefully: six wings and their paired actions in Isaiah 6; four faces/four wings and eye-covered wheel rims in Ezekiel 1; living creatures identified as cherubim in Ezekiel 10, which also describes eyes on bodies. Do not conflate the passages or assert every angel has these features.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%2010%3A15-22&version=KJV"
+      ]
+    },
+    {
+      "act": "PAYOFF",
+      "purpose": "Use the actual passages to separate a messenger function, a specifically assigned title, and distinct visionary beings. Show a sourced comparison, not a made-up nine-level angel chart. Every number and specific role must match its cited passage.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Luke%201%3A11-20&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Daniel%2010%3A10-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Jude%201%3A8-10&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%2010%3A15-22&version=KJV"
+      ]
+    },
+    {
+      "act": "ENDING",
+      "purpose": "Resolve the original recognition question with the contrast between hospitality narratives and prophetic vision. Conclude with the importance of checking the passage instead of assuming one appearance for all heavenly beings. No generic recap or prolonged subscribe outro.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV"
+      ]
+    }
+  ]
+}
