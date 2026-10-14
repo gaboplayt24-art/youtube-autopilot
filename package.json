@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint src tests scripts *.js",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --import ./scripts/test-isolation.mjs --test tests/*.test.ts",
+    "test": "tsx --import ./scripts/test-isolation.mjs --test tests/*.test.ts && python3 -m unittest discover -s tests/python",
     "video": "tsx src/orchestration/cli.ts video",
     "research": "tsx src/orchestration/cli.ts research",
     "publish": "tsx src/orchestration/cli.ts publish",

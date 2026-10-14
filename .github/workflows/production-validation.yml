@@ -36,7 +36,7 @@ on:
         type: string
         default: The hidden engineering of Roman sewage and public latrine hygiene
 permissions:
-  contents: read
+  contents: write
   actions: read
 concurrency:
   group: free-provider-account
@@ -125,16 +125,11 @@ jobs:
       CLOUDFLARE_PLAN: workers_paid
       CLOUDFLARE_PAID_MONTHLY_CAP_USD: '8'
     steps:
-      - name: Prepare artifact-capacity check before any inference
-        run: mkdir -p .storage-preflight && printf 'Production outputs must be retainable before inference.\n' > .storage-preflight/check.txt
-      - name: Verify artifact storage is available before generating assets
-        uses: actions/upload-artifact@v4
-        with:
-          name: production-storage-preflight-${{ github.run_id }}
-          path: .storage-preflight/check.txt
-          include-hidden-files: true
-          retention-days: 1
       - uses: actions/checkout@v4
+      - name: Verify private release storage before inference
+        run: python3 scripts/github_checkpoints.py probe
+        env:
+          GH_TOKEN: ${{ github.token }}
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -166,13 +161,12 @@ jobs:
       - run: python scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
-      - uses: actions/download-artifact@v4
+      - name: Restore prior video checkpoints when supplied
         if: inputs.source_run_id != ''
-        with:
-          name: production-${{ env.RUN_ID }}
-          path: data/runs/${{ env.RUN_ID }}
-          run-id: ${{ inputs.source_run_id }}
-          github-token: ${{ github.token }}
+        run: python3 scripts/github_checkpoints.py restore
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SOURCE_RUN_ID: ${{ inputs.source_run_id }}
       - name: Install media tools
         timeout-minutes: 7
         run: |
@@ -240,37 +234,18 @@ jobs:
       - name: Verify encoded media
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
-      - uses: actions/upload-artifact@v4
+      - name: Preserve video and resumable checkpoints in private release
         if: always()
-        with:
-          name: production-${{ env.RUN_ID }}
-          path: data/runs/${{ env.RUN_ID }}/
-          retention-days: 30
-      # Small review package: only the deliverables the owner reviews, not intermediate evidence.
-      - uses: actions/upload-artifact@v4
-        if: success()
-        with:
-          name: review-${{ env.RUN_ID }}
-          path: |
-            data/runs/${{ env.RUN_ID }}/final.mp4
-            data/runs/${{ env.RUN_ID }}/thumbnail-A.png
-            data/runs/${{ env.RUN_ID }}/thumbnail-B.png
-            data/runs/${{ env.RUN_ID }}/thumbnail-C.png
-            data/runs/${{ env.RUN_ID }}/titles.json
-            data/runs/${{ env.RUN_ID }}/final-script.json
-            data/runs/${{ env.RUN_ID }}/visual-plan.json
-            data/runs/${{ env.RUN_ID }}/audio-QA.json
-            data/runs/${{ env.RUN_ID }}/visual-QA.json
-            data/runs/${{ env.RUN_ID }}/sfx-QA.json
-            data/runs/${{ env.RUN_ID }}/production-summary.json
-          retention-days: 30
-      - uses: actions/upload-artifact@v4
+        run: |
+          if [ -f scripts/github_checkpoints.py ]; then python3 scripts/github_checkpoints.py save; fi
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Persist shared quota in private repository release
         if: always()
-        with:
-          name: free-quota-ledger
-          path: .cache/quota/free-quota-ledger.json
-          include-hidden-files: true
-          retention-days: 30
+        run: |
+          if [ -f scripts/github_checkpoints.py ]; then python3 scripts/github_checkpoints.py save-quota; fi
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Retain downloaded public models after a failed quality gate
         if: always() && !cancelled() && steps.models.outputs.cache-hit != 'true'
         uses: actions/cache/save@v4

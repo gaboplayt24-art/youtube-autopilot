@@ -18,7 +18,7 @@ on:
         default: false
         description: Resume packaging only; preserve existing visual QA and images without re-review/inference
 permissions:
-  contents: read
+  contents: write
   actions: read
 concurrency:
   group: free-provider-account
@@ -93,12 +93,12 @@ jobs:
           name: native-packaging-${{ env.RUN_ID }}
           path: data/runs/${{ env.RUN_ID }}/
           retention-days: 30
-      - uses: actions/upload-artifact@v4
+      - name: Persist shared quota in private repository release
         if: always()
-        with:
-          name: free-quota-ledger
-          path: .cache/quota/free-quota-ledger.json
-          include-hidden-files: true
+        run: |
+          if [ -f scripts/github_checkpoints.py ]; then python3 scripts/github_checkpoints.py save-quota; fi
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Fail requested stage failures; preserve cached visual verdict
         if: always()
         env:

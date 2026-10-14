@@ -266,3 +266,21 @@ The real style audition first generates exactly four representative samples (cha
 The channel owner approved the final illustrated style on 2026-10-09. The permanent direction is `config/channel-art-direction.json`; the exact repaired source-02 digest has a human stylization exception while its original Gemini refusal remains in `assets/approved-style/original-gemini-review.json`. Serious anatomical defects remain blocking.
 
 Run the single approved 90–105-second production validation from Actions → **production-validation** → Run workflow. Use `run_id=production-approved-001`. It uses the frozen topic/packaging evidence, approved reference-cloned Chatterbox Nano, actual Gemini/FLUX, and the existing Remotion pipeline. Only GitHub Secrets supply credentials. No paid fallback or YouTube upload is enabled. After a failure, use the same run ID and `source_run_id` to restore its artifact and resume completed stages; never reuse the ID for a different script/configuration. Inspect `production-<run_id>` before authorizing a longer video. Editorial title scores are not predicted CTR.
+
+Production checkpoint storage (private repository)
+
+Production and upload checkpoints now use versioned assets in private-repository
+prereleases named `pipeline-checkpoint-<run_id>`. This avoids depending on the
+exhausted Actions artifact-storage allowance. GitHub Releases allows files under
+2 GiB; archives are split into 1 GiB parts with SHA-256 verification. The helper
+refuses to write in a public repository. This does not publish videos to YouTube.
+After all QA passes, the release also contains individually downloadable video,
+thumbnail and JSON review files. Raw checkpoint archives retain intermediate evidence.
+
+Run **Actions → checkpoint-storage-check** to verify write/read access without
+inference. Production first checks this storage, and `source_run_id` can restore
+its archives or original Actions artifacts. Shared quota persistence uses the
+private `pipeline-quota-ledger` prerelease; restoration merges recorded events
+with legacy artifacts, retaining historical uncertainty and budget reservations.
+The affected manual workflows need `contents: write` for checkpoint/ledger assets,
+using the repository-scoped `github.token`. No new credential or paid plan is needed.

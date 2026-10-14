@@ -1,0 +1,54 @@
+name: checkpoint-storage-check
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  write:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_ID: storage-smoke-${{ github.run_id }}
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/github_checkpoints.py probe
+      - name: Store an explicitly labelled test checkpoint
+        run: |
+          mkdir -p "data/runs/$RUN_ID"
+          printf 'Storage smoke fixture; not a production result.\n' > "data/runs/$RUN_ID/evidence.txt"
+          python3 scripts/github_checkpoints.py save
+      - run: python3 scripts/restore-free-quota.py
+      - run: python3 scripts/github_checkpoints.py save-quota
+  read:
+    needs: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+      actions: read
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_ID: storage-smoke-${{ github.run_id }}
+      SOURCE_RUN_ID: ${{ github.run_id }}
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/github_checkpoints.py restore
+      - name: Verify private checkpoint is readable with minimum read permissions
+        run: |
+          python3 - <<'PY'
+          import os,pathlib
+          file=pathlib.Path('data/runs')/os.environ['RUN_ID']/'evidence.txt'
+          assert file.read_text()=='Storage smoke fixture; not a production result.\n'
+          print('Checkpoint restored and verified; no inference or YouTube publication.')
+          PY
+      - run: python3 scripts/restore-free-quota.py

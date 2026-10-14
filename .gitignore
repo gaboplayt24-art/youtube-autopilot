@@ -17,3 +17,6 @@ data/benchmarks/*.json
 # Generated canonical character packs are retained in workflow artifacts.
 assets/characters/*/*.png
 assets/characters/*/*.json
+
+# Python helper bytecode.
+__pycache__/

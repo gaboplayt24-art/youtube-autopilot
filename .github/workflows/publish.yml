@@ -28,7 +28,7 @@ on:
         default: production
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 concurrency:
   group: publish-${{ inputs.run_id || github.run_id }}
@@ -61,12 +61,11 @@ jobs:
       - run: python3 scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
-      - uses: actions/download-artifact@v4
-        with:
-          name: ${{ inputs.artifact_prefix || 'production' }}-${{ env.RUN_ID }}
-          path: ${{ (inputs.artifact_prefix || 'production') == 'pipeline' && 'data/runs' || format('data/runs/{0}', env.RUN_ID) }}
-          run-id: ${{ inputs.source_run_id }}
-          github-token: ${{ github.token }}
+      - name: Restore video from private release or legacy Actions artifact
+        run: python3 scripts/github_checkpoints.py restore
+        env:
+          GH_TOKEN: ${{ github.token }}
+          ARTIFACT_PREFIX: ${{ inputs.artifact_prefix || 'production' }}
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Private upload, scheduled publish (protected environment approval)
         run: npm run publish -- --run-id "$RUN_ID"
@@ -80,25 +79,14 @@ jobs:
         if: always()
         run: |
           for f in titles.json localizations.json; do echo "== $f"; cat "data/runs/$RUN_ID/$f" 2>/dev/null || echo "(missing)"; echo; done
-      - uses: actions/upload-artifact@v4
+      - name: Preserve upload and scheduling evidence in private release
         if: always()
-        with:
-          name: upload-${{ env.RUN_ID }}
-          # Small upload record only; the full run already lives in the production artifact.
-          path: |
-            data/runs/${{ env.RUN_ID }}/upload.json
-            data/runs/${{ env.RUN_ID }}/qa-upload.json
-            data/runs/${{ env.RUN_ID }}/schedule.json
-            data/runs/${{ env.RUN_ID }}/youtube-thumbnail.json
-            data/runs/${{ env.RUN_ID }}/localizations.json
-            data/runs/${{ env.RUN_ID }}/youtube-localizations.json
-            data/runs/${{ env.RUN_ID }}/events.jsonl
-          retention-days: 30
-          if-no-files-found: warn
-      - uses: actions/upload-artifact@v4
+        run: python3 scripts/github_checkpoints.py save --publish-record-only
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Persist shared quota in private repository release
         if: always()
-        with:
-          name: free-quota-ledger
-          path: .cache/quota/free-quota-ledger.json
-          include-hidden-files: true
-          retention-days: 30
+        run: |
+          if [ -f scripts/github_checkpoints.py ]; then python3 scripts/github_checkpoints.py save-quota; fi
+        env:
+          GH_TOKEN: ${{ github.token }}
