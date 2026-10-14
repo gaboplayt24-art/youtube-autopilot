@@ -1,6 +1,6 @@
 {
   "runId": "bible-angels-001",
-  "status": "editorial-and-cloud-workflow-prepared; production requires artifact-capacity preflight",
+  "status": "production-dispatched-and-blocked-before-inference-by-GitHub-artifact-storage-quota",
   "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
@@ -118,5 +118,20 @@
   "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
   "blocker": "Actions still rejects artifact uploads despite prior cleanup; billing API is inaccessible to this integration. Preflight will stop before any inference if storage is unavailable.",
   "videoGenerated": false,
-  "videoScheduled": false
+  "videoScheduled": false,
+  "productionAttempt": {
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38629892076",
+    "commit": "ea35b75d57d97d3ebc61839b1f49728c00fb7cd7",
+    "conclusion": "failure",
+    "failedStep": "Verify artifact storage is available before generating assets",
+    "error": "Artifact storage quota has been hit",
+    "inferenceStarted": false,
+    "publishJob": "skipped",
+    "generationApiCostUsd": 0
+  },
+  "validation": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "testsPassed": 173
+  }
 }
