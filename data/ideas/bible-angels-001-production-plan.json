@@ -1,7 +1,7 @@
 {
   "runId": "bible-angels-001",
-  "status": "production-dispatched-and-blocked-before-inference-by-GitHub-artifact-storage-quota",
-  "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
+  "status": "paused-by-owner-for-reference-editing-analysis",
+  "ownerRequestedLength": "Choose what best serves the video; editorial target about 8–10 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
   "style": "v5",
@@ -133,5 +133,12 @@
     "lint": "passed",
     "typecheck": "passed",
     "testsPassed": 173
+  },
+  "editingReview": {
+    "referenceFileSha256": "e72173e7ead6a3603c3973f0ae2473ae8fb49072cf78fbe2ef7d5b6274b1cc14",
+    "analysis": "docs/analysis/bible-animations-editing.md",
+    "fullReferenceDurationSeconds": 1606.85424,
+    "newProductionDispatched": false,
+    "nextStep": "Review original-art editing proofs and layer requirements before relaunch; preserve the approved narrator, v5 identity, factual gates and provider budgets."
   }
 }

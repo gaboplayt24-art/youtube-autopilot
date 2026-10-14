@@ -1,5 +1,5 @@
 {
-  "provenance": "Original Codex editorial brief for the owner-authorized next documentary, 2026-10-14. The reference channel public metadata identified the topic; no competitor narration or transcript was downloaded or copied.",
+  "provenance": "Original Codex editorial brief, 2026-10-14. The public channel metadata identified the topic; the subsequently supplied full video was inspected only for abstract editing techniques. No competitor narration or artwork is reused.",
   "sourceUrls": [
     "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
     "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV",
@@ -71,5 +71,6 @@
         "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV"
       ]
     }
-  ]
+  ],
+  "editingGuidance": "See docs/analysis/bible-animations-editing.md. Use progressive explanation, original expressive reactions, source-attributed comparisons and selective short labels anchored to actual aligned speech. A meaningful visual event is not necessarily a new full-frame illustration. Preserve v5 one-original-per-beat; do not claim independent character animation when the source is flattened. Keep captions readable and separate from conceptual labels. Avoid index-driven flashes or copying the competitor six-category sequence, diagram, narration or closing religious interpretation."
 }

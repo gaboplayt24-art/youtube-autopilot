@@ -1,0 +1,52 @@
+{
+  "reference": {
+    "videoId": "TC_Y5J48sxk",
+    "userSuppliedFile": "Every Angel in the Bible Drawn and Explained (1).mp4",
+    "sha256": "e72173e7ead6a3603c3973f0ae2473ae8fb49072cf78fbe2ef7d5b6274b1cc14",
+    "durationSeconds": 1606.85424,
+    "width": 640,
+    "height": 360,
+    "fps": "30000/1001",
+    "sizeBytes": 24252526
+  },
+  "method": {
+    "visualSamplingSeconds": 2,
+    "sampledFrames": 803,
+    "fullStreamSceneDetection": true,
+    "fullAudioMeasurement": true,
+    "asr": "faster-whisper tiny.en int8 CPU",
+    "asrSegments": 785,
+    "asrWords": 4460,
+    "lastAsrEndSeconds": 1605.68,
+    "limitations": [
+      "Not continuous human audiovisual playback/listening",
+      "Two-second samples can miss shorter transitions",
+      "ASR has obvious lexical errors; not authoritative quotes or factual evidence",
+      "Mixed compressed audio cannot establish isolated music or SFX levels",
+      "Scene detector events are not a shot count"
+    ]
+  },
+  "measurements": {
+    "largeVisualChangeThreshold": 0.14,
+    "eventClusteringSeconds": 0.5,
+    "largeVisualEvents": 143,
+    "medianEventIntervalSeconds": 8.792116500000006,
+    "meanEventIntervalSeconds": 11.15871,
+    "integratedLufs": -21.1,
+    "truePeakDbtp": -1.1,
+    "loudnessRangeLu": 4,
+    "silenceThresholdDb": -40,
+    "silenceMinimumSeconds": 0.7,
+    "detectedSilenceIntervals": 0
+  },
+  "implementation": {
+    "report": "docs/analysis/bible-animations-editing.md",
+    "stage": "illustrated-edit",
+    "newInferenceCalls": 0,
+    "paidApiCostUsd": 0,
+    "videoGenerated": false,
+    "youtubePublication": false,
+    "productionPaused": true,
+    "independentCharacterLayersImplemented": false
+  }
+}
