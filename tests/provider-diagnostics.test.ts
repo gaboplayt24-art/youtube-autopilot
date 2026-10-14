@@ -58,3 +58,11 @@ test('a lone object wrapped in a one-element array is unwrapped, but a real arra
   await assert.rejects(withQuota(new FreeQuotaLedger(dir),()=>reply('[{"other":1}]').json('c',schema)));
  }finally{if(old===undefined)delete process.env.GEMINI_API_KEY;else process.env.GEMINI_API_KEY=old;if(flag===undefined)delete process.env.GEMINI_FREE_TIER_CONFIRMED;else process.env.GEMINI_FREE_TIER_CONFIRMED=flag;await rm(dir,{recursive:true});}
 });
+
+test('manual Gemini override runs first while fallbacks remain discovered approved models only',()=>{
+ const listed=['models/gemini-3.8-flash','models/gemini-3.1-flash-lite','models/unknown'];
+ assert.deepEqual(compatibleGeminiModels(listed,'gemini-3.1-flash-lite'),['gemini-3.1-flash-lite','gemini-3.8-flash']);
+ assert.deepEqual(compatibleGeminiModels(listed,'models/gemini-3.1-flash-lite'),['gemini-3.1-flash-lite','gemini-3.8-flash']);
+ assert.throws(()=>compatibleGeminiModels(listed,'unknown'),/discovered approved/);
+ assert.throws(()=>compatibleGeminiModels(listed,'gemini-3.5-flash'),/discovered approved/);
+});
