@@ -269,10 +269,13 @@ def main():
     status_path, qa_path = root / 'status.json', root / 'qa.json'
     if not args.publish_record_only and status_path.exists() and qa_path.exists():
         status, qa = json.loads(status_path.read_text()), json.loads(qa_path.read_text())
-        if status.get('state') == 'ready_for_private_upload' and qa.get('passed') is True:
+        if status.get('state') in {'ready_for_private_upload', 'awaiting_owner_thumbnail'} and qa.get('passed') is True:
             names = ['final.mp4', 'thumbnail-A.png', 'thumbnail-B.png', 'thumbnail-C.png',
                      'titles.json', 'final-script.json', 'visual-plan.json', 'audio-QA.json',
-                     'visual-QA.json', 'sfx-QA.json', 'production-summary.json']
+                     'visual-QA.json', 'sfx-QA.json', 'production-summary.json', 'metadata.json', 'qa.json']
+            if status.get('state') == 'awaiting_owner_thumbnail':
+                names = [name for name in names if not name.startswith('thumbnail-')]
+                names.append('thumbnail-handoff.json')
             with tempfile.TemporaryDirectory() as directory:
                 review = []
                 for name in names:

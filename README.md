@@ -284,3 +284,5 @@ private `pipeline-quota-ledger` prerelease; restoration merges recorded events
 with legacy artifacts, retaining historical uncertainty and budget reservations.
 The affected manual workflows need `contents: write` for checkpoint/ledger assets,
 using the repository-scoped `github.token`. No new credential or paid plan is needed.
+
+When the owner designs the cover, dispatch `production-validation` with `owner_thumbnail=true` and `publish=false`. The video, metadata and all video QA still run, but no thumbnail illustrations are generated. A successful run ends in `awaiting_owner_thumbnail`, with `thumbnail-handoff.json`; it is not upload-ready. QA-passed review media and checkpoints remain downloadable from the private release. Supply and validate the actual owner cover before creating its checksum-backed thumbnail checkpoint and scheduling; the publish command continues to require that checkpoint.

@@ -1,6 +1,6 @@
 {
   "runId": "bible-angels-001",
-  "status": "paused-by-owner-for-reference-editing-analysis",
+  "status": "owner-authorized-generation-pending-dispatch",
   "ownerRequestedLength": "Choose what best serves the video; editorial target about 8–10 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
@@ -139,6 +139,13 @@
     "analysis": "docs/analysis/bible-animations-editing.md",
     "fullReferenceDurationSeconds": 1606.85424,
     "newProductionDispatched": false,
-    "nextStep": "Review original-art editing proofs and layer requirements before relaunch; preserve the approved narrator, v5 identity, factual gates and provider budgets."
+    "nextStep": "Generate the original episode with the measured-speech edit; owner supplies the final thumbnail before scheduling.",
+    "productionPaused": false
+  },
+  "delivery": {
+    "thumbnail": "owner-supplied",
+    "generateThumbnails": false,
+    "automaticUpload": false,
+    "scheduling": "Pending owner thumbnail and all QA gates"
   }
 }

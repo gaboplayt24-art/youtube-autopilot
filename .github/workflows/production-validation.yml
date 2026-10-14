@@ -31,6 +31,10 @@ on:
         description: After every QA gate passes, upload private to YouTube and schedule the next daily slot (owner-authorized 2026-10-10)
         type: boolean
         default: false
+      owner_thumbnail:
+        description: Owner will provide the thumbnail; skip generated covers and block automatic publishing
+        type: boolean
+        default: false
       topic:
         description: Video topic; the run reads data/scripts/<run_id>-editorial-draft.json
         type: string
@@ -100,6 +104,7 @@ jobs:
     timeout-minutes: 80
     env:
       AUTO_PUBLISH: 'false'
+      OWNER_SUPPLIED_THUMBNAIL: ${{ inputs.owner_thumbnail && 'true' || 'false' }}
       FREE_ONLY: 'true'
       PAID_FALLBACK_ENABLED: 'false'
       MAX_PAID_COST_USD: '0'
@@ -256,7 +261,7 @@ jobs:
           key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
   publish:
     needs: quality
-    if: success() && inputs.publish && inputs.task != 'branding' && inputs.task != 'style-v5' && inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
+    if: success() && inputs.publish && !inputs.owner_thumbnail && inputs.task != 'branding' && inputs.task != 'style-v5' && inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
     uses: ./.github/workflows/publish.yml
     with:
       run_id: ${{ inputs.run_id }}
