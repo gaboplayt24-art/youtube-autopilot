@@ -1,0 +1,167 @@
+{
+  "status": "blocked-pending-GitHub-artifact-quota-recalculation",
+  "runId": "bible-noah-001",
+  "topic": "Three construction details of Noahs ark in Genesis, and how later illustrations differ from the text",
+  "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38507511351",
+  "researchKind": "Public YouTube recent interest sample; not keyword search volume",
+  "observedAt": "2026-10-14T03:41:29.545Z",
+  "windowDays": 180,
+  "topics": [
+    {
+      "topic": "Noahs ark",
+      "sampleSize": 15,
+      "distinctChannels": 15,
+      "medianViewsPerDay": 4221.530562192095
+    },
+    {
+      "topic": "Ark of the Covenant",
+      "sampleSize": 5,
+      "distinctChannels": 4,
+      "medianViewsPerDay": 715.2645500755485
+    },
+    {
+      "topic": "Book of Enoch",
+      "sampleSize": 13,
+      "distinctChannels": 12,
+      "medianViewsPerDay": 217.8450060803902
+    },
+    {
+      "topic": "Dead Sea Scrolls",
+      "sampleSize": 21,
+      "distinctChannels": 20,
+      "medianViewsPerDay": 212.51360912435086
+    },
+    {
+      "topic": "Life in ancient Jerusalem",
+      "sampleSize": 12,
+      "distinctChannels": 11,
+      "medianViewsPerDay": 76.24652019749412
+    },
+    {
+      "topic": "Tower of Babel",
+      "sampleSize": 15,
+      "distinctChannels": 15,
+      "medianViewsPerDay": 18.379834287167853
+    },
+    {
+      "topic": "Food in Bible times",
+      "sampleSize": 22,
+      "distinctChannels": 22,
+      "medianViewsPerDay": 1.585144493301596
+    },
+    {
+      "topic": "Women in Bible times",
+      "sampleSize": 12,
+      "distinctChannels": 10,
+      "medianViewsPerDay": 1.2928533705516632
+    }
+  ],
+  "decision": "Noahs ark has the highest median observed view velocity in this query sample. Do not copy the high-performing alleged-discovery/proof/podcast angles: our angle follows biblical text and clearly attributed historical interpretation. Channel size, clickbait, format and recent news can explain much of this signal.",
+  "titles": [
+    {
+      "rank": 1,
+      "title": "Noah's Ark: Three Details the Pictures Leave Out",
+      "rationale": "Concrete three-part promise matches script; strong text-versus-picture curiosity without claiming a discovered wreck."
+    },
+    {
+      "rank": 2,
+      "title": "The Strange Blueprint Behind Noah's Ark",
+      "rationale": "Curiosity about construction; avoid suggesting a complete modern engineering plan."
+    },
+    {
+      "rank": 3,
+      "title": "Noah's Ark Had Three Floors. What Else Did You Miss?",
+      "rationale": "Specific source-grounded detail as hook; longer mobile title."
+    },
+    {
+      "rank": 4,
+      "title": "What Genesis Actually Says About Noah's Ark",
+      "rationale": "Clear source attribution and educational framing; less immediate visual curiosity."
+    },
+    {
+      "rank": 5,
+      "title": "Noah's Ark: The Wood, the Floors, and the Mystery",
+      "rationale": "Signals contents and uncertainty; weaker focus than the first candidate."
+    }
+  ],
+  "titleScoresAreNotCTRPredictions": true,
+  "thumbnailConcepts": [
+    {
+      "variant": "A",
+      "idea": "Original Eli surprised beside a cutaway wooden ark with three clear floors; saturated blue background; one focal curiosity, no scene copied from competitors.",
+      "remotionText": "THREE FLOORS"
+    },
+    {
+      "variant": "B",
+      "idea": "Original Eli puzzled holding two different wood samples, simple warm background, ark silhouette secondary; visual uncertainty, not a claimed timber identification.",
+      "remotionText": "WHICH WOOD?"
+    },
+    {
+      "variant": "C",
+      "idea": "Original Eli indicating dark pitch coating on the inside and outside of a small illustrative wood section, strong separation; simple original composition.",
+      "remotionText": "INSIDE TOO?"
+    }
+  ],
+  "shorts": [
+    {
+      "id": "A",
+      "angle": "Three floors and the side door",
+      "plannedSeconds": [
+        20,
+        40
+      ],
+      "hook": "Most ark pictures skip this detail: three floors.",
+      "boundaryPolicy": "Select a self-contained contiguous passage using actual word timestamps after synthesis; no invented times.",
+      "aspectRatio": "9:16"
+    },
+    {
+      "id": "B",
+      "angle": "The uncertain identity of the wood",
+      "plannedSeconds": [
+        20,
+        40
+      ],
+      "hook": "What wood was the ark made from? The text is harder to translate than you think.",
+      "boundaryPolicy": "Use the actual narrated uncertainty; never assert an identified species. Measured timestamps only.",
+      "aspectRatio": "9:16"
+    },
+    {
+      "id": "C",
+      "angle": "Pitch applied inside and out",
+      "plannedSeconds": [
+        20,
+        40
+      ],
+      "hook": "The coating was not just on the outside.",
+      "boundaryPolicy": "A complete contiguous narrated explanation, measured timestamps and mobile captions.",
+      "aspectRatio": "9:16"
+    }
+  ],
+  "production": {
+    "style": "v5",
+    "narrator": "approved Chatterbox Nano reference-cloned",
+    "durationSeconds": [
+      90,
+      105
+    ],
+    "publish": "Only after all QA gates, private upload and the next existing daily YouTube schedule slot",
+    "fundamentalSafetyRulesChanged": false,
+    "videoGenerated": false,
+    "videoScheduled": false
+  },
+  "socialPublishing": {
+    "TikTok": "No account supplied. Direct Post audit/intended-use restrictions must be resolved before public automation. MCP does not grant platform permissions.",
+    "Instagram": "Account creation/linking and professional-account permissions pending; no account created yet.",
+    "audioRights": "Check music rights separately for TikTok/Instagram; YouTube Audio Library suitability for YouTube does not by itself verify rights elsewhere."
+  },
+  "storage": {
+    "ownerAuthorizedCleanup": true,
+    "deletedArtifacts": 5,
+    "freedBytes": 426979040,
+    "remainingArtifactsBytes": 83530338,
+    "probeWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38507990754",
+    "probeStatus": "failed: GitHub storage quota not recalculated yet",
+    "backupManifest": "/workspace/artifact-backups/before-biblical-production/verified-backups.json",
+    "reasonNotGenerated": "The next video/checkpoints cannot be preserved until artifact uploads work. Avoid spending new generation quota on outputs that cannot be retained."
+  }
+}
