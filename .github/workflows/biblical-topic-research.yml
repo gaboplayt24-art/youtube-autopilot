@@ -1,6 +1,11 @@
 name: biblical-topic-research
 on:
   workflow_dispatch:
+    inputs:
+      validate_storage_only:
+        description: Check artifact storage without any external API calls
+        type: boolean
+        default: false
 permissions:
   contents: read
   actions: read
@@ -27,16 +32,20 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
       - run: npx tsx src/ideas/biblical-demand-cli.ts
+        if: inputs.validate_storage_only != true
         env:
           YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
+      - name: Prepare tiny storage probe
+        if: inputs.validate_storage_only == true
+        run: mkdir -p data/research/biblical-demand && printf 'storage check\n' > data/research/biblical-demand/storage-check.txt
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: biblical-topic-research
           path: data/research/biblical-demand/
-          retention-days: 30
+          retention-days: 7
       - uses: actions/upload-artifact@v4
-        if: always()
+        if: always() && inputs.validate_storage_only != true
         with:
           name: free-quota-ledger
           path: .cache/quota/free-quota-ledger.json
