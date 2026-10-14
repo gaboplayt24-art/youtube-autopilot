@@ -23,7 +23,7 @@ def gh(*args):
 
 def api_json(repo, route, optional=False):
     try:
-        return json.loads(gh('api', f'repos/{repo}/{route}'))
+        return json.loads(gh('api', f'repos/{repo}' + ('/' + route if route else '')))
     except subprocess.CalledProcessError as error:
         if optional and b'HTTP 404' in error.stderr:
             return None

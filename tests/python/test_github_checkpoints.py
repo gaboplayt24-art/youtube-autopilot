@@ -45,6 +45,11 @@ class CheckpointTests(unittest.TestCase):
                 store.unpack(manifest, directory, Path(directory) / 'target', 'a', '1')
             self.assertFalse((Path(directory) / 'escape.txt').exists())
 
+    def test_repository_metadata_endpoint_does_not_add_a_trailing_slash(self):
+        with patch.object(store, 'gh', return_value=b'{"private":true}') as gh:
+            self.assertTrue(store.api_json('owner/repo', '')['private'])
+            gh.assert_called_once_with('api', 'repos/owner/repo')
+
     def test_public_repository_cannot_create_or_upload_release(self):
         with patch.object(store, 'api_json', return_value={'private': False}), patch.object(store, 'gh') as gh:
             with self.assertRaisesRegex(RuntimeError, 'PRIVATE'):
