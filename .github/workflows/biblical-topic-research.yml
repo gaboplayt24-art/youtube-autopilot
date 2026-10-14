@@ -1,0 +1,44 @@
+name: biblical-topic-research
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      MAX_PAID_COST_USD: '0'
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: npx tsx src/ideas/biblical-demand-cli.ts
+        env:
+          YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: biblical-topic-research
+          path: data/research/biblical-demand/
+          retention-days: 30
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: free-quota-ledger
+          path: .cache/quota/free-quota-ledger.json
+          include-hidden-files: true
+          retention-days: 30
