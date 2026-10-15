@@ -11,9 +11,13 @@ const ordinals:Record<string,string>={first:'1st',second:'2nd',third:'3rd',fourt
 const numberWords:Record<string,number>={zero:0,one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,eleven:11,twelve:12,thirteen:13,fourteen:14,fifteen:15,sixteen:16,seventeen:17,eighteen:18,nineteen:19,twenty:20,thirty:30,forty:40,fifty:50,sixty:60,seventy:70,eighty:80,ninety:90};
 function integerWords(words:string[]){let total=0,group=0;for(const w of words){if(w==='and')continue;if(w==='hundred')group=(group||1)*100;else if(w==='thousand'){total+=(group||1)*1000;group=0;}else group+=numberWords[w];}return total+group;}
 /** Only orthography and numeric representations change. Lexical errors remain errors. */
-export function normalizedTokens(text:string):Token[]{
+export function normalizedTokens(text:string,citations:Map<string,Set<string>>=new Map()):Token[]{
  const raw=text.trim().split(/\s+/);const pieces:Token[]=[];
- raw.forEach((word,i)=>{const value=word.toLowerCase().replace(/(\d),(?=\d{3}\b)/g,'$1').replace(/(?<=[a-z])\.(?=[a-z])/g,'').replace(/[’']/g,'');for(const part of value.match(/[a-z]+|\d+(?:\.\d+)?(?:st|nd|rd|th)?/g)??[])pieces.push({text:ordinals[part]??(part==='bc'?'bce':part==='ad'?'ce':part),indices:[i]});});
+ raw.forEach((word,i)=>{const value=word.toLowerCase().replace(/(\d),(?=\d{3}\b)/g,'$1').replace(/(?<=[a-z])\.(?=[a-z])/g,'').replace(/[’']/g,'');const previous=raw[i-1]?.toLowerCase().replace(/[^a-z]/g,'');const dotted=value.replace(/[.,;!?]+$/,'');
+ // Only an exact numeric sequence from an explicit reference citation may be
+ // re-tokenized. Ordinary decimals and changed verse numbers remain errors.
+ if(/^\d+(?:\.\d+)+$/.test(dotted)&&citations.get(previous)?.has(dotted.split('.').join('|'))){for(const part of dotted.split('.'))pieces.push({text:part,indices:[i]});return;}
+ for(const part of value.match(/[a-z]+|\d+(?:\.\d+)?(?:st|nd|rd|th)?/g)??[])pieces.push({text:ordinals[part]??(part==='bc'?'bce':part==='ad'?'ce':part),indices:[i]});});
  const result:Token[]=[];
  for(let i=0;i<pieces.length;i++){
   const first=pieces[i];if(numberWords[first.text]===undefined){result.push(first);continue;}
@@ -32,7 +36,10 @@ export function normalizedTokens(text:string):Token[]{
 }
 export type Edit={type:'equal'|'substitution'|'insertion'|'deletion';referenceIndex:number|null;observedIndex:number|null;reference:string|null;observed:string|null};
 export function compareTranscripts(reference:string,observed:string){
- const a=normalizedTokens(reference),b=normalizedTokens(observed),cols=b.length+1;const matrix=new Uint32Array((a.length+1)*cols);
+ const citations=new Map<string,Set<string>>();
+ // A chapter:verse citation supplies context; no global decimal-to-integer rule.
+ for(const match of reference.matchAll(/\b(Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|Samuel|Kings|Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|Corinthians|Galatians|Ephesians|Philippians|Colossians|Thessalonians|Timothy|Titus|Philemon|Hebrews|James|Peter|Jude|Revelation)\s+(\d+:\d+(?:[-–]\d+)?)/gi)){const book=match[1].toLowerCase(),sequences=citations.get(book)??new Set<string>();sequences.add(match[2].split(/[:\-–]/).join('|'));citations.set(book,sequences);}
+ const a=normalizedTokens(reference),b=normalizedTokens(observed,citations),cols=b.length+1;const matrix=new Uint32Array((a.length+1)*cols);
  for(let i=0;i<=a.length;i++)matrix[i*cols]=i;for(let j=0;j<=b.length;j++)matrix[j]=j;
  for(let i=1;i<=a.length;i++)for(let j=1;j<=b.length;j++)matrix[i*cols+j]=Math.min(matrix[(i-1)*cols+j]+1,matrix[i*cols+j-1]+1,matrix[(i-1)*cols+j-1]+Number(a[i-1].text!==b[j-1].text));
  const edits:Edit[]=[];let i=a.length,j=b.length;

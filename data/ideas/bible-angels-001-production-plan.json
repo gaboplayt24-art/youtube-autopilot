@@ -1,6 +1,6 @@
 {
   "runId": "bible-angels-001",
-  "status": "owner-authorized-generation-script-revision",
+  "status": "voice-critical-term-review-pending",
   "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
@@ -116,24 +116,28 @@
   "shortsBoundaryPolicy": "Select self-contained original narration from actual ASR word timestamps after synthesis. No fabricated timestamps or mid-sentence crop. Adapt portrait visuals and captions; verify each export before upload.",
   "publishing": "Owner authorized an original next video and its scheduling. Upload private only after all QA, then use the existing daily publication slot. Social posting requires connected accounts and a compatible approved publisher.",
   "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
-  "blocker": "Script repetition rejected before voice/artwork. The writer now applies the opening instruction only to HOOK and revises later chapters against the actual earlier narration. Private release checkpoint storage is operational.",
+  "blocker": "Exact scripture-citation numeric formatting has been corrected in code. A lower-case key factual term (seraphim) remains ambiguous in the same unchanged WAV across ASR decodings; preserve audio and request targeted human listening before any visual generation. Do not silently replace lexical differences.",
   "videoGenerated": false,
   "videoScheduled": false,
   "productionAttempt": {
-    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38670365046",
-    "commit": "8bf4a687f234ec36a5e14e0dc5c37823e3527362",
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38671014999",
+    "commit": "a84cde48aa0dafbd6eb4392a90f8daad57be0467",
     "conclusion": "failure",
-    "failedStage": "script",
-    "error": "Full script repetition QA rejected four repeated sentences and thirteen repeated twelve-word phrases.",
+    "failedStage": "voice",
     "inferenceStarted": true,
-    "voiceGenerated": false,
+    "voiceGenerated": "first two parts only; closing chapter pending",
     "fluxGenerated": false,
-    "publishJob": "skipped"
+    "publishJob": "skipped",
+    "factsPassed": true,
+    "checkedClaims": 17,
+    "scriptWords": 1445,
+    "generatedVoiceWords": 1310,
+    "rawVoiceSeconds": 526.96
   },
   "validation": {
     "lint": "passed",
     "typecheck": "passed",
-    "typescriptTestsPassed": 192,
+    "typescriptTestsPassed": 196,
     "pythonTestsPassed": 8
   },
   "editingReview": {
@@ -150,5 +154,7 @@
     "automaticUpload": false,
     "scheduling": "Pending owner thumbnail and all QA gates"
   },
-  "supportRecommendation": "docs/recommendations/channel-support.md"
+  "supportRecommendation": "docs/recommendations/channel-support.md",
+  "voiceReview": "docs/analysis/bible-angels-001-voice-review.md",
+  "multiplatformRecommendation": "docs/recommendations/multiplatform-free.md"
 }

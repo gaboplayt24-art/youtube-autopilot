@@ -5,7 +5,7 @@ import type {LLMProvider} from '../providers/interfaces';
 import {z} from 'zod';
 import {join} from 'node:path';
 import {read} from '../orchestration/io';
-export const editorialDraftSchema=z.object({sourceUrls:z.array(z.string().url()).min(1),researchFocus:z.string().min(10).optional(),scriptGuidance:z.string().min(10).optional(),instruction:z.string().min(10).optional(),narration:z.string().min(10).optional()}).passthrough();
+export const editorialDraftSchema=z.object({criticalTerms:z.array(z.string().min(1)).optional(),sourceUrls:z.array(z.string().url()).min(1),researchFocus:z.string().min(10).optional(),scriptGuidance:z.string().min(10).optional(),instruction:z.string().min(10).optional(),narration:z.string().min(10).optional()}).passthrough();
 export async function loadEditorialDraft(runId:string,required:boolean,directory='data/scripts'){
  z.string().regex(/^[A-Za-z0-9_-]+$/).parse(runId);
  try{return editorialDraftSchema.parse(await read(join(directory,runId+'-editorial-draft.json')));}catch(error){if(!required&&(error as NodeJS.ErrnoException).code==='ENOENT')return undefined;throw error;}

@@ -8,3 +8,20 @@ test('repeated words and independent ASR alternatives are classified without dis
 test('WER review preserves evidence and requires explicit listening approval',()=>{const report=evaluateVoice('washed cloth was sealed in the quiet room while the careful clerk checked every mark and closed the wooden box',{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',chunks:[{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',timestamp:[0,3]}]},[],policy);assert.equal(report.status,'review');assert.throws(()=>requireVoiceQA(report),/Voice QA REVIEW/);assert.equal(report.normalizedComparison.differences[0].reference,'sealed');});
 test('measured alignment retains whole ASR spans and never fabricates missing word timestamps',()=>{const alignment=measuredReferenceAlignment('a stone wall',{text:'a stonewall',chunks:[{text:'a',timestamp:[0,1]},{text:'stonewall',timestamp:[1,3]}]});assert.deepEqual(alignment,[{text:'a',start:0,end:1},{text:'stone wall',start:1,end:3}]);assert.throws(()=>measuredReferenceAlignment('a wall',{text:'a',chunks:[{text:'a',timestamp:[0,null]}]}),/missing timestamp/)});
 test('milestone approval permits REVIEW but never a missing critical name',()=>{const review=evaluateVoice('washed cloth was sealed in the quiet room while the careful clerk checked every mark and closed the wooden box',{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',chunks:[{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',timestamp:[0,3]}]},[],policy);assert.doesNotThrow(()=>requireVoiceQA(review,true));const critical=evaluateVoice('Augustus arrived in Alexandria',{text:'August arrived in Alexandria',chunks:[{text:'August arrived in Alexandria',timestamp:[0,3]}]},['Augustus'],policy);assert.throws(()=>requireVoiceQA(critical,true),/FAIL/);});
+
+test('ASR dotted scripture citations match only exact reference numbers and preserve original timestamp indices',()=>{
+ const reference='Check Isaiah 6:2 and Ezekiel 1:4-21, Genesis 19:1-3 and Hebrews 13:2.';
+ const observed='Check Isaiah 6.2 and Ezekiel 1.4.21, Genesis 19.1.3 and Hebrews 13.2.';
+ const c=compareTranscripts(reference,observed);assert.equal(c.wordErrorRate,0);assert.deepEqual(c.observedTokens.filter(t=>t.indices[0]===2).map(t=>t.text),['6','2']);
+ assert.ok(compareTranscripts('Check Isaiah 6:2','Check Isaiah 6.3').wordErrorRate>0);
+ assert.ok(compareTranscripts('A value of 6.2','A value of 6 2').wordErrorRate>0);
+ assert.ok(compareTranscripts('Check Isaiah 6:2 and a value of 6.2','Check Isaiah 6.2 and a value of 6 2').wordErrorRate>0);
+ const aligned=measuredReferenceAlignment('Isaiah 6:2',{text:'Isaiah 6.2',chunks:[{text:'Isaiah',timestamp:[0,1]},{text:'6.2',timestamp:[1,2]}]});
+ assert.deepEqual(aligned,[{text:'Isaiah',start:0,end:1},{text:'6:2',start:1,end:2}]);
+});
+
+test('a changed lower-case factual term fails even when lexical WER is below two percent',()=>{
+ const context=Array.from({length:250},(_,i)=>'detail'+i).join(' ');
+ const report=evaluateVoice(context+' seraphim',{text:context+' set of time',chunks:[{text:context+' set of time',timestamp:[0,90]}]},['seraphim'],policy);
+ assert.equal(report.lexicalStatus,'pass');assert.equal(report.status,'fail');assert.equal(report.criticalTermAccuracy,0);
+});

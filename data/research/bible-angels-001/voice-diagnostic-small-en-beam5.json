@@ -1,0 +1,4200 @@
+{
+  "text": "in the sixth chapter of the Book of Isaiah. The prophet describes an intense vision of the throne room. He records the presence of beings identified as seraphim standing above the throne. The text specifies their unique appearance, stating that each of these figures possesses six wings. Their arrangement is described with precision. They use two wings to cover their faces, and another two to cover their feet, utilizing the final pair of wings for flight. light. This description stands as a fixed element of Isaiah's recorded vision, providing a specific anatomical count within the prophetic text. It remains distinct from other accounts, focusing on the posture and movement of these beings as they exist within the setting of the divine throne room as perceived by the prophet. In stark contrast, the book of Ezekiel details a different visionary experience. The first chapter describes four living creatures. Each exhibiting four faces the likeness of a man, a lion, an ox, and an eagle, alongside four wings. These creatures are not presented in isolation. They are accompanied by complex wheels that stand beside them. The prophet notes that these wheels are of a great height, and are bordered with rims full of eyes. These visionary elements emphasize a form that deviates significantly from human appearance. Later, in the tenth chapter of the same book, the text provides a categorical identification, stating that these specific living creatures are cherubums. By keeping these descriptions tied strictly to their respective passages, Isaiah's six-winged seraphim and Ezekiel's four-faced cherubim, we can distinguish how the biblical text characterizes these figures in their varying roles as throne-room guardians. These accounts do not attempt the unified taxonomy. Rather, they present individual reports of prophetic visions where the appearance of the celestial beings is tied directly to the majesty and setting of the throne room itself. The presence of the eyes on the real rims, as specified in the first chapter of Ezekiel, serves as a defining visual detail of his encounter. Just as the six-wing configuration distinguishes the set of time in Isaiah's vision, each passage remains a distinct record of a visionary experience, offering a look at the diversity of descriptive language used by the prophets when documenting their encounter with the celestial. To resolve the visual confusion in these accounts, anchor every artistic interpretation directly to the test when viewing a figure with six wings. Check Isaiah 6.2 to confirm it reflects the seraphins in that specific temple vision. Conversely, if an image displays four faces paired with wheels containing eyes, Ezekiel 1.4.21 serves as the precise source. A common error involves merging these distinct prophetic reports into a single inaccurate composite. Isaiah's six-winged beings and Ezekiel's four-faced creatures represent separate, highly specific visionary accounts. By examining each passage in isolation, we see that these descriptions are not interchangeable, as each prophet documented distinct details within his specific encounter. Verifying the source confirms that these visionary figures operate in settings vastly different from the messengers seen in Genesis or the New Testament. The identification method is simple, natch descriptive features against the specific verse rather than relying on generalized traditions. Genesis 19, 1-3 presents visitors appearing as travelers, while Hebrews 13-2 notes that such beings may appear as ordinary strangers. Distinguishing these categories requires identifying if a passage describes an encounter with a human-like messenger or a symbolic vision. By honoring the specific language of each report, we recognize that the biblical record preserves a wide variety of contexts for these encounters.",
+  "model": "faster-whisper/small.en",
+  "decoder": {
+    "beam_size": 5,
+    "condition_on_previous_text": false,
+    "initial_prompt": null
+  },
+  "elapsedSeconds": 29.84835134097375,
+  "chunks": [
+    {
+      "text": " in",
+      "timestamp": [
+        0.0,
+        0.22
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        0.22,
+        0.34
+      ]
+    },
+    {
+      "text": " sixth",
+      "timestamp": [
+        0.34,
+        0.58
+      ]
+    },
+    {
+      "text": " chapter",
+      "timestamp": [
+        0.58,
+        1.1
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        1.1,
+        1.72
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        1.72,
+        1.82
+      ]
+    },
+    {
+      "text": " Book",
+      "timestamp": [
+        1.82,
+        1.96
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        1.96,
+        2.12
+      ]
+    },
+    {
+      "text": " Isaiah.",
+      "timestamp": [
+        2.12,
+        2.5
+      ]
+    },
+    {
+      "text": " The",
+      "timestamp": [
+        3.2,
+        3.44
+      ]
+    },
+    {
+      "text": " prophet",
+      "timestamp": [
+        3.44,
+        3.72
+      ]
+    },
+    {
+      "text": " describes",
+      "timestamp": [
+        3.72,
+        4.24
+      ]
+    },
+    {
+      "text": " an",
+      "timestamp": [
+        4.24,
+        4.44
+      ]
+    },
+    {
+      "text": " intense",
+      "timestamp": [
+        4.44,
+        4.84
+      ]
+    },
+    {
+      "text": " vision",
+      "timestamp": [
+        4.84,
+        5.2
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        5.2,
+        5.42
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        5.42,
+        5.56
+      ]
+    },
+    {
+      "text": " throne",
+      "timestamp": [
+        5.56,
+        5.78
+      ]
+    },
+    {
+      "text": " room.",
+      "timestamp": [
+        5.78,
+        6.12
+      ]
+    },
+    {
+      "text": " He",
+      "timestamp": [
+        6.62,
+        6.78
+      ]
+    },
+    {
+      "text": " records",
+      "timestamp": [
+        6.78,
+        7.12
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        7.12,
+        7.42
+      ]
+    },
+    {
+      "text": " presence",
+      "timestamp": [
+        7.42,
+        7.76
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        7.76,
+        8.02
+      ]
+    },
+    {
+      "text": " beings",
+      "timestamp": [
+        8.02,
+        8.24
+      ]
+    },
+    {
+      "text": " identified",
+      "timestamp": [
+        8.24,
+        8.9
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        8.9,
+        9.2
+      ]
+    },
+    {
+      "text": " seraphim",
+      "timestamp": [
+        9.2,
+        9.66
+      ]
+    },
+    {
+      "text": " standing",
+      "timestamp": [
+        9.66,
+        10.04
+      ]
+    },
+    {
+      "text": " above",
+      "timestamp": [
+        10.04,
+        10.46
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        10.46,
+        10.7
+      ]
+    },
+    {
+      "text": " throne.",
+      "timestamp": [
+        10.7,
+        11.0
+      ]
+    },
+    {
+      "text": " The",
+      "timestamp": [
+        11.66,
+        11.8
+      ]
+    },
+    {
+      "text": " text",
+      "timestamp": [
+        11.8,
+        12.04
+      ]
+    },
+    {
+      "text": " specifies",
+      "timestamp": [
+        12.04,
+        12.64
+      ]
+    },
+    {
+      "text": " their",
+      "timestamp": [
+        12.64,
+        12.9
+      ]
+    },
+    {
+      "text": " unique",
+      "timestamp": [
+        12.9,
+        13.22
+      ]
+    },
+    {
+      "text": " appearance,",
+      "timestamp": [
+        13.22,
+        13.76
+      ]
+    },
+    {
+      "text": " stating",
+      "timestamp": [
+        14.22,
+        14.52
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        14.52,
+        14.86
+      ]
+    },
+    {
+      "text": " each",
+      "timestamp": [
+        14.86,
+        15.12
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        15.12,
+        15.32
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        15.32,
+        15.54
+      ]
+    },
+    {
+      "text": " figures",
+      "timestamp": [
+        15.54,
+        15.84
+      ]
+    },
+    {
+      "text": " possesses",
+      "timestamp": [
+        15.84,
+        16.38
+      ]
+    },
+    {
+      "text": " six",
+      "timestamp": [
+        16.38,
+        16.82
+      ]
+    },
+    {
+      "text": " wings.",
+      "timestamp": [
+        16.82,
+        17.2
+      ]
+    },
+    {
+      "text": " Their",
+      "timestamp": [
+        17.98,
+        18.28
+      ]
+    },
+    {
+      "text": " arrangement",
+      "timestamp": [
+        18.28,
+        18.68
+      ]
+    },
+    {
+      "text": " is",
+      "timestamp": [
+        18.68,
+        19.06
+      ]
+    },
+    {
+      "text": " described",
+      "timestamp": [
+        19.06,
+        19.54
+      ]
+    },
+    {
+      "text": " with",
+      "timestamp": [
+        19.54,
+        19.84
+      ]
+    },
+    {
+      "text": " precision.",
+      "timestamp": [
+        19.84,
+        20.28
+      ]
+    },
+    {
+      "text": " They",
+      "timestamp": [
+        20.9,
+        21.12
+      ]
+    },
+    {
+      "text": " use",
+      "timestamp": [
+        21.12,
+        21.4
+      ]
+    },
+    {
+      "text": " two",
+      "timestamp": [
+        21.4,
+        21.66
+      ]
+    },
+    {
+      "text": " wings",
+      "timestamp": [
+        21.66,
+        22.02
+      ]
+    },
+    {
+      "text": " to",
+      "timestamp": [
+        22.02,
+        22.22
+      ]
+    },
+    {
+      "text": " cover",
+      "timestamp": [
+        22.22,
+        22.4
+      ]
+    },
+    {
+      "text": " their",
+      "timestamp": [
+        22.4,
+        22.6
+      ]
+    },
+    {
+      "text": " faces,",
+      "timestamp": [
+        22.6,
+        22.94
+      ]
+    },
+    {
+      "text": " and",
+      "timestamp": [
+        23.52,
+        23.66
+      ]
+    },
+    {
+      "text": " another",
+      "timestamp": [
+        23.66,
+        23.96
+      ]
+    },
+    {
+      "text": " two",
+      "timestamp": [
+        23.96,
+        24.24
+      ]
+    },
+    {
+      "text": " to",
+      "timestamp": [
+        24.24,
+        24.38
+      ]
+    },
+    {
+      "text": " cover",
+      "timestamp": [
+        24.38,
+        24.6
+      ]
+    },
+    {
+      "text": " their",
+      "timestamp": [
+        24.6,
+        24.78
+      ]
+    },
+    {
+      "text": " feet,",
+      "timestamp": [
+        24.78,
+        25.14
+      ]
+    },
+    {
+      "text": " utilizing",
+      "timestamp": [
+        25.76,
+        26.16
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        26.16,
+        26.54
+      ]
+    },
+    {
+      "text": " final",
+      "timestamp": [
+        26.54,
+        26.84
+      ]
+    },
+    {
+      "text": " pair",
+      "timestamp": [
+        26.84,
+        27.1
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        27.1,
+        27.3
+      ]
+    },
+    {
+      "text": " wings",
+      "timestamp": [
+        27.3,
+        27.56
+      ]
+    },
+    {
+      "text": " for",
+      "timestamp": [
+        27.56,
+        27.84
+      ]
+    },
+    {
+      "text": " flight.",
+      "timestamp": [
+        27.84,
+        28.22
+      ]
+    },
+    {
+      "text": " light.",
+      "timestamp": [
+        28.22,
+        28.38
+      ]
+    },
+    {
+      "text": " This",
+      "timestamp": [
+        28.82,
+        29.1
+      ]
+    },
+    {
+      "text": " description",
+      "timestamp": [
+        29.1,
+        29.56
+      ]
+    },
+    {
+      "text": " stands",
+      "timestamp": [
+        29.56,
+        30.16
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        30.16,
+        30.5
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        30.5,
+        30.62
+      ]
+    },
+    {
+      "text": " fixed",
+      "timestamp": [
+        30.62,
+        30.86
+      ]
+    },
+    {
+      "text": " element",
+      "timestamp": [
+        30.86,
+        31.28
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        31.28,
+        31.56
+      ]
+    },
+    {
+      "text": " Isaiah's",
+      "timestamp": [
+        31.56,
+        32.12
+      ]
+    },
+    {
+      "text": " recorded",
+      "timestamp": [
+        32.12,
+        32.46
+      ]
+    },
+    {
+      "text": " vision,",
+      "timestamp": [
+        32.46,
+        32.92
+      ]
+    },
+    {
+      "text": " providing",
+      "timestamp": [
+        33.5,
+        33.88
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        33.88,
+        34.12
+      ]
+    },
+    {
+      "text": " specific",
+      "timestamp": [
+        34.12,
+        34.62
+      ]
+    },
+    {
+      "text": " anatomical",
+      "timestamp": [
+        34.62,
+        35.2
+      ]
+    },
+    {
+      "text": " count",
+      "timestamp": [
+        35.2,
+        35.72
+      ]
+    },
+    {
+      "text": " within",
+      "timestamp": [
+        35.72,
+        36.12
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        36.12,
+        36.36
+      ]
+    },
+    {
+      "text": " prophetic",
+      "timestamp": [
+        36.36,
+        36.74
+      ]
+    },
+    {
+      "text": " text.",
+      "timestamp": [
+        36.74,
+        37.2
+      ]
+    },
+    {
+      "text": " It",
+      "timestamp": [
+        37.8,
+        38.02
+      ]
+    },
+    {
+      "text": " remains",
+      "timestamp": [
+        38.02,
+        38.4
+      ]
+    },
+    {
+      "text": " distinct",
+      "timestamp": [
+        38.4,
+        38.9
+      ]
+    },
+    {
+      "text": " from",
+      "timestamp": [
+        38.9,
+        39.2
+      ]
+    },
+    {
+      "text": " other",
+      "timestamp": [
+        39.2,
+        39.46
+      ]
+    },
+    {
+      "text": " accounts,",
+      "timestamp": [
+        39.46,
+        39.94
+      ]
+    },
+    {
+      "text": " focusing",
+      "timestamp": [
+        40.54,
+        40.78
+      ]
+    },
+    {
+      "text": " on",
+      "timestamp": [
+        40.78,
+        41.08
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        41.08,
+        41.22
+      ]
+    },
+    {
+      "text": " posture",
+      "timestamp": [
+        41.22,
+        41.48
+      ]
+    },
+    {
+      "text": " and",
+      "timestamp": [
+        41.48,
+        41.8
+      ]
+    },
+    {
+      "text": " movement",
+      "timestamp": [
+        41.8,
+        42.08
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        42.08,
+        42.36
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        42.36,
+        42.56
+      ]
+    },
+    {
+      "text": " beings",
+      "timestamp": [
+        42.56,
+        42.94
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        42.94,
+        43.36
+      ]
+    },
+    {
+      "text": " they",
+      "timestamp": [
+        43.36,
+        43.58
+      ]
+    },
+    {
+      "text": " exist",
+      "timestamp": [
+        43.58,
+        43.96
+      ]
+    },
+    {
+      "text": " within",
+      "timestamp": [
+        43.96,
+        44.6
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        44.6,
+        44.84
+      ]
+    },
+    {
+      "text": " setting",
+      "timestamp": [
+        44.84,
+        45.08
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        45.08,
+        45.28
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        45.28,
+        45.42
+      ]
+    },
+    {
+      "text": " divine",
+      "timestamp": [
+        45.42,
+        45.82
+      ]
+    },
+    {
+      "text": " throne",
+      "timestamp": [
+        45.82,
+        46.18
+      ]
+    },
+    {
+      "text": " room",
+      "timestamp": [
+        46.18,
+        46.54
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        46.54,
+        47.0
+      ]
+    },
+    {
+      "text": " perceived",
+      "timestamp": [
+        47.0,
+        47.44
+      ]
+    },
+    {
+      "text": " by",
+      "timestamp": [
+        47.44,
+        47.78
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        47.78,
+        47.92
+      ]
+    },
+    {
+      "text": " prophet.",
+      "timestamp": [
+        47.92,
+        48.2
+      ]
+    },
+    {
+      "text": " In",
+      "timestamp": [
+        48.8,
+        49.08
+      ]
+    },
+    {
+      "text": " stark",
+      "timestamp": [
+        49.08,
+        49.42
+      ]
+    },
+    {
+      "text": " contrast,",
+      "timestamp": [
+        49.42,
+        50.02
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        50.74,
+        50.76
+      ]
+    },
+    {
+      "text": " book",
+      "timestamp": [
+        50.76,
+        50.92
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        50.92,
+        51.02
+      ]
+    },
+    {
+      "text": " Ezekiel",
+      "timestamp": [
+        51.02,
+        51.3
+      ]
+    },
+    {
+      "text": " details",
+      "timestamp": [
+        51.3,
+        51.8
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        51.8,
+        52.04
+      ]
+    },
+    {
+      "text": " different",
+      "timestamp": [
+        52.04,
+        52.32
+      ]
+    },
+    {
+      "text": " visionary",
+      "timestamp": [
+        52.32,
+        52.74
+      ]
+    },
+    {
+      "text": " experience.",
+      "timestamp": [
+        52.74,
+        53.44
+      ]
+    },
+    {
+      "text": " The",
+      "timestamp": [
+        54.12,
+        54.32
+      ]
+    },
+    {
+      "text": " first",
+      "timestamp": [
+        54.32,
+        54.58
+      ]
+    },
+    {
+      "text": " chapter",
+      "timestamp": [
+        54.58,
+        54.96
+      ]
+    },
+    {
+      "text": " describes",
+      "timestamp": [
+        54.96,
+        55.46
+      ]
+    },
+    {
+      "text": " four",
+      "timestamp": [
+        55.46,
+        55.84
+      ]
+    },
+    {
+      "text": " living",
+      "timestamp": [
+        55.84,
+        56.22
+      ]
+    },
+    {
+      "text": " creatures.",
+      "timestamp": [
+        56.22,
+        56.74
+      ]
+    },
+    {
+      "text": " Each",
+      "timestamp": [
+        57.28,
+        57.44
+      ]
+    },
+    {
+      "text": " exhibiting",
+      "timestamp": [
+        57.44,
+        57.92
+      ]
+    },
+    {
+      "text": " four",
+      "timestamp": [
+        57.92,
+        58.4
+      ]
+    },
+    {
+      "text": " faces",
+      "timestamp": [
+        58.4,
+        58.82
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        58.82,
+        59.12
+      ]
+    },
+    {
+      "text": " likeness",
+      "timestamp": [
+        59.12,
+        59.36
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        59.36,
+        59.64
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        59.64,
+        59.76
+      ]
+    },
+    {
+      "text": " man,",
+      "timestamp": [
+        59.76,
+        60.0
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        60.62,
+        60.64
+      ]
+    },
+    {
+      "text": " lion,",
+      "timestamp": [
+        60.64,
+        60.96
+      ]
+    },
+    {
+      "text": " an",
+      "timestamp": [
+        61.4,
+        61.58
+      ]
+    },
+    {
+      "text": " ox,",
+      "timestamp": [
+        61.58,
+        61.84
+      ]
+    },
+    {
+      "text": " and",
+      "timestamp": [
+        62.32,
+        62.4
+      ]
+    },
+    {
+      "text": " an",
+      "timestamp": [
+        62.4,
+        62.52
+      ]
+    },
+    {
+      "text": " eagle,",
+      "timestamp": [
+        62.52,
+        62.94
+      ]
+    },
+    {
+      "text": " alongside",
+      "timestamp": [
+        64.08,
+        64.16
+      ]
+    },
+    {
+      "text": " four",
+      "timestamp": [
+        64.16,
+        64.6
+      ]
+    },
+    {
+      "text": " wings.",
+      "timestamp": [
+        64.6,
+        64.9
+      ]
+    },
+    {
+      "text": " These",
+      "timestamp": [
+        65.68,
+        65.92
+      ]
+    },
+    {
+      "text": " creatures",
+      "timestamp": [
+        65.92,
+        66.2
+      ]
+    },
+    {
+      "text": " are",
+      "timestamp": [
+        66.2,
+        66.42
+      ]
+    },
+    {
+      "text": " not",
+      "timestamp": [
+        66.42,
+        66.54
+      ]
+    },
+    {
+      "text": " presented",
+      "timestamp": [
+        66.54,
+        66.88
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        66.88,
+        67.16
+      ]
+    },
+    {
+      "text": " isolation.",
+      "timestamp": [
+        67.16,
+        67.6
+      ]
+    },
+    {
+      "text": " They",
+      "timestamp": [
+        68.28,
+        68.5
+      ]
+    },
+    {
+      "text": " are",
+      "timestamp": [
+        68.5,
+        68.58
+      ]
+    },
+    {
+      "text": " accompanied",
+      "timestamp": [
+        68.58,
+        68.86
+      ]
+    },
+    {
+      "text": " by",
+      "timestamp": [
+        68.86,
+        69.24
+      ]
+    },
+    {
+      "text": " complex",
+      "timestamp": [
+        69.24,
+        69.66
+      ]
+    },
+    {
+      "text": " wheels",
+      "timestamp": [
+        69.66,
+        70.02
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        70.02,
+        70.3
+      ]
+    },
+    {
+      "text": " stand",
+      "timestamp": [
+        70.3,
+        70.6
+      ]
+    },
+    {
+      "text": " beside",
+      "timestamp": [
+        70.6,
+        71.04
+      ]
+    },
+    {
+      "text": " them.",
+      "timestamp": [
+        71.04,
+        71.28
+      ]
+    },
+    {
+      "text": " The",
+      "timestamp": [
+        71.72,
+        71.96
+      ]
+    },
+    {
+      "text": " prophet",
+      "timestamp": [
+        71.96,
+        72.24
+      ]
+    },
+    {
+      "text": " notes",
+      "timestamp": [
+        72.24,
+        72.6
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        72.6,
+        72.92
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        72.92,
+        73.16
+      ]
+    },
+    {
+      "text": " wheels",
+      "timestamp": [
+        73.16,
+        73.54
+      ]
+    },
+    {
+      "text": " are",
+      "timestamp": [
+        73.54,
+        73.92
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        73.92,
+        74.04
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        74.04,
+        74.18
+      ]
+    },
+    {
+      "text": " great",
+      "timestamp": [
+        74.18,
+        74.36
+      ]
+    },
+    {
+      "text": " height,",
+      "timestamp": [
+        74.36,
+        74.68
+      ]
+    },
+    {
+      "text": " and",
+      "timestamp": [
+        75.08,
+        75.42
+      ]
+    },
+    {
+      "text": " are",
+      "timestamp": [
+        75.42,
+        75.58
+      ]
+    },
+    {
+      "text": " bordered",
+      "timestamp": [
+        75.58,
+        75.96
+      ]
+    },
+    {
+      "text": " with",
+      "timestamp": [
+        75.96,
+        76.34
+      ]
+    },
+    {
+      "text": " rims",
+      "timestamp": [
+        76.34,
+        76.74
+      ]
+    },
+    {
+      "text": " full",
+      "timestamp": [
+        76.74,
+        77.0
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        77.0,
+        77.18
+      ]
+    },
+    {
+      "text": " eyes.",
+      "timestamp": [
+        77.18,
+        77.46
+      ]
+    },
+    {
+      "text": " These",
+      "timestamp": [
+        78.18,
+        78.44
+      ]
+    },
+    {
+      "text": " visionary",
+      "timestamp": [
+        78.44,
+        78.8
+      ]
+    },
+    {
+      "text": " elements",
+      "timestamp": [
+        78.8,
+        79.44
+      ]
+    },
+    {
+      "text": " emphasize",
+      "timestamp": [
+        79.44,
+        80.02
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        80.02,
+        80.28
+      ]
+    },
+    {
+      "text": " form",
+      "timestamp": [
+        80.28,
+        80.5
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        80.5,
+        80.78
+      ]
+    },
+    {
+      "text": " deviates",
+      "timestamp": [
+        80.78,
+        81.24
+      ]
+    },
+    {
+      "text": " significantly",
+      "timestamp": [
+        81.24,
+        81.88
+      ]
+    },
+    {
+      "text": " from",
+      "timestamp": [
+        81.88,
+        82.22
+      ]
+    },
+    {
+      "text": " human",
+      "timestamp": [
+        82.22,
+        82.52
+      ]
+    },
+    {
+      "text": " appearance.",
+      "timestamp": [
+        82.52,
+        83.0
+      ]
+    },
+    {
+      "text": " Later,",
+      "timestamp": [
+        83.62,
+        83.9
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        84.42,
+        84.7
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        84.7,
+        84.84
+      ]
+    },
+    {
+      "text": " tenth",
+      "timestamp": [
+        84.84,
+        85.02
+      ]
+    },
+    {
+      "text": " chapter",
+      "timestamp": [
+        85.02,
+        85.44
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        85.44,
+        85.6
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        85.6,
+        85.72
+      ]
+    },
+    {
+      "text": " same",
+      "timestamp": [
+        85.72,
+        85.96
+      ]
+    },
+    {
+      "text": " book,",
+      "timestamp": [
+        85.96,
+        86.24
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        86.82,
+        87.04
+      ]
+    },
+    {
+      "text": " text",
+      "timestamp": [
+        87.04,
+        87.28
+      ]
+    },
+    {
+      "text": " provides",
+      "timestamp": [
+        87.28,
+        87.7
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        87.7,
+        87.88
+      ]
+    },
+    {
+      "text": " categorical",
+      "timestamp": [
+        87.88,
+        88.4
+      ]
+    },
+    {
+      "text": " identification,",
+      "timestamp": [
+        88.4,
+        89.14
+      ]
+    },
+    {
+      "text": " stating",
+      "timestamp": [
+        90.06,
+        90.44
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        90.44,
+        90.76
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        90.76,
+        91.0
+      ]
+    },
+    {
+      "text": " specific",
+      "timestamp": [
+        91.0,
+        91.48
+      ]
+    },
+    {
+      "text": " living",
+      "timestamp": [
+        91.48,
+        91.8
+      ]
+    },
+    {
+      "text": " creatures",
+      "timestamp": [
+        91.8,
+        92.24
+      ]
+    },
+    {
+      "text": " are",
+      "timestamp": [
+        92.24,
+        92.54
+      ]
+    },
+    {
+      "text": " cherubums.",
+      "timestamp": [
+        92.54,
+        93.1
+      ]
+    },
+    {
+      "text": " By",
+      "timestamp": [
+        93.64,
+        93.9
+      ]
+    },
+    {
+      "text": " keeping",
+      "timestamp": [
+        93.9,
+        94.2
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        94.2,
+        94.5
+      ]
+    },
+    {
+      "text": " descriptions",
+      "timestamp": [
+        94.5,
+        95.04
+      ]
+    },
+    {
+      "text": " tied",
+      "timestamp": [
+        95.04,
+        95.44
+      ]
+    },
+    {
+      "text": " strictly",
+      "timestamp": [
+        95.44,
+        95.9
+      ]
+    },
+    {
+      "text": " to",
+      "timestamp": [
+        95.9,
+        96.28
+      ]
+    },
+    {
+      "text": " their",
+      "timestamp": [
+        96.28,
+        96.42
+      ]
+    },
+    {
+      "text": " respective",
+      "timestamp": [
+        96.42,
+        96.88
+      ]
+    },
+    {
+      "text": " passages,",
+      "timestamp": [
+        96.88,
+        97.52
+      ]
+    },
+    {
+      "text": " Isaiah's",
+      "timestamp": [
+        98.54,
+        98.8
+      ]
+    },
+    {
+      "text": " six",
+      "timestamp": [
+        98.8,
+        98.94
+      ]
+    },
+    {
+      "text": "-winged",
+      "timestamp": [
+        98.94,
+        99.52
+      ]
+    },
+    {
+      "text": " seraphim",
+      "timestamp": [
+        99.52,
+        99.94
+      ]
+    },
+    {
+      "text": " and",
+      "timestamp": [
+        99.94,
+        100.12
+      ]
+    },
+    {
+      "text": " Ezekiel's",
+      "timestamp": [
+        100.12,
+        100.72
+      ]
+    },
+    {
+      "text": " four",
+      "timestamp": [
+        100.72,
+        100.98
+      ]
+    },
+    {
+      "text": "-faced",
+      "timestamp": [
+        100.98,
+        101.28
+      ]
+    },
+    {
+      "text": " cherubim,",
+      "timestamp": [
+        101.28,
+        101.98
+      ]
+    },
+    {
+      "text": " we",
+      "timestamp": [
+        102.58,
+        102.88
+      ]
+    },
+    {
+      "text": " can",
+      "timestamp": [
+        102.88,
+        103.04
+      ]
+    },
+    {
+      "text": " distinguish",
+      "timestamp": [
+        103.04,
+        103.46
+      ]
+    },
+    {
+      "text": " how",
+      "timestamp": [
+        103.46,
+        103.7
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        103.7,
+        103.88
+      ]
+    },
+    {
+      "text": " biblical",
+      "timestamp": [
+        103.88,
+        104.14
+      ]
+    },
+    {
+      "text": " text",
+      "timestamp": [
+        104.14,
+        104.66
+      ]
+    },
+    {
+      "text": " characterizes",
+      "timestamp": [
+        104.66,
+        105.68
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        105.68,
+        105.96
+      ]
+    },
+    {
+      "text": " figures",
+      "timestamp": [
+        105.96,
+        106.36
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        106.36,
+        106.62
+      ]
+    },
+    {
+      "text": " their",
+      "timestamp": [
+        106.62,
+        106.78
+      ]
+    },
+    {
+      "text": " varying",
+      "timestamp": [
+        106.78,
+        107.24
+      ]
+    },
+    {
+      "text": " roles",
+      "timestamp": [
+        107.24,
+        107.58
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        107.58,
+        107.92
+      ]
+    },
+    {
+      "text": " throne",
+      "timestamp": [
+        107.92,
+        108.22
+      ]
+    },
+    {
+      "text": "-room",
+      "timestamp": [
+        108.22,
+        108.46
+      ]
+    },
+    {
+      "text": " guardians.",
+      "timestamp": [
+        108.46,
+        108.92
+      ]
+    },
+    {
+      "text": " These",
+      "timestamp": [
+        109.44,
+        109.92
+      ]
+    },
+    {
+      "text": " accounts",
+      "timestamp": [
+        109.92,
+        110.2
+      ]
+    },
+    {
+      "text": " do",
+      "timestamp": [
+        110.2,
+        110.46
+      ]
+    },
+    {
+      "text": " not",
+      "timestamp": [
+        110.46,
+        110.64
+      ]
+    },
+    {
+      "text": " attempt",
+      "timestamp": [
+        110.64,
+        110.96
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        110.96,
+        111.12
+      ]
+    },
+    {
+      "text": " unified",
+      "timestamp": [
+        111.12,
+        111.6
+      ]
+    },
+    {
+      "text": " taxonomy.",
+      "timestamp": [
+        111.6,
+        112.22
+      ]
+    },
+    {
+      "text": " Rather,",
+      "timestamp": [
+        112.88,
+        113.06
+      ]
+    },
+    {
+      "text": " they",
+      "timestamp": [
+        113.54,
+        113.62
+      ]
+    },
+    {
+      "text": " present",
+      "timestamp": [
+        113.62,
+        113.94
+      ]
+    },
+    {
+      "text": " individual",
+      "timestamp": [
+        113.94,
+        114.56
+      ]
+    },
+    {
+      "text": " reports",
+      "timestamp": [
+        114.56,
+        115.08
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        115.08,
+        115.48
+      ]
+    },
+    {
+      "text": " prophetic",
+      "timestamp": [
+        115.48,
+        115.88
+      ]
+    },
+    {
+      "text": " visions",
+      "timestamp": [
+        115.88,
+        116.3
+      ]
+    },
+    {
+      "text": " where",
+      "timestamp": [
+        116.3,
+        116.64
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        116.64,
+        116.78
+      ]
+    },
+    {
+      "text": " appearance",
+      "timestamp": [
+        116.78,
+        117.04
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        117.04,
+        117.3
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        117.3,
+        117.42
+      ]
+    },
+    {
+      "text": " celestial",
+      "timestamp": [
+        117.42,
+        117.86
+      ]
+    },
+    {
+      "text": " beings",
+      "timestamp": [
+        117.86,
+        118.28
+      ]
+    },
+    {
+      "text": " is",
+      "timestamp": [
+        118.28,
+        118.58
+      ]
+    },
+    {
+      "text": " tied",
+      "timestamp": [
+        118.58,
+        118.8
+      ]
+    },
+    {
+      "text": " directly",
+      "timestamp": [
+        118.8,
+        119.18
+      ]
+    },
+    {
+      "text": " to",
+      "timestamp": [
+        119.18,
+        119.5
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        119.5,
+        119.64
+      ]
+    },
+    {
+      "text": " majesty",
+      "timestamp": [
+        119.64,
+        120.06
+      ]
+    },
+    {
+      "text": " and",
+      "timestamp": [
+        120.06,
+        120.62
+      ]
+    },
+    {
+      "text": " setting",
+      "timestamp": [
+        120.62,
+        120.86
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        120.86,
+        121.08
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        121.08,
+        121.2
+      ]
+    },
+    {
+      "text": " throne",
+      "timestamp": [
+        121.2,
+        121.44
+      ]
+    },
+    {
+      "text": " room",
+      "timestamp": [
+        121.44,
+        121.68
+      ]
+    },
+    {
+      "text": " itself.",
+      "timestamp": [
+        121.68,
+        122.18
+      ]
+    },
+    {
+      "text": " The",
+      "timestamp": [
+        123.04,
+        123.16
+      ]
+    },
+    {
+      "text": " presence",
+      "timestamp": [
+        123.16,
+        123.46
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        123.46,
+        123.92
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        123.92,
+        124.12
+      ]
+    },
+    {
+      "text": " eyes",
+      "timestamp": [
+        124.12,
+        124.44
+      ]
+    },
+    {
+      "text": " on",
+      "timestamp": [
+        124.44,
+        124.78
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        124.78,
+        124.9
+      ]
+    },
+    {
+      "text": " real",
+      "timestamp": [
+        124.9,
+        125.16
+      ]
+    },
+    {
+      "text": " rims,",
+      "timestamp": [
+        125.16,
+        125.7
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        126.28,
+        126.54
+      ]
+    },
+    {
+      "text": " specified",
+      "timestamp": [
+        126.54,
+        127.06
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        127.06,
+        127.44
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        127.44,
+        127.56
+      ]
+    },
+    {
+      "text": " first",
+      "timestamp": [
+        127.56,
+        127.76
+      ]
+    },
+    {
+      "text": " chapter",
+      "timestamp": [
+        127.76,
+        128.1
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        128.1,
+        128.36
+      ]
+    },
+    {
+      "text": " Ezekiel,",
+      "timestamp": [
+        128.36,
+        128.72
+      ]
+    },
+    {
+      "text": " serves",
+      "timestamp": [
+        129.52,
+        129.72
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        129.72,
+        130.12
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        130.12,
+        130.22
+      ]
+    },
+    {
+      "text": " defining",
+      "timestamp": [
+        130.22,
+        130.62
+      ]
+    },
+    {
+      "text": " visual",
+      "timestamp": [
+        130.62,
+        131.12
+      ]
+    },
+    {
+      "text": " detail",
+      "timestamp": [
+        131.12,
+        131.58
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        131.58,
+        131.76
+      ]
+    },
+    {
+      "text": " his",
+      "timestamp": [
+        131.76,
+        131.9
+      ]
+    },
+    {
+      "text": " encounter.",
+      "timestamp": [
+        131.9,
+        132.4
+      ]
+    },
+    {
+      "text": " Just",
+      "timestamp": [
+        132.94,
+        133.24
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        133.24,
+        133.46
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        133.46,
+        133.6
+      ]
+    },
+    {
+      "text": " six",
+      "timestamp": [
+        133.6,
+        133.82
+      ]
+    },
+    {
+      "text": "-wing",
+      "timestamp": [
+        133.82,
+        134.04
+      ]
+    },
+    {
+      "text": " configuration",
+      "timestamp": [
+        134.04,
+        134.86
+      ]
+    },
+    {
+      "text": " distinguishes",
+      "timestamp": [
+        134.86,
+        135.48
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        135.48,
+        135.88
+      ]
+    },
+    {
+      "text": " set",
+      "timestamp": [
+        135.88,
+        136.06
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        136.06,
+        136.22
+      ]
+    },
+    {
+      "text": " time",
+      "timestamp": [
+        136.22,
+        136.44
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        136.44,
+        136.62
+      ]
+    },
+    {
+      "text": " Isaiah's",
+      "timestamp": [
+        136.62,
+        137.2
+      ]
+    },
+    {
+      "text": " vision,",
+      "timestamp": [
+        137.2,
+        137.48
+      ]
+    },
+    {
+      "text": " each",
+      "timestamp": [
+        138.06,
+        138.3
+      ]
+    },
+    {
+      "text": " passage",
+      "timestamp": [
+        138.3,
+        138.6
+      ]
+    },
+    {
+      "text": " remains",
+      "timestamp": [
+        138.6,
+        139.34
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        139.34,
+        139.58
+      ]
+    },
+    {
+      "text": " distinct",
+      "timestamp": [
+        139.58,
+        139.94
+      ]
+    },
+    {
+      "text": " record",
+      "timestamp": [
+        139.94,
+        140.34
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        140.34,
+        140.5
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        140.5,
+        140.64
+      ]
+    },
+    {
+      "text": " visionary",
+      "timestamp": [
+        140.64,
+        140.94
+      ]
+    },
+    {
+      "text": " experience,",
+      "timestamp": [
+        140.94,
+        141.82
+      ]
+    },
+    {
+      "text": " offering",
+      "timestamp": [
+        142.56,
+        142.8
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        142.8,
+        143.0
+      ]
+    },
+    {
+      "text": " look",
+      "timestamp": [
+        143.0,
+        143.18
+      ]
+    },
+    {
+      "text": " at",
+      "timestamp": [
+        143.18,
+        143.46
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        143.46,
+        143.58
+      ]
+    },
+    {
+      "text": " diversity",
+      "timestamp": [
+        143.58,
+        144.06
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        144.06,
+        144.28
+      ]
+    },
+    {
+      "text": " descriptive",
+      "timestamp": [
+        144.28,
+        144.68
+      ]
+    },
+    {
+      "text": " language",
+      "timestamp": [
+        144.68,
+        145.18
+      ]
+    },
+    {
+      "text": " used",
+      "timestamp": [
+        145.18,
+        145.54
+      ]
+    },
+    {
+      "text": " by",
+      "timestamp": [
+        145.54,
+        145.76
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        145.76,
+        145.9
+      ]
+    },
+    {
+      "text": " prophets",
+      "timestamp": [
+        145.9,
+        146.26
+      ]
+    },
+    {
+      "text": " when",
+      "timestamp": [
+        146.26,
+        147.04
+      ]
+    },
+    {
+      "text": " documenting",
+      "timestamp": [
+        147.04,
+        147.6
+      ]
+    },
+    {
+      "text": " their",
+      "timestamp": [
+        147.6,
+        147.92
+      ]
+    },
+    {
+      "text": " encounter",
+      "timestamp": [
+        147.92,
+        148.28
+      ]
+    },
+    {
+      "text": " with",
+      "timestamp": [
+        148.28,
+        148.62
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        148.62,
+        148.78
+      ]
+    },
+    {
+      "text": " celestial.",
+      "timestamp": [
+        148.78,
+        149.22
+      ]
+    },
+    {
+      "text": " To",
+      "timestamp": [
+        149.84,
+        150.08
+      ]
+    },
+    {
+      "text": " resolve",
+      "timestamp": [
+        150.08,
+        150.44
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        150.44,
+        150.62
+      ]
+    },
+    {
+      "text": " visual",
+      "timestamp": [
+        150.62,
+        150.94
+      ]
+    },
+    {
+      "text": " confusion",
+      "timestamp": [
+        150.94,
+        151.46
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        151.46,
+        151.8
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        151.8,
+        151.96
+      ]
+    },
+    {
+      "text": " accounts,",
+      "timestamp": [
+        151.96,
+        152.42
+      ]
+    },
+    {
+      "text": " anchor",
+      "timestamp": [
+        152.9,
+        153.22
+      ]
+    },
+    {
+      "text": " every",
+      "timestamp": [
+        153.22,
+        153.76
+      ]
+    },
+    {
+      "text": " artistic",
+      "timestamp": [
+        153.76,
+        154.22
+      ]
+    },
+    {
+      "text": " interpretation",
+      "timestamp": [
+        154.22,
+        155.0
+      ]
+    },
+    {
+      "text": " directly",
+      "timestamp": [
+        155.0,
+        155.46
+      ]
+    },
+    {
+      "text": " to",
+      "timestamp": [
+        155.46,
+        155.82
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        155.82,
+        155.96
+      ]
+    },
+    {
+      "text": " test",
+      "timestamp": [
+        155.96,
+        156.36
+      ]
+    },
+    {
+      "text": " when",
+      "timestamp": [
+        156.36,
+        157.1
+      ]
+    },
+    {
+      "text": " viewing",
+      "timestamp": [
+        157.1,
+        157.4
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        157.4,
+        157.6
+      ]
+    },
+    {
+      "text": " figure",
+      "timestamp": [
+        157.6,
+        157.94
+      ]
+    },
+    {
+      "text": " with",
+      "timestamp": [
+        157.94,
+        158.38
+      ]
+    },
+    {
+      "text": " six",
+      "timestamp": [
+        158.38,
+        158.66
+      ]
+    },
+    {
+      "text": " wings.",
+      "timestamp": [
+        158.66,
+        159.14
+      ]
+    },
+    {
+      "text": " Check",
+      "timestamp": [
+        159.84,
+        160.2
+      ]
+    },
+    {
+      "text": " Isaiah",
+      "timestamp": [
+        160.2,
+        160.6
+      ]
+    },
+    {
+      "text": " 6",
+      "timestamp": [
+        160.6,
+        160.9
+      ]
+    },
+    {
+      "text": ".2",
+      "timestamp": [
+        160.9,
+        161.18
+      ]
+    },
+    {
+      "text": " to",
+      "timestamp": [
+        161.18,
+        161.34
+      ]
+    },
+    {
+      "text": " confirm",
+      "timestamp": [
+        161.34,
+        161.74
+      ]
+    },
+    {
+      "text": " it",
+      "timestamp": [
+        161.74,
+        162.16
+      ]
+    },
+    {
+      "text": " reflects",
+      "timestamp": [
+        162.16,
+        162.86
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        162.86,
+        163.22000000000003
+      ]
+    },
+    {
+      "text": " seraphins",
+      "timestamp": [
+        163.22,
+        163.68
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        163.68,
+        163.88
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        163.88,
+        164.04
+      ]
+    },
+    {
+      "text": " specific",
+      "timestamp": [
+        164.04,
+        164.54
+      ]
+    },
+    {
+      "text": " temple",
+      "timestamp": [
+        164.54,
+        164.88
+      ]
+    },
+    {
+      "text": " vision.",
+      "timestamp": [
+        164.88,
+        165.26
+      ]
+    },
+    {
+      "text": " Conversely,",
+      "timestamp": [
+        165.9,
+        166.28
+      ]
+    },
+    {
+      "text": " if",
+      "timestamp": [
+        167.1,
+        167.16
+      ]
+    },
+    {
+      "text": " an",
+      "timestamp": [
+        167.16,
+        167.28
+      ]
+    },
+    {
+      "text": " image",
+      "timestamp": [
+        167.28,
+        167.52
+      ]
+    },
+    {
+      "text": " displays",
+      "timestamp": [
+        167.52,
+        167.98
+      ]
+    },
+    {
+      "text": " four",
+      "timestamp": [
+        167.98,
+        168.38
+      ]
+    },
+    {
+      "text": " faces",
+      "timestamp": [
+        168.38,
+        168.76
+      ]
+    },
+    {
+      "text": " paired",
+      "timestamp": [
+        168.76,
+        169.1
+      ]
+    },
+    {
+      "text": " with",
+      "timestamp": [
+        169.1,
+        169.34
+      ]
+    },
+    {
+      "text": " wheels",
+      "timestamp": [
+        169.34,
+        169.62
+      ]
+    },
+    {
+      "text": " containing",
+      "timestamp": [
+        169.62,
+        170.02
+      ]
+    },
+    {
+      "text": " eyes,",
+      "timestamp": [
+        170.02,
+        170.56
+      ]
+    },
+    {
+      "text": " Ezekiel",
+      "timestamp": [
+        171.52,
+        171.52
+      ]
+    },
+    {
+      "text": " 1",
+      "timestamp": [
+        171.52,
+        171.86
+      ]
+    },
+    {
+      "text": ".4",
+      "timestamp": [
+        171.86,
+        172.1
+      ]
+    },
+    {
+      "text": ".21",
+      "timestamp": [
+        172.1,
+        172.68
+      ]
+    },
+    {
+      "text": " serves",
+      "timestamp": [
+        172.68,
+        173.48
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        173.48,
+        173.84
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        173.84,
+        174.02
+      ]
+    },
+    {
+      "text": " precise",
+      "timestamp": [
+        174.02,
+        174.44
+      ]
+    },
+    {
+      "text": " source.",
+      "timestamp": [
+        174.44,
+        174.86
+      ]
+    },
+    {
+      "text": " A",
+      "timestamp": [
+        175.5,
+        175.72
+      ]
+    },
+    {
+      "text": " common",
+      "timestamp": [
+        175.72,
+        175.94
+      ]
+    },
+    {
+      "text": " error",
+      "timestamp": [
+        175.94,
+        176.34
+      ]
+    },
+    {
+      "text": " involves",
+      "timestamp": [
+        176.34,
+        176.78
+      ]
+    },
+    {
+      "text": " merging",
+      "timestamp": [
+        176.78,
+        177.26
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        177.26,
+        177.58
+      ]
+    },
+    {
+      "text": " distinct",
+      "timestamp": [
+        177.58,
+        178.02
+      ]
+    },
+    {
+      "text": " prophetic",
+      "timestamp": [
+        178.02,
+        178.42
+      ]
+    },
+    {
+      "text": " reports",
+      "timestamp": [
+        178.42,
+        178.94
+      ]
+    },
+    {
+      "text": " into",
+      "timestamp": [
+        178.94,
+        179.36
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        179.36,
+        179.6
+      ]
+    },
+    {
+      "text": " single",
+      "timestamp": [
+        179.6,
+        179.9
+      ]
+    },
+    {
+      "text": " inaccurate",
+      "timestamp": [
+        179.9,
+        180.56
+      ]
+    },
+    {
+      "text": " composite.",
+      "timestamp": [
+        180.56,
+        181.18
+      ]
+    },
+    {
+      "text": " Isaiah's",
+      "timestamp": [
+        182.04,
+        182.6
+      ]
+    },
+    {
+      "text": " six",
+      "timestamp": [
+        182.6,
+        182.9
+      ]
+    },
+    {
+      "text": "-winged",
+      "timestamp": [
+        182.9,
+        183.38
+      ]
+    },
+    {
+      "text": " beings",
+      "timestamp": [
+        183.38,
+        183.62
+      ]
+    },
+    {
+      "text": " and",
+      "timestamp": [
+        183.62,
+        183.98
+      ]
+    },
+    {
+      "text": " Ezekiel's",
+      "timestamp": [
+        183.98,
+        184.6
+      ]
+    },
+    {
+      "text": " four",
+      "timestamp": [
+        184.6,
+        184.78
+      ]
+    },
+    {
+      "text": "-faced",
+      "timestamp": [
+        184.78,
+        185.04
+      ]
+    },
+    {
+      "text": " creatures",
+      "timestamp": [
+        185.04,
+        185.58
+      ]
+    },
+    {
+      "text": " represent",
+      "timestamp": [
+        185.58,
+        186.46
+      ]
+    },
+    {
+      "text": " separate,",
+      "timestamp": [
+        186.46,
+        187.0
+      ]
+    },
+    {
+      "text": " highly",
+      "timestamp": [
+        187.3,
+        187.54
+      ]
+    },
+    {
+      "text": " specific",
+      "timestamp": [
+        187.54,
+        188.2
+      ]
+    },
+    {
+      "text": " visionary",
+      "timestamp": [
+        188.2,
+        188.7
+      ]
+    },
+    {
+      "text": " accounts.",
+      "timestamp": [
+        188.7,
+        189.26
+      ]
+    },
+    {
+      "text": " By",
+      "timestamp": [
+        189.9,
+        190.12
+      ]
+    },
+    {
+      "text": " examining",
+      "timestamp": [
+        190.12,
+        190.5
+      ]
+    },
+    {
+      "text": " each",
+      "timestamp": [
+        190.5,
+        190.88
+      ]
+    },
+    {
+      "text": " passage",
+      "timestamp": [
+        190.88,
+        191.18
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        191.18,
+        191.5
+      ]
+    },
+    {
+      "text": " isolation,",
+      "timestamp": [
+        191.5,
+        192.02
+      ]
+    },
+    {
+      "text": " we",
+      "timestamp": [
+        192.64,
+        192.86
+      ]
+    },
+    {
+      "text": " see",
+      "timestamp": [
+        192.86,
+        193.02
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        193.02,
+        193.18
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        193.18,
+        193.4
+      ]
+    },
+    {
+      "text": " descriptions",
+      "timestamp": [
+        193.4,
+        193.8
+      ]
+    },
+    {
+      "text": " are",
+      "timestamp": [
+        193.8,
+        194.12
+      ]
+    },
+    {
+      "text": " not",
+      "timestamp": [
+        194.12,
+        194.3
+      ]
+    },
+    {
+      "text": " interchangeable,",
+      "timestamp": [
+        194.3,
+        195.0
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        195.46,
+        195.94
+      ]
+    },
+    {
+      "text": " each",
+      "timestamp": [
+        195.94,
+        196.14
+      ]
+    },
+    {
+      "text": " prophet",
+      "timestamp": [
+        196.14,
+        196.48
+      ]
+    },
+    {
+      "text": " documented",
+      "timestamp": [
+        196.48,
+        197.14
+      ]
+    },
+    {
+      "text": " distinct",
+      "timestamp": [
+        197.14,
+        197.56
+      ]
+    },
+    {
+      "text": " details",
+      "timestamp": [
+        197.56,
+        198.08
+      ]
+    },
+    {
+      "text": " within",
+      "timestamp": [
+        198.08,
+        198.42
+      ]
+    },
+    {
+      "text": " his",
+      "timestamp": [
+        198.42,
+        198.68
+      ]
+    },
+    {
+      "text": " specific",
+      "timestamp": [
+        198.68,
+        199.14
+      ]
+    },
+    {
+      "text": " encounter.",
+      "timestamp": [
+        199.14,
+        199.66
+      ]
+    },
+    {
+      "text": " Verifying",
+      "timestamp": [
+        200.36,
+        200.78
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        200.78,
+        200.98
+      ]
+    },
+    {
+      "text": " source",
+      "timestamp": [
+        200.98,
+        201.26
+      ]
+    },
+    {
+      "text": " confirms",
+      "timestamp": [
+        201.26,
+        201.78
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        201.78,
+        202.18
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        202.18,
+        202.38
+      ]
+    },
+    {
+      "text": " visionary",
+      "timestamp": [
+        202.38,
+        202.78
+      ]
+    },
+    {
+      "text": " figures",
+      "timestamp": [
+        202.78,
+        203.3
+      ]
+    },
+    {
+      "text": " operate",
+      "timestamp": [
+        203.3,
+        203.74
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        203.74,
+        203.98
+      ]
+    },
+    {
+      "text": " settings",
+      "timestamp": [
+        203.98,
+        204.4
+      ]
+    },
+    {
+      "text": " vastly",
+      "timestamp": [
+        204.4,
+        204.76
+      ]
+    },
+    {
+      "text": " different",
+      "timestamp": [
+        204.76,
+        205.28
+      ]
+    },
+    {
+      "text": " from",
+      "timestamp": [
+        205.28,
+        205.56
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        205.56,
+        205.74
+      ]
+    },
+    {
+      "text": " messengers",
+      "timestamp": [
+        205.74,
+        206.16
+      ]
+    },
+    {
+      "text": " seen",
+      "timestamp": [
+        206.16,
+        206.46
+      ]
+    },
+    {
+      "text": " in",
+      "timestamp": [
+        206.46,
+        206.68
+      ]
+    },
+    {
+      "text": " Genesis",
+      "timestamp": [
+        206.68,
+        207.02
+      ]
+    },
+    {
+      "text": " or",
+      "timestamp": [
+        207.02,
+        207.46
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        207.46,
+        207.64
+      ]
+    },
+    {
+      "text": " New",
+      "timestamp": [
+        207.64,
+        207.76
+      ]
+    },
+    {
+      "text": " Testament.",
+      "timestamp": [
+        207.76,
+        208.14
+      ]
+    },
+    {
+      "text": " The",
+      "timestamp": [
+        208.76,
+        209.02
+      ]
+    },
+    {
+      "text": " identification",
+      "timestamp": [
+        209.02,
+        209.42
+      ]
+    },
+    {
+      "text": " method",
+      "timestamp": [
+        209.42,
+        210.02
+      ]
+    },
+    {
+      "text": " is",
+      "timestamp": [
+        210.02,
+        210.56
+      ]
+    },
+    {
+      "text": " simple,",
+      "timestamp": [
+        210.56,
+        210.96
+      ]
+    },
+    {
+      "text": " natch",
+      "timestamp": [
+        211.6,
+        211.88
+      ]
+    },
+    {
+      "text": " descriptive",
+      "timestamp": [
+        211.88,
+        212.4
+      ]
+    },
+    {
+      "text": " features",
+      "timestamp": [
+        212.4,
+        213.0
+      ]
+    },
+    {
+      "text": " against",
+      "timestamp": [
+        213.0,
+        213.64
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        213.64,
+        213.92
+      ]
+    },
+    {
+      "text": " specific",
+      "timestamp": [
+        213.92,
+        214.4
+      ]
+    },
+    {
+      "text": " verse",
+      "timestamp": [
+        214.4,
+        214.74
+      ]
+    },
+    {
+      "text": " rather",
+      "timestamp": [
+        214.74,
+        215.06
+      ]
+    },
+    {
+      "text": " than",
+      "timestamp": [
+        215.06,
+        215.28
+      ]
+    },
+    {
+      "text": " relying",
+      "timestamp": [
+        215.28,
+        215.62
+      ]
+    },
+    {
+      "text": " on",
+      "timestamp": [
+        215.62,
+        215.94
+      ]
+    },
+    {
+      "text": " generalized",
+      "timestamp": [
+        215.94,
+        216.44
+      ]
+    },
+    {
+      "text": " traditions.",
+      "timestamp": [
+        216.44,
+        217.0
+      ]
+    },
+    {
+      "text": " Genesis",
+      "timestamp": [
+        217.92,
+        218.12
+      ]
+    },
+    {
+      "text": " 19,",
+      "timestamp": [
+        218.12,
+        218.74
+      ]
+    },
+    {
+      "text": " 1",
+      "timestamp": [
+        219.18,
+        219.44
+      ]
+    },
+    {
+      "text": "-3",
+      "timestamp": [
+        219.44,
+        219.78
+      ]
+    },
+    {
+      "text": " presents",
+      "timestamp": [
+        219.78,
+        220.22
+      ]
+    },
+    {
+      "text": " visitors",
+      "timestamp": [
+        220.22,
+        220.64
+      ]
+    },
+    {
+      "text": " appearing",
+      "timestamp": [
+        220.64,
+        221.06
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        221.06,
+        221.32
+      ]
+    },
+    {
+      "text": " travelers,",
+      "timestamp": [
+        221.32,
+        221.72
+      ]
+    },
+    {
+      "text": " while",
+      "timestamp": [
+        222.42,
+        222.66
+      ]
+    },
+    {
+      "text": " Hebrews",
+      "timestamp": [
+        222.66,
+        223.16
+      ]
+    },
+    {
+      "text": " 13",
+      "timestamp": [
+        223.16,
+        223.48
+      ]
+    },
+    {
+      "text": "-2",
+      "timestamp": [
+        223.48,
+        223.84
+      ]
+    },
+    {
+      "text": " notes",
+      "timestamp": [
+        223.84,
+        224.06
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        224.06,
+        224.38
+      ]
+    },
+    {
+      "text": " such",
+      "timestamp": [
+        224.38,
+        224.56
+      ]
+    },
+    {
+      "text": " beings",
+      "timestamp": [
+        224.56,
+        224.94
+      ]
+    },
+    {
+      "text": " may",
+      "timestamp": [
+        224.94,
+        225.24
+      ]
+    },
+    {
+      "text": " appear",
+      "timestamp": [
+        225.24,
+        225.6
+      ]
+    },
+    {
+      "text": " as",
+      "timestamp": [
+        225.6,
+        225.84
+      ]
+    },
+    {
+      "text": " ordinary",
+      "timestamp": [
+        225.84,
+        226.24
+      ]
+    },
+    {
+      "text": " strangers.",
+      "timestamp": [
+        226.24,
+        226.84
+      ]
+    },
+    {
+      "text": " Distinguishing",
+      "timestamp": [
+        227.7,
+        228.2
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        228.2,
+        228.48
+      ]
+    },
+    {
+      "text": " categories",
+      "timestamp": [
+        228.48,
+        228.98
+      ]
+    },
+    {
+      "text": " requires",
+      "timestamp": [
+        228.98,
+        229.54
+      ]
+    },
+    {
+      "text": " identifying",
+      "timestamp": [
+        229.54,
+        230.42
+      ]
+    },
+    {
+      "text": " if",
+      "timestamp": [
+        230.42,
+        230.68
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        230.68,
+        230.84
+      ]
+    },
+    {
+      "text": " passage",
+      "timestamp": [
+        230.84,
+        231.18
+      ]
+    },
+    {
+      "text": " describes",
+      "timestamp": [
+        231.18,
+        231.7
+      ]
+    },
+    {
+      "text": " an",
+      "timestamp": [
+        231.7,
+        231.94
+      ]
+    },
+    {
+      "text": " encounter",
+      "timestamp": [
+        231.94,
+        232.36
+      ]
+    },
+    {
+      "text": " with",
+      "timestamp": [
+        232.36,
+        232.62
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        232.62,
+        232.78
+      ]
+    },
+    {
+      "text": " human",
+      "timestamp": [
+        232.78,
+        233.04
+      ]
+    },
+    {
+      "text": "-like",
+      "timestamp": [
+        233.04,
+        233.26
+      ]
+    },
+    {
+      "text": " messenger",
+      "timestamp": [
+        233.26,
+        233.76
+      ]
+    },
+    {
+      "text": " or",
+      "timestamp": [
+        233.76,
+        234.38
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        234.38,
+        234.5
+      ]
+    },
+    {
+      "text": " symbolic",
+      "timestamp": [
+        234.5,
+        234.92
+      ]
+    },
+    {
+      "text": " vision.",
+      "timestamp": [
+        234.92,
+        235.36
+      ]
+    },
+    {
+      "text": " By",
+      "timestamp": [
+        235.84,
+        236.08
+      ]
+    },
+    {
+      "text": " honoring",
+      "timestamp": [
+        236.08,
+        236.48
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        236.48,
+        236.8
+      ]
+    },
+    {
+      "text": " specific",
+      "timestamp": [
+        236.8,
+        237.3
+      ]
+    },
+    {
+      "text": " language",
+      "timestamp": [
+        237.3,
+        237.82
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        237.82,
+        238.14
+      ]
+    },
+    {
+      "text": " each",
+      "timestamp": [
+        238.14,
+        238.38
+      ]
+    },
+    {
+      "text": " report,",
+      "timestamp": [
+        238.38,
+        238.88
+      ]
+    },
+    {
+      "text": " we",
+      "timestamp": [
+        239.38,
+        239.66
+      ]
+    },
+    {
+      "text": " recognize",
+      "timestamp": [
+        239.66,
+        240.2
+      ]
+    },
+    {
+      "text": " that",
+      "timestamp": [
+        240.2,
+        240.52
+      ]
+    },
+    {
+      "text": " the",
+      "timestamp": [
+        240.52,
+        240.68
+      ]
+    },
+    {
+      "text": " biblical",
+      "timestamp": [
+        240.68,
+        240.94
+      ]
+    },
+    {
+      "text": " record",
+      "timestamp": [
+        240.94,
+        241.48
+      ]
+    },
+    {
+      "text": " preserves",
+      "timestamp": [
+        241.48,
+        242.06
+      ]
+    },
+    {
+      "text": " a",
+      "timestamp": [
+        242.06,
+        242.48
+      ]
+    },
+    {
+      "text": " wide",
+      "timestamp": [
+        242.48,
+        242.8
+      ]
+    },
+    {
+      "text": " variety",
+      "timestamp": [
+        242.8,
+        243.24
+      ]
+    },
+    {
+      "text": " of",
+      "timestamp": [
+        243.24,
+        243.58
+      ]
+    },
+    {
+      "text": " contexts",
+      "timestamp": [
+        243.58,
+        244.16
+      ]
+    },
+    {
+      "text": " for",
+      "timestamp": [
+        244.16,
+        244.52
+      ]
+    },
+    {
+      "text": " these",
+      "timestamp": [
+        244.52,
+        244.72
+      ]
+    },
+    {
+      "text": " encounters.",
+      "timestamp": [
+        244.72,
+        245.24
+      ]
+    }
+  ],
+  "sourceWavSha256": "46de7b75ff0d195b88e7320015ace6ab317249ba17c730d9467ce5f979e5335f",
+  "purpose": "Diagnostic only. Same unchanged WAV, separate local beam-search decoding; not a narrator selection or a pipeline approval."
+}

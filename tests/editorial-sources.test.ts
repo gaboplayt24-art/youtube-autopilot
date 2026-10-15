@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {mkdtemp,writeFile,rm} from 'node:fs/promises';
 import {join} from 'node:path';
 import {tmpdir} from 'node:os';
-import {loadEditorialDraft} from '../src/script';
+import {loadEditorialDraft,editorialDraftSchema} from '../src/script';
 test('long and short episodes load their own validated evidence; missing optional drafts alone allow fallback',async()=>{
  const dir=await mkdtemp(join(tmpdir(),'editorial-sources-'));
  try{
@@ -14,4 +14,10 @@ test('long and short episodes load their own validated evidence; missing optiona
   await writeFile(join(dir,'broken-editorial-draft.json'),JSON.stringify({sourceUrls:[]}));await assert.rejects(()=>loadEditorialDraft('broken',false,dir));
   await assert.rejects(()=>loadEditorialDraft('../other',false,dir));
  }finally{await rm(dir,{recursive:true,force:true});}
+});
+
+test('editorial critical terms include lower-case factual vocabulary and reject malformed lists',()=>{
+ const data={sourceUrls:['https://example.com/source'],criticalTerms:['seraphim','cherubim']};
+ assert.deepEqual(editorialDraftSchema.parse(data).criticalTerms,data.criticalTerms);
+ assert.throws(()=>editorialDraftSchema.parse({...data,criticalTerms:'seraphim'}));
 });
