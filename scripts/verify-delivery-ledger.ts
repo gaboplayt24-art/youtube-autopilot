@@ -24,4 +24,4 @@ async function main(){
  console.log(JSON.stringify(report));
  if(process.env.GITHUB_STEP_SUMMARY)await appendFile(process.env.GITHUB_STEP_SUMMARY,'\n## Delivery ledger verified\n\nAtomic reservation, duplicate rejection, update and readback passed. One isolated connection-probe JSON retained as evidence. No videos, posts, schema or billing changes.\n');
 }
-if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)main().catch(()=>{console.error('Delivery ledger verification failed; no provider request or credentials logged.');process.exitCode=1;});
+if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)main().catch(error=>{console.error(JSON.stringify({event:'delivery_ledger_probe_failed',code:typeof error?.code==='string'?error.code:null,status:typeof error?.status==='number'?error.status:null,message:error instanceof Error?error.message:'Supabase rejected the isolated reservation; inspect error code'}));process.exitCode=1;});
