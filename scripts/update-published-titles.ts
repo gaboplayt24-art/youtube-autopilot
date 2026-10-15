@@ -34,4 +34,8 @@ async function main(){
  }
  console.log(JSON.stringify({mode:'applied',receipts}));
 }
-main().catch(error=>{console.error(JSON.stringify({event:'title_revision_failed',message:error instanceof Error?error.message:'Metadata update failed'}));process.exitCode=1;});
+main().catch(error=>{
+ // Whitelist provider error fields only: never serialize Gaxios requests or headers.
+ const apiError=error?.response?.data?.error;
+ console.error(JSON.stringify({event:'title_revision_failed',message:error instanceof Error?error.message:'Metadata update failed',status:error?.response?.status,reasons:Array.isArray(apiError?.errors)?apiError.errors.map((e:{domain?:string;reason?:string;message?:string})=>({domain:e.domain,reason:e.reason,message:e.message})):[]}));process.exitCode=1;
+});
