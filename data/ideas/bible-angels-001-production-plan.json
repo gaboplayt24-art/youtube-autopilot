@@ -161,18 +161,17 @@
   "supportRecommendation": "docs/recommendations/channel-support.md",
   "voiceReview": "docs/analysis/bible-angels-001-voice-review.md",
   "multiplatformRecommendation": "docs/recommendations/multiplatform-free.md",
-  "voiceEvidenceDelivery": "data/research/bible-angels-001/voice-evidence-delivery.json",
+  "voiceEvidenceDelivery": "data/research/bible-angels-001/voice-evidence-delivery-complete.json",
   "voiceHumanReview": "data/scripts/bible-angels-001-voice-asr-review.json",
   "activeProductionAttempt": {
-    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38683611379",
-    "commit": "61f88709d74a72ddf6bb1653555162c0e71087e0",
-    "sourceRunId": "38677085186",
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38684114367",
+    "commit": "10ee18a12255381927bf0a82a8943af4f7f9248c",
+    "sourceRunId": "38683611379",
     "retryFrom": "visuals",
     "statusAtDispatch": "in_progress",
+    "reason": "One bounded manual continuation after Cloudflare transport timeout; uncertain reservation retained",
     "publish": false,
-    "ownerThumbnail": true,
-    "unchangedAcceptedIllustrations": 16,
-    "selectiveRevisedOrUnfinishedBeats": 73
+    "ownerThumbnail": true
   },
   "shortsMeasuredCandidates": "data/ideas/bible-angels-001-shorts-candidates.json",
   "progressEvidence": "data/research/bible-angels-001/production-progress-38677085186.json",
@@ -191,6 +190,19 @@
       "failureReason": "60-minute step timeout; checkpoints saved",
       "completeVoicePassed": true,
       "generatedRawImages": 79
+    },
+    {
+      "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38683611379",
+      "commit": "61f88709d74a72ddf6bb1653555162c0e71087e0",
+      "sourceRunId": "38677085186",
+      "retryFrom": "visuals",
+      "statusAtDispatch": "in_progress",
+      "publish": false,
+      "ownerThumbnail": true,
+      "unchangedAcceptedIllustrations": 16,
+      "selectiveRevisedOrUnfinishedBeats": 73,
+      "conclusion": "failure",
+      "failureReason": "Cloudflare first revised image request exceeded 120-second transport deadline; no HTTP response. Checkpoint and conservative quota saved."
     }
   ]
 }

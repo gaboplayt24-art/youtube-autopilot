@@ -19,7 +19,7 @@ Whisper escribe, por ejemplo, `Isaiah 6.2` donde el guion tiene `Isaiah 6:2`, o 
 
 Este arreglo baja el WER de la segunda parte del 3,025% al 1,681%; no sustituye ninguna palabra léxica del reconocimiento.
 
-## Ambigüedad que sigue bloqueando
+## Ambigüedad histórica, resuelta por revisión del propietario
 
 Hay un término factual importante no cubierto por la antigua extracción basada principalmente en mayúsculas/números: **seraphim**. En la segunda parte se espera:
 
@@ -42,11 +42,11 @@ SHA256 de los originales:
 
 Almacenamiento autorizado: https://github.com/gaboplayt24-art/youtube-autopilot/releases/tag/pipeline-checkpoint-bible-angels-001
 
-Hace falta escuchar el fragmento para decidir si se corrige esa pronunciación en la voz aprobada o se documenta una discrepancia del reconocimiento. No se sustituirá silenciosamente `set of time` por `seraphim`, ni se relajará la puerta de términos críticos. La portada del episodio sigue siendo del propietario y la programación sigue pendiente.
+En ese punto hacía falta escuchar el fragmento para decidir si se corrige esa pronunciación en la voz aprobada o se documenta una discrepancia del reconocimiento. No se sustituirá silenciosamente `set of time` por `seraphim`, ni se relajará la puerta de términos críticos. La portada del episodio sigue siendo del propietario y la programación sigue pendiente.
 
 Exportación verificada en Actions: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38676074281
 
-[Fragmento de seis segundos](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1-excerpt.mp3) · [WAVs y QA](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1.zip). ZIP descargado y comprobado: CRC y 23 hashes del manifiesto coinciden. Lint, typecheck, 196 tests TypeScript y 8 Python pasaron en ese job. El estado de voz sigue siendo `blocked-critical-review`.
+[Fragmento de seis segundos](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1-excerpt.mp3) · [WAVs y QA](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1.zip). ZIP descargado y comprobado: CRC y 23 hashes del manifiesto coinciden. Lint, typecheck, 196 tests TypeScript y 8 Python pasaron en ese job. El estado histórico de aquella exportación era `blocked-critical-review`; la decisión posterior y la voz completa se registran abajo.
 
 
 ## Decisión posterior del propietario
@@ -63,3 +63,12 @@ Reanudar desde `critical-terms`, reutilizando las dos síntesis verificadas y ge
 Actions `38677085186` terminó las tres partes de narración: 281,16 s, 245,80 s y 56,26 s, total **583,22 s**. Las tres pasaron QA, con WER 0,136%, 1,176% y 0,714% respectivamente y 100% de términos críticos. Los hashes de los dos WAV anteriores coinciden: solo se sintetizó el cierre pendiente. El transcript Small original de la segunda parte y el registro de corrección humana se conservaron.
 
 El job no terminó el video: alcanzó el límite de 60 minutos durante las ilustraciones. Guardó el checkpoint en la release privada. El siguiente intento reutiliza toda la voz y el plan, y corrige selectivamente las ilustraciones rechazadas o pendientes, conservando sus fuentes y evaluaciones originales. Evidencia: `data/research/bible-angels-001/production-progress-38677085186.json`.
+
+
+## Entrega verificada de los tres WAV completos
+
+Workflow verde: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38684318949
+
+[Paquete completo de WAVs, ASR original y revisado, QA y evidencia humana](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38684318949-attempt-1.zip). Descargado y verificado: CRC del ZIP y SHA256 de sus 39 archivos de manifiesto. Cobertura exacta: 1.445 de 1.445 palabras. SHA256 del ZIP: `3f31353ca6719bfe11fa7f0f34c37604be77307c741f89a731607ba40cd5c2aa`.
+
+Esta exportación conservó todos los WAV y no ejecutó síntesis ni APIs de IA. El reporte de exportación evalúa inteligibilidad léxica; el QA acústico original también se incluye. No equivale a un video aprobado. Registro: `data/research/bible-angels-001/voice-evidence-delivery-complete.json`.
