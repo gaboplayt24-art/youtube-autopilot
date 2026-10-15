@@ -1,4 +1,5 @@
-/** Export actual failed voice evidence; never approves a video or calls a provider. */
+/** Export actual measured voice evidence; never approves a video or calls a provider. */
+import {reviewedPrimaryTranscript} from './human-asr-review';
 import {mkdir,readdir,copyFile,writeFile,appendFile} from 'node:fs/promises';
 import {join,resolve,basename} from 'node:path';
 import {z} from 'zod';
@@ -21,20 +22,21 @@ for(const name of (await readdir(assets)).filter(n=>/^narration-chapter-[0-9]+[.
  const synthesis=z.object({text:z.string().min(1),sha256:z.string()}).parse(await read(path+'.synthesis.json'));
  sourceTexts.push(synthesis.text);
  if(synthesis.sha256!==sha256)throw new Error('Voice WAV does not match its synthesis evidence: '+name);
- const primary=await read(path+'.small.transcript.json') as Transcript;
- const alternatives:Transcript[]=[];
+ const raw=await read(path+'.small.transcript.json') as Transcript;
+ const human=await reviewedPrimaryTranscript(path,synthesis.text),primary=human?.primary??raw;
+ const alternatives:Transcript[]=human?[raw]:[];
  try{alternatives.push(await read(path+'.base.transcript.json'));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
  let diagnostic:Transcript|undefined;
  try{const actual=await read(join('data/research',runId,'voice-diagnostic-small-en-beam5.json'));if(actual.sourceWavSha256===sha256){diagnostic=actual;alternatives.push(actual);}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
  const terms=extractCriticalTerms(synthesis.text,[...script.criticalTerms,...(editorial?.criticalTerms??[])]);
  const review=evaluateVoice(synthesis.text,primary,terms,policy,alternatives);
- await json(join(output,name+'.corrected-review.json'),{sourceWavSha256:sha256,report:review,approval:false,note:'Exact citation-number formatting only. Lexical differences remain. Raw ASR and original acoustic QA are preserved separately.'});
+ await json(join(output,name+'.corrected-review.json'),{sourceWavSha256:sha256,report:review,approval:false,humanTranscriptReview:human?{evidenceFile:basename(human.evidencePath),rawTranscriptPreserved:true}:null,note:human?'Exact hash-bound owner-confirmed ASR word is explicit in separate evidence. All other lexical differences remain. This export grants no new approval.':'Exact citation-number formatting only. Lexical differences remain. Raw ASR and original acoustic QA are preserved separately.'});
  await copyFile(path,join(output,name));
- for(const suffix of ['.small.transcript.json','.base.transcript.json','.synthesis.json','.metrics.json','.voice-QA.json','.diff.json']){
+ for(const suffix of ['.small.transcript.json','.base.transcript.json','.synthesis.json','.metrics.json','.voice-QA.json','.diff.json','.normalized-comparison.json','.human-reviewed.transcript.json','.human-review-application.json','.pre-human-review.voice-QA.json','.pre-human-review.normalized-comparison.json','.pre-human-review.diff.json']){
   try{await copyFile(path+suffix,join(output,name+suffix));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
  }
  if(diagnostic)await json(join(output,name+'.beam5-diagnostic.json'),diagnostic);
- parts.push({name,sha256,durationSeconds:await duration(path),status:review.status,wordErrorRate:review.wordErrorRate,criticalTermAccuracy:review.criticalTermAccuracy,failedCriticalTerms:review.criticalChecks.filter(c=>!c.passed)});
+ parts.push({name,sha256,durationSeconds:await duration(path),humanReviewApplied:!!human,status:review.status,wordErrorRate:review.wordErrorRate,criticalTermAccuracy:review.criticalTermAccuracy,failedCriticalTerms:review.criticalChecks.filter(c=>!c.passed)});
 }
 if(!parts.length)throw new Error('No actual raw narration WAVs in checkpoint');
 const focus=z.coerce.number().int().positive().parse(process.env.FOCUS_PART??'2');
@@ -51,7 +53,7 @@ const spoken=sourceTexts.join(' '),fullScript=script.scenes.map(s=>s.narration).
 const coverage={complete:spoken===fullScript,prefixMatches:fullScript.startsWith(spoken),generatedScriptWords:spoken.split(' ').filter(Boolean).length,totalScriptWords:fullScript.split(' ').filter(Boolean).length};
 const summary={narrationCoverage:coverage,kind:'voice-evidence-review-only',runId,sourceRunId:process.env.SOURCE_RUN_ID??null,execution,videoApproved:false,narratorChanged:false,videoGenerated:false,factsPassed:facts.passed,checkedClaims:facts.checkedClaims,voiceStatus:parts.some(p=>p.status==='fail')?'blocked-critical-review':parts.some(p=>p.status==='review')?'needs-listening-review':'lexical-gates-pass-only',parts,excerpt:{file:basename(excerpt),source:focusName,startSeconds:start,endSeconds:end,note:'Listening cut bounds, not synthetic word timestamps'},paidApiCalls:0};
 await json(join(output,'review-summary.json'),summary);
-await writeFile(join(output,'README.txt'),['VOICE EVIDENCE ONLY. This export does not approve narration or a video.','Raw WAVs are unchanged; synthesis SHA256 is verified.','Original raw ASR/QA and corrected comparisons are separate.','Scripture citation formatting is normalized only when the same book and exact number sequence occur in the reference.','No lexical word is replaced. A critical term discrepancy still blocks production.','The excerpt is a listening aid; original measured Whisper timestamps are preserved.','No TTS regeneration, image generation, paid API or YouTube publication occurred in this export.'].join(String.fromCharCode(10)));
+await writeFile(join(output,'README.txt'),['VOICE EVIDENCE ONLY. This export does not approve narration or a video.','Raw WAVs are unchanged; synthesis SHA256 is verified.','Original raw ASR/QA and corrected comparisons are separate.','Scripture citation formatting is normalized only when the same book and exact number sequence occur in the reference.','Only exact hash-bound ASR words explicitly confirmed by the owner may have a separate reviewed transcript; original ASR is preserved. Every other critical discrepancy still blocks production.','The excerpt is a listening aid; original measured Whisper timestamps are preserved.','No TTS regeneration, image generation, paid API or YouTube publication occurred in this export.'].join(String.fromCharCode(10)));
 const manifest=[];
 for(const name of (await readdir(output)).sort())manifest.push({name,sha256:await fileDigest(join(output,name))});
 await json(join(output,'evidence-manifest.json'),{runId,execution,files:manifest});
