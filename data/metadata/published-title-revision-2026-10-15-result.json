@@ -1,0 +1,34 @@
+{
+  "at": "2026-10-15T22:01:05.725Z",
+  "receipts": [
+    {
+      "videoId": "oZZ7jG45fL4",
+      "url": "https://www.youtube.com/watch?v=oZZ7jG45fL4",
+      "before": "Tunneling in Darkness #Shorts",
+      "after": "Hezekiah’s Tunnel: Digging Through Solid Rock #Shorts",
+      "changed": true,
+      "verified": true
+    },
+    {
+      "videoId": "bNvYAMdICF4",
+      "url": "https://www.youtube.com/watch?v=bNvYAMdICF4",
+      "before": "Scribing the Desert #Shorts",
+      "after": "The Cave Discovery Behind the Dead Sea Scrolls #Shorts",
+      "changed": true,
+      "verified": true
+    }
+  ],
+  "blocked": [
+    {
+      "videoId": "3ejDYtI6dFU",
+      "reason": "UPDATE_TITLE_NOT_ALLOWED_DURING_TEST_AND_COMPARE"
+    },
+    {
+      "videoId": "5V7vCGSViFM",
+      "reason": "UPDATE_TITLE_NOT_ALLOWED_DURING_TEST_AND_COMPARE"
+    }
+  ],
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38814060496",
+  "outcome": "partial: two Shorts updated and verified; two long-form active Studio experiments preserved",
+  "workflowConclusion": "failure: pending title changes are not silently reported as complete"
+}

@@ -46,4 +46,6 @@ TikTok exige content_preview_confirmed y express_consent_given sobre los archivo
 
 ## Cambio de títulos publicado, separado del episodio
 
-Plan concreto en data/metadata/published-title-revision-2026-10-15.json. El workflow update-published-titles hace backup antes de toda escritura y verifica campos preservados. La ejecución 38801696329 detuvo la operación ANTES de modificar títulos porque se comparó la respuesta completa de la API con su backup (incluyendo orden/etags variables). La corrección compara valores de metadatos, títulos y traducciones por ID; conserva la protección contra cambios manuales y usa el etag fresco como condición de actualización.
+Plan concreto en data/metadata/published-title-revision-2026-10-15.json; recibo remoto verificado en published-title-revision-2026-10-15-result.json. Actions 38814060496 actualizó los dos Shorts y verificó todos los campos preservados. Los dos videos largos siguen bloqueados por pruebas activas de Studio (UPDATE_TITLE_NOT_ALLOWED_DURING_TEST_AND_COMPARE); no se cancelaron experimentos. El workflow queda failure por esos dos pendientes, no por los Shorts aplicados. La comparación semántica por ID y el If-Match fresco siguen activos. No atribuir el mensaje genérico «Precondition check failed» a una incompatibilidad de etag.
+
+Guard de la configuración actual: Actions 38813664689 verde el 15 de octubre a las 21:57 UTC; decision=before-free-quota-reset, dispatched=false. Workflow activo y cron 00:15 UTC conservado. No es prueba de que el master esté renderizado ni de que se haya subido el episodio.
