@@ -10,6 +10,12 @@ on:
         description: GitHub Actions ID of the create-video or previous private-upload run
         type: string
         required: true
+      owner_applies_thumbnail:
+        type: boolean
+        default: false
+      owner_cover_confirmed:
+        type: boolean
+        default: false
       artifact_prefix:
         description: Artifact name prefix (production for production-validation runs, pipeline for create-video runs)
         type: string
@@ -23,6 +29,12 @@ on:
       source_run_id:
         type: string
         required: true
+      owner_applies_thumbnail:
+        type: boolean
+        default: false
+      owner_cover_confirmed:
+        type: boolean
+        default: false
       artifact_prefix:
         type: string
         default: production
@@ -70,7 +82,9 @@ jobs:
       - name: Private upload, scheduled publish (protected environment approval)
         run: npm run publish -- --run-id "$RUN_ID"
         env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          OWNER_APPLIES_YOUTUBE_THUMBNAIL: ${{ inputs.owner_applies_thumbnail }}
+          OWNER_COVER_CONFIRMED: ${{ inputs.owner_cover_confirmed }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}

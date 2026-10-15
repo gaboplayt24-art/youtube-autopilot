@@ -32,6 +32,10 @@ on:
         description: After every QA gate passes, upload private to YouTube and schedule the next daily slot (owner-authorized 2026-10-10)
         type: boolean
         default: false
+      upload_private_for_owner_thumbnail:
+        description: Upload privately after QA so the owner can set the cover in Studio; does not schedule
+        type: boolean
+        default: false
       owner_thumbnail:
         description: Owner will provide the thumbnail; skip generated covers and block automatic publishing
         type: boolean
@@ -265,10 +269,11 @@ jobs:
           key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
   publish:
     needs: quality
-    if: success() && inputs.publish && !inputs.owner_thumbnail && inputs.task != 'branding' && inputs.task != 'style-v5' && inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
+    if: success() && ((inputs.publish && !inputs.owner_thumbnail) || (inputs.upload_private_for_owner_thumbnail && inputs.owner_thumbnail)) && inputs.task != 'branding' && inputs.task != 'style-v5' && inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
     uses: ./.github/workflows/publish.yml
     with:
       run_id: ${{ inputs.run_id }}
       source_run_id: ${{ github.run_id }}
       artifact_prefix: production
+      owner_applies_thumbnail: ${{ inputs.owner_thumbnail }}
     secrets: inherit

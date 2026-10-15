@@ -1,12 +1,12 @@
 # Entrega autorizada del episodio y sus clips
 
-Solicitud del propietario del 15 de octubre de 2026: terminar y programar el video, Shorts y TikToks. Portada a cargo del propietario, con prompts en bible-angels-001-thumbnails.md. La solicitud no convierte una QA fallida ni una maqueta en contenido aprobado.
+Solicitud del propietario del 15 de octubre de 2026: terminar y programar el video, Shorts y TikToks. El propietario eligió la tercera portada y la aplicará directamente en Studio; no se necesita un enlace descargable para el nuevo flujo de subida privada. La solicitud no convierte una QA fallida ni una maqueta en contenido aprobado.
 
 ## Estado y calendario operativo
 
 Narración completa aprobada: 583,22 s; conservar voz, ASR y la aprobación seraphim limitada por hashes. Master final todavía no existe. El último checkpoint completo es la ejecución 38693770543. El reporte cacheado de imágenes contiene trabajo incompleto y defectos; no es aprobación del video.
 
-Gemini respondió cuota gratuita agotada, con reinicio esperado el 16 de octubre a las 00:00 UTC (15 de octubre, 21:00 Argentina). `resume-approved-episode` tiene cron 00:15 UTC, equivalente a las 21:15 Argentina del día anterior. GitHub puede retrasar un cron: no se promete ejecución exacta. Está acotado por config/episode-delivery.json hasta el 22 de octubre, un intento de producción por día UTC y como máximo tres intentos antes de revisión, sin publicar y sin aumentar presupuestos. Se detiene tras una ejecución de producción exitosa. La reanudación toma el checkpoint completo más reciente del Release privado, no vuelve a sintetizar voz ni reinicia etapas válidas.
+Gemini respondió cuota gratuita agotada, con reinicio esperado el 16 de octubre a las 00:00 UTC (15 de octubre, 21:00 Argentina). `resume-approved-episode` tiene cron 00:15 UTC, equivalente a las 21:15 Argentina del día anterior. GitHub puede retrasar un cron: no se promete ejecución exacta. Está acotado por config/episode-delivery.json hasta el 22 de octubre, un intento de producción por día UTC y como máximo tres intentos antes de revisión, sin programar públicamente y sin aumentar presupuestos. Se detiene tras una ejecución de producción exitosa. La reanudación toma el checkpoint completo más reciente del Release privado, no vuelve a sintetizar voz ni reinicia etapas válidas.
 
 Identidad verificada localmente contra el fingerprint a891f362e912826dc4f3a9fe45eecf432fc3bc8a135875464daa64440e45f64d: Gemini configurado como gemini-3.1-flash-lite, sin overrides TTS/targetDurationMode. El descubrimiento existente puede elegir un modelo gratuito compatible; no cambiar el valor configurado arbitrariamente ni el run ID. Arte v5, mismo guion y mismo tema. Las revisiones visuales ya existentes en data/scripts siguen activas bajo sus IDs nuevos; no restaurar el antiguo illustrated-edit.json como si fuera el plan final revisado.
 
@@ -29,7 +29,7 @@ TikTok exige content_preview_confirmed y express_consent_given sobre los archivo
 
 ## Límites que siguen vigentes
 
-- Portada definitiva del propietario pendiente; owner_thumbnail=true y publish=false en producción hasta importarla y validar QA.
+- Tras QA se permite subir PRIVATE con owner_thumbnail=true y upload_private_for_owner_thumbnail=true. No se genera una portada sustituta. publish=false sigue bloqueando la programación automática; el workflow publish retorna owner-cover-handoff.json y enlace de Studio hasta que el propietario confirme la portada con owner_cover_confirmed=true.
 - Nuevo frontend/modelo/editor no autorizado fuera de la entrega vertical necesaria. Mismo narrador y arte originales.
 - Gemini y demás APIs free-only; Cloudflare mantiene únicamente la excepción ya aprobada de $8/mes total y ledger persistente.
 - Supabase guarda JSON/ledger; MP4/WAV/evidencia grande siguen en Releases privados, sin duplicarlos como Actions artifacts ni commits.
@@ -43,3 +43,7 @@ TikTok exige content_preview_confirmed y express_consent_given sobre los archivo
 - Prueba real de Remotion Portrait en ubuntu-latest, Actions 38793644340: verde. ZIP privado https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/social-38793644340.zip . CRC y SHA del MP4 verificados tras descargar; ffprobe: 1080×1920,30fps,H264/AAC,3,008s. Frame representativo inspeccionado: arte entero, título y captions legibles; es una prueba de layout, no los tres clips finales.
 - SHA ZIP: 241a193a1cca97cd36cb152f71d7269c2114a01294f5bf09e3f62d0e0a28c6f3. SHA MP4: dc0172f38d226345f8b7fda83c3af19490524ab8ea11a5f99d800d8e8c9e00e3.
 - Se corrigió el campo de disclosure de TikTok al documentado video_made_with_ai=true. El envío real aún no se ha probado: depende del master aprobado, portada, clips revisados y programación del episodio principal.
+
+## Cambio de títulos publicado, separado del episodio
+
+Plan concreto en data/metadata/published-title-revision-2026-10-15.json. El workflow update-published-titles hace backup antes de toda escritura y verifica campos preservados. La ejecución 38801696329 detuvo la operación ANTES de modificar títulos porque se comparó la respuesta completa de la API con su backup (incluyendo orden/etags variables). La corrección compara valores de metadatos, títulos y traducciones por ID; conserva la protección contra cambios manuales y usa el etag fresco como condición de actualización.
