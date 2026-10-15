@@ -11,8 +11,14 @@ export class LocalStorage implements StorageProvider {
  async create(key:string,value:unknown){await mkdir(this.root,{recursive:true});try{const file=await open(this.path(key),'wx');await file.writeFile(JSON.stringify(value));await file.close();return true;}catch(e){if((e as NodeJS.ErrnoException).code==='EEXIST')return false;throw e;}}
  async list(prefix:string){return Promise.all((await readdir(this.root)).filter(x=>x.startsWith(prefix)&&x.endsWith('.json')).map(x=>read(join(this.root,x))));}
 }
+/** The SDK adds /rest/v1 itself. A pasted REST endpoint must not duplicate it. */
+export function supabaseProjectUrl(value:string){
+ const url=new URL(value);
+ if(url.protocol!=='https:'||!url.hostname.endsWith('.supabase.co')||url.username||url.password||url.port)throw Error('Official HTTPS Supabase project URL required');
+ return url.origin;
+}
 export class SupabaseStorage implements StorageProvider {
- private client=createClient(process.env.SUPABASE_URL??'',process.env.SUPABASE_SERVICE_ROLE_KEY??'');
+ private client=createClient(supabaseProjectUrl(process.env.SUPABASE_URL??''),process.env.SUPABASE_SERVICE_ROLE_KEY??'');
  async put(key:string,value:unknown){const {error}=await this.client.from('pipeline_artifacts').upsert({key,value,updated_at:new Date().toISOString()});if(error)throw error;}
  async get(key:string){const {data,error}=await this.client.from('pipeline_artifacts').select('value').eq('key',key).single();if(error)throw error;return data.value;}
  async create(key:string,value:unknown){const {error}=await this.client.from('pipeline_artifacts').insert({key,value});if(error?.code==='23505')return false;if(error)throw error;return true;}
