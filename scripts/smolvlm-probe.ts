@@ -15,7 +15,7 @@ export function parseProbeAnswer(text:string,kind:'count'|'boolean'):number|bool
  return /^\d+$/.test(m[1])?Number(m[1]):words.indexOf(m[1].toLowerCase());
 }
 export function probeOutcome(actual:number|boolean|null,expected:number|boolean){return actual===null?'abstained':typeof actual===typeof expected&&actual===expected?'correct':'incorrect';}
-const casesSchema=z.object({runId:z.literal('bible-angels-001'),sourceExecution:z.literal('38693770543'),reference:z.object({path:z.string(),sha256:z.string().length(64)}),curation:z.string(),cases:z.array(z.object({id:z.string().regex(/^[a-z0-9-]+$/),path:z.string(),sha256:z.string().length(64),prompt:z.string(),answerType:z.enum(['count','boolean']),expected:z.union([z.number().int(),z.boolean()]),groundTruthNote:z.string(),useReference:z.boolean()})).length(8)});
+export const casesSchema=z.object({runId:z.literal('bible-angels-001'),sourceExecution:z.literal('38693770543'),reference:z.object({path:z.string(),sha256:z.string().length(64)}),curation:z.string(),cases:z.array(z.object({id:z.string().regex(/^[a-z0-9-]+$/),path:z.string(),sha256:z.string().length(64),prompt:z.string(),answerType:z.enum(['count','boolean']),expected:z.union([z.number().int(),z.boolean()]),groundTruthNote:z.string(),useReference:z.boolean()})).length(8)});
 async function main(){
  const output=process.env.SMOLVLM_OUTPUT_DIR??'.cache/smolvlm-probe/evidence',modelDir=resolve(process.env.SMOLVLM_MODEL_DIR??'.cache/smolvlm-probe/model');await mkdir(output,{recursive:true});
  const cases=casesSchema.parse(JSON.parse(await readFile('data/research/bible-angels-001/smolvlm-probe-cases.json','utf8'))),manifest=JSON.parse(await readFile(join(modelDir,'download-manifest.json'),'utf8'));
