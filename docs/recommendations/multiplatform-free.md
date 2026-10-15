@@ -21,4 +21,4 @@ La existencia del MCP no autoriza por sí sola el acceso a TikTok o Instagram. E
 5. Probar primero un borrador y su archivo real. Confirmar cuenta de destino, texto, calidad, idempotencia y permisos antes de habilitar publicación programada. Un fallo de QA bloquea el envío.
 6. Revisar por pista que la licencia de la música permita TikTok/Instagram. Que una pista esté aprobada para nuestro uso en YouTube no establece automáticamente sus derechos en otras redes. Conservar la procedencia del audio.
 
-Esta recomendación no modifica el motor visual ni la política de publicación del episodio actual. La producción de `bible-angels-001` sigue en GitHub Actions y espera la portada del propietario antes de subir o programar en YouTube.
+Esta recomendación no modifica el motor visual ni la política de publicación del episodio actual. El episodio `bible-angels-001` se ejecuta en GitHub Actions: una discrepancia en un término crítico de la voz requiere revisión antes de continuar con las imágenes. La portada corresponde al propietario y sigue siendo necesaria antes de subir o programar en YouTube.

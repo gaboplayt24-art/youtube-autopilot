@@ -43,3 +43,7 @@ SHA256 de los originales:
 Almacenamiento autorizado: https://github.com/gaboplayt24-art/youtube-autopilot/releases/tag/pipeline-checkpoint-bible-angels-001
 
 Hace falta escuchar el fragmento para decidir si se corrige esa pronunciación en la voz aprobada o se documenta una discrepancia del reconocimiento. No se sustituirá silenciosamente `set of time` por `seraphim`, ni se relajará la puerta de términos críticos. La portada del episodio sigue siendo del propietario y la programación sigue pendiente.
+
+Exportación verificada en Actions: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38676074281
+
+[Fragmento de seis segundos](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1-excerpt.mp3) · [WAVs y QA](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1.zip). ZIP descargado y comprobado: CRC y 23 hashes del manifiesto coinciden. Lint, typecheck, 196 tests TypeScript y 8 Python pasaron en ese job. El estado de voz sigue siendo `blocked-critical-review`.
