@@ -1,0 +1,227 @@
+{
+  "model": "HuggingFaceTB/SmolVLM2-500M-Video-Instruct",
+  "revision": "7b375e1b73b11138ff12fe22c8f2822d8fe03467",
+  "license": "Apache-2.0",
+  "runtime": "transformers.js 3.8.1 / ONNX Runtime CPU",
+  "device": "cpu",
+  "weights": {
+    "embed_tokens": "q4",
+    "decoder_model_merged": "q4",
+    "vision_encoder": "fp32"
+  },
+  "threads": 2,
+  "imageLongestEdge": 512,
+  "imageSplitting": false,
+  "processorCompatibility": "Existing transformers.js Idefics3 processor; SmolVLM shares this implementation. Official image/processor config and tokenizer are pinned, with splitting disabled for bounded CPU work.",
+  "expectedLabelsGivenToModel": false,
+  "inferenceApiCalls": 0,
+  "paidApiCostUsd": 0,
+  "newImagesGenerated": 0,
+  "productionAcceptanceModified": false,
+  "promotedToProduction": false,
+  "smallDiagnosticSampleOnly": true,
+  "execution": "38775699974",
+  "commit": "c8c5cbecc04db4be4c2f7512c16cef7ee9aacbd7",
+  "sourceExecution": "38693770543",
+  "host": {
+    "cpus": 2,
+    "memoryBytes": 8323960832
+  },
+  "loadSeconds": 0.939,
+  "elapsedSeconds": 15.233,
+  "peakRssMiB": 2100.04296875,
+  "failure": null,
+  "counts": {
+    "correct": 4,
+    "incorrect": 4,
+    "abstained": 0
+  },
+  "inferenceSeconds": 13.919000000000002,
+  "completedCases": 8,
+  "totalCases": 8,
+  "results": [
+    {
+      "id": "wing-count",
+      "sourceSha256": "51ea77dcedcf672545bd926fad519e5c7090a89518998ec5dfc50e85845c6613",
+      "referenceSha256": null,
+      "prompt": "How many complete feathered wings are visibly drawn? Count wings, not individual feathers. Start with the number, then one short sentence.",
+      "rawResponse": " 5.",
+      "parsedAnswer": 5,
+      "expected": 2,
+      "groundTruthNote": "Two complete wings are visible. This cannot depict the six-winged being described by Isaiah 6:2.",
+      "outcome": "incorrect",
+      "elapsedSeconds": 1.632,
+      "generatedTokens": 4,
+      "peakRssMiB": 1732.41015625,
+      "pixelTensorShape": [
+        1,
+        1,
+        3,
+        512,
+        512
+      ]
+    },
+    {
+      "id": "wheel-heads",
+      "sourceSha256": "02d169290fcab804eb922c5df0aed1d0f3eb26900050ce9a4289f59ff55e502d",
+      "referenceSha256": null,
+      "prompt": "Are there human heads or human faces inside the large central opening of the wheel, distinct from the small eyes along its rim? Start with YES or NO, then one short sentence.",
+      "rawResponse": " YES.",
+      "parsedAnswer": true,
+      "expected": true,
+      "groundTruthNote": "Several complete faces are drawn inside the ring; they are not merely eyes on the rim.",
+      "outcome": "correct",
+      "elapsedSeconds": 1.653,
+      "generatedTokens": 4,
+      "peakRssMiB": 1853.16796875,
+      "pixelTensorShape": [
+        1,
+        1,
+        3,
+        512,
+        512
+      ]
+    },
+    {
+      "id": "glass-lamp",
+      "sourceSha256": "6a2772bd3e5aac36c1846bb7a766480ac5160891c92bcf12abbe9f1091f57fc6",
+      "referenceSha256": null,
+      "prompt": "Is there an oil lamp with a tall glass chimney on the table? Start with YES or NO, then describe the visible lamp in one short sentence.",
+      "rawResponse": " YES.",
+      "parsedAnswer": true,
+      "expected": true,
+      "groundTruthNote": "Glass chimney on a handled oil lamp; the source is flagged for period correction.",
+      "outcome": "correct",
+      "elapsedSeconds": 1.583,
+      "generatedTokens": 4,
+      "peakRssMiB": 1925.48828125,
+      "pixelTensorShape": [
+        1,
+        1,
+        3,
+        512,
+        512
+      ]
+    },
+    {
+      "id": "shirt-collar",
+      "sourceSha256": "b41f505ddb2d0f2e8c1bbbe57049b47959aabc2aa16493e5d5bd68ef7745e86a",
+      "referenceSha256": null,
+      "prompt": "Does the person on the right wear a pointed folded shirt collar? Start with YES or NO, then one short sentence.",
+      "rawResponse": " YES.",
+      "parsedAnswer": true,
+      "expected": true,
+      "groundTruthNote": "Pointed folded modern shirt collar is visibly drawn.",
+      "outcome": "correct",
+      "elapsedSeconds": 1.548,
+      "generatedTokens": 4,
+      "peakRssMiB": 1946.5234375,
+      "pixelTensorShape": [
+        1,
+        1,
+        3,
+        512,
+        512
+      ]
+    },
+    {
+      "id": "period-control",
+      "sourceSha256": "ced486a2666b90beda97b2f72bc946b688a7f7a63a266f27e354de398567f64a",
+      "referenceSha256": null,
+      "prompt": "Is there a pointed folded shirt collar or a glass-chimney lamp anywhere in this picture? Start with YES or NO, then one short sentence.",
+      "rawResponse": " YES.",
+      "parsedAnswer": true,
+      "expected": false,
+      "groundTruthNote": "Eli wears a simple uncollared tunic by a stone doorway, with no glass-chimney lamp.",
+      "outcome": "incorrect",
+      "elapsedSeconds": 1.585,
+      "generatedTokens": 4,
+      "peakRssMiB": 1964.7890625,
+      "pixelTensorShape": [
+        1,
+        1,
+        3,
+        512,
+        512
+      ]
+    },
+    {
+      "id": "reader-control",
+      "sourceSha256": "99673a9f2740bf883f00d89e45abd2588efacd701b75cac0be574618bde2b4b7",
+      "referenceSha256": null,
+      "prompt": "How many people are visible in this picture? Start with the number, then one short sentence.",
+      "rawResponse": " 1.",
+      "parsedAnswer": 1,
+      "expected": 1,
+      "groundTruthNote": "One illustrated reader holding a blank scroll. Holding it is not a factual failure.",
+      "outcome": "correct",
+      "elapsedSeconds": 1.492,
+      "generatedTokens": 4,
+      "peakRssMiB": 1985.2890625,
+      "pixelTensorShape": [
+        1,
+        1,
+        3,
+        512,
+        512
+      ]
+    },
+    {
+      "id": "wheel-control",
+      "sourceSha256": "c19b53ccd32f31a66944ac1e2c0eaff9bfbc48734e1f654e9b4ae57bfeb5a24d",
+      "referenceSha256": null,
+      "prompt": "Are any complete human heads drawn inside the central opening of the golden ring? Do not count the small eyes along the rim as human heads. Start with YES or NO, then one short sentence.",
+      "rawResponse": " YES.",
+      "parsedAnswer": true,
+      "expected": false,
+      "groundTruthNote": "Rim contains small eyes; the opening is empty, with no human heads.",
+      "outcome": "incorrect",
+      "elapsedSeconds": 1.581,
+      "generatedTokens": 4,
+      "peakRssMiB": 2018.5390625,
+      "pixelTensorShape": [
+        1,
+        1,
+        3,
+        512,
+        512
+      ]
+    },
+    {
+      "id": "background-medium",
+      "sourceSha256": "b325dd65d548daadee9a6beee5bf5332fc4d244f348e178cd3aa3b9f0641d026",
+      "referenceSha256": "9c3433c1a337fee080990a5be6613dc8adbc46296e2818477df82a7b63be2c07",
+      "prompt": "Compare reference image 1 with candidate image 2. Does candidate image 2 have strongly shaded and textured stone architecture instead of the reference's mostly flat fills? Start with YES or NO, then one short sentence.",
+      "rawResponse": " No.",
+      "parsedAnswer": false,
+      "expected": true,
+      "groundTruthNote": "Candidate has strongly lit/textured stone architecture; this visual feature is inspected independently of the flat character.",
+      "outcome": "incorrect",
+      "elapsedSeconds": 2.845,
+      "generatedTokens": 3,
+      "peakRssMiB": 2099.91796875,
+      "pixelTensorShape": [
+        1,
+        2,
+        3,
+        512,
+        512
+      ]
+    }
+  ],
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38775699974",
+  "workflowConclusion": "success",
+  "artifactUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/smolvlm-cpu-38775699974-attempt-1.zip",
+  "artifactBytes": 4396220,
+  "artifactSha256": "042df95b0a32b56223e10205f5cc0851515cbd4fba50ba53542d61f7d4b263b0",
+  "artifactCrcVerified": true,
+  "rawSourceHashesVerified": 8,
+  "referenceHashVerified": true,
+  "modelDownloadAndVerificationSeconds": 9.764641456999996,
+  "modelBytes": 815128485,
+  "assessment": "Do not promote the tested 500M Q4 configuration to the final QA gate. In this diagnostic set it miscounted wings, flagged two correct controls and missed the shaded/background treatment. This does not measure larger variants or general accuracy.",
+  "earlierSetupFailure": {
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38775373473",
+    "reason": "FFmpeg absent before repository tests; corrected in the subsequent workflow, no inference executed in that failed setup run."
+  }
+}
