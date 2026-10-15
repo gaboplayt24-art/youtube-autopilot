@@ -34,6 +34,9 @@ export class VisualStyleEngine{
   const priorEffective=process.env.LLM_PROVIDER==='groq'?await existingEffectiveGroqReview(runner.dir,stageId,source.sha256,source.referenceSha256):null;
   let groqUsed=false,minorStage:string|null=null;
   let review=priorEffective?.review??await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256);
+  // A rejected legacy narrative decision is not a current Groq assessment.
+  // Re-evaluate actual pixels under the active role/narration context; keep the old verdict.
+  if(process.env.LLM_PROVIDER==='groq'&&review&&!review.passed)review=null;
   if(!review){
    // Keep valid prior decisions. Rejected Groq v1 comparisons can have described
    // the reference sheet instead of the candidate; preserve them and run a new,
@@ -46,7 +49,7 @@ export class VisualStyleEngine{
   }
   const originalReview=review;
   if(process.env.LLM_PROVIDER==='groq'&&mayReviewMinorStaging(review)){
-   groqUsed=true;minorStage='native-'+stageId+'-minor-staging-'+source.sha256.slice(0,12);
+   groqUsed=true;minorStage='native-'+stageId+'-minor-staging-'+source.sha256.slice(0,12)+'-'+createHash('sha256').update(JSON.stringify({idea,issues:review.issues})).digest('hex').slice(0,8);
    const priorReview=review;
    const evidence=await runner.stage(minorStage,z.object({sourceSha256:z.literal(source.sha256),referenceSha256:z.literal(source.referenceSha256),decision:minorStagingDecision}),async()=>({sourceSha256:source.sha256,referenceSha256:source.referenceSha256,decision:await inspectMinorStaging(source.path,idea,priorReview,vision)}));
    review=applyMinorStagingDecision(priorReview,evidence.decision,idea);

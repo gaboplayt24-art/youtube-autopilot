@@ -13,7 +13,7 @@ export const densityReview=styleReview.extend({scores:densityScores,adultAnatomy
 /** A second actual-image review is separate evidence; old verdicts and raw sources stay immutable. */
 export const narrativeReview=z.object({policy:z.literal('narrative-facts-v1'),sourceSha256:z.string().length(64),referenceSha256:z.string().length(64),review:densityReview});
 export const effectiveGroqReview=z.object({policy:z.literal('groq-free-owner-minor-v1'),provider:z.literal('groq'),model:z.literal('qwen/qwen3.8-27b'),sourceSha256:z.string().length(64),referenceSha256:z.string().length(64),review:densityReview,originalReview:densityReview,minorStagingStage:z.string().nullable()});
-export const effectiveGroqReviewStage=(id:string,sha:string)=>'native-'+id+'-effective-groq-v1-'+sha.slice(0,12);
+export const effectiveGroqReviewStage=(id:string,sha:string)=>'native-'+id+'-effective-groq-v2-'+sha.slice(0,12);
 export async function existingEffectiveGroqReview(dir:string,id:string,sha:string,referenceSha:string){
  const stage=effectiveGroqReviewStage(id,sha);try{await access(join(dir,stage+'.json'));}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return null;throw e;}
  const value=await artifact(dir,stage,effectiveGroqReview);if(value.sourceSha256!==sha||value.referenceSha256!==referenceSha)throw Error('Effective Groq review source/reference mismatch');return value;
