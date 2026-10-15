@@ -1,6 +1,6 @@
 # Próximos pasos: nube y distribución
 
-Estado al 15 de octubre de 2026. Propuesta concreta, sin servicios nuevos activados ni publicaciones sociales. El usuario ya tiene TikTok; no se ha comprobado una cuenta de Instagram conectada. La integración de Codex no puede listar Secrets/Variables (403); eso no demuestra que falten. El workflow manual `cloud-connections` comprueba presencia sin mostrar valores.
+Estado al 15 de octubre de 2026. Propuesta concreta, sin servicios nuevos activados ni publicaciones sociales. La comprobación real de Zernio en Actions (38780374568) devolvió HTTP 200 y dos cuentas activas: TikTok y LinkedIn. Instagram no figura. Para mantener dos cuentas gratuitas, el propietario debe decidir si reemplaza LinkedIn antes de añadir Instagram; no desconectar cuentas automáticamente. Supabase aún no presenta configuración completa al workflow. La integración de Codex no puede listar Secrets/Variables (403); eso no demuestra que falten. El workflow manual `cloud-connections` comprueba presencia sin mostrar valores.
 
 ## Separar cuatro límites
 
