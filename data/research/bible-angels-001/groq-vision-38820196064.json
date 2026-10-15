@@ -1,0 +1,199 @@
+{
+  "requestedModel": "qwen/qwen3.8-27b",
+  "execution": "38820196064",
+  "commit": "561973db06c2f5f4703ca1bed82375bff56b8592",
+  "sourceExecution": "38693770543",
+  "apiCalls": 8,
+  "completedCases": 8,
+  "totalCases": 8,
+  "expectedLabelsGivenToModel": false,
+  "paidApiCostUsd": 0,
+  "costBasis": "Owner-confirmed Groq Free account; not a vendor invoice",
+  "promotedToProduction": false,
+  "productionAcceptanceModified": false,
+  "smallDiagnosticSampleOnly": true,
+  "failure": null,
+  "counts": {
+    "correct": 7,
+    "incorrect": 1,
+    "abstained": 0
+  },
+  "results": [
+    {
+      "id": "wing-count",
+      "prompt": "How many complete feathered wings are visibly drawn? Count wings, not individual feathers. Start with the number, then one short sentence.",
+      "sourceSha256": "51ea77dcedcf672545bd926fad519e5c7090a89518998ec5dfc50e85845c6613",
+      "referenceSha256": null,
+      "parsedAnswer": 2,
+      "expected": 2,
+      "outcome": "correct",
+      "elapsedSeconds": 1.504,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "2. The illustration depicts a single angel character with one wing extending from each side of its back.",
+      "usage": {
+        "prompt_tokens": 809,
+        "completion_tokens": 21,
+        "total_tokens": 830,
+        "queue_time": 0.116200065,
+        "prompt_time": 0.05957584,
+        "completion_time": 0.046317304,
+        "total_time": 0.105893144
+      }
+    },
+    {
+      "id": "wheel-heads",
+      "prompt": "Are there human heads or human faces inside the large central opening of the wheel, distinct from the small eyes along its rim? Start with YES or NO, then one short sentence.",
+      "sourceSha256": "02d169290fcab804eb922c5df0aed1d0f3eb26900050ce9a4289f59ff55e502d",
+      "referenceSha256": null,
+      "parsedAnswer": true,
+      "expected": true,
+      "outcome": "correct",
+      "elapsedSeconds": 0.738,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "YES. There are multiple human faces depicted inside the central opening of the wheel.",
+      "usage": {
+        "prompt_tokens": 818,
+        "completion_tokens": 17,
+        "total_tokens": 835,
+        "queue_time": 0.106304092,
+        "prompt_time": 0.056971955,
+        "completion_time": 0.032490921,
+        "total_time": 0.089462876
+      }
+    },
+    {
+      "id": "glass-lamp",
+      "prompt": "Is there an oil lamp with a tall glass chimney on the table? Start with YES or NO, then describe the visible lamp in one short sentence.",
+      "sourceSha256": "6a2772bd3e5aac36c1846bb7a766480ac5160891c92bcf12abbe9f1091f57fc6",
+      "referenceSha256": null,
+      "parsedAnswer": false,
+      "expected": true,
+      "outcome": "incorrect",
+      "elapsedSeconds": 0.962,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "NO, the lamp on the table is a simple clay oil lamp with a short, open spout and no glass chimney.",
+      "usage": {
+        "prompt_tokens": 812,
+        "completion_tokens": 26,
+        "total_tokens": 838,
+        "queue_time": 0.175024765,
+        "prompt_time": 0.059363641,
+        "completion_time": 0.050387481,
+        "total_time": 0.109751122
+      }
+    },
+    {
+      "id": "shirt-collar",
+      "prompt": "Does the person on the right wear a pointed folded shirt collar? Start with YES or NO, then one short sentence.",
+      "sourceSha256": "b41f505ddb2d0f2e8c1bbbe57049b47959aabc2aa16493e5d5bd68ef7745e86a",
+      "referenceSha256": null,
+      "parsedAnswer": true,
+      "expected": true,
+      "outcome": "correct",
+      "elapsedSeconds": 0.516,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "YES, the person on the right is wearing a white shirt with a pointed, folded collar.",
+      "usage": {
+        "prompt_tokens": 806,
+        "completion_tokens": 20,
+        "total_tokens": 826,
+        "queue_time": 0.229419737,
+        "prompt_time": 0.059187083,
+        "completion_time": 0.038158826,
+        "total_time": 0.097345909
+      }
+    },
+    {
+      "id": "period-control",
+      "prompt": "Is there a pointed folded shirt collar or a glass-chimney lamp anywhere in this picture? Start with YES or NO, then one short sentence.",
+      "sourceSha256": "ced486a2666b90beda97b2f72bc946b688a7f7a63a266f27e354de398567f64a",
+      "referenceSha256": null,
+      "parsedAnswer": false,
+      "expected": false,
+      "outcome": "correct",
+      "elapsedSeconds": 0.483,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "NO, the image contains neither a pointed folded shirt collar nor a glass-chimney lamp.",
+      "usage": {
+        "prompt_tokens": 812,
+        "completion_tokens": 20,
+        "total_tokens": 832,
+        "queue_time": 0.139015297,
+        "prompt_time": 0.062688887,
+        "completion_time": 0.044891309,
+        "total_time": 0.107580196
+      }
+    },
+    {
+      "id": "reader-control",
+      "prompt": "How many people are visible in this picture? Start with the number, then one short sentence.",
+      "sourceSha256": "99673a9f2740bf883f00d89e45abd2588efacd701b75cac0be574618bde2b4b7",
+      "referenceSha256": null,
+      "parsedAnswer": 1,
+      "expected": 1,
+      "outcome": "correct",
+      "elapsedSeconds": 0.394,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "1. The image shows a single cartoon man with a beard and headband sitting at a table, reading a scroll.",
+      "usage": {
+        "prompt_tokens": 801,
+        "completion_tokens": 25,
+        "total_tokens": 826,
+        "queue_time": 0.100416124,
+        "prompt_time": 0.056414798,
+        "completion_time": 0.047659816,
+        "total_time": 0.104074614
+      }
+    },
+    {
+      "id": "wheel-control",
+      "prompt": "Are any complete human heads drawn inside the central opening of the golden ring? Do not count the small eyes along the rim as human heads. Start with YES or NO, then one short sentence.",
+      "sourceSha256": "c19b53ccd32f31a66944ac1e2c0eaff9bfbc48734e1f654e9b4ae57bfeb5a24d",
+      "referenceSha256": null,
+      "parsedAnswer": false,
+      "expected": false,
+      "outcome": "correct",
+      "elapsedSeconds": 0.535,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "NO. The central opening of the golden ring is empty and does not contain any complete human heads.",
+      "usage": {
+        "prompt_tokens": 821,
+        "completion_tokens": 21,
+        "total_tokens": 842,
+        "queue_time": 0.088842623,
+        "prompt_time": 0.056290829,
+        "completion_time": 0.046112825,
+        "total_time": 0.102403654
+      }
+    },
+    {
+      "id": "background-medium",
+      "prompt": "Compare reference image 1 with candidate image 2. Does candidate image 2 have strongly shaded and textured stone architecture instead of the reference's mostly flat fills? Start with YES or NO, then one short sentence.",
+      "sourceSha256": "b325dd65d548daadee9a6beee5bf5332fc4d244f348e178cd3aa3b9f0641d026",
+      "referenceSha256": "9c3433c1a337fee080990a5be6613dc8adbc46296e2818477df82a7b63be2c07",
+      "parsedAnswer": true,
+      "expected": true,
+      "outcome": "correct",
+      "elapsedSeconds": 1.573,
+      "modelReturned": "qwen/qwen3.8-27b",
+      "rawAnswer": "YES, the candidate image features heavily shaded and textured stone columns and walls, contrasting with the flat, untextured background of the reference.",
+      "usage": {
+        "prompt_tokens": 2619,
+        "completion_tokens": 29,
+        "total_tokens": 2648,
+        "queue_time": 0.179121639,
+        "prompt_time": 0.179719516,
+        "completion_time": 0.062907712,
+        "total_time": 0.242627228
+      }
+    }
+  ],
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38820196064",
+  "workflowConclusion": "success",
+  "artifactUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/groq-vision-38820196064-attempt-1.zip",
+  "artifactSha256": "21dabc33bd45b849aa541fbfe577a8e6395ba0edafa02ed861dc55f1ae75bc49",
+  "artifactCrcVerified": true,
+  "rawSourceHashesVerified": 8,
+  "referenceHashVerified": true,
+  "assessment": "7/8 on this small diagnostic set, including a false negative on the glass-chimney lamp. Not validated as a replacement for full historical, narrative and style QA. No production gates or approvals changed."
+}
