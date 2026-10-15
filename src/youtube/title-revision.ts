@@ -18,3 +18,9 @@ export function prepareTitleRevision(video:youtube_v3.Schema$Video,change:z.infe
 export function metadataInvariant(video:youtube_v3.Schema$Video){return {description:video.snippet?.description,tags:video.snippet?.tags??[],categoryId:video.snippet?.categoryId,defaultLanguage:video.snippet?.defaultLanguage,defaultAudioLanguage:video.snippet?.defaultAudioLanguage,thumbnails:video.snippet?.thumbnails,status:video.status,localizedDescriptions:Object.fromEntries(Object.entries(video.localizations??{}).map(([k,v])=>[k,v.description]))};}
 
 export function titleRevisionSnapshot(videos:youtube_v3.Schema$Video[]){return videos.map(video=>({id:video.id,title:video.snippet?.title,metadata:metadataInvariant(video),localizations:video.localizations??{}})).sort((a,b)=>(a.id??'').localeCompare(b.id??''));}
+
+/** An active Studio experiment requires an owner decision; other API failures must abort. */
+export function isTitleExperimentBlock(error:unknown){
+ const result=z.object({response:z.object({data:z.object({error:z.object({errors:z.array(z.object({reason:z.string()}))})})})}).safeParse(error);
+ return result.success&&result.data.response.data.error.errors.some(e=>e.reason==='UPDATE_TITLE_NOT_ALLOWED_DURING_TEST_AND_COMPARE');
+}

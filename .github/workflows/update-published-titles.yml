@@ -66,4 +66,7 @@ jobs:
               summary.write('## Verified title updates\n\nhttps://github.com/'+repo+'/releases/download/'+tag+'/'+target.name+'\n\n')
               for item in json.loads(report.read_text())['receipts']:
                   summary.write('- ['+item['after']+']('+item['url']+')\n')
+              for item in json.loads(report.read_text()).get('blocked',[]):
+                  summary.write('- BLOCKED (active Studio title experiment preserved): '+item['videoId']+'\n')
           PY
+
