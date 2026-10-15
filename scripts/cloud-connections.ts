@@ -4,6 +4,7 @@ import {pathToFileURL} from 'node:url';
 import {appendFile} from 'node:fs/promises';
 import {z} from 'zod';
 import {json} from '../src/orchestration/io';
+import {supabaseProjectUrl} from '../src/database/storage';
 const service=z.enum(['all','supabase','zernio']);
 export async function inspectCloudConnections(env:NodeJS.ProcessEnv=process.env,request:typeof fetch=fetch){
  const selected=service.parse(env.CONNECTION_SERVICE??'all'),live=env.VERIFY_LIVE==='true';
@@ -34,8 +35,18 @@ export async function inspectCloudConnections(env:NodeJS.ProcessEnv=process.env,
  }
  return {mode:'read-only',live,publishingReady:false,ready:live&&results.every(r=>['database-readable','channels-readable'].includes(r.status)),results};
 }
+export async function inspectEpisodeProgress(env:NodeJS.ProcessEnv=process.env,request:typeof fetch=fetch){
+ const url=new URL('/rest/v1/pipeline_artifacts',supabaseProjectUrl(env.SUPABASE_URL??''));
+ if(!env.SUPABASE_SERVICE_ROLE_KEY)throw Error('Supabase credential required');
+ url.search=new URLSearchParams({select:'key,updated_at,decision:value->passed',key:'like.bible-angels-001-%',order:'updated_at.desc',limit:'8'}).toString();
+ const response=await request(url,{redirect:'error',headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+env.SUPABASE_SERVICE_ROLE_KEY},signal:AbortSignal.timeout(20000)});
+ if(!response.ok)throw Error('Episode progress HTTP '+response.status);
+ const rows=z.array(z.object({key:z.string().startsWith('bible-angels-001-'),updated_at:z.string(),decision:z.boolean().nullable()})).parse(await response.json());
+ return {runId:'bible-angels-001',completedStageRecordsOnly:true,notFullVideoApproval:true,records:rows.map(r=>({stage:r.key.slice('bible-angels-001-'.length),updatedAt:r.updated_at,decision:r.decision}))};
+}
 async function main(){
- const report=await inspectCloudConnections();await json('.cache/cloud-connections.json',report);console.log(JSON.stringify(report));
+ const progress=process.env.INSPECT_EPISODE_PROGRESS==='true'?await inspectEpisodeProgress():undefined;
+ const report={...await inspectCloudConnections(),...(progress?{episodeProgress:progress}:{})};await json('.cache/cloud-connections.json',report);console.log(JSON.stringify(report));
  if(process.env.GITHUB_STEP_SUMMARY)await appendFile(process.env.GITHUB_STEP_SUMMARY,'## Conexiones: diagnóstico de solo lectura\n\n'+report.results.map(r=>'- '+r.service+': **'+r.status+'**; configuración presente: '+r.credentialsPresent).join('\n')+'\n\nNo se publicaron contenidos ni se cambiaron cuentas, facturación o tablas. Un reporte generado no equivale a integración lista.\n');
  if(report.live&&!report.ready)process.exitCode=2;
 }

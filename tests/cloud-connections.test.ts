@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {inspectCloudConnections} from '../scripts/cloud-connections';
+import {inspectCloudConnections,inspectEpisodeProgress} from '../scripts/cloud-connections';
 test('missing production configuration and inventory mode never make external requests or claim readiness',async()=>{
  const unavailable=async()=>{throw Error('Network must not be used');};
  const missing=await inspectCloudConnections({},unavailable);assert.equal(missing.ready,false);assert.ok(missing.results.every(r=>r.status==='missing-configuration'));
@@ -34,4 +34,11 @@ test('profile review exposes only explicitly requested public handles, never tok
  const hidden=await inspectCloudConnections(env,request);assert.equal(hidden.results[0].publicProfiles,undefined);
  const shown=await inspectCloudConnections({...env,INCLUDE_PUBLIC_HANDLES:'true'},request);
  assert.deepEqual(shown.results[0].publicProfiles,[{platform:'tiktok',username:'@example.bible'}]);assert.doesNotMatch(JSON.stringify(shown),/private-id|private-token/);
+});
+test('episode progress reads only the approved prefix and reports decisions without inventing video approval',async()=>{
+ const result=await inspectEpisodeProgress({SUPABASE_URL:'https://example.supabase.co/rest/v1',SUPABASE_SERVICE_ROLE_KEY:'mock-secret'},async(input,init)=>{
+  const url=new URL(String(input));assert.equal(url.pathname,'/rest/v1/pipeline_artifacts');assert.equal(url.searchParams.get('key'),'like.bible-angels-001-%');assert.equal(url.searchParams.get('limit'),'8');assert.equal(init?.method,undefined);assert.equal(init?.redirect,'error');
+  return Response.json([{key:'bible-angels-001-native-source-review',updated_at:'2026-10-15T23:00:00Z',decision:false}]);
+ });
+ assert.equal(result.notFullVideoApproval,true);assert.equal(result.records[0].decision,false);assert.doesNotMatch(JSON.stringify(result),/mock-secret/);
 });
