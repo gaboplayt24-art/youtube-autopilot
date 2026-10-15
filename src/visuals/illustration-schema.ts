@@ -15,6 +15,15 @@ export const referenceObservations=z.object({usable:z.boolean(),containsIllustra
 export const referenceAnalysis=z.object({version:z.enum(['style-reference-analysis-v4','style-reference-analysis-v4.2']),status:z.literal('analysed'),referenceSha256:z.string().length(64),referencePath:z.string(),multimodalAnalysisExecuted:z.literal(true),observations:referenceObservations});
 export const artworkIdea=z.object({overlayAnchor:z.string().min(1).max(100).optional(),id:z.string().regex(/^[a-zA-Z0-9_-]+$/),narration:z.string().min(5),historicalContext:z.string().min(10).max(180),concept:z.string().min(30).max(420),overlay:z.string().max(35).refine(s=>s.split(/\s+/).filter(Boolean).length<=5).nullable(),labelPlacement:z.enum(['left','right','top','bottom']),characterRoles:z.array(z.string().max(60)).max(4)}).strict();
 export type ArtworkIdea=z.infer<typeof artworkIdea>;
+/** Source-specific symbolic anatomy is not a waiver for ordinary human defects. */
+export function sourceBoundVision(idea:Pick<ArtworkIdea,'historicalContext'>){
+ if(!/source-bound vision/i.test(idea.historicalContext))return '';
+ const rules:string[]=[];
+ if(/Isaiah 6:2/i.test(idea.historicalContext))rules.push('Isaiah 6:2: six wings, two cover face, two cover feet, two for flight');
+ if(/Ezekiel 1:4-21/i.test(idea.historicalContext))rules.push('Ezekiel 1:4-21: each creature four faces (human,lion,ox,eagle), four wings; eyes on wheel rims');
+ return rules.length?'SOURCE VISION: '+rules.join('; ')+'. Human anatomy applies only to humans; wrong source counts or unintended defects still FAIL.':'';
+}
+
 export const primaryArtwork=z.object({generationMethod:z.literal('ai-illustration'),styleVersion:z.enum([ILLUSTRATED_V4,'illustrated-doodle-v4.2',ROUND_HEAD_V5]),model:z.enum(['@cf/black-forest-labs/flux-1-schnell','@cf/black-forest-labs/flux-2-klein-4b']),width:z.number().int().positive().optional(),height:z.number().int().positive().optional(),aspectRatio:z.literal('16:9').optional(),referenceSha256:z.string().length(64),sourceSha256:z.string().length(64),referenceQAPassed:z.literal(true)});
 export const styleScores=z.object({drawnAppearance:z.number().min(0).max(100),lineCharacter:z.number().min(0).max(100),humanDesign:z.number().min(0).max(100).nullable(),colorTreatment:z.number().min(0).max(100),visualSimplicity:z.number().min(0).max(100),organicShapes:z.number().min(0).max(100),educationalClarity:z.number().min(0).max(100),sceneRichness:z.number().min(0).max(100),illustratedFeel:z.number().min(0).max(100)});
 export const styleReview=z.object({passed:z.boolean(),referenceCompared:z.boolean(),referenceStyleMatches:z.boolean(),conceptMatches:z.boolean(),historicallyPlausible:z.boolean(),cropPreservesSubjects:z.boolean(),photorealism:z.boolean(),cgi:z.boolean(),geometricCodeLook:z.boolean(),webUILook:z.boolean(),bakedText:z.boolean(),watermark:z.boolean(),scores:styleScores,issues:z.array(z.string())});

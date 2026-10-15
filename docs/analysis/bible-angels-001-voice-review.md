@@ -56,3 +56,10 @@ El propietario escuchó el fragmento enlazado y confirmó «si esta bien». Esa 
 La reevaluación local del audio existente con esa corrección explícita pasa con WER de 1,176% y todos sus términos críticos correctos. Esto no convierte el QA histórico fallido en un pase: se guardan por separado el original, el transcript derivado y la aplicación de la decisión humana. Cualquier cambio de audio, texto o transcript invalida la corrección. Siguen vigentes las comprobaciones acústicas y el resto del QA; una mutación de otro término factual continúa fallando en tests.
 
 Reanudar desde `critical-terms`, reutilizando las dos síntesis verificadas y generando únicamente la narración restante. Todavía faltan ilustraciones, render y QA final. La portada sigue a cargo del propietario; no se autoriza ninguna subida ni programación con esta decisión de voz.
+
+
+## Confirmación en la producción real reanudada
+
+Actions `38677085186` terminó las tres partes de narración: 281,16 s, 245,80 s y 56,26 s, total **583,22 s**. Las tres pasaron QA, con WER 0,136%, 1,176% y 0,714% respectivamente y 100% de términos críticos. Los hashes de los dos WAV anteriores coinciden: solo se sintetizó el cierre pendiente. El transcript Small original de la segunda parte y el registro de corrección humana se conservaron.
+
+El job no terminó el video: alcanzó el límite de 60 minutos durante las ilustraciones. Guardó el checkpoint en la release privada. El siguiente intento reutiliza toda la voz y el plan, y corrige selectivamente las ilustraciones rechazadas o pendientes, conservando sus fuentes y evaluaciones originales. Evidencia: `data/research/bible-angels-001/production-progress-38677085186.json`.

@@ -1,0 +1,154 @@
+{
+  "runId": "bible-angels-001",
+  "sourceExecution": "38677085186",
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38677085186",
+  "codeCommit": "dcacece91f01d9afc1a686299c3b7e895b2e4c8d",
+  "verifiedAt": "2026-10-15T04:49:35.979126+00:00",
+  "conclusion": "failure: 60-minute production-step timeout during illustrations",
+  "checkpointSaved": true,
+  "voice": [
+    {
+      "id": "narration-chapter-1",
+      "durationSeconds": 281.16,
+      "sha256": "826e7a43ba2bacec0c97e170376a62aa9fed6a8ec17fe756c17bbe328e1fad32",
+      "originalSynthesisReused": true,
+      "qaStatus": "pass",
+      "wordErrorRate": 0.0013623978201634877,
+      "criticalTermAccuracy": 1,
+      "humanTranscriptReview": null
+    },
+    {
+      "id": "narration-chapter-2",
+      "durationSeconds": 245.8,
+      "sha256": "46de7b75ff0d195b88e7320015ace6ab317249ba17c730d9467ce5f979e5335f",
+      "originalSynthesisReused": true,
+      "qaStatus": "pass",
+      "wordErrorRate": 0.011764705882352941,
+      "criticalTermAccuracy": 1,
+      "humanTranscriptReview": {
+        "evidencePath": "data/runs/bible-angels-001/assets/narration-chapter-2.wav.human-review-application.json",
+        "rawTranscriptPreserved": true,
+        "scope": "Only the exact owner-confirmed ASR word; all other gates unchanged"
+      }
+    },
+    {
+      "id": "narration-chapter-3",
+      "durationSeconds": 56.26,
+      "sha256": "7e1a99576bd0791f70d5d405e5ae17e782fd66aa40eb734d9e53f26175b7b147",
+      "originalSynthesisReused": false,
+      "qaStatus": "pass",
+      "wordErrorRate": 0.007142857142857143,
+      "criticalTermAccuracy": 1,
+      "humanTranscriptReview": null
+    }
+  ],
+  "totalNarrationSeconds": 583.22,
+  "videoRendered": false,
+  "youtubeUploaded": false,
+  "visuals": {
+    "plannedShots": 89,
+    "generatedRawImagesThisExecution": 79,
+    "automaticAcceptedBeats": 20,
+    "automaticRejectedBeatsWithImageReview": 30,
+    "unfinishedOrPromptRejectedBeats": 39,
+    "manualRejectedDespiteAutomaticPass": [
+      "chapter-3-shot-9",
+      "chapter-4-shot-1",
+      "chapter-4-shot-7",
+      "chapter-4-shot-11"
+    ],
+    "unchangedAcceptedSources": [
+      {
+        "shotId": "chapter-1-shot-0",
+        "sourceSha256": "8bff1f1de06b2bd8980a114aedd34966c157b9a7dbcbed3961c23c7d8e79b091",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-0-p3.png"
+      },
+      {
+        "shotId": "chapter-1-shot-2",
+        "sourceSha256": "7156931f0249408cc11bda3716390955f46a202f830c47a25b1e013f7ca41de4",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-2-p3.png"
+      },
+      {
+        "shotId": "chapter-1-shot-3",
+        "sourceSha256": "e3a3f7e8c956e9ae72a242e81203a2045edb309bc237462e7cce6caae3abfbc2",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-3-p3.png"
+      },
+      {
+        "shotId": "chapter-2-shot-0",
+        "sourceSha256": "82715195c25c360df2eb2df0890b3972809bd302efa68c6cf1a56be438be60c4",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-0-p3.png"
+      },
+      {
+        "shotId": "chapter-2-shot-5",
+        "sourceSha256": "2e292dd16f891f86a06b5d7819618b474fe0c40583c6cf3efe32277b35acc21c",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-5-regen1-p3.png"
+      },
+      {
+        "shotId": "chapter-2-shot-7",
+        "sourceSha256": "27dcd080342fd9606a05ce2aa8e2510f243e22798cc617f92a8cfb93e7dee234",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-7-p3.png"
+      },
+      {
+        "shotId": "chapter-2-shot-14",
+        "sourceSha256": "ced486a2666b90beda97b2f72bc946b688a7f7a63a266f27e354de398567f64a",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-14-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-0",
+        "sourceSha256": "be91533883dcc252e52445e8ff09512dac82dc8217f8e93a0ae15a744ffa00cd",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-0-regen1-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-1",
+        "sourceSha256": "6a2772bd3e5aac36c1846bb7a766480ac5160891c92bcf12abbe9f1091f57fc6",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-1-regen1-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-2",
+        "sourceSha256": "d4d1dca9a0f37952410750488f90529b9662ce72a725286c8682a450375b4625",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-2-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-3",
+        "sourceSha256": "293c2e2a8b0a14668fe3c83ee6e8b581ea4a8af068592162cc1f8db42dcf7c49",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-3-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-4",
+        "sourceSha256": "21ef3d85c6f1ef0478280e727ed9c871291b939a5b752e5675974f7e60307c75",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-4-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-5",
+        "sourceSha256": "974b238f103a1bb0728ff3d61e1f3eb3921304b6e042411c198eec941856efd9",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-5-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-7",
+        "sourceSha256": "85f36085f7fa5efa3ded46e23f8928d03d799b866ad4b8cd3a6d35c17dcb1154",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-7-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-8",
+        "sourceSha256": "5be8b5a1b5ef986b134d43a91d3614ec4eb10fd93786d9c2bc2827b71f7eae3f",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-8-p3.png"
+      },
+      {
+        "shotId": "chapter-3-shot-18",
+        "sourceSha256": "a5522aad775255e3e09af033c37d0d7492b95faa0d4c37f7c6ccfc45747a88dc",
+        "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-18-regen1-p3.png"
+      }
+    ],
+    "selectiveRevisedBeats": 73
+  },
+  "cloudflareBudgetEstimate": {
+    "plan": "workers_paid",
+    "planFeeUsd": 5,
+    "monthlyCapUsd": 8,
+    "overflowBudgetUsd": 3,
+    "estimatedOverflowThisMonthUsd": 0.969408,
+    "ratePer1000NeuronsUsd": 0.011,
+    "note": "Estimate from conservative reservations at the published rate; not a vendor invoice. Unrelated account usage is not visible here."
+  },
+  "usageCaveat": "Conservative repository reservations, not vendor invoice or full account usage. Workers Paid is authorized only within the existing 8 USD monthly total cap."
+}

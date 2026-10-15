@@ -6,7 +6,7 @@ import {PackagingV2,packagingDNA} from '../packaging/v2';
 import {FreeQuotaLedger,withQuota} from '../quota';
 import {semanticQA} from '../visuals/semantic';
 import {createVisualBible,visualBible} from '../visuals/bible';
-import {VisualThinkingDirector,planIllustratedReuse,editorialRevision,applyEditorialRevision} from '../visuals/visual-thinking';
+import {VisualThinkingDirector,planIllustratedReuse,editorialRevision,applyEditorialRevision,visualRevisionEditStage} from '../visuals/visual-thinking';
 import {createIllustratedVideoAssets,loadIllustratedFixtures,validatePlannedReuse} from '../visuals/illustrated-video-assets';
 import {requireV4VideoApproval} from '../visuals/illustration-schema';
 import {randomUUID,createHash} from 'node:crypto';
@@ -95,8 +95,9 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
   const uniqueBeats=config.visualSystem.version==='round-head-v5';
   let shots=await runner.stage(uniqueBeats?'visual-thinking-v5':'visual-thinking-v4',shotPlan,async()=>{if(shortTest&&(timed.shots.length<24||timed.shots.length>32))throw new Error('Production validation requires 24–32 speech-derived beats');if(demo)return timed;const directed=await new VisualThinkingDirector().illustrate(timed.shots,llm,uniqueBeats);return {...timed,shots:shortTest&&!uniqueBeats?await planIllustratedReuse(directed,llm):directed};});
   const revisionPath=`data/scripts/${options.runId}-visual-revisions.json`;
-  if(shortTest&&await access(revisionPath).then(()=>true,()=>false)){const revision=editorialRevision.parse(await read(revisionPath));const identity=createHash('sha256').update(JSON.stringify({shots,revision})).digest('hex').slice(0,12);shots=await runner.stage('visual-editorial-revision-'+identity,shotPlan,async()=>{const revised=applyEditorialRevision(shots.shots,revision,options.runId);validatePlannedReuse(revised);return {...shots,shots:revised};});}
-  if(uniqueBeats)shots=await runner.stage('illustrated-edit',shotPlan,async()=>({...shots,shots:directIllustratedEdit(shots.shots,captions.cues.flatMap(c=>c.words??[]))}));
+  const hasVisualRevision=await access(revisionPath).then(()=>true,()=>false);
+  if(hasVisualRevision){const revision=editorialRevision.parse(await read(revisionPath));const identity=createHash('sha256').update(JSON.stringify({shots,revision})).digest('hex').slice(0,12);shots=await runner.stage('visual-editorial-revision-'+identity,shotPlan,async()=>{const revised=applyEditorialRevision(shots.shots,revision,options.runId);validatePlannedReuse(revised);return {...shots,shots:revised};});}
+  if(uniqueBeats)shots=await runner.stage(visualRevisionEditStage(shots,hasVisualRevision),shotPlan,async()=>({...shots,shots:directIllustratedEdit(shots.shots,captions.cues.flatMap(c=>c.words??[]))}));
   await runner.stage('cost-plan',z.object({estimatedUsd:z.number(),budgetUsd:z.number(),aiVideoCandidates:z.array(z.string()),policy:z.string()}),async()=>({estimatedUsd:0,budgetUsd:config.costPolicy.maxCostPerVideoUsd,aiVideoCandidates:config.costPolicy.aiVideoEnabled?shots.shots.filter(s=>s.highImpact).map(s=>s.id):[],policy:'Native 16:9 Klein with actual-reference input and strict v4.2 review; no square production, no paid fallback.'}));
   if(!demo)await runner.stage('visual-bible',visualBible,()=>createVisualBible({script,research,styleLock:config.visualSystem},llm));
   const visuals=await runner.stage('visuals',media,()=>demo?loadIllustratedFixtures(shots.shots):createIllustratedVideoAssets(shots.shots,config.visualSystem,process.env.STYLE_REFERENCE_PATH??'assets/references/style-v4.jpg',assets,runner,llm,shortTest&&!uniqueBeats),async v=>{for(const a of v.assets)if(await fileDigest(a.path)!==a.sha256)throw new Error('Asset checksum mismatch');});

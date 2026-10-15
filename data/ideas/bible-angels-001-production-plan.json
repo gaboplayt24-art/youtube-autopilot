@@ -1,6 +1,6 @@
 {
   "runId": "bible-angels-001",
-  "status": "resuming-owner-confirmed-ASR-word",
+  "status": "visual-corrections-prepared",
   "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
@@ -116,7 +116,7 @@
   "shortsBoundaryPolicy": "Select self-contained original narration from actual ASR word timestamps after synthesis. No fabricated timestamps or mid-sentence crop. Adapt portrait visuals and captions; verify each export before upload.",
   "publishing": "Owner authorized an original next video and its scheduling. Upload private only after all QA, then use the existing daily publication slot. Social posting requires connected accounts and a compatible approved publisher.",
   "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
-  "blocker": "Owner confirmed seraphim is intelligible in the exact supplied excerpt. Resume critical-terms with hash-bound human ASR correction; all other QA remains required.",
+  "blocker": "Complete narration passed. The 60-minute production limit stopped illustration generation; selective prompt and visual-QA context corrections prepared for rejected/unfinished sources. No final video yet.",
   "videoGenerated": false,
   "videoScheduled": false,
   "productionAttempt": {
@@ -169,7 +169,14 @@
     "retryFrom": "critical-terms",
     "statusAtDispatch": "in_progress",
     "publish": false,
-    "ownerThumbnail": true
+    "ownerThumbnail": true,
+    "conclusion": "failure",
+    "failedStage": "visuals",
+    "failureReason": "60-minute step timeout; checkpoints saved",
+    "completeVoicePassed": true,
+    "generatedRawImages": 79
   },
-  "shortsMeasuredCandidates": "data/ideas/bible-angels-001-shorts-candidates.json"
+  "shortsMeasuredCandidates": "data/ideas/bible-angels-001-shorts-candidates.json",
+  "progressEvidence": "data/research/bible-angels-001/production-progress-38677085186.json",
+  "visualCorrections": "data/scripts/bible-angels-001-visual-revisions.json"
 }
