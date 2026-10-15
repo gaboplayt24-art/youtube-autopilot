@@ -30,3 +30,13 @@ Las primeras dos correcciones ciertas sustituyen un serafín completo de dos ala
 `visual-evidence-review` permite `cached_only=true`: exporta fuentes y evaluaciones existentes sin Gemini, Cloudflare o TTS. No convierte los fallos en pases. Guarda progreso parcial en cada plano, incluso si falla un proveedor. El ZIP privado incluye las fuentes crudas, QA original y revisiones ligadas por SHA, y láminas de contacto por estado. La entrega final utiliza la misma evaluación efectiva que permitió el render y conserva su rechazo original; no presenta un QA antiguo como si fuera el vigente.
 
 El video sigue pendiente de completar imágenes, render, QA audiovisual y portada del propietario. No hay subida, programación ni publicación en YouTube.
+
+## Entrega y reanudación
+
+La exportación sin inferencia [38693417262](https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38693417262) terminó en verde. [ZIP de evidencia visual](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/visual-evidence-38693417262.zip): 54.798.713 bytes, SHA256 `0070e2b45a2d0f86ea27b532dbc35cb7c4b33fd0cc2a4cbe24def1b1fc4f1f0c`. Se descargó y comprobó su CRC y los SHA256 de sus 99 fuentes crudas. Sus láminas reflejan decisiones automáticas de ese momento; las dos exclusiones manuales descritas arriba siguen vigentes.
+
+Un único reintento [38693770543](https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38693770543), con Gemini 3.8 tras su enfriamiento, devolvió 503 y después 429 con límite gratuito diario de 20 solicitudes. No generó imágenes. Conservó checkpoint y exportó progreso parcial incluso al fallar. El último checkpoint completo para reanudar es **38693770543**; no es un video terminado.
+
+Tras el reinicio de cuota, ejecutar **visual-evidence-review** en Actions con `run_id=bible-angels-001`, `source_run_id=38693770543`, `cached_only=false`, `gemini_model=gemini-3.1-flash-lite`. La reanudación no está programada automáticamente. Primero terminar la revisión; no lanzar todavía otro lote de FLUX ni un render a partir de fuentes rechazadas. Mantener `publish=false` y `owner_thumbnail=true` al reanudar la producción.
+
+Validación local posterior: lint, typecheck y 206 tests TypeScript + 8 Python aprobados. La ejecución real 38693770543 también aprobó los tres controles antes de detenerse por la API externa.

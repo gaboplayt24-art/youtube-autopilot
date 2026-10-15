@@ -208,12 +208,22 @@
       "failureReason": "Cloudflare first revised image request exceeded 120-second transport deadline; no HTTP response. Checkpoint and conservative quota saved."
     }
   ],
-  "latestVisualReview": "data/research/bible-angels-001/visual-review-38691103156.json",
+  "latestVisualReview": "data/research/bible-angels-001/visual-review-38693770543.json",
   "nextProductionResume": {
-    "sourceRunId": "38691103156",
+    "sourceRunId": "38693770543",
     "retryFrom": "visuals",
     "publish": false,
     "ownerThumbnail": true,
     "prerequisite": "Finish actual image QA; do not dispatch FLUX while Gemini is unavailable."
+  },
+  "visualEvidenceDelivery": "data/research/bible-angels-001/visual-evidence-delivery-38693417262.json",
+  "nextReviewResume": {
+    "workflow": "visual-evidence-review.yml",
+    "runId": "bible-angels-001",
+    "sourceRunId": "38693770543",
+    "cachedOnly": false,
+    "geminiModel": "gemini-3.1-flash-lite",
+    "notBefore": "2026-10-16T00:00:00Z",
+    "automaticallyScheduled": false
   }
 }

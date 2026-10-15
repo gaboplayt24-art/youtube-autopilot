@@ -1,0 +1,27 @@
+{
+  "runId": "bible-angels-001",
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38693417262",
+  "workflowConclusion": "success",
+  "evidenceOnly": true,
+  "cachedOnly": true,
+  "newInferenceCalls": 0,
+  "newFluxGenerations": 0,
+  "newPaidProviderCostUsd": 0,
+  "videoApproved": false,
+  "artifactUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/visual-evidence-38693417262.zip",
+  "zipBytes": 54798713,
+  "zipSha256": "0070e2b45a2d0f86ea27b532dbc35cb7c4b33fd0cc2a4cbe24def1b1fc4f1f0c",
+  "rawImageHashesVerified": 99,
+  "zipCrcVerified": true,
+  "countsAtExport": {
+    "machineAccepted": 25,
+    "rejected": 15,
+    "pendingReview": 19,
+    "noSource": 30
+  },
+  "manualRejectsWithinMachinePasses": [
+    "chapter-3-shot-1",
+    "chapter-3-shot-10"
+  ],
+  "note": "Two accepted-by-machine sources are marked for fresh period corrections in main; export success is not visual approval or a completed video. Original source bytes and QA preserved."
+}
