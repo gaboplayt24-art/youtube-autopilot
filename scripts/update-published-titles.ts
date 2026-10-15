@@ -19,11 +19,13 @@ async function main(){
   const original=before.find(v=>v.id===c.videoId)!;const prepared=changes[i];
   if(prepared.changed){
    const parts=['snippet',...(prepared.request.localizations?['localizations']:[])];
-   // YouTube etags identify a particular representation: obtain one with the exact write parts.
-   const conditional=await youtube.videos.list({part:parts,id:[c.videoId]});const fresh=conditional.data.items?.[0];
-   if(!fresh?.etag||!isDeepStrictEqual(titleRevisionSnapshot([{...fresh,status:original.status}]),titleRevisionSnapshot([original])))throw Error('Metadata changed immediately before conditional update');
-   const etag=fresh.etag.startsWith('"')?fresh.etag:'"'+fresh.etag+'"';
-   await youtube.videos.update({part:parts,requestBody:prepared.request},{headers:{'If-Match':etag}});
+   // The live API rejected conditional writes with HTTP 412, including matching-part
+   // resource etags. Use a fresh semantic check against the durable backup instead.
+   // This is not an atomic compare-and-swap: stop on any observed owner edit and
+   // verify the full preserved metadata after each bounded title-only update.
+   const fresh=(await fetchVideos()).find(v=>v.id===c.videoId);
+   if(!fresh||!isDeepStrictEqual(titleRevisionSnapshot([fresh]),titleRevisionSnapshot([original])))throw Error('Metadata changed immediately before title update');
+   await youtube.videos.update({part:parts,requestBody:prepared.request});
   }
   const result=await youtube.videos.list({part:['snippet','status','localizations'],id:[c.videoId]});const current=result.data.items?.[0];
   if(!current||current.snippet?.title!==c.title||!isDeepStrictEqual(metadataInvariant(current),metadataInvariant(original)))throw Error('Post-update verification failed; original backup preserved');
