@@ -14,6 +14,10 @@ on:
         description: Include public usernames for the owner-requested profile review
         type: boolean
         default: false
+      verify_storage_write:
+        description: Verify isolated Supabase delivery reservation, duplicate rejection and readback; creates no posts
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -36,3 +40,10 @@ jobs:
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
         run: npx tsx scripts/cloud-connections.ts
+      - name: Verify isolated delivery ledger reservation and persistence
+        if: inputs.verify_storage_write && inputs.service != 'zernio'
+        env:
+          VERIFY_LEDGER_WRITE: 'true'
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx tsx scripts/verify-delivery-ledger.ts
