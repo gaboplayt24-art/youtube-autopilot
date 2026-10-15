@@ -1,7 +1,7 @@
 {
   "runId": "bible-angels-001",
-  "status": "owner-authorized-generation-pending-dispatch",
-  "ownerRequestedLength": "Choose what best serves the video; editorial target about 8–10 minutes",
+  "status": "owner-authorized-generation-script-revision",
+  "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
   "style": "v5",
@@ -116,23 +116,25 @@
   "shortsBoundaryPolicy": "Select self-contained original narration from actual ASR word timestamps after synthesis. No fabricated timestamps or mid-sentence crop. Adapt portrait visuals and captions; verify each export before upload.",
   "publishing": "Owner authorized an original next video and its scheduling. Upload private only after all QA, then use the existing daily publication slot. Social posting requires connected accounts and a compatible approved publisher.",
   "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
-  "blocker": "Actions still rejects artifact uploads despite prior cleanup; billing API is inaccessible to this integration. Preflight will stop before any inference if storage is unavailable.",
+  "blocker": "Latest attempt rejected an overlong hook before voice or artwork. Resume script with bounded revision of the actual rejected prose. Private release checkpoint storage is verified and no longer blocked by Actions artifact quota.",
   "videoGenerated": false,
   "videoScheduled": false,
   "productionAttempt": {
-    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38629892076",
-    "commit": "ea35b75d57d97d3ebc61839b1f49728c00fb7cd7",
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38648046566",
+    "commit": "a478ccd1fa8c9f829a8c68e27207adca92052a9d",
     "conclusion": "failure",
-    "failedStep": "Verify artifact storage is available before generating assets",
-    "error": "Artifact storage quota has been hit",
-    "inferenceStarted": false,
-    "publishJob": "skipped",
-    "generationApiCostUsd": 0
+    "failedStage": "script",
+    "error": "Hook narration 96 words; permitted range 60-80 for target 70.",
+    "inferenceStarted": true,
+    "voiceGenerated": false,
+    "fluxGenerated": false,
+    "publishJob": "skipped"
   },
   "validation": {
     "lint": "passed",
     "typecheck": "passed",
-    "testsPassed": 173
+    "typescriptTestsPassed": 191,
+    "pythonTestsPassed": 8
   },
   "editingReview": {
     "referenceFileSha256": "e72173e7ead6a3603c3973f0ae2473ae8fb49072cf78fbe2ef7d5b6274b1cc14",
@@ -147,5 +149,6 @@
     "generateThumbnails": false,
     "automaticUpload": false,
     "scheduling": "Pending owner thumbnail and all QA gates"
-  }
+  },
+  "supportRecommendation": "docs/recommendations/channel-support.md"
 }
