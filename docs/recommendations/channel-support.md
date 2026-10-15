@@ -1,6 +1,6 @@
 # Apoyo voluntario y membresías de Bible Unearthed
 
-Recomendación editorial para el propietario; no cambia reglas de seguridad, publicación, presupuesto ni configuración de pagos. No se han creado cuentas ni enlaces de cobro del canal.
+Recomendación editorial para el propietario; no cambia reglas de seguridad, publicación, presupuesto ni configuración de pagos. El propietario confirmó su página https://ko-fi.com/bibleunearthed el 15 de octubre de 2026. Configuración y textos concretos: [Ko-fi](../social/kofi-setup.md). No se ha cambiado el procesador, plan de comisiones ni perfil remoto desde Codex. El enlace se añade a nuevas etapas metadata de producción; las publicaciones existentes no se modifican.
 
 ## Qué hace el referente y qué sabemos
 

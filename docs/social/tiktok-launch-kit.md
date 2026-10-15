@@ -1,14 +1,14 @@
 # TikTok: kit de lanzamiento para Bible Unearthed
 
-Estado: preparación editorial, no publicación. Identidad basada en el proyecto; nombre y perfil remoto deben coincidir antes de aplicar. La clave sustituida de Zernio pasó la consulta real en Actions 38782540299: una cuenta activa, TikTok; Instagram no figura. El inventario anterior TikTok/LinkedIn corresponde a la cuenta equivocada y ya no debe usarse.
+Estado: preparación editorial, no publicación. El propietario autorizó convertir **@elrefugiodetomi en Bible Unearthed**. Consulta de perfil público verificada en Actions 38783048223. Los cambios de nombre, bio, avatar y @usuario aún no se han aplicado. La clave sustituida de Zernio pasó la consulta real en Actions 38782540299: una cuenta activa, TikTok; Instagram no figura. El inventario anterior TikTok/LinkedIn corresponde a la cuenta equivocada y ya no debe usarse.
 
 ## Perfil preparado
 
 - Nombre propuesto: **Bible Unearthed** (usar la marca real de YouTube si fue cambiada).
 - Bio inglesa propuesta, breve: **Bible history, illustrated. Texts, discoveries & debates. Full videos ↓**.
 - Foto: reutilizar el avatar propio aprobado de Eli del canal; rostro grande, fondo contrastante y legibilidad en recorte circular. No generar otro personaje ni copiar @bible.animations.
-- Destino principal: el canal YouTube real, con enlace de sitio web si TikTok lo habilita para esta cuenta. Sin ese campo, indicar el nombre exacto del canal; no prometer enlaces clicables en captions.
-- Ko-fi: apoyo secundario en YouTube; usar solo la URL confirmada por el propietario. No sustituir el enlace principal a los episodios por una petición de dinero.
+- Destino principal: https://www.youtube.com/@bibleunearthedhq, con enlace de sitio web si TikTok lo habilita para esta cuenta. Sin ese campo, indicar el nombre exacto del canal; no prometer enlaces clicables en captions.
+- Ko-fi: apoyo secundario en YouTube; usar https://ko-fi.com/bibleunearthed, confirmada por el propietario. No sustituir el enlace principal a los episodios por una petición de dinero.
 - Propuesta para tres fijados, cuando existan clips aprobados: mejor curiosidad independiente, presentación breve de la propuesta del canal, tema relacionado con el último episodio completo. No fijar ni cambiar la cuenta automáticamente.
 
 El API de conexión no acredita permisos para cambiar avatar, bio o enlaces. No se afirma que esos campos se hayan modificado mediante Zernio. Aplicar cambios en TikTok con el propietario cuando corresponda; publicar exige validar las capacidades oficiales del destino.
@@ -52,7 +52,7 @@ No convertir las etiquetas en una lista interminable; no afirmar que una combina
 
 **Final de descripción YouTube, solo cuando se confirme la URL:**
 
-> Support independent illustrated Bible history, if you’d like: [VERIFIED_KOFI_URL]
+> Support independent illustrated Bible history, if you’d like: https://ko-fi.com/bibleunearthed
 > Watching and sharing already helps. Support is completely optional.
 
 No enviar el marcador como una URL real. Conservar fuentes, atribuciones y enlaces existentes. No prometer beneficios religiosos, hechos exclusivos ni membresías que no existen. No editar descripciones ya publicadas sin preparar el cambio concreto.
@@ -64,3 +64,9 @@ Primero un borrador de clip real, con destino identificado. Confirmar formato, p
 Medir por clip: inicio de visualización, retención, finalización, compartidos, visitas al perfil y clics cuando el producto los proporcione. Comparar a 24 h y 7 días sin inferir causalidad o conversiones no observables. En YouTube, revisar tráfico externo y evolución de los episodios relacionados. No prometer viralidad ni atribuir cada vista a TikTok sin evidencia.
 
 Fuentes técnicas: https://docs.zernio.com ; https://docs.zernio.com/guides/media-uploads ; https://zernio.com/pricing . Conservar solo dos cuentas si se desea usar la asignación gratuita anunciada. No activar anuncios o funciones facturables para aumentar alcance.
+
+## Aplicación al perfil autorizado
+
+TikTok → Perfil → Editar perfil: nombre **Bible Unearthed**; bio propuesta arriba; avatar propio del canal. Probar disponibilidad de **@bibleunearthedhq** para alinear con YouTube; no afirmar que está libre ni cambiar el identificador sin verificar la pantalla. No borrar videos antiguos, seguidores o mensajes. Si un cambio de @usuario está limitado por TikTok, conservar el actual y usar nombre/bio coherentes hasta que se habilite. Campo web, si está disponible: https://www.youtube.com/@bibleunearthedhq . El perfil Ko-fi queda en la descripción de YouTube como apoyo opcional.
+
+La lectura autenticada de Zernio y su usuario no demuestran que el API permita editar estos campos de TikTok. No se ha modificado remotamente el perfil ni se ha publicado un clip.
