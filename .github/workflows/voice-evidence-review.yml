@@ -33,7 +33,7 @@ jobs:
       FOCUS_PART: ${{ inputs.focus_part }}
       CLIP_START: ${{ inputs.clip_start }}
       CLIP_END: ${{ inputs.clip_end }}
-      REVIEW_OUTPUT_DIR: ${{ runner.temp }}/voice-evidence
+      REVIEW_OUTPUT_DIR: .cache/voice-evidence-review
       AUTO_PUBLISH: 'false'
       FREE_ONLY: 'true'
       MAX_PAID_COST_USD: '0'
