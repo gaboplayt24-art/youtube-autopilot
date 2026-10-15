@@ -1,0 +1,91 @@
+{
+  "runId": "bible-angels-001",
+  "sourceExecution": "38693770543",
+  "reference": {
+    "path": "assets/references/style-v5-eli.png",
+    "sha256": "9c3433c1a337fee080990a5be6613dc8adbc46296e2818477df82a7b63be2c07"
+  },
+  "curation": "Actual source bytes manually inspected. Diagnostic expectations only, never supplied to the model; not a statistically representative benchmark or production approval.",
+  "cases": [
+    {
+      "id": "wing-count",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-1-editorial-repair-p3.png",
+      "sha256": "51ea77dcedcf672545bd926fad519e5c7090a89518998ec5dfc50e85845c6613",
+      "prompt": "How many complete feathered wings are visibly drawn? Count wings, not individual feathers. Start with the number, then one short sentence.",
+      "answerType": "count",
+      "expected": 2,
+      "groundTruthNote": "Two complete wings are visible. This cannot depict the six-winged being described by Isaiah 6:2.",
+      "useReference": false
+    },
+    {
+      "id": "wheel-heads",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-4-editorial-repair-regen1-p3.png",
+      "sha256": "02d169290fcab804eb922c5df0aed1d0f3eb26900050ce9a4289f59ff55e502d",
+      "prompt": "Are there human heads or human faces inside the large central opening of the wheel, distinct from the small eyes along its rim? Start with YES or NO, then one short sentence.",
+      "answerType": "boolean",
+      "expected": true,
+      "groundTruthNote": "Several complete faces are drawn inside the ring; they are not merely eyes on the rim.",
+      "useReference": false
+    },
+    {
+      "id": "glass-lamp",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-1-regen1-p3.png",
+      "sha256": "6a2772bd3e5aac36c1846bb7a766480ac5160891c92bcf12abbe9f1091f57fc6",
+      "prompt": "Is there an oil lamp with a tall glass chimney on the table? Start with YES or NO, then describe the visible lamp in one short sentence.",
+      "answerType": "boolean",
+      "expected": true,
+      "groundTruthNote": "Glass chimney on a handled oil lamp; the source is flagged for period correction.",
+      "useReference": false
+    },
+    {
+      "id": "shirt-collar",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-10-editorial-repair-p3.png",
+      "sha256": "b41f505ddb2d0f2e8c1bbbe57049b47959aabc2aa16493e5d5bd68ef7745e86a",
+      "prompt": "Does the person on the right wear a pointed folded shirt collar? Start with YES or NO, then one short sentence.",
+      "answerType": "boolean",
+      "expected": true,
+      "groundTruthNote": "Pointed folded modern shirt collar is visibly drawn.",
+      "useReference": false
+    },
+    {
+      "id": "period-control",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-14-p3.png",
+      "sha256": "ced486a2666b90beda97b2f72bc946b688a7f7a63a266f27e354de398567f64a",
+      "prompt": "Is there a pointed folded shirt collar or a glass-chimney lamp anywhere in this picture? Start with YES or NO, then one short sentence.",
+      "answerType": "boolean",
+      "expected": false,
+      "groundTruthNote": "Eli wears a simple uncollared tunic by a stone doorway, with no glass-chimney lamp.",
+      "useReference": false
+    },
+    {
+      "id": "reader-control",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-5-editorial-repair-regen1-p3.png",
+      "sha256": "99673a9f2740bf883f00d89e45abd2588efacd701b75cac0be574618bde2b4b7",
+      "prompt": "How many people are visible in this picture? Start with the number, then one short sentence.",
+      "answerType": "count",
+      "expected": 1,
+      "groundTruthNote": "One illustrated reader holding a blank scroll. Holding it is not a factual failure.",
+      "useReference": false
+    },
+    {
+      "id": "wheel-control",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-10-editorial-repair-regen1-p3.png",
+      "sha256": "c19b53ccd32f31a66944ac1e2c0eaff9bfbc48734e1f654e9b4ae57bfeb5a24d",
+      "prompt": "Are any complete human heads drawn inside the central opening of the golden ring? Do not count the small eyes along the rim as human heads. Start with YES or NO, then one short sentence.",
+      "answerType": "boolean",
+      "expected": false,
+      "groundTruthNote": "Rim contains small eyes; the opening is empty, with no human heads.",
+      "useReference": false
+    },
+    {
+      "id": "background-medium",
+      "path": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-9-p3.png",
+      "sha256": "b325dd65d548daadee9a6beee5bf5332fc4d244f348e178cd3aa3b9f0641d026",
+      "prompt": "Compare reference image 1 with candidate image 2. Does candidate image 2 have strongly shaded and textured stone architecture instead of the reference's mostly flat fills? Start with YES or NO, then one short sentence.",
+      "answerType": "boolean",
+      "expected": true,
+      "groundTruthNote": "Candidate has strongly lit/textured stone architecture; this visual feature is inspected independently of the flat character.",
+      "useReference": true
+    }
+  ]
+}

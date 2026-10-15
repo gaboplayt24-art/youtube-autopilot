@@ -1,0 +1,64 @@
+name: smolvlm-cpu-probe
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: smolvlm-isolated-cpu-probe
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      GH_TOKEN: ${{ github.token }}
+      RUN_ID: bible-angels-001
+      SOURCE_RUN_ID: '38693770543'
+      SMOLVLM_OUTPUT_DIR: .cache/smolvlm-probe/evidence
+      SMOLVLM_MODEL_DIR: .cache/smolvlm-probe/model
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Validate without production secrets
+        run: npm run lint && npm run typecheck && npm test
+      - name: Require private repository
+        run: python3 -c "import os,runpy; runpy.run_path('scripts/github_checkpoints.py')['require_private'](os.environ['GITHUB_REPOSITORY'])"
+      - name: Read existing immutable source checkpoint
+        timeout-minutes: 5
+        run: python3 scripts/github_checkpoints.py restore
+      - name: Download public pinned model and verify blob hashes
+        timeout-minutes: 6
+        run: python3 scripts/smolvlm-download.py
+      - name: Actual offline ONNX CPU inference; no paid or production provider secrets
+        timeout-minutes: 16
+        run: |
+          mkdir -p "$SMOLVLM_OUTPUT_DIR"
+          /usr/bin/time -v -o "$SMOLVLM_OUTPUT_DIR/process-memory.txt" timeout --signal=TERM --kill-after=20s 900s npx tsx scripts/smolvlm-probe.ts
+      - name: Preserve raw responses and inspected source bytes in private Release
+        if: always()
+        timeout-minutes: 4
+        run: |
+          if [ -d "$SMOLVLM_OUTPUT_DIR" ]; then
+            python3 - <<'PY'
+          import os, zipfile
+          from pathlib import Path
+          root = Path(os.environ['SMOLVLM_OUTPUT_DIR'])
+          with zipfile.ZipFile('smolvlm-cpu-' + os.environ['GITHUB_RUN_ID'] + '-attempt-' + os.environ['GITHUB_RUN_ATTEMPT'] + '.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+              for path in sorted(root.rglob('*')):
+                  if path.is_symlink():
+                      raise ValueError('No symlink evidence')
+                  if path.is_file():
+                      archive.write(path, path.relative_to(root))
+          PY
+            gh release upload pipeline-checkpoint-bible-angels-001 "smolvlm-cpu-$GITHUB_RUN_ID-attempt-$GITHUB_RUN_ATTEMPT.zip" --repo "$GITHUB_REPOSITORY"
+            echo "Diagnostic CPU inference only. No production gates changed, no new images, no YouTube publication." >> "$GITHUB_STEP_SUMMARY"
+          fi
