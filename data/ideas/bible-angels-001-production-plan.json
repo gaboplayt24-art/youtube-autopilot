@@ -1,6 +1,6 @@
 {
   "runId": "bible-angels-001",
-  "status": "visual-corrections-prepared",
+  "status": "resuming-selective-visual-corrections",
   "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
@@ -137,11 +137,12 @@
   "validation": {
     "lint": "passed",
     "typecheck": "passed",
-    "typescriptTestsPassed": 199,
+    "typescriptTestsPassed": 202,
     "pythonTestsPassed": 8,
     "githubWorkflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38676074281",
     "githubEvidenceExport": "success; voice remains blocked, not a completed video",
-    "localHumanReviewChecks": "lint, typecheck, 199 TypeScript and 8 Python tests passed"
+    "localHumanReviewChecks": "lint, typecheck, 199 TypeScript and 8 Python tests passed",
+    "localVisualCorrectionChecks": "lint, typecheck, 202 TypeScript and 8 Python tests passed"
   },
   "editingReview": {
     "referenceFileSha256": "e72173e7ead6a3603c3973f0ae2473ae8fb49072cf78fbe2ef7d5b6274b1cc14",
@@ -163,20 +164,33 @@
   "voiceEvidenceDelivery": "data/research/bible-angels-001/voice-evidence-delivery.json",
   "voiceHumanReview": "data/scripts/bible-angels-001-voice-asr-review.json",
   "activeProductionAttempt": {
-    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38677085186",
-    "commit": "dcacece91f01d9afc1a686299c3b7e895b2e4c8d",
-    "sourceRunId": "38671014999",
-    "retryFrom": "critical-terms",
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38683611379",
+    "commit": "61f88709d74a72ddf6bb1653555162c0e71087e0",
+    "sourceRunId": "38677085186",
+    "retryFrom": "visuals",
     "statusAtDispatch": "in_progress",
     "publish": false,
     "ownerThumbnail": true,
-    "conclusion": "failure",
-    "failedStage": "visuals",
-    "failureReason": "60-minute step timeout; checkpoints saved",
-    "completeVoicePassed": true,
-    "generatedRawImages": 79
+    "unchangedAcceptedIllustrations": 16,
+    "selectiveRevisedOrUnfinishedBeats": 73
   },
   "shortsMeasuredCandidates": "data/ideas/bible-angels-001-shorts-candidates.json",
   "progressEvidence": "data/research/bible-angels-001/production-progress-38677085186.json",
-  "visualCorrections": "data/scripts/bible-angels-001-visual-revisions.json"
+  "visualCorrections": "data/scripts/bible-angels-001-visual-revisions.json",
+  "productionAttemptHistory": [
+    {
+      "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38677085186",
+      "commit": "dcacece91f01d9afc1a686299c3b7e895b2e4c8d",
+      "sourceRunId": "38671014999",
+      "retryFrom": "critical-terms",
+      "statusAtDispatch": "in_progress",
+      "publish": false,
+      "ownerThumbnail": true,
+      "conclusion": "failure",
+      "failedStage": "visuals",
+      "failureReason": "60-minute step timeout; checkpoints saved",
+      "completeVoicePassed": true,
+      "generatedRawImages": 79
+    }
+  ]
 }
