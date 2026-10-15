@@ -16,7 +16,7 @@ async function fixture(fn:(dir:string,ledger:FreeQuotaLedger)=>Promise<void>){
 const reply=(value:unknown,finish_reason='stop')=>Response.json({model:GROQ_MODEL,choices:[{message:{content:JSON.stringify(value)},finish_reason}],usage:{prompt_tokens:100,completion_tokens:30}});
 test('Groq JSON/vision use the existing contracts, record distinct provenance and reuse only matching cache',()=>fixture(async(dir,ledger)=>{
  let calls=0;
- const request:typeof fetch=async(url,init)=>{calls++;assert.equal(String(url),'https://api.groq.com/openai/v1/chat/completions');assert.equal(init?.redirect,'error');const body=JSON.parse(String(init?.body));assert.equal(body.model,GROQ_MODEL);assert.equal(body.response_format.type,'json_object');assert.match(body.messages[1].content.at(-1).text,/"required"/);assert.equal(body.messages[1].content[1].image_url.url,'data:image/png;base64,aW1hZ2U=');return reply({passed:false,issues:['wrong historical prop'],score:72});};
+ const request:typeof fetch=async(url,init)=>{calls++;assert.equal(String(url),'https://api.groq.com/openai/v1/chat/completions');assert.equal(init?.redirect,'error');const body=JSON.parse(String(init?.body));assert.equal(body.model,GROQ_MODEL);assert.equal(body.response_format.type,'json_object');assert.equal(body.max_completion_tokens,900);assert.match(body.messages[1].content.at(-1).text,/"required"/);assert.equal(body.messages[1].content[1].image_url.url,'data:image/png;base64,aW1hZ2U=');return reply({passed:false,issues:['wrong historical prop'],score:72});};
  const shape=z.object({passed:z.boolean(),issues:z.array(z.string()),score:z.number().nullable()}),provider=new GroqProvider(request);
  const image=[{mimeType:'image/png',data:'aW1hZ2U='}];
  const first=await provider.images('Review actual source',image,shape);assert.equal(first.passed,false);
@@ -50,7 +50,7 @@ test('multiple images have explicit ordinals followed by review instructions, pr
 
 test('token pacing replenishes gradually and reconciles actual usage instead of sleeping a full minute per image',()=>fixture(async()=>{
  let now=Date.now();const waits:number[]=[];
- const provider=new GroqProvider(async()=>Response.json({model:GROQ_MODEL,choices:[{message:{content:'{"ok":true}'},finish_reason:'stop'}],usage:{prompt_tokens:4000,completion_tokens:1000}}),async ms=>{waits.push(ms);now+=ms;},()=>now);
+ const provider=new GroqProvider(async()=>Response.json({model:GROQ_MODEL,choices:[{message:{content:'{"ok":true}'},finish_reason:'stop'}],usage:{prompt_tokens:4500,completion_tokens:500}}),async ms=>{waits.push(ms);now+=ms;},()=>now);
  for(let i=0;i<3;i++)await provider.json('independent request '+i,z.object({ok:z.boolean()}));
  assert.ok(waits.length>0);assert.ok(waits.every(ms=>ms>0&&ms<61000));
 }));
