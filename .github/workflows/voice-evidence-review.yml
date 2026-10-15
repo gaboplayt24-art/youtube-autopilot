@@ -44,16 +44,16 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - run: npm run lint && npm run typecheck && npm test
-      - name: Verify private repository before reading or uploading media
-        run: |
-          python3 -c "import os,runpy; runpy.run_path('scripts/github_checkpoints.py')['require_private'](os.environ['GITHUB_REPOSITORY'])"
       - name: Ensure FFmpeg is available
         run: |
           if ! command -v ffmpeg >/dev/null; then
             sudo apt-get update
             sudo apt-get install -y ffmpeg
           fi
+      - run: npm run lint && npm run typecheck && npm test
+      - name: Verify private repository before reading or uploading media
+        run: |
+          python3 -c "import os,runpy; runpy.run_path('scripts/github_checkpoints.py')['require_private'](os.environ['GITHUB_REPOSITORY'])"
       - name: Restore existing WAVs and raw ASR
         run: python3 scripts/github_checkpoints.py restore
       - name: Export evidence; this does not approve narration
