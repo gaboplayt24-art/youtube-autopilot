@@ -1,7 +1,7 @@
 {
   "runId": "bible-angels-001",
-  "status": "reviewing-existing-visual-evidence",
-  "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
+  "status": "visual-review-paused-gemini-free-quota",
+  "ownerRequestedLength": "Choose what best serves the video; editorial target about 8–10 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
   "style": "v5",
@@ -116,7 +116,7 @@
   "shortsBoundaryPolicy": "Select self-contained original narration from actual ASR word timestamps after synthesis. No fabricated timestamps or mid-sentence crop. Adapt portrait visuals and captions; verify each export before upload.",
   "publishing": "Owner authorized an original next video and its scheduling. Upload private only after all QA, then use the existing daily publication slot. Social posting requires connected accounts and a compatible approved publisher.",
   "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
-  "blocker": "Visual QA includes genuine wrong wing/face counts and incorrect literal staging/cosmetic rejections. Re-review existing source bytes before further image generation; no final MP4 yet.",
+  "blocker": "Gemini primary free model reached the 500-request daily cap; fallback models returned 503 or exhausted free quota. Preserve reviews, fix confirmed factual/period defects selectively. No final video yet.",
   "videoGenerated": false,
   "videoScheduled": false,
   "productionAttempt": {
@@ -207,5 +207,13 @@
       "conclusion": "failure",
       "failureReason": "Cloudflare first revised image request exceeded 120-second transport deadline; no HTTP response. Checkpoint and conservative quota saved."
     }
-  ]
+  ],
+  "latestVisualReview": "data/research/bible-angels-001/visual-review-38691103156.json",
+  "nextProductionResume": {
+    "sourceRunId": "38691103156",
+    "retryFrom": "visuals",
+    "publish": false,
+    "ownerThumbnail": true,
+    "prerequisite": "Finish actual image QA; do not dispatch FLUX while Gemini is unavailable."
+  }
 }

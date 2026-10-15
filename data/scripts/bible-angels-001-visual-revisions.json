@@ -4,34 +4,38 @@
     {
       "sourceId": "chapter-1-shot-1",
       "replacement": {
-        "overlayAnchor": "four different faces",
-        "id": "chapter-1-shot-1-editorial-repair",
+        "overlayAnchor": "with six wings",
+        "id": "chapter-1-shot-1-wing-study",
         "narration": "while others appear with six wings and four different faces?",
-        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
-        "concept": "One representative seraphic figure drawn in flat ochre and cream ink colours. Exactly six clearly separated wings in three pairs: two over the face, two over the feet, two spread sideways. Calm cream background, bold black outlines, simple large readable silhouette.",
-        "overlay": "Divine visions",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah. Illustrated study of three wing pairs, not a complete being.",
+        "concept": "A flat ink feather study showing THREE separated pairs of wings, SIX individual wings total. One pair per row on a cream field, generous space between all six silhouettes, warm ochre feathers and bold black outlines. Feathered wings only, no complete body or human head.",
+        "overlay": "Isaiah: six wings",
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "promptFocus": true,
+        "depictionScope": "wing-study"
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Both preserved full-figure attempts visibly have only two wings. Replace with a countable six-wing study, retaining the actual Isaiah source and hard count gate."
     },
     {
       "sourceId": "chapter-1-shot-4",
       "replacement": {
         "overlayAnchor": "wheels full of eyes",
-        "id": "chapter-1-shot-4-editorial-repair",
+        "id": "chapter-1-shot-4-wheel-detail",
         "narration": "of beings with six wings or creatures paired with wheels full of eyes.",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "Close-up of one illustrated golden wheel rim covered in simple hand-drawn eyes, beside the partial outline of a visionary creature. Flat gold and cream fills, thick ink lines, plain background. Focus on eyes on the rim; the creature stays outside the close-up.",
-        "overlay": "Living creatures",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE prophetic text. Wheel-rim detail only; the living creatures remain outside the view.",
+        "concept": "A close illustrative view of a curved golden wheel rim with a row of large almond-shaped cartoon eyes. Each eye has a cream white, black pupil and clear dark outline. Flat ochre and cream ink fills, simple background. Only the rim and eyes are in this detail view.",
+        "overlay": "Eyes on the rims",
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "promptFocus": true,
+        "depictionScope": "wheel-detail"
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Existing sources mix creature faces into the wheel. Request the actual narrated eye-covered rim as a detail, not a false complete creature or a wheel full of human heads."
     },
     {
       "sourceId": "chapter-1-shot-5",
@@ -325,18 +329,19 @@
       "sourceId": "chapter-3-shot-10",
       "replacement": {
         "overlayAnchor": "touched by a hand",
-        "id": "chapter-3-shot-10-editorial-repair",
+        "id": "chapter-3-shot-10-period-clothing",
         "narration": "Daniel records an experience where he is touched by a hand, followed by a vision of a figure who speaks of a struggle against the prince",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Two distinct adults shown waist-up: Eli looks startled at left while a plain white-robed messenger at right gently places one simple cartoon hand on Eli's shoulder. Both bodies are visible and separate, a calm cream wall behind.",
+        "historicalContext": "Biblical Daniel 10 vision, ancient Levant. Illustrated interpretation; plain uncollared linen tunic and simple cloth sash, no modern garments.",
+        "concept": "Two separate round-head adults, waist-up: Eli reacts with surprise at left. At right a distinct curly-haired messenger wears a plain white uncollared linen tunic tied with a simple rust sash, gently resting one clear cartoon hand on Eli's shoulder. Cream wall, flat warm ink colours.",
         "overlay": "Visionary Touch",
         "labelPlacement": "right",
         "characterRoles": [
           "Eli",
-          "Adult messenger, white robe, curly hair, clean-shaven"
-        ]
+          "Adult messenger, white uncollared linen tunic"
+        ],
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Manual pixel inspection found a modern pointed shirt collar in the machine-accepted source. Preserve that source and its raw QA; replace its wardrobe without changing the narrated touch or timing."
     },
     {
       "sourceId": "chapter-3-shot-11",
@@ -1199,6 +1204,23 @@
         ]
       },
       "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-3-shot-1",
+      "replacement": {
+        "overlayAnchor": "identifies himself as Gabriel",
+        "id": "chapter-3-shot-1-period-room",
+        "narration": "each fulfilling specific assignments. In the gospel of Luke, a figure identifies himself as Gabriel during",
+        "historicalContext": "Biblical narrative in first-century Judea. Plain stone room, low stone bench, linen or wool garments and sandals. Illustrated interpretation.",
+        "concept": "Eli stands beside a low stone bench inside a small room with plain cream stone walls. One expressive open hand gestures into the clear empty space at right. His round white face, beard and sand tunic match the reference. Only the character and bench, flat warm ink colours.",
+        "overlay": "Gabriel's Assignment",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ],
+        "promptFocus": true
+      },
+      "reason": "Manual pixel inspection found a glass-chimney oil lamp in the accepted regeneration. Preserve that source and QA; use an uncluttered period room without an unrequested lamp."
     }
   ],
   "beatReassignments": []

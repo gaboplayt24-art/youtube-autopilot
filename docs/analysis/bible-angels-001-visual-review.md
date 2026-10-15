@@ -18,3 +18,15 @@ El workflow manual `visual-evidence-review` envía a Gemini los píxeles de refe
 La revisión compara el significado de la narración y las características esenciales del plano, diferenciando una comparación entre pasajes de una descripción de un solo ser. Los recuentos bíblicos, anatomía estructural, periodo, arte ilustrado, utilería esencial, legibilidad y ausencia de texto incrustado siguen siendo obligatorios. No se aprueba un ser completo con dos alas como serafín de seis alas.
 
 No relanzar un lote de FLUX hasta leer esa evidencia. El propósito es conservar las imágenes válidas y corregir únicamente los problemas reales. El estilo, el narrador, los presupuestos y la política de publicación no cambian.
+
+## Resultado de la revisión real 38691103156
+
+Gemini 3.1 Flash Lite revisó imágenes reales, sin llamadas a FLUX. El proceso se detuvo por el límite gratuito diario de 500 solicitudes; los modelos alternativos devolvieron 503 o agotaron su cuota. El proveedor indicó reanudación del modelo principal a partir de **2026-10-16 00:00 UTC** (15 de octubre, 21:00 en Argentina). Esto no garantiza disponibilidad de los otros modelos ni programa una reanudación automática.
+
+El checkpoint conserva 25 planos con pase automático, 15 rechazados, 19 pendientes de terminar su revisión y 30 sin fuente. Estos números no son una aprobación del video. Se identificaron además dos falsos positivos entre los 25: una lámpara con chimenea de vidrio y un cuello de camisa moderno. Ambos se excluyen del siguiente montaje mediante IDs de reparación nuevos, preservando las fuentes y QA originales.
+
+Las primeras dos correcciones ciertas sustituyen un serafín completo de dos alas por un estudio ilustrado de tres pares (seis alas contables), y una rueda con rostros incorrectos por un detalle de ojos en el borde. Son instrucciones para próximas inferencias, **no imágenes ya generadas**. No cambian voz, narración, timestamps, referencia, prefijo de estilo ni presupuesto. No se aprueba una figura completa de dos alas como serafín.
+
+`visual-evidence-review` permite `cached_only=true`: exporta fuentes y evaluaciones existentes sin Gemini, Cloudflare o TTS. No convierte los fallos en pases. Guarda progreso parcial en cada plano, incluso si falla un proveedor. El ZIP privado incluye las fuentes crudas, QA original y revisiones ligadas por SHA, y láminas de contacto por estado. La entrega final utiliza la misma evaluación efectiva que permitió el render y conserva su rechazo original; no presenta un QA antiguo como si fuera el vigente.
+
+El video sigue pendiente de completar imágenes, render, QA audiovisual y portada del propietario. No hay subida, programación ni publicación en YouTube.

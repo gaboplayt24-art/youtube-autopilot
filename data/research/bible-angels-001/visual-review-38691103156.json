@@ -1,0 +1,1730 @@
+{
+  "runId": "bible-angels-001",
+  "execution": "38691103156",
+  "complete": false,
+  "reason": "Gemini free quota exhausted before all sources reviewed",
+  "counts": {
+    "accepted": 25,
+    "rejected": 15,
+    "pending-review": 19,
+    "no-source": 30
+  },
+  "results": [
+    {
+      "shotId": "chapter-1-shot-0",
+      "sourceId": "chapter-1-shot-0",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-1-shot-0-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-0-p3.png",
+          "sourceSha256": "8bff1f1de06b2bd8980a114aedd34966c157b9a7dbcbed3961c23c7d8e79b091",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "The image fails the narrative requirement: The prompt specifies Eli is standing amidst a crowd of ordinary people, but the image only shows three figures, all of whom share the exact same character design style (Eli-like head shape and beard), making them look like clones rather than a diverse city crowd.",
+            "The density is higher than requested for a simple scene, with three distinct characters and significant background clutter (pots, tools) that exceeds the 'simple expressive' expectation for a primary subject.",
+            "Narrative failure: The travelers are indistinguishable from the main character Eli due to the lack of character design variation."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-1-shot-1",
+      "sourceId": "chapter-1-shot-1-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-1-shot-1-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-1-editorial-repair-p3.png",
+          "sourceSha256": "51ea77dcedcf672545bd926fad519e5c7090a89518998ec5dfc50e85845c6613",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The figure does not possess six wings as required by the concept (Isaiah 6:2). Only two are visible, which is a failure of narrative accuracy for a seraph."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-1-shot-1-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-1-editorial-repair-regen1-p3.png",
+          "sourceSha256": "152d1fee0e51aa1b689aba545501462e16d637d5e095dd97be009b7bac8a2394",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The figure does not contain six wings as required by Isaiah 6:2.",
+            "The figure does not display the four different faces required by the concept.",
+            "The wings are incorrectly positioned; they appear as a standard angelic set rather than the specific covering and flight configuration described in the source."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-1-shot-2",
+      "sourceId": "chapter-1-shot-2",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-1-shot-2-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-2-p3.png",
+          "sourceSha256": "7156931f0249408cc11bda3716390955f46a202f830c47a25b1e013f7ca41de4",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "Image contains multiple characters instead of a single subject as per reference density guidelines.",
+            "The scene includes a background room with multiple props, exceeding the low-density reference expectation."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-1-shot-3",
+      "sourceId": "chapter-1-shot-3",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-1-shot-3-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-3-p3.png",
+          "sourceSha256": "e3a3f7e8c956e9ae72a242e81203a2045edb309bc237462e7cce6caae3abfbc2",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "Image contains a panel/line division which violates the 'one scene, no panel' requirement"
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-1-shot-4",
+      "sourceId": "chapter-1-shot-4-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-1-shot-4-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-4-editorial-repair-p3.png",
+          "sourceSha256": "b86a4a7b70319b47c717d841e69bc476de0aea6f20bad4bfd3acc79f879390d7",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The generated image depicts a full creature (with wings and face) rather than the required close-up focusing specifically on the wheel rim as requested in the concept.",
+            "The concept requested a focus on the wheel rim; the generated image features the creature as a primary subject which deviates from the specified instruction.",
+            "The density and focus do not match the requested 'Close-up of one illustrated golden wheel rim' constraint."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-1-shot-4-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-4-editorial-repair-regen1-p3.png",
+          "sourceSha256": "02d169290fcab804eb922c5df0aed1d0f3eb26900050ce9a4289f59ff55e502d",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The image failed to depict the concept as requested: it shows a central wheel-like structure containing multiple faces, but lacks the specific 'four faces' (human, lion, ox, eagle) per creature as per Ezekiel 1:6, and the composition is not a close-up of a wheel rim with eyes but a cluttered gathering of faces within a shape.",
+            "The concept requested a focus on the wheel rim with eyes; the provided image contains faces that distract from and deviate from the specific visionary requirements."
+          ],
+          "objectiveFailures": [
+            "adultAnatomy",
+            "requiredConcept",
+            "correctProp"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-1-shot-5",
+      "sourceId": "chapter-1-shot-5-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-1-shot-5-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-5-editorial-repair-p3.png",
+          "sourceSha256": "fd2e45a19d11150d482143d25f7d9843f2b9484624439e86db21f6a7df4f08cf",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The character Eli is shown with hands actively holding the scroll, violating the 'hands rest naturally at his sides' constraint in the concept.",
+            "The character's expression is one of worry or sadness rather than the requested 'thoughtfully' or 'expressive raised eyebrow'."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-1-shot-5-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-1-shot-5-editorial-repair-regen1-p3.png",
+          "sourceSha256": "99673a9f2740bf883f00d89e45abd2588efacd701b75cac0be574618bde2b4b7",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The character's hands are not resting naturally at his sides as specified in the concept; instead, they are holding the scroll.",
+            "The concept requires Eli to be looking at a blank parchment, but the action/pose does not align with the 'at sides' instruction."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-0",
+      "sourceId": "chapter-2-shot-0",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-0-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-0-p3.png",
+          "sourceSha256": "82715195c25c360df2eb2df0890b3972809bd302efa68c6cf1a56be438be60c4",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "The prompt requested a wide shot of city gates, but the character Eli was added to the scene, which was not in the prompt concept nor requested for this specific narrative beat."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-1",
+      "sourceId": "chapter-2-shot-1-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-1-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-1-editorial-repair-p3.png",
+          "sourceSha256": "2fe4d7af75917fb63c223e5a16790ab93e3d1a6d03c351bf35d79638614e1e99",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requested exactly two adult travelers, but the image depicts four characters in total (including Eli).",
+            "The composition significantly exceeds the low-to-medium density target by cluttering the scene with four people instead of the requested two."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-1-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-1-editorial-repair-regen1-p3.png",
+          "sourceSha256": "b21ea113d4eca50dc9772c55027e34c9a2e978adc50f4347520b6c1c5cb6dec5",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "Image contains two travelers instead of the expected character Eli (who is not present).",
+            "Style does not match the reference: the characters lack the signature white round faces with dot eyes and bold brows; they have different facial features and hair styling.",
+            "The architectural element (door) includes a modern knob/circular hardware."
+          ],
+          "objectiveFailures": [
+            "correctStyle",
+            "requiredConcept",
+            "historicalAccuracy",
+            "correctProp"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-2",
+      "sourceId": "chapter-2-shot-2-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-2-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-2-editorial-repair-p3.png",
+          "sourceSha256": "dd39f82b75e91e1ab73a2f9d4fcf2fe44aba8135d4bb65ccb9ddbb3a43187f28",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The character 'Eli' is missing from the image; the provided character does not match Eli's established design of a white round face with a dark beard.",
+            "The required three figures are present, but one is not Eli as per the characterRoles requirements."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-2-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-2-editorial-repair-regen1-p3.png",
+          "sourceSha256": "857bb1cd6a26d654aa9642208bbd4c860997fe051098818a26dd10f3fe3c6d9d",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requested Eli at the city gate rising from a stone bench to meet two travelers (total 3 adults). The image contains three adult males, plus a fourth silhouette/ghosted figure in the background, and the two travelers are currently interacting with each other rather than the scene focusing on Eli meeting them."
+          ],
+          "objectiveFailures": [
+            "adultAnatomy",
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-3",
+      "sourceId": "chapter-2-shot-3-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-3-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-3-editorial-repair-p3.png",
+          "sourceSha256": "14b0aaa9fd5e5bf8e1ff15237605f938081622864e772b9a1737be9c3537ca74",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The figure of Eli is missing his feet; they are cropped out of the bottom frame edge."
+          ],
+          "objectiveFailures": [
+            "adultAnatomy"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-3-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-3-editorial-repair-regen1-p3.png",
+          "sourceSha256": "76d71275b491c2fa7aed249a1d7629ea10de5ae9ed62ca550e7f956e1564bd3d",
+          "status": "accepted",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-4",
+      "sourceId": "chapter-2-shot-4-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-4-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-4-editorial-repair-p3.png",
+          "sourceSha256": "3f22ee7843a75afe0c19bf33a2c4a1c4916f5deb6b14174378b4f5ed0baadbe6",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requires exactly three figures, but the image depicts four distinct figures (Eli plus three travelers).",
+            "The travelers are holding hands, which is not requested and creates a unified group structure contrary to the 'separated figures' requirement."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-4-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-4-editorial-repair-regen1-p3.png",
+          "sourceSha256": "1f7e3463badb8d30fd902bf072628d34caeb45b1e123790239c8ae0b75794776",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "Failed to depict the required three distinct adult figures as specified in the concept.",
+            "Eli is missing from the scene; only an unknown character in a blue cloak is present.",
+            "Narrative event (entering the house) is not clearly represented by the action of the figures."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-5",
+      "sourceId": "chapter-2-shot-5",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-5-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-5-p3.png",
+          "sourceSha256": "9f5dbd29e1d70832b534e270490874689f51e0991983301f7836c7470d485bff",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "seriousAnatomyDefects detected: the left hand (from the viewer's perspective) interacting with the bread shows broken structure and malformed digits, failing to maintain the simple mitten-style or finger-style consistency established in the character design."
+          ],
+          "objectiveFailures": [
+            "adultAnatomy"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-5-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-5-regen1-p3.png",
+          "sourceSha256": "2e292dd16f891f86a06b5d7819618b474fe0c40583c6cf3efe32277b35acc21c",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-6",
+      "sourceId": "chapter-2-shot-6-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-6-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-6-editorial-repair-p3.png",
+          "sourceSha256": "ea88b7f23d766065b56cd02085548a8c04acfda55620fac30d2aeda1452875d0",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "majorHistoricalError: Modern light switch detected on the wall.",
+            "conceptMatches: The prompt requested two guests, but one of the figures is dressed in Eli's signature sand tunic, incorrectly identifying one traveler as Eli rather than two distinct travelers."
+          ],
+          "objectiveFailures": [
+            "requiredConcept",
+            "historicalAccuracy"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-6-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-6-editorial-repair-regen1-p3.png",
+          "sourceSha256": "740b4b4b541605f48b00094d24431162cad1eae51d0ff98bd0ffbddde78e9a84",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The image depicts two seated travelers, but it fails to include the mandatory character Eli, who is required to be present as the primary subject in the narration context provided."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-7",
+      "sourceId": "chapter-2-shot-7",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-7-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-7-p3.png",
+          "sourceSha256": "27dcd080342fd9606a05ce2aa8e2510f243e22798cc617f92a8cfb93e7dee234",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-8",
+      "sourceId": "chapter-2-shot-8-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-8-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-8-editorial-repair-p3.png",
+          "sourceSha256": "96b75e5369aaf1c25e59d772cb0d961e5e4d4e97b0706d91c4c804598c81ca27",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-9",
+      "sourceId": "chapter-2-shot-9-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-9-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-9-editorial-repair-p3.png",
+          "sourceSha256": "eac1818a34c9aed50169abbd7836a0114310ed5af990c18d6f5592672873de97",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requirement for two blank parchment scrolls held apart is not met; only one scroll is present.",
+            "The character is leaning over the scroll, but the required interaction with two separate scrolls is missing."
+          ],
+          "objectiveFailures": [
+            "requiredConcept",
+            "correctProp"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-9-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-9-editorial-repair-regen1-p3.png",
+          "sourceSha256": "4defb5f870a8a65654c335f4afdbac6b765f68264e85b608353f3924af5ba7d6",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept explicitly required two blank parchment scrolls held apart on the tabletop, but only one scroll is depicted."
+          ],
+          "objectiveFailures": [
+            "requiredConcept",
+            "correctProp"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-10",
+      "sourceId": "chapter-2-shot-10-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-10-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-10-editorial-repair-p3.png",
+          "sourceSha256": "9a82625e42576e472e7d4560cb44ade845493ed26c04082843a4bd8cfcd90e2b",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The character on the left (the host) is not Eli, as he lacks the recognizable white round head shape and sand-colored tunic defined in the reference style guidelines for the channel character.",
+            "The image includes unnecessary architectural complexity (wooden wall panels and door structures) that exceeds the 'low to medium' density target.",
+            "The table prop is a modern-style round pedestal table, which conflicts with the requested simple low table aesthetic."
+          ],
+          "objectiveFailures": [
+            "correctStyle",
+            "requiredConcept",
+            "correctProp"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-10-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-10-editorial-repair-regen1-p3.png",
+          "sourceSha256": "a518e34b852bbb6fd90fa3952562fef1da04665a6cb4a694370490ba8541bfc1",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The image failed the core narrative concept requirement of having exactly two distinct characters. The host has been replaced by a different character and the traveler does not match the description (the traveler is shown with a dark beard, whereas the instructions requested a clean-shaven guest).",
+            "Eli (the recurring channel character) is absent from this scene, despite the instructions stating he must appear."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-11",
+      "sourceId": "chapter-2-shot-11-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-11-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-11-editorial-repair-p3.png",
+          "sourceSha256": "79c58d86b07f09feb6c804495e1809a16dc6ab76ccdbde6f6079442fad15e5d8",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The image depicts two figures in the doorway, but the concept specifically requested an adult host and a traveler, and the resulting characters do not align with the requested roles (the host is not clearly distinguished from the traveler as per the prompt logic).",
+            "Character identities are ambiguous compared to the provided concept."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-11-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-11-editorial-repair-regen1-p3.png",
+          "sourceSha256": "d20445ecc865464ff34d54337b6489e3ff6f048ee4becaee314b06d4a74ec388",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The image depicts only one character instead of the two required by the concept.",
+            "The character is a host figure, but the traveler is missing."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-12",
+      "sourceId": "chapter-2-shot-12-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-12-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-12-editorial-repair-p3.png",
+          "sourceSha256": "7ac8e9c73de147b42c6c7f478c5d7645e8463ca63bc379b7adef0fef26a71cd8",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The image depicts only Eli, failing to include the two required travelers described in the concept.",
+            "Does not illustrate the meal scene requested in the concept."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-12-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-12-editorial-repair-regen1-p3.png",
+          "sourceSha256": "7a091aed30e5af1625cf77e3e801a92e8d00a99bb9a8fddfa36b84f9ebd099a1",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "majorHistoricalError: Presence of a modern-style desk lamp on the furniture in the background."
+          ],
+          "objectiveFailures": [
+            "historicalAccuracy"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-13",
+      "sourceId": "chapter-2-shot-13-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-13-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-13-editorial-repair-p3.png",
+          "sourceSha256": "c1d005d7ca426eb0ce50aeaf6d477efbbd4687d9247b4a8dcc2899d9bd191cb6",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The narration and concept specify 'One ordinary adult traveler'. The image includes two characters, one of whom appears to be the recurring channel character Eli, which deviates from the specified concept.",
+            "The second character (Eli) is present in the frame, whereas the concept explicitly called for a single traveler."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-13-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-13-editorial-repair-regen1-p3.png",
+          "sourceSha256": "6ddc6df293723b7f4a27ed9e709546523b66f6defcacf4c4b4fc11509330726c",
+          "status": "accepted",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-14",
+      "sourceId": "chapter-2-shot-14",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-14-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-14-p3.png",
+          "sourceSha256": "ced486a2666b90beda97b2f72bc946b688a7f7a63a266f27e354de398567f64a",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "The provided image contains an incorrect number of subjects based on the concept description."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-15",
+      "sourceId": "chapter-2-shot-15-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-15-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-15-editorial-repair-p3.png",
+          "sourceSha256": "02ec53e499f52d6dc10bd205ad0531417548849d2d7f03fde810762c0046d829",
+          "status": "accepted",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-16",
+      "sourceId": "chapter-2-shot-16-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-16-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-16-editorial-repair-p3.png",
+          "sourceSha256": "e2158df29e24bb32332b3bd7894137a6ad3e7003ebf35b59fdae91ba585b096f",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The second character is depicted with a beard, failing the 'clean-shaven' instruction for the visitor.",
+            "The character 'Eli' has a striped head cloth, which matches the styling, but the scene composition includes a table and props not requested by the primary action description in the core concept logic for this beat, though it is contextually appropriate."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-16-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-16-editorial-repair-regen1-p3.png",
+          "sourceSha256": "6d34b77f43f4e13303c779319a9dbb4f878c4d931dd84da755b3994ebbd5350d",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requested exactly two adults at a low table, but the illustration shows only Eli at the table with the traveler standing, completely omitting the requested second character/interaction dynamic if inferred as a dual-presence scene.",
+            "The primary action of offering food/shelter is weak; the jug is placed but there is no context of offering or interaction between the figures."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-2-shot-17",
+      "sourceId": "chapter-2-shot-17-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-2-shot-17-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-17-editorial-repair-p3.png",
+          "sourceSha256": "c45d3f22671cc2f8f6be722d46b92880c8ca141b63355deead42b541c586db51",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "Concept mismatch: the narration specifies Eli and one traveler (a wide view of a path), but the provided image shows a village street setting rather than a simple path.",
+            "The traveler is shown already in the mid-ground/distance, which deviates from the structural staging requested."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-2-shot-17-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-2-shot-17-editorial-repair-regen1-p3.png",
+          "sourceSha256": "0ebbaec8f18edff6f2bb7a06f841e2b30f1613f494ee71d8bc2151974d6ebfd8",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The second character is depicted with a beard, which contradicts the 'clean-shaven' requirement in the characterRoles.",
+            "The image displays a courtyard or narrow street enclosure rather than the requested 'simple path' in an open environment, making the scene feel more complex and confined than the density target requested."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-0",
+      "sourceId": "chapter-3-shot-0",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-0-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-0-p3.png",
+          "sourceSha256": "0d633afcfc9400c8bbec3b2859c7b0ee150dac477a696a2f338a6e839457c563",
+          "status": "accepted",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The scroll held by Eli is completely blank, failing to visually convey the narrative beat of 'peering at the parchment as if trying to decipher the specific names'."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-1",
+      "sourceId": "chapter-3-shot-1",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-1-p3.png",
+          "sourceSha256": "8c5eb35040fa5d59cbd4b4cdab9935d78ed04580918c4734e7ddee3bfcbcd100",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The oil lamp depicted features a modern kerosene-style glass chimney and metal handle mechanism, which is anachronistic for a 1st-century Judean interior."
+          ],
+          "objectiveFailures": [
+            "historicalAccuracy"
+          ]
+        },
+        {
+          "id": "chapter-3-shot-1-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-1-regen1-p3.png",
+          "sourceSha256": "6a2772bd3e5aac36c1846bb7a766480ac5160891c92bcf12abbe9f1091f57fc6",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-2",
+      "sourceId": "chapter-3-shot-2",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-2-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-2-p3.png",
+          "sourceSha256": "d4d1dca9a0f37952410750488f90529b9662ce72a725286c8682a450375b4625",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-3",
+      "sourceId": "chapter-3-shot-3",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-3-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-3-p3.png",
+          "sourceSha256": "293c2e2a8b0a14668fe3c83ee6e8b581ea4a8af068592162cc1f8db42dcf7c49",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-4",
+      "sourceId": "chapter-3-shot-4",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-4-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-4-p3.png",
+          "sourceSha256": "21ef3d85c6f1ef0478280e727ed9c871291b939a5b752e5675974f7e60307c75",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-5",
+      "sourceId": "chapter-3-shot-5",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-5-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-5-p3.png",
+          "sourceSha256": "974b238f103a1bb0728ff3d61e1f3eb3921304b6e042411c198eec941856efd9",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-6",
+      "sourceId": "chapter-3-shot-6-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-6-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-6-editorial-repair-p3.png",
+          "sourceSha256": "c5ba84b054424f37a8e8aec22e9d019a3e279f4348b0911df913bd6be248d1cc",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requires exactly two adults; the second figure (the messenger) is not depicted in the image. Only Eli is present."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-3-shot-6-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-6-editorial-repair-regen1-p3.png",
+          "sourceSha256": "725acdf03da91bb91a3118f5e69e4f31fc9c9b2e2610eb853c4917cf5180dbf8",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The generated image depicts only one character (Eli), failing the explicit requirement for two distinct adults in conversation."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-7",
+      "sourceId": "chapter-3-shot-7",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-7-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-7-p3.png",
+          "sourceSha256": "85f36085f7fa5efa3ded46e23f8928d03d799b866ad4b8cd3a6d35c17dcb1154",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-8",
+      "sourceId": "chapter-3-shot-8",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-8-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-8-p3.png",
+          "sourceSha256": "5be8b5a1b5ef986b134d43a91d3614ec4eb10fd93786d9c2bc2827b71f7eae3f",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "Image 2 exceeds the density target by including excessive and repetitive tool props (shovels/picks) leaning against both walls, creating clutter that deviates from the low-density reference style."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-9",
+      "sourceId": "chapter-3-shot-9-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-9-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-9-editorial-repair-p3.png",
+          "sourceSha256": "79e5b34bb7491f7612561eddcb34eacb95ca9ff970968696846ff91a4eab1fb5",
+          "status": "accepted",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-10",
+      "sourceId": "chapter-3-shot-10-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-10-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-10-editorial-repair-p3.png",
+          "sourceSha256": "b41f505ddb2d0f2e8c1bbbe57049b47959aabc2aa16493e5d5bd68ef7745e86a",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "The messenger's character design does not match the 'simple expressive round-head cartoon: white circle heads with dot eyes' style of the reference; the messenger has a different, more realistic human face style compared to Eli."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-11",
+      "sourceId": "chapter-3-shot-11-editorial-repair",
+      "status": "rejected",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-11-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-11-editorial-repair-p3.png",
+          "sourceSha256": "d31e53575225258f933645554db1e70c1a41e6425c1bed780c98e88573cd1bef",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requirement for Michael specifies him as clean-shaven, but the generated character on the right is depicted with a beard."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-3-shot-11-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-11-editorial-repair-regen1-p3.png",
+          "sourceSha256": "5906535bd3cb1058a9a41d98786c45aa372a5b36f904c84d1ce8c2fe5e6abb94",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept requested two distinct adults (Eli and Michael), but the provided image contains only one character: Eli."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-12",
+      "sourceId": "chapter-3-shot-12-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-12-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-12-editorial-repair-p3.png",
+          "sourceSha256": "d3e9b65e34853ea3123fa92d93eb4f2cb9c316eb4e6a49a122e6b1eec0c10aad",
+          "status": "rejected",
+          "reviewPolicy": "narrative-facts-v1",
+          "issues": [
+            "The concept description requested a clean-shaven character, but the generated character has a dark beard.",
+            "The character depicted is visually identical to the recurring character Eli, failing to represent the unique character 'Michael' requested in the prompt."
+          ],
+          "objectiveFailures": [
+            "requiredConcept"
+          ]
+        },
+        {
+          "id": "chapter-3-shot-12-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-12-editorial-repair-regen1-p3.png",
+          "sourceSha256": "fc4101c9c0b7517b7c825dec6e4b028446ba51f13898a802162c7e5e45b1faea",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-13",
+      "sourceId": "chapter-3-shot-13-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-13-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-13-editorial-repair-p3.png",
+          "sourceSha256": "b200b12e1b7b4cc80c9efb50ceed77ac14b8ef07e70b59099db36b385021b026",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-3-shot-13-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-13-editorial-repair-regen1-p3.png",
+          "sourceSha256": "1bf17d688330c5a852058c0c18abfe7b50f3af13f9c96ee8c23ae5cef507ef93",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-14",
+      "sourceId": "chapter-3-shot-14-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-14-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-14-editorial-repair-p3.png",
+          "sourceSha256": "e766fb9c19309c95f0c7f916060a084dd648584985ddc0826876d1f7daa16913",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-3-shot-14-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-14-editorial-repair-regen1-p3.png",
+          "sourceSha256": "834c04af8413711ddb9cf4524aabede4654048b529b518b9d72dcda3ea7053f6",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-15",
+      "sourceId": "chapter-3-shot-15-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-15-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-15-editorial-repair-p3.png",
+          "sourceSha256": "d8a1d63f2d31ca83ef2b7adf5f1e23436830758679e25333ca72c93411fb73c3",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-3-shot-15-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-15-editorial-repair-regen1-p3.png",
+          "sourceSha256": "bb6c0574e91f64f5e01ad9311fe5384e0a94956be53fda91a7317e3fda453c8e",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-16",
+      "sourceId": "chapter-3-shot-16-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-16-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-16-editorial-repair-p3.png",
+          "sourceSha256": "e5895b3ea01c99f90f34b5e5f70fca1f35cf8368f69686b6f596cd4dd95f2da4",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-3-shot-16-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-16-editorial-repair-regen1-p3.png",
+          "sourceSha256": "b1b7092ec0d7c6d2eef9555dbdebc60f1dfca034a29c5a80a8fb9fbc77688fea",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-17",
+      "sourceId": "chapter-3-shot-17-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-17-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-17-editorial-repair-p3.png",
+          "sourceSha256": "0e4a7d526920ca7d3b1a87f5a6a4836d5a8d0cfcc9ccb1d2bf06b5caa21ccd3a",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-3-shot-18",
+      "sourceId": "chapter-3-shot-18",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-3-shot-18-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-18-p3.png",
+          "sourceSha256": "bfd43947335a031d23dc9a82bb90b70b03e0b3fcd2f874271baa066a05c72321",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-3-shot-18-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-3-shot-18-regen1-p3.png",
+          "sourceSha256": "a5522aad775255e3e09af033c37d0d7492b95faa0d4c37f7c6ccfc45747a88dc",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-0",
+      "sourceId": "chapter-4-shot-0-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-0-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-0-editorial-repair-p3.png",
+          "sourceSha256": "2e85e12d305a3630812121fa301749ecce3d6a69d7c61d45bd2cf19118db5ff1",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-0-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-0-editorial-repair-regen1-p3.png",
+          "sourceSha256": "f63667ad48e121c3129c85a5a88fb8c75f741e32a1ab67c51a8184e750d055eb",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-1",
+      "sourceId": "chapter-4-shot-1-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-1-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-1-editorial-repair-p3.png",
+          "sourceSha256": "9352f577933c700dd0a009ff3abc724e61c0fd3f643bf2476a0bee0ab4aa5b72",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-1-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-1-editorial-repair-regen1-p3.png",
+          "sourceSha256": "3ea9235813e8e6c3fae7df67225c8b33969de9884fdcabf0ea76c999ca5518d7",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-2",
+      "sourceId": "chapter-4-shot-2-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-2-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-2-editorial-repair-p3.png",
+          "sourceSha256": "359cc3933b0b6b950f4004ca1e4b06db3f63ae055e27da8c8a4c25c1b8225a0a",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-2-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-2-editorial-repair-regen1-p3.png",
+          "sourceSha256": "269e8bc6db4eac4203047e6a07dab2e8f36fcbb25b036112cd714300dd448319",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-3",
+      "sourceId": "chapter-4-shot-3-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-3-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-3-editorial-repair-p3.png",
+          "sourceSha256": "1d03b85919abdec05be5485c7084791a75aacb6a5d169f002a4ad17d44ba4324",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-3-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-3-editorial-repair-regen1-p3.png",
+          "sourceSha256": "977f2b6f4c843e548f0d43546d7195d76a08d9e4de2fdc3a12bbdd004855bfe2",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-4",
+      "sourceId": "chapter-4-shot-4-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-4-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-4-editorial-repair-p3.png",
+          "sourceSha256": "8a1938e7d4ca680e306ddd3a87b2880e1fee43a6910976c45d060f705355aa32",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-4-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-4-editorial-repair-regen1-p3.png",
+          "sourceSha256": "e963edc91b38e3849c1b41b607f75fb4af397f2f4528528120bf718e77c37611",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-5",
+      "sourceId": "chapter-4-shot-5-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-5-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-5-editorial-repair-p3.png",
+          "sourceSha256": "839a1ab30fd7f6a20015f5ff998d19d804b802ddeb74a1025b78fd1e806a0c1c",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-5-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-5-editorial-repair-regen1-p3.png",
+          "sourceSha256": "d29cd3e0eda6a7d919478de921ac1193e6ef71530a1a1594dec2955159f42afb",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-6",
+      "sourceId": "chapter-4-shot-6-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-6-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-6-editorial-repair-p3.png",
+          "sourceSha256": "16b27097285af119c40e06b3fab067ce5c907bd6df050990bcdad94e09298159",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-7",
+      "sourceId": "chapter-4-shot-7-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-4-shot-8",
+      "sourceId": "chapter-4-shot-8-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-8-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-8-editorial-repair-p3.png",
+          "sourceSha256": "58f9de3f13f3a432f6dd03c9f119ce497ca18e7c557cb2fd56760f7bcd3e3d74",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-8-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-8-editorial-repair-regen1-p3.png",
+          "sourceSha256": "72ebded673400f4307d50ada3c56eea10a032bcae13690640b86db1e754821ce",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-9",
+      "sourceId": "chapter-4-shot-9-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-9-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-9-editorial-repair-p3.png",
+          "sourceSha256": "db450b074c9ad56bdc60e8955b70850e9fed328c05546993749e8afa2f8ca5f7",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-9-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-9-editorial-repair-regen1-p3.png",
+          "sourceSha256": "47d1cea8311b4596760b8efcdc474c875245f50b23d99f76b2bbda73b1f4ba9b",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-10",
+      "sourceId": "chapter-4-shot-10-editorial-repair",
+      "status": "accepted",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-10-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-10-editorial-repair-p3.png",
+          "sourceSha256": "8b17ce2df06045ccf435d1c090468534c435fbf035ae54efe34a2cd13034ca04",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-10-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-10-editorial-repair-regen1-p3.png",
+          "sourceSha256": "c19b53ccd32f31a66944ac1e2c0eaff9bfbc48734e1f654e9b4ae57bfeb5a24d",
+          "status": "accepted",
+          "reviewPolicy": "original-pass",
+          "issues": [
+            "The generated image shows a full wheel/object instead of a 'close-up of a tall upright gold wheel rim' as specified in the concept."
+          ],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-11",
+      "sourceId": "chapter-4-shot-11-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-11-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-11-editorial-repair-p3.png",
+          "sourceSha256": "e1b8510daccb78cc9a53f8a11ec8633985fee9ab95dd1c390502e72b863f7e6a",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-11-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-11-editorial-repair-regen1-p3.png",
+          "sourceSha256": "4d49f833f067eb7c654d57bd320b0075d22d53d9d71b4adafb36770196951678",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-12",
+      "sourceId": "chapter-4-shot-12-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-12-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-12-editorial-repair-p3.png",
+          "sourceSha256": "0cba40ebb33620fe50413a21ec01e72e437a21d8354d5a931dcca9b42f0be7e6",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-12-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-12-editorial-repair-regen1-p3.png",
+          "sourceSha256": "e42f82b50355078cd72956db1ea5399e8a11fc0cba3c3452be6a007dea463269",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-13",
+      "sourceId": "chapter-4-shot-13-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-13-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-13-editorial-repair-p3.png",
+          "sourceSha256": "16a680ee463c7e467202b0857ec4af9a1f9f523dd87154fe985f37f4fcfc1d94",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-13-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-13-editorial-repair-regen1-p3.png",
+          "sourceSha256": "d19b94300baf8eb5d40f613ca5e447ec1fd90ac3e423b46de8013baa1f7735d1",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-14",
+      "sourceId": "chapter-4-shot-14-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-14-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-14-editorial-repair-p3.png",
+          "sourceSha256": "b264bf5fa178ff239161caea523e729051aca50690602af3962a0dd6ed2c4fe7",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-14-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-14-editorial-repair-regen1-p3.png",
+          "sourceSha256": "c58f89efa0552fb1d3597821eb0e09c145a6d507b9c8f63e56db9ddbc0dbb62a",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-15",
+      "sourceId": "chapter-4-shot-15-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-15-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-15-editorial-repair-p3.png",
+          "sourceSha256": "099841752eaf3e9757ea7e4287db9a81676fe70ece999a952c1f35bfa8b804db",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-15-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-15-editorial-repair-regen1-p3.png",
+          "sourceSha256": "42efd7349df34a8aaa2728f4c69c2ed2bc06ca14adf163fc580539fc697ec34f",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-16",
+      "sourceId": "chapter-4-shot-16-editorial-repair",
+      "status": "pending-review",
+      "attempts": [
+        {
+          "id": "chapter-4-shot-16-editorial-repair-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-16-editorial-repair-p3.png",
+          "sourceSha256": "d8045ea92fc612f041e86ab5dda88c8466dd9a48b822df55dcd4191498ac6e5a",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        },
+        {
+          "id": "chapter-4-shot-16-editorial-repair-regen1-p3",
+          "sourcePath": "data/runs/bible-angels-001/assets/illustrated-v4.2/chapter-4-shot-16-editorial-repair-regen1-p3.png",
+          "sourceSha256": "1c6efe2ed01d8018867485e065a29412e78dc68e3c2551f8745f921c2e1cbf39",
+          "status": "not-reviewed",
+          "reviewPolicy": null,
+          "issues": [],
+          "objectiveFailures": []
+        }
+      ]
+    },
+    {
+      "shotId": "chapter-4-shot-17",
+      "sourceId": "chapter-4-shot-17-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-4-shot-18",
+      "sourceId": "chapter-4-shot-18-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-4-shot-19",
+      "sourceId": "chapter-4-shot-19-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-4-shot-20",
+      "sourceId": "chapter-4-shot-20-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-4-shot-21",
+      "sourceId": "chapter-4-shot-21-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-0",
+      "sourceId": "chapter-5-shot-0-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-1",
+      "sourceId": "chapter-5-shot-1-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-2",
+      "sourceId": "chapter-5-shot-2-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-3",
+      "sourceId": "chapter-5-shot-3-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-4",
+      "sourceId": "chapter-5-shot-4-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-5",
+      "sourceId": "chapter-5-shot-5-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-6",
+      "sourceId": "chapter-5-shot-6-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-7",
+      "sourceId": "chapter-5-shot-7-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-8",
+      "sourceId": "chapter-5-shot-8-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-9",
+      "sourceId": "chapter-5-shot-9-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-10",
+      "sourceId": "chapter-5-shot-10-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-11",
+      "sourceId": "chapter-5-shot-11-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-12",
+      "sourceId": "chapter-5-shot-12-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-13",
+      "sourceId": "chapter-5-shot-13-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-5-shot-14",
+      "sourceId": "chapter-5-shot-14-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-0",
+      "sourceId": "chapter-6-shot-0-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-1",
+      "sourceId": "chapter-6-shot-1-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-2",
+      "sourceId": "chapter-6-shot-2-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-3",
+      "sourceId": "chapter-6-shot-3-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-4",
+      "sourceId": "chapter-6-shot-4-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-5",
+      "sourceId": "chapter-6-shot-5-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-6",
+      "sourceId": "chapter-6-shot-6-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-7",
+      "sourceId": "chapter-6-shot-7-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    },
+    {
+      "shotId": "chapter-6-shot-8",
+      "sourceId": "chapter-6-shot-8-editorial-repair",
+      "status": "no-source",
+      "attempts": []
+    }
+  ],
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38691103156",
+  "commit": "ca0160cf4bbfea2632471e29fd0270c9afa69170",
+  "newFluxGenerations": 0,
+  "newPaidProviderCostUsd": 0,
+  "primaryGeminiModel": "gemini-3.1-flash-lite",
+  "primaryFreeRequestLimit": 500,
+  "primaryResumeAfter": "2026-10-16T00:00:00Z",
+  "fallbackAvailability": {
+    "gemini-3.8-flash": "HTTP 503 after bounded retries; 15-minute cooldown",
+    "gemini-3.6-flash": "HTTP 503 after bounded retries; 15-minute cooldown",
+    "gemini-3.5-flash": "free quota unavailable"
+  },
+  "videoGenerated": false,
+  "videoScheduled": false,
+  "ownerThumbnail": true,
+  "manualInspections": [
+    {
+      "shotId": "chapter-3-shot-1",
+      "stageId": "chapter-3-shot-1-regen1-p3",
+      "sourceSha256": "6a2772bd3e5aac36c1846bb7a766480ac5160891c92bcf12abbe9f1091f57fc6",
+      "issue": "Glass-chimney lamp inconsistent with the first-century room",
+      "disposition": "Must replace despite machine pass; no image regenerated in this review"
+    },
+    {
+      "shotId": "chapter-3-shot-10",
+      "stageId": "chapter-3-shot-10-editorial-repair-p3",
+      "sourceSha256": "b41f505ddb2d0f2e8c1bbbe57049b47959aabc2aa16493e5d5bd68ef7745e86a",
+      "issue": "Modern pointed shirt collar on the messenger",
+      "disposition": "Must replace despite machine pass; no image regenerated in this review"
+    }
+  ],
+  "countNote": "25 are machine-accepted, not final human approvals. Two of those are flagged by manual pixel inspection and require fresh sources. The other 19 sources were not fully re-reviewed before quota exhaustion; their original rejections remain preserved."
+}
