@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "runId": "bible-angels-001",
+  "scope": "Human-confirmed ASR word correction only; never waives factual, lexical or acoustic QA",
+  "reviews": [
+    {
+      "audioFile": "narration-chapter-2.wav",
+      "wavSha256": "46de7b75ff0d195b88e7320015ace6ab317249ba17c730d9467ce5f979e5335f",
+      "transcriptSha256": "5359573a3f5a5439dcc40532a8bc3787944cb988bacbe332082cffdc26cbf1ee",
+      "scriptSha256": "f4b066f3ccd0812337f3bcb73777955269dcb390dfe843a9159884c3677dc8ca",
+      "confirmation": "si esta bien",
+      "confirmationQuestion": "Does the supplied 132.5\u2013138.5 s excerpt clearly say seraphim in the approved narration?",
+      "confirmationSource": "Owner reply in this conversation to the six-second listening question",
+      "listeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1-excerpt.mp3",
+      "sourceExecution": "38671014999",
+      "corrections": [
+        {
+          "referenceTokenIndex": 343,
+          "firstChunk": 343,
+          "observedChunks": [
+            {
+              "text": " set",
+              "timestamp": [
+                135.9,
+                136.06
+              ]
+            },
+            {
+              "text": " of",
+              "timestamp": [
+                136.06,
+                136.22
+              ]
+            },
+            {
+              "text": " time",
+              "timestamp": [
+                136.22,
+                136.44
+              ]
+            }
+          ],
+          "heardWord": "seraphim"
+        }
+      ]
+    }
+  ]
+}

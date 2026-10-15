@@ -1,6 +1,6 @@
 {
   "runId": "bible-angels-001",
-  "status": "voice-critical-term-review-pending",
+  "status": "resuming-owner-confirmed-ASR-word",
   "ownerRequestedLength": "Choose what best serves the video; editorial target about 8\u201310 minutes",
   "productionKind": "quality_test",
   "targetSeconds": 600,
@@ -116,7 +116,7 @@
   "shortsBoundaryPolicy": "Select self-contained original narration from actual ASR word timestamps after synthesis. No fabricated timestamps or mid-sentence crop. Adapt portrait visuals and captions; verify each export before upload.",
   "publishing": "Owner authorized an original next video and its scheduling. Upload private only after all QA, then use the existing daily publication slot. Social posting requires connected accounts and a compatible approved publisher.",
   "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
-  "blocker": "Exact scripture-citation numeric formatting has been corrected in code. A lower-case key factual term (seraphim) remains ambiguous in the same unchanged WAV across ASR decodings; preserve audio and request targeted human listening before any visual generation. Do not silently replace lexical differences.",
+  "blocker": "Owner confirmed seraphim is intelligible in the exact supplied excerpt. Resume critical-terms with hash-bound human ASR correction; all other QA remains required.",
   "videoGenerated": false,
   "videoScheduled": false,
   "productionAttempt": {
@@ -137,10 +137,11 @@
   "validation": {
     "lint": "passed",
     "typecheck": "passed",
-    "typescriptTestsPassed": 196,
+    "typescriptTestsPassed": 199,
     "pythonTestsPassed": 8,
     "githubWorkflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38676074281",
-    "githubEvidenceExport": "success; voice remains blocked, not a completed video"
+    "githubEvidenceExport": "success; voice remains blocked, not a completed video",
+    "localHumanReviewChecks": "lint, typecheck, 199 TypeScript and 8 Python tests passed"
   },
   "editingReview": {
     "referenceFileSha256": "e72173e7ead6a3603c3973f0ae2473ae8fb49072cf78fbe2ef7d5b6274b1cc14",
@@ -159,5 +160,6 @@
   "supportRecommendation": "docs/recommendations/channel-support.md",
   "voiceReview": "docs/analysis/bible-angels-001-voice-review.md",
   "multiplatformRecommendation": "docs/recommendations/multiplatform-free.md",
-  "voiceEvidenceDelivery": "data/research/bible-angels-001/voice-evidence-delivery.json"
+  "voiceEvidenceDelivery": "data/research/bible-angels-001/voice-evidence-delivery.json",
+  "voiceHumanReview": "data/scripts/bible-angels-001-voice-asr-review.json"
 }

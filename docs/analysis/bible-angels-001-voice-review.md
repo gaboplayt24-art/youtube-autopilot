@@ -47,3 +47,12 @@ Hace falta escuchar el fragmento para decidir si se corrige esa pronunciación e
 Exportación verificada en Actions: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38676074281
 
 [Fragmento de seis segundos](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1-excerpt.mp3) · [WAVs y QA](https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1.zip). ZIP descargado y comprobado: CRC y 23 hashes del manifiesto coinciden. Lint, typecheck, 196 tests TypeScript y 8 Python pasaron en ese job. El estado de voz sigue siendo `blocked-critical-review`.
+
+
+## Decisión posterior del propietario
+
+El propietario escuchó el fragmento enlazado y confirmó «si esta bien». Esa decisión se registra en `data/scripts/bible-angels-001-voice-asr-review.json`, ligada por SHA256 al WAV, al transcript Small original y al texto de síntesis de la segunda parte. Solo corrige el reconocimiento de `seraphim`; los tres intervalos medidos originales se conservan como evidencia y su unión (135,90–136,44 s) se usa sin interpolar límites nuevos. Los WAV y transcripts originales no se modifican.
+
+La reevaluación local del audio existente con esa corrección explícita pasa con WER de 1,176% y todos sus términos críticos correctos. Esto no convierte el QA histórico fallido en un pase: se guardan por separado el original, el transcript derivado y la aplicación de la decisión humana. Cualquier cambio de audio, texto o transcript invalida la corrección. Siguen vigentes las comprobaciones acústicas y el resto del QA; una mutación de otro término factual continúa fallando en tests.
+
+Reanudar desde `critical-terms`, reutilizando las dos síntesis verificadas y generando únicamente la narración restante. Todavía faltan ilustraciones, render y QA final. La portada sigue a cargo del propietario; no se autoriza ninguna subida ni programación con esta decisión de voz.
