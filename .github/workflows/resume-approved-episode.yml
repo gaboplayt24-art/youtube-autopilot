@@ -1,0 +1,32 @@
+name: resume-approved-episode
+on:
+  schedule:
+    - cron: '15 0 * * *'
+  workflow_dispatch:
+    inputs:
+      dispatch_ready:
+        description: Dispatch only after configured reset, before expiry and if not already attempted today
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: write
+concurrency:
+  group: approved-bible-angels-resume
+  cancel-in-progress: false
+jobs:
+  guard:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Resume only the approved episode with existing budget and QA gates
+        env:
+          GH_TOKEN: ${{ github.token }}
+          DISPATCH_READY: ${{ github.event_name == 'schedule' && 'true' || inputs.dispatch_ready }}
+        run: npx tsx scripts/resume-approved-episode.ts

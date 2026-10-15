@@ -1,0 +1,8 @@
+/** Editorial translations for the three fixed, owner-authorized angel episode cuts; no extra model quota. */
+export function shortMetadata(clip:{id:string;title:string;source:string},videoId:string){
+ const titles:Record<string,[string,string]>={A:['¿Reconocerías a un ángel?','Você reconheceria um anjo?'],B:['Por qué estos seres bíblicos tienen seis alas','Por que estes seres bíblicos têm seis asas'],C:['Las ruedas llenas de ojos en Ezequiel','As rodas cheias de olhos em Ezequiel']};
+ if(!titles[clip.id])throw Error('Reviewed clip translations missing');
+ const sourceEs=clip.source.replace('Hebrews','Hebreos').replace('Isaiah','Isaías').replace('Ezekiel','Ezequiel'),sourcePt=clip.source.replace('Hebrews','Hebreus').replace('Isaiah','Isaías').replace('Ezekiel','Ezequiel');
+ const url=`https://www.youtube.com/watch?v=${videoId}`,support='https://ko-fi.com/bibleunearthed';
+ return {title:clip.title+' #Shorts',description:`An illustrated excerpt about biblical depictions of angels.\nText reference: ${clip.source}\nFull illustrated episode: ${url}\n\nOptional support: ${support}\nSynthesized narration and original AI illustrations.`,localizations:{es:{title:titles[clip.id][0]+' #Shorts',description:`Un fragmento ilustrado sobre las representaciones bíblicas de los ángeles.\nReferencia textual: ${sourceEs}\nEpisodio ilustrado completo: ${url}\n\nApoyo voluntario: ${support}\nNarración sintetizada e ilustraciones originales generadas con IA.`},'pt-BR':{title:titles[clip.id][1]+' #Shorts',description:`Um trecho ilustrado sobre as representações bíblicas dos anjos.\nReferência textual: ${sourcePt}\nEpisódio ilustrado completo: ${url}\n\nApoio opcional: ${support}\nNarração sintetizada e ilustrações originais geradas com IA.`}}};
+}
