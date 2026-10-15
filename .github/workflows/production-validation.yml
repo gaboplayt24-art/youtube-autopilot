@@ -216,6 +216,9 @@ jobs:
       - name: Source-grounded approved episode; all QA gates and provider budgets enforced
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
         timeout-minutes: 60
+        env:
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |
           if [ -n "$RETRY_FROM" ]; then
             if [ -f "data/runs/$RUN_ID/script.json" ]; then cp "data/runs/$RUN_ID/script.json" "data/runs/$RUN_ID/script-before-correction.json"; fi
