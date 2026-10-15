@@ -116,15 +116,15 @@
   "shortsBoundaryPolicy": "Select self-contained original narration from actual ASR word timestamps after synthesis. No fabricated timestamps or mid-sentence crop. Adapt portrait visuals and captions; verify each export before upload.",
   "publishing": "Owner authorized an original next video and its scheduling. Upload private only after all QA, then use the existing daily publication slot. Social posting requires connected accounts and a compatible approved publisher.",
   "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
-  "blocker": "Latest attempt rejected an overlong hook before voice or artwork. Resume script with bounded revision of the actual rejected prose. Private release checkpoint storage is verified and no longer blocked by Actions artifact quota.",
+  "blocker": "Script repetition rejected before voice/artwork. The writer now applies the opening instruction only to HOOK and revises later chapters against the actual earlier narration. Private release checkpoint storage is operational.",
   "videoGenerated": false,
   "videoScheduled": false,
   "productionAttempt": {
-    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38648046566",
-    "commit": "a478ccd1fa8c9f829a8c68e27207adca92052a9d",
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38670365046",
+    "commit": "8bf4a687f234ec36a5e14e0dc5c37823e3527362",
     "conclusion": "failure",
     "failedStage": "script",
-    "error": "Hook narration 96 words; permitted range 60-80 for target 70.",
+    "error": "Full script repetition QA rejected four repeated sentences and thirteen repeated twelve-word phrases.",
     "inferenceStarted": true,
     "voiceGenerated": false,
     "fluxGenerated": false,
@@ -133,7 +133,7 @@
   "validation": {
     "lint": "passed",
     "typecheck": "passed",
-    "typescriptTestsPassed": 191,
+    "typescriptTestsPassed": 192,
     "pythonTestsPassed": 8
   },
   "editingReview": {

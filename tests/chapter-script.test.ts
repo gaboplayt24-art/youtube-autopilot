@@ -27,3 +27,15 @@ test('chapter revision includes the actual overlong narration and enforces the o
  assert.equal(calls,2);assert.equal(result.scenes.length,2);
  calls=0;await assert.rejects(writeChapter({json:async<T>(_p:string,s:import('zod').z.ZodType<T>)=>{calls++;return s.parse(overlong);}},'Write',70,'HOOK'),/approved target 70/);assert.equal(calls,3);
 });
+
+test('later chapters revise a repeated spoken opening rather than disabling full-script repetition QA',async()=>{
+ const prior='Why do biblical angels sometimes look like visitors and sometimes appear with six wings?';
+ const repeated={...value,hook:prior,scenes:[{...value.scenes[0],narration:prior+' '+Array(20).fill('word').join(' ')},value.scenes[1]]};
+ assert.equal(chapterScriptContract(70,'ACT 1',[],[prior]).safeParse(repeated).success,false);
+ const fresh={...value,scenes:value.scenes.map((s,i)=>({...s,narration:Array.from({length:35},(_,j)=>'detail'+(i*35+j)).join(' ')}))};
+ let calls=0;const revised=await writeChapter({json:async<T>(prompt:string,schema:import('zod').z.ZodType<T>)=>{
+  calls++;if(calls===2)assert.match(prompt,/Chapter repeats earlier narration/);
+  return schema.parse(calls===1?repeated:fresh);
+ }},'Write the next chapter',70,'ACT 1',[],[prior]);
+ assert.equal(calls,2);assert.ok(!revised.scenes[0].narration.includes(prior));
+});
