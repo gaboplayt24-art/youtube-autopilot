@@ -1,7 +1,7 @@
 import {appendFile} from 'node:fs/promises';
 import {z} from 'zod';
 import {read,exec} from '../src/orchestration/io';
-const config=z.object({enabled:z.boolean(),runId:z.literal('bible-angels-001'),notBefore:z.string().datetime(),expiresAt:z.string().datetime(),geminiModel:z.literal('gemini-3.1-flash-lite'),topic:z.string(),ownerThumbnail:z.literal(true),publish:z.literal(false)});
+const config=z.object({maxAttempts:z.number().int().min(1).max(3),enabled:z.boolean(),runId:z.literal('bible-angels-001'),notBefore:z.string().datetime(),expiresAt:z.string().datetime(),geminiModel:z.literal('gemini-3.1-flash-lite'),topic:z.string(),ownerThumbnail:z.literal(true),publish:z.literal(false)});
 async function main(){
  const c=config.parse(await read('config/episode-delivery.json')),now=new Date(),repo=process.env.GITHUB_REPOSITORY;
  if(repo!=='gaboplayt24-art/youtube-autopilot')throw Error('Approved repository only');
@@ -12,6 +12,7 @@ async function main(){
   const runs=await api('actions/workflows/production-validation.yml/runs?per_page=100');
   const episode=runs.workflow_runs.filter((r:any)=>r.display_title==='production-'+c.runId);
   if(episode.some((r:any)=>r.conclusion==='success'&&Date.parse(r.created_at)>=Date.parse(c.notBefore)))decision='video-qa-completed';
+  else if(episode.filter((r:any)=>Date.parse(r.created_at)>=Date.parse(c.notBefore)).length>=c.maxAttempts)decision='attempt-cap-reached';
   else if(episode.some((r:any)=>r.created_at.startsWith(now.toISOString().slice(0,10))||['queued','in_progress','waiting','requested'].includes(r.status)))decision='attempt-already-started';
   if(decision==='ready'){
    const release=await api('releases/tags/pipeline-checkpoint-'+c.runId);

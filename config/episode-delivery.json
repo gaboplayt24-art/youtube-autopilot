@@ -7,5 +7,6 @@
   "topic": "Why biblical angels look so different: messengers, Michael, Gabriel, and the visions of Isaiah and Ezekiel",
   "ownerThumbnail": true,
   "publish": false,
-  "note": "Owner requested completion, Shorts and TikTok scheduling on 2026-10-15. Daily bounded resume after free quota reset; one production attempt per UTC day. Publishing still needs the owner thumbnail, full QA and concrete TikTok preview consent. Never increase provider budgets."
+  "note": "Owner requested completion, Shorts and TikTok scheduling on 2026-10-15. Daily bounded resume after free quota reset; one production attempt per UTC day, at most three attempts before review. Publishing still needs the owner thumbnail, full QA and concrete TikTok preview consent. Never increase provider budgets.",
+  "maxAttempts": 3
 }

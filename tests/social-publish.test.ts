@@ -2,7 +2,7 @@ import {test} from 'node:test';import assert from 'node:assert/strict';
 import {ZernioClient,requireTikTokConsent} from '../src/social/publish';
 test('TikTok consent cannot be fabricated from general scheduling intent or omitted interaction choices',()=>{
  assert.throws(()=>requireTikTokConsent({}),/owner review/);assert.throws(()=>requireTikTokConsent({CONTENT_PREVIEW_CONFIRMED:'true',EXPRESS_CONSENT_GIVEN:'true'}));
- const settings=requireTikTokConsent({CONTENT_PREVIEW_CONFIRMED:'true',EXPRESS_CONSENT_GIVEN:'true',ALLOW_COMMENT:'allow',ALLOW_DUET:'disable',ALLOW_STITCH:'disable'});assert.equal(settings.allow_comment,true);assert.equal(settings.allow_duet,false);
+ const settings=requireTikTokConsent({CONTENT_PREVIEW_CONFIRMED:'true',EXPRESS_CONSENT_GIVEN:'true',ALLOW_COMMENT:'allow',ALLOW_DUET:'disable',ALLOW_STITCH:'disable'});assert.equal(settings.video_made_with_ai,true);assert.equal(settings.allow_comment,true);assert.equal(settings.allow_duet,false);
 });
 test('Zernio account discovery is read-only and rejects ambiguous destinations',async()=>{
  const client=new ZernioClient('mock-only',async(url,options)=>{assert.equal(String(url),'https://zernio.com/api/v1/accounts');assert.equal(options?.method,'GET');assert.equal(options?.redirect,'error');return new Response(JSON.stringify({accounts:[{_id:'a'.repeat(24),platform:'tiktok'},{_id:'b'.repeat(24),platform:'tiktok'}]}));});await assert.rejects(client.account(),/Exactly one/);

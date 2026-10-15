@@ -33,7 +33,7 @@ export class ZernioClient {
 export function requireTikTokConsent(env:NodeJS.ProcessEnv){
  if(env.CONTENT_PREVIEW_CONFIRMED!=='true'||env.EXPRESS_CONSENT_GIVEN!=='true')throw Error('TikTok requires owner review of the actual clip previews and express consent');
  const toggle=(name:string)=>z.enum(['allow','disable']).parse(env[name])==='allow';
- return {content_preview_confirmed:true,express_consent_given:true,privacy_level:'PUBLIC_TO_EVERYONE',allow_comment:toggle('ALLOW_COMMENT'),allow_duet:toggle('ALLOW_DUET'),allow_stitch:toggle('ALLOW_STITCH'),is_aigc:true};
+ return {content_preview_confirmed:true,express_consent_given:true,privacy_level:'PUBLIC_TO_EVERYONE',allow_comment:toggle('ALLOW_COMMENT'),allow_duet:toggle('ALLOW_DUET'),allow_stitch:toggle('ALLOW_STITCH'),video_made_with_ai:true};
 }
 export async function publishClips(runId:string,bundlePath:string,approvedDigest:string,platform:'youtube'|'tiktok'){
  const bytes=await readFile(bundlePath);if(!/^[a-f0-9]{64}$/.test(approvedDigest)||createHash('sha256').update(bytes).digest('hex')!==approvedDigest)throw Error('Exact reviewed bundle SHA256 required');
