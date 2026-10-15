@@ -1,3 +1,11 @@
+# youtube-autopilot
+
+Canal bíblico ilustrado producido en la nube. Guía actual de reparto entre GitHub, Supabase y distribución social: [cloud-and-social-setup](docs/recommendations/cloud-and-social-setup.md). Presentación para replicar el método con un canal propio: [fuentes y generación](docs/presentations/README.md).
+
+El episodio `bible-angels-001` conserva su narración completa aprobada de 9:43; imágenes, render y QA final siguen pendientes. La portada es del propietario. No se ha habilitado publicación en TikTok/Instagram. `cloud-connections` es un diagnóstico de solo lectura; no equivale a un publicador conectado. La prueba SmolVLM2 no reemplaza el QA vigente.
+
+Los apartados siguientes conservan hitos anteriores del desarrollo. Para decisiones vigentes, consultar AGENTS.md y las guías actuales enlazadas arriba.
+
 Production validation freezes the existing architecture. `final-style-review` performs only the owner-authorized additional source-02 correction and source-01 reassessment, preserves approved 03/04, and uploads STYLE-PREVIEW-FINAL.jpg with a draft channel-art-direction.json. Subjective Gemini scores are advisory; objective anatomy, historical/prop/style/readability defects and corrupted/wrong-sized files still block acceptance. The draft is not an active human approval. The 90-second production test starts only after the owner approves the final four-frame preview. Existing 30-thumbnail public evidence is frozen under data/benchmarks/initial-packaging; production generates topic-specific direction from this dataset without repeatedly rediscovering competitors. Packaging DNA remains permanent owner policy. Target 24-32 visual beats can reuse 8-12 illustrations through progressive reveals and camera/editorial changes; no consecutive identical completed frames. No new visual version, provider or benchmark layer. AUTO_PUBLISH=false; paid API cost $0.
 
 ### Current milestone: v4.3 selective style review and packaging v2

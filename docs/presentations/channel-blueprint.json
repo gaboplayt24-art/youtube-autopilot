@@ -1,0 +1,403 @@
+{
+  "title": "De una idea a un canal en la nube",
+  "date": "15 de octubre de 2026",
+  "language": "es",
+  "recipient": "Un nuevo canal bíblico ilustrado, similar al nuestro, con identidad propia",
+  "slides": [
+    {
+      "kicker": "GUÍA PARA CREAR UN CANAL SIMILAR",
+      "title": "De una idea\na un canal\nen la nube",
+      "subtitle": "Historias y curiosidades de la Biblia, ilustradas y producidas con un sistema propio.",
+      "layout": "cover",
+      "dark": true,
+      "image": "eli",
+      "takeaway": "Un estudio de contenido. Sin una computadora encendida todo el día.",
+      "notes": "Esta presentación explica el proyecto real youtube-autopilot y cómo adaptarlo para un nuevo canal bíblico. Es una guía para tomar decisiones y replicar el método, no una promesa de ingresos ni una integración que ya esté conectada a todas las redes. El nuevo canal necesita marca, cuentas, personaje y autorizaciones propios."
+    },
+    {
+      "kicker": "01 / EL CONCEPTO",
+      "title": "Contenido original, con una identidad clara",
+      "subtitle": "El canal de ella puede partir del mismo método y desarrollar su propia voz visual.",
+      "layout": "cards",
+      "cards": [
+        {
+          "title": "Historias bíblicas",
+          "body": "Relatos, lugares, costumbres y símbolos, explicados con fuentes y contexto."
+        },
+        {
+          "title": "Ilustración propia",
+          "body": "Un personaje reconocible, imágenes originales y montaje ligado a la narración."
+        },
+        {
+          "title": "Una comunidad",
+          "body": "YouTube como biblioteca; clips verticales para descubrir cada episodio."
+        }
+      ],
+      "takeaway": "Replicar el sistema; crear una marca y unas historias propias.",
+      "notes": "Nuestro canal pasó de historia general a curiosidades e historia bíblica. Para ella sugerimos una orientación similar, sin copiar guiones, personajes o miniaturas. El flujo actual empieza en inglés; otro idioma requiere elegir y aprobar su narrador."
+    },
+    {
+      "kicker": "02 / LO QUE YA CONSTRUIMOS",
+      "title": "La base técnica ya existe",
+      "subtitle": "Hay módulos funcionales y pruebas reales en la nube.",
+      "layout": "metrics",
+      "metrics": [
+        {
+          "value": "Nube",
+          "label": "GitHub Actions",
+          "body": "El ordenador del dueño puede estar apagado."
+        },
+        {
+          "value": "v5",
+          "label": "Arte ilustrado",
+          "body": "Eli es el personaje aprobado de nuestro canal."
+        },
+        {
+          "value": "1080p",
+          "label": "Remotion + FFmpeg",
+          "body": "Render y audio con controles de calidad."
+        },
+        {
+          "value": "YouTube",
+          "label": "Flujo validado",
+          "body": "El propietario ya subió los primeros videos."
+        }
+      ],
+      "takeaway": "El episodio nuevo de ángeles aún está en producción; no es un MP4 final aprobado.",
+      "notes": "El sistema tiene investigación, guion, fact checking, voz, transcripción, planos, imágenes, montaje, mezcla, QA y publicador de YouTube. El propietario indicó que ya publicó videos. No estamos afirmando que el episodio de ángeles haya terminado: su narración está lista, pero quedan imágenes, render y revisión."
+    },
+    {
+      "kicker": "03 / EL RECORRIDO",
+      "title": "Cada video avanza por etapas",
+      "subtitle": "Un fallo no debe obligar a comenzar todo otra vez.",
+      "layout": "flow",
+      "dark": true,
+      "cards": [
+        {
+          "title": "Investigar",
+          "body": "Tema → fuentes → idea → título → guion original."
+        },
+        {
+          "title": "Producir",
+          "body": "Voz → transcripción → planos → imágenes."
+        },
+        {
+          "title": "Montar",
+          "body": "Movimiento → subtítulos → música → render → QA."
+        },
+        {
+          "title": "Distribuir",
+          "body": "Portada → aprobación → publicación → análisis."
+        }
+      ],
+      "takeaway": "Cada ejecución tiene ID, registros y checkpoints para reanudar.",
+      "notes": "La arquitectura usa TypeScript, Node.js y GitHub Actions, con datos JSON validados entre etapas. Los resultados válidos se conservan. Si falla una ilustración o una cuota, se retoma desde el punto guardado sin rehacer la voz ni todo el episodio."
+    },
+    {
+      "kicker": "04 / EDICIÓN AUDIO-FIRST",
+      "title": "Primero se escucha. Después se edita.",
+      "subtitle": "Los cortes parten de palabras y frases medidas en el audio real.",
+      "layout": "split",
+      "image": "reader",
+      "cards": [
+        {
+          "title": "Narración como guía",
+          "body": "TTS aprobado y transcripción local con timestamps reales."
+        },
+        {
+          "title": "Planos con propósito",
+          "body": "Cada frase importante se vincula con una ilustración o explicación."
+        }
+      ],
+      "takeaway": "Zoom, paneo, rótulos y subtítulos ayudan a explicar; no reemplazan el contenido.",
+      "notes": "La voz aprobada actual es Chatterbox Nano. Conservamos WAV, ASR y métricas de inteligibilidad. Los nombres y números críticos siguen controles específicos; no se inventan timestamps. El movimiento actual se aplica al arte y a los overlays: no estamos prometiendo animación independiente de cada brazo o personaje."
+    },
+    {
+      "kicker": "05 / DIRECCIÓN VISUAL",
+      "title": "La identidad se reconoce en cada plano",
+      "subtitle": "Este es Eli, el personaje original aprobado de nuestro proyecto.",
+      "layout": "split",
+      "image": "eli",
+      "cards": [
+        {
+          "title": "Un lenguaje ilustrado",
+          "body": "Contornos oscuros, colores planos y expresiones simples."
+        },
+        {
+          "title": "Contexto histórico",
+          "body": "Vestuario, objetos y arquitectura acordes al pasaje."
+        }
+      ],
+      "takeaway": "Para ella: personaje y marca propios, aprobados antes de escalar.",
+      "notes": "El arte principal lo genera Cloudflare FLUX.2 Klein con una referencia real aprobada. Remotion anima el arte y agrega edición; no dibuja personas geométricas como reemplazo. Cada nuevo canal debe aprobar su identidad y narrador. No copiar imágenes, composiciones ni guiones de competidores."
+    },
+    {
+      "kicker": "06 / LA CALIDAD NO ES OPCIONAL",
+      "title": "Una imagen bonita también puede estar mal",
+      "subtitle": "Ejemplos reales detectados durante nuestra producción.",
+      "layout": "compare",
+      "dark": true,
+      "images": [
+        {
+          "id": "wings",
+          "title": "Alas: el dibujo debe respetar el texto",
+          "body": "Aquí hay 2 alas visibles; no representa un serafín completo de 6."
+        },
+        {
+          "id": "shirt",
+          "title": "La ropa también cuenta la historia",
+          "body": "Un cuello de camisa moderno no corresponde a esta escena antigua."
+        }
+      ],
+      "takeaway": "Los errores de hechos, anatomía, audio o derechos bloquean la publicación.",
+      "notes": "Conservamos tanto las imágenes rechazadas como el QA original. El PASS automático no basta: también inspeccionamos los píxeles. SmolVLM2-500M se probó como alternativa gratuita: acertó 4 de 8 casos y no se aprobó como juez final. No bajamos la calidad para acelerar el proceso."
+    },
+    {
+      "kicker": "07 / LA NUBE BIEN REPARTIDA",
+      "title": "Cada herramienta hace un trabajo distinto",
+      "subtitle": "Propuesta para aliviar el almacenamiento y preparar la distribución.",
+      "layout": "table",
+      "rows": [
+        {
+          "left": "GitHub Actions",
+          "right": "Ejecuta TTS, validaciones y render. Código y automatizaciones."
+        },
+        {
+          "left": "Supabase",
+          "right": "Estados, metadatos y clips públicos aprobados de menos de 45 MB."
+        },
+        {
+          "left": "Release privado",
+          "right": "Masters largos, WAV y evidencia grande del proyecto."
+        },
+        {
+          "left": "Zernio",
+          "right": "Conexión y cola de TikTok e Instagram, pendiente de configurar."
+        }
+      ],
+      "takeaway": "Supabase no reemplaza la CPU de render ni aumenta la cuota de Gemini.",
+      "notes": "El código ya incluye almacenamiento de JSON en Supabase, condicionado a su configuración. No se ha demostrado aquí que esté conectado. Ya usamos Releases privados para evitar la cuota agotada de artifacts de Actions. Esta propuesta separa el master largo de los clips pequeños para distribución."
+    },
+    {
+      "kicker": "08 / LÍMITES REALES",
+      "title": "Planes gratuitos, con presupuesto y margen",
+      "subtitle": "Son cuotas anunciadas; no son una lectura del consumo actual de las cuentas.",
+      "layout": "cards",
+      "cards": [
+        {
+          "title": "Supabase Free",
+          "body": "1 GB de archivos, 500 MB de DB y máximo 50 MB por archivo."
+        },
+        {
+          "title": "Zernio: dos cuentas gratis",
+          "body": "TikTok + Instagram. YouTube mantiene el publicador actual."
+        },
+        {
+          "title": "GitHub + Gemini",
+          "body": "Minutos, artifacts y solicitudes tienen cuotas independientes."
+        }
+      ],
+      "takeaway": "Reutilizar lo válido, medir tamaños y pausar antes de superar límites.",
+      "notes": "Supabase anuncia 5 GB de egress y 5 GB cacheado; puede pausar proyectos inactivos. Zernio anuncia dos cuentas gratuitas sin tarjeta; cuentas adicionales y otros servicios pueden generar cargos. No conectar YouTube de nuevo ni activar servicios de pago."
+    },
+    {
+      "kicker": "09 / UNA HISTORIA, VARIOS FORMATOS",
+      "title": "Del video largo a los clips que se entienden solos",
+      "subtitle": "Cada clip necesita un inicio claro, una idea completa y un cierre con contexto.",
+      "layout": "flow",
+      "dark": true,
+      "cards": [
+        {
+          "title": "YouTube",
+          "body": "Episodio completo, fuentes, portada y revisión final."
+        },
+        {
+          "title": "Shorts",
+          "body": "Fragmento vertical 9:16, reencuadre y subtítulos."
+        },
+        {
+          "title": "TikTok",
+          "body": "Texto adaptado y cuenta de destino verificada."
+        },
+        {
+          "title": "Reels",
+          "body": "Versión compatible y música con licencia válida."
+        }
+      ],
+      "takeaway": "Propuesta: los clips todavía deben producirse, revisarse y conectarse al publicador.",
+      "notes": "No basta recortar el centro del video: los sujetos y textos deben leerse en vertical. Se usan timestamps reales y frases completas. Una pista autorizada para YouTube no tiene por qué estar licenciada para otras redes. Mediremos retención y visitas al canal; no prometemos viralidad."
+    },
+    {
+      "kicker": "10 / API Y MCP",
+      "title": "Automatizar y conversar son accesos distintos",
+      "subtitle": "Los dos necesitan autorización real de las cuentas.",
+      "layout": "cards",
+      "cards": [
+        {
+          "title": "API en Actions",
+          "body": "La automatización trabaja en la nube sin depender del chat abierto."
+        },
+        {
+          "title": "MCP opcional",
+          "body": "Permite consultar y controlar Zernio desde un asistente compatible."
+        },
+        {
+          "title": "OAuth + Secrets",
+          "body": "La dueña conecta sus redes. Las claves se guardan solo en GitHub."
+        }
+      ],
+      "takeaway": "Recomendación: API primero. No hace falta dar los dos accesos.",
+      "notes": "MCP oficial: https://mcp.zernio.com/mcp, OAuth o API key. Actions usa ZERNIO_API_KEY desde GitHub Secrets. Conectar las redes requiere consentimiento del propietario. No se ha activado aún un publicador social."
+    },
+    {
+      "kicker": "11 / EL ARCHIVO QUE VA A PUBLICARSE",
+      "title": "Zernio puede recibir directamente el clip",
+      "subtitle": "Supabase no necesita alojar los videos sociales para este flujo.",
+      "layout": "flow",
+      "cards": [
+        {
+          "title": "Aprobar",
+          "body": "Clip terminado, QA y derechos revisados."
+        },
+        {
+          "title": "Subir",
+          "body": "URL de carga firmada de Zernio; MP4 aprobado."
+        },
+        {
+          "title": "Preparar",
+          "body": "Asociar el archivo a un borrador y revisar destinos."
+        },
+        {
+          "title": "Confirmar",
+          "body": "Guardar ID remoto; reconciliar antes de reintentar."
+        }
+      ],
+      "takeaway": "Primero un borrador: sin publicación automática durante la conexión.",
+      "notes": "Zernio documenta presign, PUT y mediaItems. La URL de carga dura una hora; el archivo temporal dura siete días. Asociarlo a un post lo conserva; no asumir que un borrador expirado seguirá siendo publicable. Los archivos usan URL pública: subir solo clips aprobados para distribuir. El diagnóstico actual solo consulta cuentas; no sube archivos ni crea borradores."
+    },
+    {
+      "kicker": "12 / ECONOMÍA DEL CANAL",
+      "title": "El coste se decide antes de generar",
+      "subtitle": "Empezar pequeño y ampliar solo lo que sostiene la producción.",
+      "layout": "cards",
+      "dark": true,
+      "cards": [
+        {
+          "title": "Nuestro caso",
+          "body": "Cloudflare tiene un límite aprobado de hasta US$8 al mes."
+        },
+        {
+          "title": "Su nuevo canal",
+          "body": "Presupuesto propio. Elegir servicios y aprobar costes de forma explícita."
+        },
+        {
+          "title": "Apoyo opcional",
+          "body": "Un enlace voluntario verificado; membresías cuando haya elegibilidad."
+        }
+      ],
+      "takeaway": "Los planes gratuitos no garantizan capacidad ilimitada ni ingresos.",
+      "notes": "En nuestro proyecto Cloudflare Workers Paid tiene una base de US$5 y hasta US$3 de overflow reservado. Son límites, no una factura medida ni un coste obligatorio para toda idea de canal. Otros proveedores siguen free-only. Mantener episodios y fuentes gratuitos; no prometer ingresos ni beneficios espirituales por pagar."
+    },
+    {
+      "kicker": "13 / ESTADO HONESTO DEL PROYECTO",
+      "title": "Qué está listo y qué todavía falta",
+      "subtitle": "El nuevo episodio sobre ángeles continúa en producción.",
+      "layout": "cards",
+      "cards": [
+        {
+          "title": "Listo",
+          "body": "Narración completa de 9:43, con evidencia y QA de voz."
+        },
+        {
+          "title": "Pendiente",
+          "body": "Terminar arte válido, render y revisión audiovisual. Portada del dueño."
+        },
+        {
+          "title": "Por conectar",
+          "body": "Supabase y Zernio deben verificarse. No hay posts nuevos en TikTok o IG."
+        }
+      ],
+      "takeaway": "El test de SmolVLM2 fue real, pero 4/8 no alcanza para reemplazar el QA.",
+      "notes": "El propietario aprobó la pronunciación de seraphim en un fragmento concreto. La corrección queda ligada al hash de ese audio, no a toda futura narración. No hay final.mp4 nuevo aprobado ni subida del episodio actual. Las redes necesitan cuentas verificadas, archivo aprobado y permisos antes de enviar contenido."
+    },
+    {
+      "kicker": "14 / CÓMO ARMAR EL DE ELLA",
+      "title": "Primero un piloto. Después una rutina.",
+      "subtitle": "Un canal bíblico similar, con decisiones y cuentas propias.",
+      "layout": "flow",
+      "dark": true,
+      "cards": [
+        {
+          "title": "Identidad",
+          "body": "Elegir enfoque, nombre, idioma, personaje y narrador."
+        },
+        {
+          "title": "Preparación",
+          "body": "Repo privado, fuentes y cuentas. Secrets en Actions."
+        },
+        {
+          "title": "Piloto",
+          "body": "Un video corto revisado antes de producir episodios largos."
+        },
+        {
+          "title": "Rutina",
+          "body": "Un episodio → clips → publicación → análisis → mejoras."
+        }
+      ],
+      "takeaway": "El método se comparte; los guiones, el arte y la marca son originales.",
+      "notes": "Usar nuestro proyecto como base técnica. No mezclar tokens, estadísticas, calendarios ni destinos de dos canales. Empezar con un piloto de unos 60–90 segundos, revisar voz/estilo y corregir antes de invertir en minutos largos. No se aprueba automáticamente otra voz o estilo por reutilizar el código."
+    },
+    {
+      "kicker": "15 / EL PRÓXIMO PASO",
+      "title": "Conectar, revisar y publicar con control",
+      "subtitle": "La presentación es una guía; las conexiones se verifican en Actions.",
+      "layout": "cards",
+      "cards": [
+        {
+          "title": "1. Configurar",
+          "body": "Supabase Free y dos cuentas Zernio. Autorizar TikTok e Instagram."
+        },
+        {
+          "title": "2. Verificar",
+          "body": "Workflow cloud-connections: inventario y luego consultas de solo lectura."
+        },
+        {
+          "title": "3. Primer envío",
+          "body": "Un clip aprobado, un borrador y destinos revisados antes de publicar."
+        }
+      ],
+      "takeaway": "Código y fuentes: github.com/gaboplayt24-art/youtube-autopilot",
+      "notes": "La integración no puede listar Secrets por su permiso actual. El workflow comprueba su presencia sin mostrar valores y luego valida lecturas si se elige verify_live=true. Preparar un borrador y probar el transporte antes de activar publicación. Ver docs/recommendations/cloud-and-social-setup.md para pasos y enlaces oficiales."
+    }
+  ],
+  "sources": [
+    {
+      "label": "Supabase: planes y cuotas",
+      "url": "https://supabase.com/pricing"
+    },
+    {
+      "label": "Supabase: límite de archivos",
+      "url": "https://supabase.com/docs/guides/storage/uploads/file-limits"
+    },
+    {
+      "label": "Proyecto privado",
+      "url": "https://github.com/gaboplayt24-art/youtube-autopilot"
+    },
+    {
+      "label": "Zernio: precios",
+      "url": "https://zernio.com/pricing"
+    },
+    {
+      "label": "Zernio: API y cuentas",
+      "url": "https://docs.zernio.com"
+    },
+    {
+      "label": "Zernio: media",
+      "url": "https://docs.zernio.com/guides/media-uploads"
+    },
+    {
+      "label": "Zernio: MCP",
+      "url": "https://docs.zernio.com/mcp"
+    }
+  ]
+}

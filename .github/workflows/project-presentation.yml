@@ -1,0 +1,61 @@
+name: project-presentation
+on:
+  workflow_dispatch:
+permissions:
+  contents: write
+  actions: read
+jobs:
+  presentation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      GH_TOKEN: ${{ github.token }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Presentation dependencies and fonts
+        timeout-minutes: 6
+        run: |
+          python -m pip install -r scripts/requirements-presentation.txt
+          if [ ! -f /usr/share/fonts/truetype/liberation2/LiberationSans-Regular.ttf ] && [ ! -f /usr/share/fonts/truetype/liberation/LiberationSans-Regular.ttf ]; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1
+            sudo timeout 180s apt-get install --no-install-recommends -y fonts-liberation
+          fi
+      - name: Require private repository and download existing illustration evidence
+        run: |
+          python -c "import os,runpy; runpy.run_path('scripts/github_checkpoints.py')['require_private'](os.environ['GITHUB_REPOSITORY'])"
+          mkdir -p .cache/presentation-input
+          gh release download pipeline-checkpoint-bible-angels-001 --repo "$GITHUB_REPOSITORY" --pattern smolvlm-cpu-38775699974-attempt-1.zip --dir .cache/presentation-input
+      - name: Build animated HTML, editable PowerPoint, PDF and preview
+        run: python scripts/build-channel-presentation.py --evidence-zip .cache/presentation-input/smolvlm-cpu-38775699974-attempt-1.zip
+      - name: Verify deliverables and publish private project guide
+        run: |
+          python - <<'PY'
+          import hashlib, json, os, runpy, shutil, zipfile
+          from pathlib import Path
+          from pptx import Presentation
+          root = Path('.cache/channel-presentation')
+          manifest = json.loads((root / 'manifest.json').read_text())
+          assert manifest['slides'] == 16
+          assert len(Presentation(root / 'Presentacion.pptx').slides) == 16
+          for entry in manifest['files']:
+              assert hashlib.sha256((root / entry['name']).read_bytes()).hexdigest() == entry['sha256']
+          with zipfile.ZipFile(root / 'Presentacion-Canal-Biblico.zip') as archive:
+              assert archive.testzip() is None
+          storage = runpy.run_path('scripts/github_checkpoints.py')
+          repo = os.environ['GITHUB_REPOSITORY']
+          tag = 'project-guide-2026-10-15'
+          storage['release'](repo, tag)
+          prefix = 'canal-biblico-' + os.environ['GITHUB_RUN_ID'] + '-attempt-' + os.environ['GITHUB_RUN_ATTEMPT']
+          files = {'Presentacion-Canal-Biblico.zip':'.zip', 'Presentacion.pptx':'.pptx', 'Guia.pdf':'.pdf', 'Vista-previa.jpg':'-preview.jpg', 'ABRIR-PRESENTACION.html':'-animada.html', 'manifest.json':'-manifest.json'}
+          links = []
+          for source, suffix in files.items():
+              target = root / (prefix + suffix)
+              shutil.copyfile(root / source, target)
+              storage['upload'](repo, tag, target)
+              links.append('- [' + target.name + '](https://github.com/' + repo + '/releases/download/' + tag + '/' + target.name + ')')
+          with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as summary:
+              summary.write('## Presentación del canal\n\n16 diapositivas. HTML animado offline, PowerPoint con transiciones, PDF y notas. No hay nuevas inferencias, conexiones o publicaciones sociales.\n\n' + '\n'.join(links))
+          PY

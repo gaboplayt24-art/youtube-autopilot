@@ -1,0 +1,33 @@
+name: cloud-connections
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        type: choice
+        options: [all, supabase, zernio]
+        default: all
+      verify_live:
+        description: Read-only API checks after configuration; never publishes
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  connection-status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Report configuration or validate read-only access
+        env:
+          CONNECTION_SERVICE: ${{ inputs.service }}
+          VERIFY_LIVE: ${{ inputs.verify_live }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+        run: npx tsx scripts/cloud-connections.ts
