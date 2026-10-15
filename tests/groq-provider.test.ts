@@ -16,7 +16,7 @@ async function fixture(fn:(dir:string,ledger:FreeQuotaLedger)=>Promise<void>){
 const reply=(value:unknown,finish_reason='stop')=>Response.json({model:GROQ_MODEL,choices:[{message:{content:JSON.stringify(value)},finish_reason}],usage:{prompt_tokens:100,completion_tokens:30}});
 test('Groq JSON/vision use the existing contracts, record distinct provenance and reuse only matching cache',()=>fixture(async(dir,ledger)=>{
  let calls=0;
- const request:typeof fetch=async(url,init)=>{calls++;assert.equal(String(url),'https://api.groq.com/openai/v1/chat/completions');assert.equal(init?.redirect,'error');const body=JSON.parse(String(init?.body));assert.equal(body.model,GROQ_MODEL);assert.equal(body.response_format.type,'json_object');assert.match(body.messages[1].content[0].text,/"required"/);assert.equal(body.messages[1].content[1].image_url.url,'data:image/png;base64,aW1hZ2U=');return reply({passed:false,issues:['wrong historical prop'],score:72});};
+ const request:typeof fetch=async(url,init)=>{calls++;assert.equal(String(url),'https://api.groq.com/openai/v1/chat/completions');assert.equal(init?.redirect,'error');const body=JSON.parse(String(init?.body));assert.equal(body.model,GROQ_MODEL);assert.equal(body.response_format.type,'json_object');assert.match(body.messages[1].content.at(-1).text,/"required"/);assert.equal(body.messages[1].content[1].image_url.url,'data:image/png;base64,aW1hZ2U=');return reply({passed:false,issues:['wrong historical prop'],score:72});};
  const shape=z.object({passed:z.boolean(),issues:z.array(z.string()),score:z.number().nullable()}),provider=new GroqProvider(request);
  const image=[{mimeType:'image/png',data:'aW1hZ2U='}];
  const first=await provider.images('Review actual source',image,shape);assert.equal(first.passed,false);
@@ -40,4 +40,10 @@ test('Groq requires attested Free plan, never changes model and stops after boun
 }));
 test('top-level array contracts are wrapped for JSON-object mode and unwrapped before validation',()=>fixture(async()=>{
  const provider=new GroqProvider(async()=>reply({result:['valid']}));assert.deepEqual(await provider.json('array result',z.array(z.string())),['valid']);
+}));
+
+test('multiple images have explicit ordinals followed by review instructions, preserving reference/candidate order',()=>fixture(async()=>{
+ const images=[{mimeType:'image/png',data:Buffer.from('reference').toString('base64')},{mimeType:'image/png',data:Buffer.from('candidate').toString('base64')}];
+ const provider=new GroqProvider(async(_url,init)=>{const content=JSON.parse(String(init?.body)).messages[1].content;assert.match(content[0].text,/IMAGE 1 of 2/);assert.equal(content[1].image_url.url,'data:image/png;base64,'+images[0].data);assert.match(content[2].text,/IMAGE 2 of 2/);assert.equal(content[3].image_url.url,'data:image/png;base64,'+images[1].data);assert.match(content.at(-1).text,/Inspect candidate image 2/);return reply({passed:true});});
+ assert.deepEqual(await provider.images('Inspect candidate image 2',images,z.object({passed:z.boolean()})),{passed:true});
 }));

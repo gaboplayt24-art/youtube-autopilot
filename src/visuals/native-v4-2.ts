@@ -31,6 +31,16 @@ export class VisualStyleEngine{
   const reviewName='native-'+stageId+'-density-QA-v4.3';const reviewPath=join(runner.dir,reviewName+'.json');
   // Repair only our obsolete None-as-human code decision; retain prior evidence and every objective gate.
   try{const previous=densityReview.parse(await read(reviewPath));if(!previous.passed&&!requiresHumanAssessment(idea)&&previous.scores.humanDesign===null&&previous.issues.includes('Required humans not assessed')&&acceptDensityReview(previous,0).passed){await copyFile(reviewPath,reviewPath+'.before-cast-sentinel-fix.json');await copyFile(join(runner.dir,reviewName+'.integrity.json'),reviewPath+'.before-cast-sentinel-fix.integrity.json');await rm(reviewPath);await rm(join(runner.dir,reviewName+'.integrity.json'));}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
-  const review=await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256)??await runner.stage(reviewName,densityReview,()=>reviewDensity(reference,source.path,idea,style,vision));const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:style.version==='round-head-v5'?'round-head-v5':'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});
+  let review=await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256);
+  if(!review){
+   // Keep valid prior decisions. Rejected Groq v1 comparisons can have described
+   // the reference sheet instead of the candidate; preserve them and run a new,
+   // hash-bound, numbered-image review. A new review may still reject the source.
+   let saved:z.infer<typeof densityReview>|undefined;
+   try{saved=densityReview.parse(await read(reviewPath));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
+   const name=process.env.LLM_PROVIDER==='groq'&&!saved?.passed?reviewName+'-groq-v2-'+source.sha256.slice(0,12):reviewName;
+   review=await runner.stage(name,densityReview,()=>reviewDensity(reference,source.path,idea,style,vision));
+  }
+  const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:style.version==='round-head-v5'?'round-head-v5':'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});
  }
 }
