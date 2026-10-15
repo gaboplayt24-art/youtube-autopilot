@@ -161,5 +161,15 @@
   "voiceReview": "docs/analysis/bible-angels-001-voice-review.md",
   "multiplatformRecommendation": "docs/recommendations/multiplatform-free.md",
   "voiceEvidenceDelivery": "data/research/bible-angels-001/voice-evidence-delivery.json",
-  "voiceHumanReview": "data/scripts/bible-angels-001-voice-asr-review.json"
+  "voiceHumanReview": "data/scripts/bible-angels-001-voice-asr-review.json",
+  "activeProductionAttempt": {
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38677085186",
+    "commit": "dcacece91f01d9afc1a686299c3b7e895b2e4c8d",
+    "sourceRunId": "38671014999",
+    "retryFrom": "critical-terms",
+    "statusAtDispatch": "in_progress",
+    "publish": false,
+    "ownerThumbnail": true
+  },
+  "shortsMeasuredCandidates": "data/ideas/bible-angels-001-shorts-candidates.json"
 }

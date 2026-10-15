@@ -1,0 +1,1215 @@
+{
+  "runId": "bible-angels-001",
+  "status": "editorial-candidates-only",
+  "publish": false,
+  "notes": "Chapter-WAV relative boundaries, not final MP4 times. Verify final frame-rounded narration offsets and portrait compositions after long-form render. Each export requires caption, audio, visual, licensing and factual QA. No separate TTS, provider call or video render performed.",
+  "candidates": [
+    {
+      "id": "A",
+      "part": 1,
+      "start": "The letter to the Hebrews",
+      "end": "alert the observer to their origin.",
+      "title": "Would You Recognize an Angel?",
+      "source": "Hebrews 13:1-3",
+      "status": "candidate-not-rendered",
+      "rawWavSha256": "826e7a43ba2bacec0c97e170376a62aa9fed6a8ec17fe756c17bbe328e1fad32",
+      "rawAsrSha256": "f9e765b23525b97e7f45640c24b41c91bb78ba66a0927ebb42903869be0b2ef1",
+      "startSeconds": 88.48,
+      "endSeconds": 119.58,
+      "durationSeconds": 31.1,
+      "narration": "The letter to the Hebrews explicitly encourages believers to continue in brotherly love and not to neglect the practice of hospitality. The author provides a specific rationale for this conduct, reminding readers not to forget to show kindness to strangers. The passage notes that by doing so, some have entertained angels without realizing it. This verse serves as a reflection on the nature of these encounters, suggesting that celestial visitors can appear in a form that does not immediately alert the observer to their origin.",
+      "timingBasis": "Existing local Whisper measurements; complete measured units only, no interpolated word boundaries",
+      "measuredUnits": [
+        {
+          "text": "The",
+          "start": 88.48,
+          "end": 88.74
+        },
+        {
+          "text": "letter",
+          "start": 88.74,
+          "end": 88.9
+        },
+        {
+          "text": "to",
+          "start": 88.9,
+          "end": 89.14
+        },
+        {
+          "text": "the",
+          "start": 89.14,
+          "end": 89.28
+        },
+        {
+          "text": "Hebrews",
+          "start": 89.28,
+          "end": 89.7
+        },
+        {
+          "text": "explicitly",
+          "start": 89.7,
+          "end": 90.32
+        },
+        {
+          "text": "encourages",
+          "start": 90.32,
+          "end": 91.14
+        },
+        {
+          "text": "believers",
+          "start": 91.14,
+          "end": 91.6
+        },
+        {
+          "text": "to",
+          "start": 91.6,
+          "end": 91.92
+        },
+        {
+          "text": "continue",
+          "start": 91.92,
+          "end": 92.32
+        },
+        {
+          "text": "in",
+          "start": 92.32,
+          "end": 92.54
+        },
+        {
+          "text": "brotherly",
+          "start": 92.54,
+          "end": 92.92
+        },
+        {
+          "text": "love",
+          "start": 92.92,
+          "end": 93.18
+        },
+        {
+          "text": "and",
+          "start": 93.18,
+          "end": 93.82
+        },
+        {
+          "text": "not",
+          "start": 93.82,
+          "end": 94.04
+        },
+        {
+          "text": "to",
+          "start": 94.04,
+          "end": 94.22
+        },
+        {
+          "text": "neglect",
+          "start": 94.22,
+          "end": 94.46
+        },
+        {
+          "text": "the",
+          "start": 94.5,
+          "end": 94.76
+        },
+        {
+          "text": "practice",
+          "start": 94.76,
+          "end": 95.06
+        },
+        {
+          "text": "of",
+          "start": 95.06,
+          "end": 95.3
+        },
+        {
+          "text": "hospitality.",
+          "start": 95.3,
+          "end": 95.84
+        },
+        {
+          "text": "The",
+          "start": 96.54,
+          "end": 96.76
+        },
+        {
+          "text": "author",
+          "start": 96.76,
+          "end": 96.92
+        },
+        {
+          "text": "provides",
+          "start": 96.92,
+          "end": 97.52
+        },
+        {
+          "text": "a",
+          "start": 97.52,
+          "end": 97.68
+        },
+        {
+          "text": "specific",
+          "start": 97.68,
+          "end": 98.12
+        },
+        {
+          "text": "rationale",
+          "start": 98.12,
+          "end": 98.64
+        },
+        {
+          "text": "for",
+          "start": 98.64,
+          "end": 98.92
+        },
+        {
+          "text": "this",
+          "start": 98.92,
+          "end": 99.08
+        },
+        {
+          "text": "conduct,",
+          "start": 99.08,
+          "end": 99.58
+        },
+        {
+          "text": "reminding",
+          "start": 100.14,
+          "end": 100.56
+        },
+        {
+          "text": "readers",
+          "start": 100.56,
+          "end": 100.98
+        },
+        {
+          "text": "not",
+          "start": 100.98,
+          "end": 101.3
+        },
+        {
+          "text": "to",
+          "start": 101.3,
+          "end": 101.46
+        },
+        {
+          "text": "forget",
+          "start": 101.46,
+          "end": 101.7
+        },
+        {
+          "text": "to",
+          "start": 101.7,
+          "end": 101.92
+        },
+        {
+          "text": "show",
+          "start": 101.92,
+          "end": 102.2
+        },
+        {
+          "text": "kindness",
+          "start": 102.2,
+          "end": 102.66
+        },
+        {
+          "text": "to",
+          "start": 102.66,
+          "end": 103.06
+        },
+        {
+          "text": "strangers.",
+          "start": 103.06,
+          "end": 103.5
+        },
+        {
+          "text": "The",
+          "start": 104.24,
+          "end": 104.42
+        },
+        {
+          "text": "passage",
+          "start": 104.42,
+          "end": 104.66
+        },
+        {
+          "text": "notes",
+          "start": 104.66,
+          "end": 105.04
+        },
+        {
+          "text": "that",
+          "start": 105.04,
+          "end": 105.38
+        },
+        {
+          "text": "by",
+          "start": 105.38,
+          "end": 105.56
+        },
+        {
+          "text": "doing",
+          "start": 105.56,
+          "end": 105.8
+        },
+        {
+          "text": "so,",
+          "start": 105.8,
+          "end": 106.18
+        },
+        {
+          "text": "some",
+          "start": 106.52,
+          "end": 106.8
+        },
+        {
+          "text": "have",
+          "start": 106.8,
+          "end": 107.02
+        },
+        {
+          "text": "entertained",
+          "start": 107.02,
+          "end": 107.5
+        },
+        {
+          "text": "angels",
+          "start": 107.5,
+          "end": 108.02
+        },
+        {
+          "text": "without",
+          "start": 108.02,
+          "end": 108.42
+        },
+        {
+          "text": "realizing",
+          "start": 108.42,
+          "end": 108.9
+        },
+        {
+          "text": "it.",
+          "start": 108.9,
+          "end": 109.32
+        },
+        {
+          "text": "This",
+          "start": 109.66,
+          "end": 110
+        },
+        {
+          "text": "verse",
+          "start": 110,
+          "end": 110.24
+        },
+        {
+          "text": "serves",
+          "start": 110.24,
+          "end": 110.7
+        },
+        {
+          "text": "as",
+          "start": 110.7,
+          "end": 110.96
+        },
+        {
+          "text": "a",
+          "start": 110.96,
+          "end": 111.06
+        },
+        {
+          "text": "reflection",
+          "start": 111.06,
+          "end": 111.38
+        },
+        {
+          "text": "on",
+          "start": 111.38,
+          "end": 111.8
+        },
+        {
+          "text": "the",
+          "start": 111.8,
+          "end": 111.94
+        },
+        {
+          "text": "nature",
+          "start": 111.94,
+          "end": 112.12
+        },
+        {
+          "text": "of",
+          "start": 112.12,
+          "end": 112.4
+        },
+        {
+          "text": "these",
+          "start": 112.4,
+          "end": 112.56
+        },
+        {
+          "text": "encounters,",
+          "start": 112.56,
+          "end": 113.12
+        },
+        {
+          "text": "suggesting",
+          "start": 114.36,
+          "end": 114.6
+        },
+        {
+          "text": "that",
+          "start": 114.6,
+          "end": 114.74
+        },
+        {
+          "text": "celestial",
+          "start": 114.74,
+          "end": 115.18
+        },
+        {
+          "text": "visitors",
+          "start": 115.18,
+          "end": 115.58
+        },
+        {
+          "text": "can",
+          "start": 115.58,
+          "end": 115.88
+        },
+        {
+          "text": "appear",
+          "start": 115.88,
+          "end": 116.2
+        },
+        {
+          "text": "in",
+          "start": 116.2,
+          "end": 116.44
+        },
+        {
+          "text": "a",
+          "start": 116.44,
+          "end": 116.56
+        },
+        {
+          "text": "form",
+          "start": 116.56,
+          "end": 116.78
+        },
+        {
+          "text": "that",
+          "start": 116.78,
+          "end": 116.94
+        },
+        {
+          "text": "does",
+          "start": 116.94,
+          "end": 117.08
+        },
+        {
+          "text": "not",
+          "start": 117.08,
+          "end": 117.28
+        },
+        {
+          "text": "immediately",
+          "start": 117.28,
+          "end": 117.66
+        },
+        {
+          "text": "alert",
+          "start": 117.66,
+          "end": 118.08
+        },
+        {
+          "text": "the",
+          "start": 118.08,
+          "end": 118.28
+        },
+        {
+          "text": "observer",
+          "start": 118.28,
+          "end": 118.6
+        },
+        {
+          "text": "to",
+          "start": 118.6,
+          "end": 118.9
+        },
+        {
+          "text": "their",
+          "start": 118.9,
+          "end": 119.02
+        },
+        {
+          "text": "origin.",
+          "start": 119.02,
+          "end": 119.58
+        }
+      ],
+      "finalVideoCutVerified": false
+    },
+    {
+      "id": "B",
+      "part": 2,
+      "start": "In the sixth chapter of the book of Isaiah",
+      "end": "utilizing the final pair of wings for flight.",
+      "title": "Why These Biblical Beings Have Six Wings",
+      "source": "Isaiah 6:1-7",
+      "status": "candidate-not-rendered",
+      "rawWavSha256": "46de7b75ff0d195b88e7320015ace6ab317249ba17c730d9467ce5f979e5335f",
+      "rawAsrSha256": "5359573a3f5a5439dcc40532a8bc3787944cb988bacbe332082cffdc26cbf1ee",
+      "startSeconds": 0,
+      "endSeconds": 28.24,
+      "durationSeconds": 28.24,
+      "narration": "In the sixth chapter of the book of Isaiah, the prophet describes an intense vision of the throne room. He records the presence of beings identified as seraphims standing above the throne. The text specifies their unique appearance, stating that each of these figures possesses six wings. Their arrangement is described with precision: they use two wings to cover their faces, and another two to cover their feet, utilizing the final pair of wings for flight.",
+      "timingBasis": "Existing local Whisper measurements; complete measured units only, no interpolated word boundaries",
+      "measuredUnits": [
+        {
+          "text": "In",
+          "start": 0,
+          "end": 0.24
+        },
+        {
+          "text": "the",
+          "start": 0.24,
+          "end": 0.34
+        },
+        {
+          "text": "sixth",
+          "start": 0.34,
+          "end": 0.56
+        },
+        {
+          "text": "chapter",
+          "start": 0.56,
+          "end": 1.08
+        },
+        {
+          "text": "of",
+          "start": 1.08,
+          "end": 1.72
+        },
+        {
+          "text": "the",
+          "start": 1.72,
+          "end": 1.82
+        },
+        {
+          "text": "book",
+          "start": 1.82,
+          "end": 1.94
+        },
+        {
+          "text": "of",
+          "start": 1.94,
+          "end": 2.12
+        },
+        {
+          "text": "Isaiah,",
+          "start": 2.12,
+          "end": 2.48
+        },
+        {
+          "text": "the",
+          "start": 3.2,
+          "end": 3.46
+        },
+        {
+          "text": "prophet",
+          "start": 3.46,
+          "end": 3.7
+        },
+        {
+          "text": "describes",
+          "start": 3.7,
+          "end": 4.2
+        },
+        {
+          "text": "an",
+          "start": 4.2,
+          "end": 4.44
+        },
+        {
+          "text": "intense",
+          "start": 4.44,
+          "end": 4.84
+        },
+        {
+          "text": "vision",
+          "start": 4.84,
+          "end": 5.16
+        },
+        {
+          "text": "of",
+          "start": 5.16,
+          "end": 5.4
+        },
+        {
+          "text": "the",
+          "start": 5.4,
+          "end": 5.56
+        },
+        {
+          "text": "throne",
+          "start": 5.56,
+          "end": 5.78
+        },
+        {
+          "text": "room.",
+          "start": 5.78,
+          "end": 6.1
+        },
+        {
+          "text": "He",
+          "start": 6.64,
+          "end": 6.78
+        },
+        {
+          "text": "records",
+          "start": 6.78,
+          "end": 7
+        },
+        {
+          "text": "the",
+          "start": 7,
+          "end": 7.42
+        },
+        {
+          "text": "presence",
+          "start": 7.42,
+          "end": 7.76
+        },
+        {
+          "text": "of",
+          "start": 7.76,
+          "end": 8.02
+        },
+        {
+          "text": "beings",
+          "start": 8.02,
+          "end": 8.24
+        },
+        {
+          "text": "identified",
+          "start": 8.24,
+          "end": 8.9
+        },
+        {
+          "text": "as",
+          "start": 8.9,
+          "end": 9.2
+        },
+        {
+          "text": "seraphims",
+          "start": 9.2,
+          "end": 9.66
+        },
+        {
+          "text": "standing",
+          "start": 9.66,
+          "end": 10.06
+        },
+        {
+          "text": "above",
+          "start": 10.06,
+          "end": 10.44
+        },
+        {
+          "text": "the",
+          "start": 10.44,
+          "end": 10.68
+        },
+        {
+          "text": "throne.",
+          "start": 10.68,
+          "end": 11.02
+        },
+        {
+          "text": "The",
+          "start": 11.62,
+          "end": 11.8
+        },
+        {
+          "text": "text",
+          "start": 11.8,
+          "end": 12.02
+        },
+        {
+          "text": "specifies",
+          "start": 12.02,
+          "end": 12.62
+        },
+        {
+          "text": "their",
+          "start": 12.62,
+          "end": 12.9
+        },
+        {
+          "text": "unique",
+          "start": 12.9,
+          "end": 13.22
+        },
+        {
+          "text": "appearance,",
+          "start": 13.22,
+          "end": 13.78
+        },
+        {
+          "text": "stating",
+          "start": 14.16,
+          "end": 14.54
+        },
+        {
+          "text": "that",
+          "start": 14.54,
+          "end": 14.86
+        },
+        {
+          "text": "each",
+          "start": 14.86,
+          "end": 15.12
+        },
+        {
+          "text": "of",
+          "start": 15.12,
+          "end": 15.32
+        },
+        {
+          "text": "these",
+          "start": 15.32,
+          "end": 15.54
+        },
+        {
+          "text": "figures",
+          "start": 15.54,
+          "end": 15.84
+        },
+        {
+          "text": "possesses",
+          "start": 15.84,
+          "end": 16.38
+        },
+        {
+          "text": "six",
+          "start": 16.38,
+          "end": 16.82
+        },
+        {
+          "text": "wings.",
+          "start": 16.82,
+          "end": 17.2
+        },
+        {
+          "text": "Their",
+          "start": 17.96,
+          "end": 18.3
+        },
+        {
+          "text": "arrangement",
+          "start": 18.3,
+          "end": 18.68
+        },
+        {
+          "text": "is",
+          "start": 18.68,
+          "end": 19.06
+        },
+        {
+          "text": "described",
+          "start": 19.06,
+          "end": 19.52
+        },
+        {
+          "text": "with",
+          "start": 19.52,
+          "end": 19.86
+        },
+        {
+          "text": "precision:",
+          "start": 19.86,
+          "end": 20.28
+        },
+        {
+          "text": "they",
+          "start": 20.88,
+          "end": 21.14
+        },
+        {
+          "text": "use",
+          "start": 21.14,
+          "end": 21.38
+        },
+        {
+          "text": "two",
+          "start": 21.38,
+          "end": 21.68
+        },
+        {
+          "text": "wings",
+          "start": 21.68,
+          "end": 21.98
+        },
+        {
+          "text": "to",
+          "start": 21.98,
+          "end": 22.22
+        },
+        {
+          "text": "cover",
+          "start": 22.22,
+          "end": 22.4
+        },
+        {
+          "text": "their",
+          "start": 22.4,
+          "end": 22.58
+        },
+        {
+          "text": "faces,",
+          "start": 22.58,
+          "end": 22.92
+        },
+        {
+          "text": "and",
+          "start": 23.44,
+          "end": 23.66
+        },
+        {
+          "text": "another",
+          "start": 23.66,
+          "end": 23.96
+        },
+        {
+          "text": "two",
+          "start": 23.96,
+          "end": 24.24
+        },
+        {
+          "text": "to",
+          "start": 24.24,
+          "end": 24.38
+        },
+        {
+          "text": "cover",
+          "start": 24.38,
+          "end": 24.58
+        },
+        {
+          "text": "their",
+          "start": 24.58,
+          "end": 24.76
+        },
+        {
+          "text": "feet,",
+          "start": 24.76,
+          "end": 25.16
+        },
+        {
+          "text": "utilizing",
+          "start": 25.76,
+          "end": 26.2
+        },
+        {
+          "text": "the",
+          "start": 26.2,
+          "end": 26.54
+        },
+        {
+          "text": "final",
+          "start": 26.54,
+          "end": 26.86
+        },
+        {
+          "text": "pair",
+          "start": 26.86,
+          "end": 27.1
+        },
+        {
+          "text": "of",
+          "start": 27.1,
+          "end": 27.3
+        },
+        {
+          "text": "wings",
+          "start": 27.3,
+          "end": 27.56
+        },
+        {
+          "text": "for",
+          "start": 27.56,
+          "end": 27.86
+        },
+        {
+          "text": "flight.",
+          "start": 27.86,
+          "end": 28.24
+        }
+      ],
+      "finalVideoCutVerified": false
+    },
+    {
+      "id": "C",
+      "part": 2,
+      "start": "the book of Ezekiel details a different visionary experience.",
+      "end": "bordered with rims full of eyes.",
+      "title": "The Wheels Full of Eyes in Ezekiel",
+      "source": "Ezekiel 1:4-21",
+      "status": "candidate-not-rendered",
+      "rawWavSha256": "46de7b75ff0d195b88e7320015ace6ab317249ba17c730d9467ce5f979e5335f",
+      "rawAsrSha256": "5359573a3f5a5439dcc40532a8bc3787944cb988bacbe332082cffdc26cbf1ee",
+      "startSeconds": 50.74,
+      "endSeconds": 77.46,
+      "durationSeconds": 26.72,
+      "narration": "the book of Ezekiel details a different visionary experience. The first chapter describes four living creatures, each exhibiting four faces—the likeness of a man, a lion, an ox, and an eagle—alongside four wings. These creatures are not presented in isolation; they are accompanied by complex wheels that stand beside them. The prophet notes that these wheels are of a great height and are bordered with rims full of eyes.",
+      "timingBasis": "Existing local Whisper measurements; complete measured units only, no interpolated word boundaries",
+      "measuredUnits": [
+        {
+          "text": "the",
+          "start": 50.74,
+          "end": 50.76
+        },
+        {
+          "text": "book",
+          "start": 50.76,
+          "end": 50.9
+        },
+        {
+          "text": "of",
+          "start": 50.9,
+          "end": 51.04
+        },
+        {
+          "text": "Ezekiel",
+          "start": 51.04,
+          "end": 51.26
+        },
+        {
+          "text": "details",
+          "start": 51.26,
+          "end": 51.8
+        },
+        {
+          "text": "a",
+          "start": 51.8,
+          "end": 52.04
+        },
+        {
+          "text": "different",
+          "start": 52.04,
+          "end": 52.34
+        },
+        {
+          "text": "visionary",
+          "start": 52.34,
+          "end": 52.74
+        },
+        {
+          "text": "experience.",
+          "start": 52.74,
+          "end": 53.48
+        },
+        {
+          "text": "The",
+          "start": 54.12,
+          "end": 54.32
+        },
+        {
+          "text": "first",
+          "start": 54.32,
+          "end": 54.56
+        },
+        {
+          "text": "chapter",
+          "start": 54.56,
+          "end": 54.98
+        },
+        {
+          "text": "describes",
+          "start": 54.98,
+          "end": 55.42
+        },
+        {
+          "text": "four",
+          "start": 55.42,
+          "end": 55.84
+        },
+        {
+          "text": "living",
+          "start": 55.84,
+          "end": 56.2
+        },
+        {
+          "text": "creatures,",
+          "start": 56.2,
+          "end": 56.7
+        },
+        {
+          "text": "each",
+          "start": 57.28,
+          "end": 57.44
+        },
+        {
+          "text": "exhibiting",
+          "start": 57.44,
+          "end": 57.88
+        },
+        {
+          "text": "four",
+          "start": 57.88,
+          "end": 58.4
+        },
+        {
+          "text": "faces—the",
+          "start": 58.4,
+          "end": 59.12
+        },
+        {
+          "text": "likeness",
+          "start": 59.12,
+          "end": 59.36
+        },
+        {
+          "text": "of",
+          "start": 59.36,
+          "end": 59.64
+        },
+        {
+          "text": "a",
+          "start": 59.64,
+          "end": 59.76
+        },
+        {
+          "text": "man,",
+          "start": 59.76,
+          "end": 60.02
+        },
+        {
+          "text": "a",
+          "start": 60.5,
+          "end": 60.68
+        },
+        {
+          "text": "lion,",
+          "start": 60.68,
+          "end": 60.96
+        },
+        {
+          "text": "an",
+          "start": 61.4,
+          "end": 61.58
+        },
+        {
+          "text": "ox,",
+          "start": 61.58,
+          "end": 61.86
+        },
+        {
+          "text": "and",
+          "start": 62.26,
+          "end": 62.4
+        },
+        {
+          "text": "an",
+          "start": 62.4,
+          "end": 62.52
+        },
+        {
+          "text": "eagle—alongside",
+          "start": 62.52,
+          "end": 64.14
+        },
+        {
+          "text": "four",
+          "start": 64.14,
+          "end": 64.6
+        },
+        {
+          "text": "wings.",
+          "start": 64.6,
+          "end": 64.9
+        },
+        {
+          "text": "These",
+          "start": 65.64,
+          "end": 65.92
+        },
+        {
+          "text": "creatures",
+          "start": 65.92,
+          "end": 66.14
+        },
+        {
+          "text": "are",
+          "start": 66.14,
+          "end": 66.4
+        },
+        {
+          "text": "not",
+          "start": 66.4,
+          "end": 66.54
+        },
+        {
+          "text": "presented",
+          "start": 66.54,
+          "end": 66.86
+        },
+        {
+          "text": "in",
+          "start": 66.86,
+          "end": 67.14
+        },
+        {
+          "text": "isolation;",
+          "start": 67.14,
+          "end": 67.6
+        },
+        {
+          "text": "they",
+          "start": 68.1,
+          "end": 68.5
+        },
+        {
+          "text": "are",
+          "start": 68.5,
+          "end": 68.6
+        },
+        {
+          "text": "accompanied",
+          "start": 68.6,
+          "end": 68.86
+        },
+        {
+          "text": "by",
+          "start": 68.86,
+          "end": 69.24
+        },
+        {
+          "text": "complex",
+          "start": 69.24,
+          "end": 69.62
+        },
+        {
+          "text": "wheels",
+          "start": 69.62,
+          "end": 70.02
+        },
+        {
+          "text": "that",
+          "start": 70.02,
+          "end": 70.3
+        },
+        {
+          "text": "stand",
+          "start": 70.3,
+          "end": 70.6
+        },
+        {
+          "text": "beside",
+          "start": 70.6,
+          "end": 71.04
+        },
+        {
+          "text": "them.",
+          "start": 71.04,
+          "end": 71.32
+        },
+        {
+          "text": "The",
+          "start": 71.74,
+          "end": 71.96
+        },
+        {
+          "text": "prophet",
+          "start": 71.96,
+          "end": 72.24
+        },
+        {
+          "text": "notes",
+          "start": 72.24,
+          "end": 72.6
+        },
+        {
+          "text": "that",
+          "start": 72.6,
+          "end": 72.92
+        },
+        {
+          "text": "these",
+          "start": 72.92,
+          "end": 73.16
+        },
+        {
+          "text": "wheels",
+          "start": 73.16,
+          "end": 73.54
+        },
+        {
+          "text": "are",
+          "start": 73.54,
+          "end": 73.92
+        },
+        {
+          "text": "of",
+          "start": 73.92,
+          "end": 74.04
+        },
+        {
+          "text": "a",
+          "start": 74.04,
+          "end": 74.16
+        },
+        {
+          "text": "great",
+          "start": 74.16,
+          "end": 74.36
+        },
+        {
+          "text": "height",
+          "start": 74.36,
+          "end": 74.68
+        },
+        {
+          "text": "and",
+          "start": 75.12,
+          "end": 75.42
+        },
+        {
+          "text": "are",
+          "start": 75.42,
+          "end": 75.6
+        },
+        {
+          "text": "bordered",
+          "start": 75.6,
+          "end": 75.96
+        },
+        {
+          "text": "with",
+          "start": 75.96,
+          "end": 76.34
+        },
+        {
+          "text": "rims",
+          "start": 76.34,
+          "end": 76.72
+        },
+        {
+          "text": "full",
+          "start": 76.72,
+          "end": 77
+        },
+        {
+          "text": "of",
+          "start": 77,
+          "end": 77.16
+        },
+        {
+          "text": "eyes.",
+          "start": 77.16,
+          "end": 77.46
+        }
+      ],
+      "finalVideoCutVerified": false
+    }
+  ]
+}
