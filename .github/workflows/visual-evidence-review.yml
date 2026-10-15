@@ -9,6 +9,10 @@ on:
       source_run_id:
         type: string
         required: true
+      cached_only:
+        description: Export existing reviews and raw image evidence without any inference
+        type: boolean
+        default: false
       gemini_model:
         type: string
         default: gemini-3.1-flash-lite
@@ -26,7 +30,7 @@ jobs:
       GH_TOKEN: ${{ github.token }}
       RUN_ID: ${{ inputs.run_id }}
       SOURCE_RUN_ID: ${{ inputs.source_run_id }}
-      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      REVIEW_CACHED_ONLY: ${{ inputs.cached_only }}
       GEMINI_MODEL: ${{ inputs.gemini_model }}
       GEMINI_FREE_TIER_CONFIRMED: 'true'
       FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
@@ -53,8 +57,10 @@ jobs:
         run: python3 -c "import os,runpy; runpy.run_path('scripts/github_checkpoints.py')['require_private'](os.environ['GITHUB_REPOSITORY'])"
       - run: python3 scripts/restore-free-quota.py
       - run: python3 scripts/github_checkpoints.py restore
-      - name: Real Gemini review of existing images; no Cloudflare secret or generator
+      - name: Review or export existing images; no Cloudflare secret or generator
         timeout-minutes: 45
+        env:
+          GEMINI_API_KEY: ${{ inputs.cached_only == false && secrets.GEMINI_API_KEY || '' }}
         run: npx tsx src/visuals/review-existing.ts
       - name: Preserve original sources and separate review checkpoints
         if: always()
@@ -67,6 +73,27 @@ jobs:
         run: |
           if [ -f "data/runs/$RUN_ID/visual-evidence-review.json" ]; then
             cp "data/runs/$RUN_ID/visual-evidence-review.json" "visual-evidence-$GITHUB_RUN_ID.json"
-            gh release upload "pipeline-checkpoint-$RUN_ID" "visual-evidence-$GITHUB_RUN_ID.json" --repo "$GITHUB_REPOSITORY"
+            python3 - <<'PYCODE'
+          import json, os, zipfile
+          from pathlib import Path
+          root = Path('data/runs') / os.environ['RUN_ID']
+          summary = root / 'visual-evidence-review.json'
+          with zipfile.ZipFile('visual-evidence-' + os.environ['GITHUB_RUN_ID'] + '.zip', 'w', zipfile.ZIP_DEFLATED) as archive:
+              archive.write(summary, summary.name)
+              for page in root.glob('visual-evidence-*.jpg'):
+                  archive.write(page, page.name)
+              seen = set()
+              for row in json.loads(summary.read_text())['results']:
+                  for attempt in row['attempts']:
+                      source = Path(attempt['sourcePath'])
+                      source.resolve().relative_to(root.resolve())
+                      paths = [source, root / ('native-' + attempt['stageId'] + '-source.json')]
+                      paths += list(root.glob('native-' + attempt['stageId'] + '-*QA*.json'))
+                      for path in paths:
+                          if path not in seen:
+                              archive.write(path, ('sources/' if path == source else 'qa/') + path.name)
+                              seen.add(path)
+          PYCODE
+            gh release upload "pipeline-checkpoint-$RUN_ID" "visual-evidence-$GITHUB_RUN_ID.json" "visual-evidence-$GITHUB_RUN_ID.zip" --repo "$GITHUB_REPOSITORY"
             echo "Existing images reviewed. No images generated, no production video approved, no YouTube upload." >> "$GITHUB_STEP_SUMMARY"
           fi
