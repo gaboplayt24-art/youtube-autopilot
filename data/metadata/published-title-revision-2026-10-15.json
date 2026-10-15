@@ -1,0 +1,30 @@
+{
+  "channelId": "UCeEsE6SKD-yhk20rzZUBUDw",
+  "reason": "Owner asked to apply improved titles on 2026-10-15; concrete biblical subject plus curiosity, faithful to published subject and evidence. No thumbnail, privacy or scheduling changes.",
+  "videos": [
+    {
+      "videoId": "3ejDYtI6dFU",
+      "expectedTitle": "How Hezekiah Cut a River Through a Mountain",
+      "title": "How Did Two Teams Meet Inside Hezekiah’s Tunnel?",
+      "translations": {"es": "¿Cómo se encontraron dos equipos dentro del túnel de Ezequías?", "pt-BR": "Como duas equipes se encontraram dentro do túnel de Ezequias?"}
+    },
+    {
+      "videoId": "5V7vCGSViFM",
+      "expectedTitle": "Hidden for 2,000 Years: Who Hid the Dead Sea Scrolls?",
+      "title": "Who Hid the Dead Sea Scrolls 2,000 Years Ago?",
+      "translations": {"es": "¿Quién escondió los rollos del Mar Muerto hace 2.000 años?", "pt-BR": "Quem escondeu os Manuscritos do Mar Morto há 2.000 anos?"}
+    },
+    {
+      "videoId": "oZZ7jG45fL4",
+      "expectedTitle": "Tunneling in Darkness #Shorts",
+      "title": "Hezekiah’s Tunnel: Digging Through Solid Rock #Shorts",
+      "translations": {"es": "El túnel de Ezequías: excavando en roca sólida #Shorts", "pt-BR": "O túnel de Ezequias: escavando rocha maciça #Shorts"}
+    },
+    {
+      "videoId": "bNvYAMdICF4",
+      "expectedTitle": "Scribing the Desert #Shorts",
+      "title": "The Cave Discovery Behind the Dead Sea Scrolls #Shorts",
+      "translations": {"es": "La cueva donde descubrieron los rollos del Mar Muerto #Shorts", "pt-BR": "A caverna onde descobriram os Manuscritos do Mar Morto #Shorts"}
+    }
+  ]
+}
