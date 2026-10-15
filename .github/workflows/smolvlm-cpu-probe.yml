@@ -28,6 +28,13 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
+      - name: Media tools required by repository tests
+        timeout-minutes: 6
+        run: |
+          if ! command -v ffmpeg >/dev/null || [ ! -x /usr/bin/time ]; then
+            sudo timeout 120s apt-get update -o Acquire::Retries=1
+            sudo timeout 240s apt-get install --no-install-recommends -y ffmpeg time
+          fi
       - name: Validate without production secrets
         run: npm run lint && npm run typecheck && npm test
       - name: Require private repository
