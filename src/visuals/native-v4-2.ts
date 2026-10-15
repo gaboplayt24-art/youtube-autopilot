@@ -1,7 +1,7 @@
 import {z} from 'zod';
 import {copyFile,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {densityReview,reviewDensity,requiresHumanAssessment,acceptDensityReview} from './density-qa';
+import {densityReview,reviewDensity,requiresHumanAssessment,acceptDensityReview,existingNarrativeReview} from './density-qa';
 import {join} from 'node:path';
 import {CloudflareReferenceImageProvider,FLUX_REFERENCE_MODEL,KLEIN_PRODUCTION_SIZE,validateKleinNativeSize} from '../providers/cloudflare';
 import type {LLMProvider,VisionProvider} from '../providers/interfaces';
@@ -31,6 +31,6 @@ export class VisualStyleEngine{
   const reviewName='native-'+stageId+'-density-QA-v4.3';const reviewPath=join(runner.dir,reviewName+'.json');
   // Repair only our obsolete None-as-human code decision; retain prior evidence and every objective gate.
   try{const previous=densityReview.parse(await read(reviewPath));if(!previous.passed&&!requiresHumanAssessment(idea)&&previous.scores.humanDesign===null&&previous.issues.includes('Required humans not assessed')&&acceptDensityReview(previous,0).passed){await copyFile(reviewPath,reviewPath+'.before-cast-sentinel-fix.json');await copyFile(join(runner.dir,reviewName+'.integrity.json'),reviewPath+'.before-cast-sentinel-fix.integrity.json');await rm(reviewPath);await rm(join(runner.dir,reviewName+'.integrity.json'));}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
-  const review=await runner.stage(reviewName,densityReview,()=>reviewDensity(reference,source.path,idea,style,vision));const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:style.version==='round-head-v5'?'round-head-v5':'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});
+  const review=await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256)??await runner.stage(reviewName,densityReview,()=>reviewDensity(reference,source.path,idea,style,vision));const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:style.version==='round-head-v5'?'round-head-v5':'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});
  }
 }

@@ -1,0 +1,25 @@
+{
+  "runId": "bible-angels-001",
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38684114367",
+  "codeCommit": "10ee18a12255381927bf0a82a8943af4f7f9248c",
+  "conclusion": "failure: 60-minute illustration timeout",
+  "checkpointSaved": true,
+  "voiceRegenerated": false,
+  "newRawImageGenerations": 82,
+  "plannedShots": 89,
+  "machineAcceptedBeats": 21,
+  "rejectedBeatsWithImageReview": 38,
+  "unfinishedOrProviderRejectedBeats": 30,
+  "finalVideoGenerated": false,
+  "youtubeUploaded": false,
+  "cloudflareBudgetEstimate": {
+    "plan": "workers_paid",
+    "planFeeUsd": 5,
+    "monthlyCapUsd": 8,
+    "overflowBudgetUsd": 3,
+    "estimatedOverflowThisMonthUsd": 1.353792,
+    "ratePer1000NeuronsUsd": 0.011,
+    "note": "Estimate from conservative reservations at the published rate; not a vendor invoice. Unrelated account usage is not visible here."
+  },
+  "nextAction": "Actual Gemini re-review of existing bytes only, separate hash-bound evidence. No FLUX generation during re-review."
+}
