@@ -1,7 +1,7 @@
 import {z} from 'zod';
 import {copyFile,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {densityReview,reviewDensity,requiresHumanAssessment,acceptDensityReview,existingNarrativeReview} from './density-qa';
+import {densityReview,reviewDensity,requiresHumanAssessment,acceptDensityReview,existingNarrativeReview,minorStagingDecision,mayReviewMinorStaging,applyMinorStagingDecision,inspectMinorStaging,effectiveGroqReview,effectiveGroqReviewStage,existingEffectiveGroqReview} from './density-qa';
 import {join} from 'node:path';
 import {CloudflareReferenceImageProvider,FLUX_REFERENCE_MODEL,KLEIN_PRODUCTION_SIZE,validateKleinNativeSize} from '../providers/cloudflare';
 import type {LLMProvider,VisionProvider} from '../providers/interfaces';
@@ -31,7 +31,9 @@ export class VisualStyleEngine{
   const reviewName='native-'+stageId+'-density-QA-v4.3';const reviewPath=join(runner.dir,reviewName+'.json');
   // Repair only our obsolete None-as-human code decision; retain prior evidence and every objective gate.
   try{const previous=densityReview.parse(await read(reviewPath));if(!previous.passed&&!requiresHumanAssessment(idea)&&previous.scores.humanDesign===null&&previous.issues.includes('Required humans not assessed')&&acceptDensityReview(previous,0).passed){await copyFile(reviewPath,reviewPath+'.before-cast-sentinel-fix.json');await copyFile(join(runner.dir,reviewName+'.integrity.json'),reviewPath+'.before-cast-sentinel-fix.integrity.json');await rm(reviewPath);await rm(join(runner.dir,reviewName+'.integrity.json'));}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
-  let review=await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256);
+  const priorEffective=process.env.LLM_PROVIDER==='groq'?await existingEffectiveGroqReview(runner.dir,stageId,source.sha256,source.referenceSha256):null;
+  let groqUsed=false,minorStage:string|null=null;
+  let review=priorEffective?.review??await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256);
   if(!review){
    // Keep valid prior decisions. Rejected Groq v1 comparisons can have described
    // the reference sheet instead of the candidate; preserve them and run a new,
@@ -39,8 +41,17 @@ export class VisualStyleEngine{
    let saved:z.infer<typeof densityReview>|undefined;
    try{saved=densityReview.parse(await read(reviewPath));}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
    const name=process.env.LLM_PROVIDER==='groq'&&!saved?.passed?reviewName+'-groq-v2-'+source.sha256.slice(0,12):reviewName;
+   groqUsed=name!==reviewName;
    review=await runner.stage(name,densityReview,()=>reviewDensity(reference,source.path,idea,style,vision));
   }
+  const originalReview=review;
+  if(process.env.LLM_PROVIDER==='groq'&&mayReviewMinorStaging(review)){
+   groqUsed=true;minorStage='native-'+stageId+'-minor-staging-'+source.sha256.slice(0,12);
+   const priorReview=review;
+   const evidence=await runner.stage(minorStage,z.object({sourceSha256:z.literal(source.sha256),referenceSha256:z.literal(source.referenceSha256),decision:minorStagingDecision}),async()=>({sourceSha256:source.sha256,referenceSha256:source.referenceSha256,decision:await inspectMinorStaging(source.path,idea,priorReview,vision)}));
+   review=applyMinorStagingDecision(priorReview,evidence.decision,idea);
+  }
+  if(groqUsed){const result=review;review=(await runner.stage(effectiveGroqReviewStage(stageId,source.sha256),effectiveGroqReview,async()=>({policy:'groq-free-owner-minor-v1' as const,provider:'groq' as const,model:'qwen/qwen3.8-27b' as const,sourceSha256:source.sha256,referenceSha256:source.referenceSha256,review:result,originalReview,minorStagingStage:minorStage}))).review;}
   const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:style.version==='round-head-v5'?'round-head-v5':'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});
  }
 }

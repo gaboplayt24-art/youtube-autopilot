@@ -47,3 +47,10 @@ test('multiple images have explicit ordinals followed by review instructions, pr
  const provider=new GroqProvider(async(_url,init)=>{const content=JSON.parse(String(init?.body)).messages[1].content;assert.match(content[0].text,/IMAGE 1 of 2/);assert.equal(content[1].image_url.url,'data:image/png;base64,'+images[0].data);assert.match(content[2].text,/IMAGE 2 of 2/);assert.equal(content[3].image_url.url,'data:image/png;base64,'+images[1].data);assert.match(content.at(-1).text,/Inspect candidate image 2/);return reply({passed:true});});
  assert.deepEqual(await provider.images('Inspect candidate image 2',images,z.object({passed:z.boolean()})),{passed:true});
 }));
+
+test('token pacing replenishes gradually and reconciles actual usage instead of sleeping a full minute per image',()=>fixture(async()=>{
+ let now=Date.now();const waits:number[]=[];
+ const provider=new GroqProvider(async()=>Response.json({model:GROQ_MODEL,choices:[{message:{content:'{"ok":true}'},finish_reason:'stop'}],usage:{prompt_tokens:4000,completion_tokens:1000}}),async ms=>{waits.push(ms);now+=ms;},()=>now);
+ for(let i=0;i<3;i++)await provider.json('independent request '+i,z.object({ok:z.boolean()}));
+ assert.ok(waits.length>0);assert.ok(waits.every(ms=>ms>0&&ms<61000));
+}));
