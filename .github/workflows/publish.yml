@@ -10,6 +10,12 @@ on:
         description: GitHub Actions ID of the create-video or previous private-upload run
         type: string
         required: true
+      llm_provider:
+        type: string
+        default: gemini
+      groq_free_plan_confirmed:
+        type: boolean
+        default: false
       owner_applies_thumbnail:
         type: boolean
         default: false
@@ -29,6 +35,12 @@ on:
       source_run_id:
         type: string
         required: true
+      llm_provider:
+        type: string
+        default: gemini
+      groq_free_plan_confirmed:
+        type: boolean
+        default: false
       owner_applies_thumbnail:
         type: boolean
         default: false
@@ -58,6 +70,9 @@ jobs:
       PAID_FALLBACK_ENABLED: 'false'
       MAX_PAID_COST_USD: '0'
       FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      LLM_PROVIDER: ${{ inputs.llm_provider || 'gemini' }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GROQ_FREE_PLAN_CONFIRMED: ${{ inputs.groq_free_plan_confirmed }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.1-flash-lite' }}
       GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}

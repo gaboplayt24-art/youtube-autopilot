@@ -1,13 +1,15 @@
 {
   "enabled": true,
   "runId": "bible-angels-001",
-  "notBefore": "2026-10-16T00:15:00Z",
+  "notBefore": "2026-10-15T23:07:32Z",
   "expiresAt": "2026-10-22T23:59:59Z",
   "geminiModel": "gemini-3.1-flash-lite",
   "topic": "Why biblical angels look so different: messengers, Michael, Gabriel, and the visions of Isaiah and Ezekiel",
   "ownerThumbnail": true,
   "publish": false,
-  "note": "Owner requested completion, Shorts and TikTok scheduling on 2026-10-15. Daily bounded resume after free quota reset; one production attempt per UTC day, at most three attempts before review. Private upload after QA is authorized so the owner can apply the cover in Studio. Public scheduling still needs owner cover confirmation, full QA and concrete TikTok preview consent. Never increase provider budgets.",
+  "note": "Owner authorized Groq Free continuation on 2026-10-15, accepting minor residual visual errors. Preserve known-defect corrections, all technical/factual QA, approved narration and checkpoints. Private upload after QA for owner cover; public schedule still requires cover confirmation. Existing one attempt/day and three-attempt cap retained; no paid fallback.",
   "maxAttempts": 3,
-  "uploadPrivateForOwnerThumbnail": true
+  "uploadPrivateForOwnerThumbnail": true,
+  "llmProvider": "groq",
+  "groqFreePlanConfirmed": true
 }
