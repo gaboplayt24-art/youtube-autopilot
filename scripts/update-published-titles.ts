@@ -17,7 +17,14 @@ async function main(){
  const receipts=[];
  for(const [i,c] of plan.videos.entries()){
   const original=before.find(v=>v.id===c.videoId)!;const prepared=changes[i];
-  if(prepared.changed)await youtube.videos.update({part:['snippet',...(prepared.request.localizations?['localizations']:[])],requestBody:prepared.request},{headers:original.etag?{'If-Match':original.etag}:{}});
+  if(prepared.changed){
+   const parts=['snippet',...(prepared.request.localizations?['localizations']:[])];
+   // YouTube etags identify a particular representation: obtain one with the exact write parts.
+   const conditional=await youtube.videos.list({part:parts,id:[c.videoId]});const fresh=conditional.data.items?.[0];
+   if(!fresh?.etag||!isDeepStrictEqual(titleRevisionSnapshot([{...fresh,status:original.status}]),titleRevisionSnapshot([original])))throw Error('Metadata changed immediately before conditional update');
+   const etag=fresh.etag.startsWith('"')?fresh.etag:'"'+fresh.etag+'"';
+   await youtube.videos.update({part:parts,requestBody:prepared.request},{headers:{'If-Match':etag}});
+  }
   const result=await youtube.videos.list({part:['snippet','status','localizations'],id:[c.videoId]});const current=result.data.items?.[0];
   if(!current||current.snippet?.title!==c.title||!isDeepStrictEqual(metadataInvariant(current),metadataInvariant(original)))throw Error('Post-update verification failed; original backup preserved');
   for(const [lang,value] of Object.entries(prepared.request.localizations??{}))if(current.localizations?.[lang]?.title!==value.title)throw Error('Translated title verification failed');

@@ -114,8 +114,10 @@ class CheckpointTests(unittest.TestCase):
             root = Path(directory) / 'source'; root.mkdir()
             (root / 'final.mp4').write_bytes(b'video-unit-fixture')
             (root / 'upload.json').write_text('{"videoId":"unit-fixture"}')
+            (root / 'owner-cover-handoff.json').write_text('{"state":"awaiting_owner_cover_in_studio"}')
+            (root / 'owner-cover-confirmation.json').write_text('{"confirmedAt":"2026-10-15T20:00:00Z"}')
             _, manifest = store.pack(root, directory, 'episode', '123', '1', record_only=True)
-            self.assertEqual(manifest['files'], 1)
+            self.assertEqual(manifest['files'], 3)
             self.assertTrue(manifest['parts'][0]['name'].startswith('upload-'))
 
 

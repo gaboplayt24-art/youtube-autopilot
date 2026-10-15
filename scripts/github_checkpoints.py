@@ -81,7 +81,8 @@ def pack(root, directory, run_id, source_run_id, attempt, chunk_bytes=CHUNK_BYTE
     root, directory = Path(root), Path(directory)
     archive = directory / 'archive.zip'
     allowed = {'upload.json', 'qa-upload.json', 'schedule.json', 'youtube-thumbnail.json',
-               'localizations.json', 'youtube-localizations.json', 'events.jsonl', 'metadata.json'}
+               'localizations.json', 'youtube-localizations.json', 'events.jsonl', 'metadata.json',
+               'owner-cover-handoff.json', 'owner-cover-confirmation.json'}
     count = 0
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=4) as zipped:
         for path in sorted(root.rglob('*')):
