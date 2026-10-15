@@ -10,6 +10,10 @@ on:
         description: Read-only API checks after configuration; never publishes
         type: boolean
         default: false
+      include_public_handles:
+        description: Include public usernames for the owner-requested profile review
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -26,6 +30,7 @@ jobs:
       - name: Report configuration or validate read-only access
         env:
           CONNECTION_SERVICE: ${{ inputs.service }}
+          INCLUDE_PUBLIC_HANDLES: ${{ inputs.include_public_handles }}
           VERIFY_LIVE: ${{ inputs.verify_live }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

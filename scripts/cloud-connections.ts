@@ -7,7 +7,7 @@ import {json} from '../src/orchestration/io';
 const service=z.enum(['all','supabase','zernio']);
 export async function inspectCloudConnections(env:NodeJS.ProcessEnv=process.env,request:typeof fetch=fetch){
  const selected=service.parse(env.CONNECTION_SERVICE??'all'),live=env.VERIFY_LIVE==='true';
- const results:{service:string;credentialsPresent:boolean;status:string;httpStatus?:number;connectedChannels?:number;platforms?:string[]}[]=[];
+ const results:{service:string;credentialsPresent:boolean;status:string;httpStatus?:number;connectedChannels?:number;platforms?:string[];publicProfiles?:{platform:string;username:string}[]}[]=[];
  if(selected!=='zernio'){
   const present=Boolean(env.SUPABASE_URL&&env.SUPABASE_SERVICE_ROLE_KEY),row={service:'supabase',credentialsPresent:present,status:present?'configured-not-tested':'missing-configuration'};results.push(row);
   if(present&&live){
@@ -26,9 +26,10 @@ export async function inspectCloudConnections(env:NodeJS.ProcessEnv=process.env,
    const response=await request('https://zernio.com/api/v1/accounts',{redirect:'error',headers:{Authorization:'Bearer '+env.ZERNIO_API_KEY!},signal:AbortSignal.timeout(20000)});
    Object.assign(row,{httpStatus:response.status});
    if(!response.ok)throw Error('Account check failed');
-   const accounts=z.object({accounts:z.array(z.object({platform:z.string(),isActive:z.boolean().optional()}))}).parse(await response.json()).accounts;
+   const accounts=z.object({accounts:z.array(z.object({platform:z.string(),isActive:z.boolean().optional(),username:z.string().optional()}))}).parse(await response.json()).accounts;
    const platforms=accounts.filter(a=>a.isActive!==false).map(a=>a.platform);
    Object.assign(row,{connectedChannels:platforms.length,platforms:[...new Set(platforms)]});row.status=platforms.length?'channels-readable':'authenticated-no-channels';
+   if(env.INCLUDE_PUBLIC_HANDLES==='true')Object.assign(row,{publicProfiles:accounts.filter(a=>a.isActive!==false&&a.username&&/^@?[A-Za-z0-9._-]{1,80}$/.test(a.username)).map(a=>({platform:a.platform,username:a.username!}))});
   }catch{row.status='account-or-channel-check-failed';}
  }
  return {mode:'read-only',live,publishingReady:false,ready:live&&results.every(r=>['database-readable','channels-readable'].includes(r.status)),results};

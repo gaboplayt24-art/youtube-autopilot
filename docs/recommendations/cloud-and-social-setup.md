@@ -1,6 +1,6 @@
 # Próximos pasos: nube y distribución
 
-Estado al 15 de octubre de 2026. Propuesta concreta, sin servicios nuevos activados ni publicaciones sociales. La comprobación real de Zernio en Actions (38780374568) devolvió HTTP 200 y dos cuentas activas: TikTok y LinkedIn. Instagram no figura. Para mantener dos cuentas gratuitas, el propietario debe decidir si reemplaza LinkedIn antes de añadir Instagram; no desconectar cuentas automáticamente. Supabase aún no presenta configuración completa al workflow. La integración de Codex no puede listar Secrets/Variables (403); eso no demuestra que falten. El workflow manual `cloud-connections` comprueba presencia sin mostrar valores.
+Estado al 15 de octubre de 2026. El propietario sustituyó ZERNIO_API_KEY porque pertenecía a una cuenta equivocada. La comprobación vigente https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38782540299 devolvió HTTP 200 y **una cuenta TikTok activa**. Ignorar la anterior combinación TikTok/LinkedIn para este proyecto; no volver a usar su clave. Instagram no figura. La conexión permite leer cuentas, pero el publicador social aún no está implementado. Supabase no presentó configuración completa al último inventario (38780248105). El propietario indicó que añadió Ko-fi en la descripción; su URL exacta aún no ha sido confirmada ni se han editado descripciones desde este diagnóstico. Kit preparado: [TikTok](../social/tiktok-launch-kit.md).
 
 ## Separar cuatro límites
 

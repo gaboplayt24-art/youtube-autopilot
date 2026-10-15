@@ -27,3 +27,11 @@ test('invalid credentials and accounts without active destinations cannot imply 
  const inactive=await inspectCloudConnections(env,async()=>new Response(JSON.stringify({accounts:[{platform:'tiktok',isActive:false}]})));
  assert.equal(inactive.ready,false);assert.equal(inactive.publishingReady,false);assert.equal(inactive.results[0].status,'authenticated-no-channels');
 });
+
+test('profile review exposes only explicitly requested public handles, never tokens or account IDs',async()=>{
+ const request:typeof fetch=async()=>new Response(JSON.stringify({accounts:[{_id:'private-id',platform:'tiktok',username:'@example.bible',accessToken:'private-token',isActive:true}]}));
+ const env={VERIFY_LIVE:'true',CONNECTION_SERVICE:'zernio',ZERNIO_API_KEY:'mock-only'};
+ const hidden=await inspectCloudConnections(env,request);assert.equal(hidden.results[0].publicProfiles,undefined);
+ const shown=await inspectCloudConnections({...env,INCLUDE_PUBLIC_HANDLES:'true'},request);
+ assert.deepEqual(shown.results[0].publicProfiles,[{platform:'tiktok',username:'@example.bible'}]);assert.doesNotMatch(JSON.stringify(shown),/private-id|private-token/);
+});
