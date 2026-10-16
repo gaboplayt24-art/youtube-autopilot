@@ -396,17 +396,19 @@
       "sourceId": "chapter-3-shot-14",
       "replacement": {
         "overlayAnchor": "title of archangel",
-        "id": "chapter-3-shot-14-editorial-repair",
+        "id": "chapter-3-shot-14-jude-michael-title",
         "narration": "Here, Jude explicitly addresses Michael with the title of archangel. These accounts highlight the variation in how named",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Eli looks closely at an open blank parchment scroll resting on a low stone ledge. His hands stay beside his body. The upper-left area remains calm for the editorial label; clear flat ink drawing, only the scroll and ledge.",
+        "historicalContext": "Jude 9; interpretive illustration of text and named figure, not a physical meeting or claimed historical portraits. Ancient linen, wool, wood and parchment.",
+        "concept": "Two distinct adults on cream ground: at left Jude, a grey-haired writer in a brown mantle, sits at a low wooden desk with a parchment scroll. At right Michael, a clean-shaven curly-haired messenger in a plain white tunic, stands calmly. They do not interact: this is an editorial juxtaposition of an author and the figure named in his text, not a physical meeting.",
         "overlay": "The Archangel Title",
         "labelPlacement": "left",
         "characterRoles": [
-          "Eli"
-        ]
+          "Jude, grey-haired author, brown uncollared mantle",
+          "Michael, curly-haired messenger, white uncollared tunic"
+        ],
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: both existing textual-source candidates were rejected after fresh actual-image adjudication because the named figures were absent. Preserve them; use a clearer editorial juxtaposition of the author and Michael without staging an invented encounter. Narration and timing unchanged."
     },
     {
       "sourceId": "chapter-3-shot-15",
@@ -524,9 +526,9 @@
     {
       "sourceId": "chapter-4-shot-4",
       "replacement": {
-        "overlayAnchor": "Isaiah’s recorded vision",
+        "overlayAnchor": "Isaiah\u2019s recorded vision",
         "id": "chapter-4-shot-4-editorial-repair",
-        "narration": "This description stands as a fixed element of Isaiah’s recorded vision, providing a specific anatomical count within the",
+        "narration": "This description stands as a fixed element of Isaiah\u2019s recorded vision, providing a specific anatomical count within the",
         "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
         "concept": "Only Eli standing beside a small wooden table with one blank open parchment scroll. He looks down thoughtfully. Clear reference face, hands resting at his sides, plain cream wall, two simple table legs and no other props.",
         "overlay": "Prophetic Record",
@@ -590,7 +592,7 @@
       "replacement": {
         "overlayAnchor": "four faces",
         "id": "chapter-4-shot-8-editorial-repair",
-        "narration": "each exhibiting four faces—the likeness of a man, a lion, an ox, and an eagle—alongside four",
+        "narration": "each exhibiting four faces\u2014the likeness of a man, a lion, an ox, and an eagle\u2014alongside four",
         "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
         "concept": "Close-up of ONE representative visionary creature: four distinct faces belonging to the same creature, human, lion, ox, eagle, above one shared torso with exactly four wings. Flat gold and cream colours, clearly drawn contours and a simple calm background.",
         "overlay": "The Four Faces",
@@ -670,7 +672,7 @@
       "replacement": {
         "overlayAnchor": "cherubims",
         "id": "chapter-4-shot-13-editorial-repair",
-        "narration": "creatures are cherubims. By keeping these descriptions tied strictly to their respective passages—Isaiah’s",
+        "narration": "creatures are cherubims. By keeping these descriptions tied strictly to their respective passages\u2014Isaiah\u2019s",
         "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
         "concept": "A direct, clear flat-ink illustration of one representative cherubic living creature, four faces on one shared body and four wings. Human, lion, ox and eagle faces all belong to that one figure. Warm ochre and cream fills; no temple carving or extra people.",
         "overlay": "Cherubim description",
@@ -686,7 +688,7 @@
       "replacement": {
         "overlayAnchor": "distinguish how the biblical text characterizes",
         "id": "chapter-4-shot-14-editorial-repair",
-        "narration": "six-winged seraphim and Ezekiel’s four-faced cherubim—we can distinguish how the biblical text characterizes these",
+        "narration": "six-winged seraphim and Ezekiel\u2019s four-faced cherubim\u2014we can distinguish how the biblical text characterizes these",
         "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
         "concept": "Two clearly separated symbolic figures on one quiet cream field. Left: Isaiah's seraph with six wings in three functional pairs. Right: Ezekiel's creature with four faces and four wings beside an eye-covered wheel. Flat ink illustrations, separate bodies, no ordinary people.",
         "overlay": "Distinct prophetic visions",
@@ -766,7 +768,7 @@
       "replacement": {
         "overlayAnchor": "six-wing configuration",
         "id": "chapter-4-shot-19-editorial-repair",
-        "narration": "just as the six-wing configuration distinguishes the seraphim in Isaiah’s vision. Each passage remains a distinct record",
+        "narration": "just as the six-wing configuration distinguishes the seraphim in Isaiah\u2019s vision. Each passage remains a distinct record",
         "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
         "concept": "A representative seraph clearly hovering: six wings in three separate pairs, upper pair across the face, lower pair covering the feet and middle pair open sideways for flight. Flat gold and cream fills, broad black ink outlines and simple cream background.",
         "overlay": "Isaiah's seraphim",
@@ -894,7 +896,7 @@
       "replacement": {
         "overlayAnchor": "separate",
         "id": "chapter-5-shot-5-editorial-repair",
-        "narration": "Isaiah’s six-winged beings and Ezekiel’s four-faced creatures represent separate,",
+        "narration": "Isaiah\u2019s six-winged beings and Ezekiel\u2019s four-faced creatures represent separate,",
         "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
         "concept": "A separate six-winged seraph at left and four-faced, four-winged living creature at right, with generous calm space between them. Seraph wing pairs cover face, cover feet, and extend for flight. Flat ochre ink drawing, clear distinct bodies, no ordinary humans.",
         "overlay": "Distinct Visions",
