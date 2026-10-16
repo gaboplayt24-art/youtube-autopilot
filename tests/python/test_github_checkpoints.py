@@ -51,10 +51,14 @@ class CheckpointTests(unittest.TestCase):
             gh.assert_called_once_with('api', 'repos/owner/repo')
 
     def test_public_repository_cannot_create_or_upload_release(self):
-        with patch.object(store, 'api_json', return_value={'private': False}), patch.object(store, 'gh') as gh:
+        with patch.object(store, 'api_json', return_value={'private': False}), patch.object(store, 'public_storage_approved', return_value=False), patch.object(store, 'gh') as gh:
             with self.assertRaisesRegex(RuntimeError, 'PRIVATE'):
                 store.release('owner/repo', 'checkpoint')
             gh.assert_not_called()
+
+    def test_owner_approved_public_repository_keeps_checkpoints(self):
+        with patch.object(store, 'api_json', return_value={'private': False}), patch.object(store, 'public_storage_approved', return_value=True):
+            store.require_private('owner/repo')
 
     def test_newest_quota_is_selected_from_actual_asset_times_and_hash_verified(self):
         payload = b'{"version":2,"events":[]}'
