@@ -1,7 +1,7 @@
 import {z} from 'zod';
 import {copyFile,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
-import {densityReview,reviewDensity,requiresHumanAssessment,acceptDensityReview,existingNarrativeReview,minorStagingDecision,mayReviewMinorStaging,applyMinorStagingDecision,inspectMinorStaging,effectiveGroqReview,effectiveGroqReviewStage,existingEffectiveGroqReview} from './density-qa';
+import {densityReview,reviewDensity,requiresHumanAssessment,acceptDensityReview,existingNarrativeReview,minorStagingDecision,mayReviewMinorStaging,applyMinorStagingDecision,inspectMinorStaging,effectiveGroqReview,effectiveGroqReviewStage,existingEffectiveGroqReview,effectiveGeminiReview,effectiveGeminiReviewStage,existingEffectiveGeminiReview} from './density-qa';
 import {join} from 'node:path';
 import {CloudflareReferenceImageProvider,FLUX_REFERENCE_MODEL,KLEIN_PRODUCTION_SIZE,validateKleinNativeSize} from '../providers/cloudflare';
 import type {LLMProvider,VisionProvider} from '../providers/interfaces';
@@ -32,7 +32,7 @@ export class VisualStyleEngine{
   // Repair only our obsolete None-as-human code decision; retain prior evidence and every objective gate.
   try{const previous=densityReview.parse(await read(reviewPath));if(!previous.passed&&!requiresHumanAssessment(idea)&&previous.scores.humanDesign===null&&previous.issues.includes('Required humans not assessed')&&acceptDensityReview(previous,0).passed){await copyFile(reviewPath,reviewPath+'.before-cast-sentinel-fix.json');await copyFile(join(runner.dir,reviewName+'.integrity.json'),reviewPath+'.before-cast-sentinel-fix.integrity.json');await rm(reviewPath);await rm(join(runner.dir,reviewName+'.integrity.json'));}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
   // A hash-bound effective Groq decision stays valid when another free provider continues the episode; it is never relabelled.
-  const priorEffective=await existingEffectiveGroqReview(runner.dir,stageId,source.sha256,source.referenceSha256);
+  const priorEffective=await existingEffectiveGroqReview(runner.dir,stageId,source.sha256,source.referenceSha256)??await existingEffectiveGeminiReview(runner.dir,stageId,source.sha256,source.referenceSha256);
   let groqUsed=false,minorStage:string|null=null;
   let review=priorEffective?.review??await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256);
   // A rejected legacy narrative decision is not a current Groq assessment.
@@ -54,6 +54,14 @@ export class VisualStyleEngine{
    const priorReview=review;
    const evidence=await runner.stage(minorStage,z.object({sourceSha256:z.literal(source.sha256),referenceSha256:z.literal(source.referenceSha256),decision:minorStagingDecision}),async()=>({sourceSha256:source.sha256,referenceSha256:source.referenceSha256,decision:await inspectMinorStaging(source.path,idea,priorReview,vision)}));
    review=applyMinorStagingDecision(priorReview,evidence.decision,idea);
+  }
+  // The same owner minor-staging tolerance when Gemini continues: only a sole requiredConcept failure, judged again on the actual candidate.
+  if(process.env.LLM_PROVIDER!=='groq'&&!priorEffective&&mayReviewMinorStaging(review)){
+   const stage='native-'+stageId+'-minor-staging-gemini-v1-'+source.sha256.slice(0,12)+'-'+createHash('sha256').update(JSON.stringify({idea,issues:review.issues})).digest('hex').slice(0,8);
+   const priorReview=review;
+   const evidence=await runner.stage(stage,z.object({sourceSha256:z.literal(source.sha256),referenceSha256:z.literal(source.referenceSha256),decision:minorStagingDecision}),async()=>({sourceSha256:source.sha256,referenceSha256:source.referenceSha256,decision:await inspectMinorStaging(source.path,idea,priorReview,vision)}));
+   const result=applyMinorStagingDecision(priorReview,evidence.decision,idea);
+   review=(await runner.stage(effectiveGeminiReviewStage(stageId,source.sha256),effectiveGeminiReview,async()=>({policy:'gemini-free-owner-minor-v1' as const,provider:'gemini' as const,model:process.env.GEMINI_MODEL??'gemini',sourceSha256:source.sha256,referenceSha256:source.referenceSha256,review:result,originalReview,minorStagingStage:stage}))).review;
   }
   if(groqUsed){const result=review;review=(await runner.stage(effectiveGroqReviewStage(stageId,source.sha256),effectiveGroqReview,async()=>({policy:'groq-free-owner-minor-v1' as const,provider:'groq' as const,model:'qwen/qwen3.8-27b' as const,sourceSha256:source.sha256,referenceSha256:source.referenceSha256,review:result,originalReview,minorStagingStage:minorStage}))).review;}
   const artwork=review.passed?primaryArtwork.parse({generationMethod:'ai-illustration',styleVersion:style.version==='round-head-v5'?'round-head-v5':'illustrated-doodle-v4.2',model:FLUX_REFERENCE_MODEL,referenceSha256:source.referenceSha256,sourceSha256:source.sha256,referenceQAPassed:true,width,height,aspectRatio:'16:9'}):null;return nativeIllustration.parse({ideaId:idea.id,source,review,artwork});

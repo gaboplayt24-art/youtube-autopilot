@@ -14,6 +14,13 @@ export const densityReview=styleReview.extend({scores:densityScores,adultAnatomy
 export const narrativeReview=z.object({policy:z.literal('narrative-facts-v1'),sourceSha256:z.string().length(64),referenceSha256:z.string().length(64),review:densityReview});
 export const effectiveGroqReview=z.object({policy:z.literal('groq-free-owner-minor-v1'),provider:z.literal('groq'),model:z.literal('qwen/qwen3.8-27b'),sourceSha256:z.string().length(64),referenceSha256:z.string().length(64),review:densityReview,originalReview:densityReview,minorStagingStage:z.string().nullable()});
 export const effectiveGroqReviewStage=(id:string,sha:string)=>'native-'+id+'-effective-groq-v3-'+sha.slice(0,12);
+/** Owner minor-staging tolerance applied by Gemini when it continues the episode; labelled as Gemini evidence, never as Groq. */
+export const effectiveGeminiReview=z.object({policy:z.literal('gemini-free-owner-minor-v1'),provider:z.literal('gemini'),model:z.string().min(3),sourceSha256:z.string().length(64),referenceSha256:z.string().length(64),review:densityReview,originalReview:densityReview,minorStagingStage:z.string()});
+export const effectiveGeminiReviewStage=(id:string,sha:string)=>'native-'+id+'-effective-gemini-v1-'+sha.slice(0,12);
+export async function existingEffectiveGeminiReview(dir:string,id:string,sha:string,referenceSha:string){
+ const stage=effectiveGeminiReviewStage(id,sha);try{await access(join(dir,stage+'.json'));}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return null;throw e;}
+ const value=await artifact(dir,stage,effectiveGeminiReview);if(value.sourceSha256!==sha||value.referenceSha256!==referenceSha)throw Error('Effective Gemini review source/reference mismatch');return value;
+}
 export async function existingEffectiveGroqReview(dir:string,id:string,sha:string,referenceSha:string){
  const stage=effectiveGroqReviewStage(id,sha);try{await access(join(dir,stage+'.json'));}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return null;throw e;}
  const value=await artifact(dir,stage,effectiveGroqReview);if(value.sourceSha256!==sha||value.referenceSha256!==referenceSha)throw Error('Effective Groq review source/reference mismatch');return value;
