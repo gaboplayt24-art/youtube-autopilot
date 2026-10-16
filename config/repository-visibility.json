@@ -1,0 +1,5 @@
+{
+  "publicCheckpointsApproved": true,
+  "approvedBy": "channel owner, 2026-10-16 (\"vamos a probar haciéndola pública\")",
+  "reason": "GitHub's free Actions minutes for private repositories ran out; public repositories get free minutes. Secrets stay in GitHub Secrets; checkpoints, media and code become public."
+}

@@ -30,8 +30,16 @@ def api_json(repo, route, optional=False):
         raise RuntimeError('GitHub repository storage request failed; access or service availability must be resolved') from None
 
 
+def public_storage_approved():
+    # Owner decision 2026-10-16: the repository may be made public to use free Actions minutes; checkpoints then become public too.
+    try:
+        return json.loads(Path('config/repository-visibility.json').read_text()).get('publicCheckpointsApproved') is True
+    except FileNotFoundError:
+        return False
+
+
 def require_private(repo):
-    if api_json(repo, '')['private'] is not True:
+    if api_json(repo, '')['private'] is not True and not public_storage_approved():
         raise RuntimeError('Checkpoint Releases require a PRIVATE repository; no files uploaded')
 
 
@@ -193,7 +201,7 @@ def restore(repo, run_id, source_run_id, prefix, visited=None):
 
 def latest_quota(repo):
     # A read-only Actions token can read a published prerelease in this private repo.
-    if api_json(repo, '')['private'] is not True:
+    if api_json(repo, '')['private'] is not True and not public_storage_approved():
         return None
     data = api_json(repo, 'releases/tags/' + QUOTA_TAG, optional=True)
     if not data:
