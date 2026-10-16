@@ -332,12 +332,12 @@
         "id": "chapter-3-shot-10-daniel-touch-v2",
         "narration": "Daniel records an experience where he is touched by a hand, followed by a vision of a figure who speaks of a struggle against the prince",
         "historicalContext": "Biblical Daniel 10 vision, ancient Levant. Illustrated interpretation; plain uncollared linen tunic and simple cloth sash, no modern garments.",
-        "concept": "Two separate round-head adults in the channel style (white circle heads, dot eyes), waist-up, on a cream wall with flat warm ink colours: at left Daniel, clearly NOT Eli: a clean-shaven young adult with short black hair, no beard and no head cloth, in a plain green uncollared tunic, kneeling and looking up in surprise. At right a messenger with short golden hair in a plain white uncollared linen tunic with a simple rust sash gently rests one hand on Daniel's shoulder.",
+        "concept": "Two round-head adults, waist-up, cream wall, flat warm ink: at left Daniel, NOT Eli: clean-shaven, short black hair, no beard, no head cloth, plain green uncollared tunic, kneeling, looking up surprised. At right a messenger with short golden hair, plain white uncollared linen tunic and rust sash, rests one hand on Daniel's shoulder.",
         "overlay": "Visionary Touch",
         "labelPlacement": "right",
         "characterRoles": [
-          "Daniel, clean-shaven young adult, short black hair, green tunic",
-          "Adult messenger, short golden hair, white uncollared linen tunic"
+          "Daniel, clean-shaven, short black hair, green tunic",
+          "Messenger, golden hair, white linen tunic"
         ],
         "promptFocus": true
       },
