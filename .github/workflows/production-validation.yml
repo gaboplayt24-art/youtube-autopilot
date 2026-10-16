@@ -25,9 +25,17 @@ on:
         description: Optional existing eligible free model override
         type: string
       task:
-        description: video (default), branding (channel logo and banner only) or tiktok-repost (owner-reviewed Shorts in config/tiktok-reposts.json)
+        description: video (default), branding (channel logo and banner only), tiktok-repost (owner-reviewed Shorts in config/tiktok-reposts.json) or replace-upload (owner-requested re-edit replaces the scheduled upload)
         type: string
         default: video
+      replace_video_id:
+        description: replace-upload only - the scheduled YouTube video the QA-passed re-edit replaces (kept private, never deleted)
+        type: string
+        default: ''
+      replace_short_ids:
+        description: replace-upload only - comma-separated Shorts whose description links are moved to the new upload
+        type: string
+        default: ''
       tiktok_owner_consent:
         description: tiktok-repost only - owner watched the listed Shorts and consents to posting them publicly
         type: boolean
@@ -118,7 +126,7 @@ jobs:
           PY
   quality:
     environment: youtube-private
-    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan' && inputs.task != 'tiktok-repost'
+    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan' && inputs.task != 'tiktok-repost' && inputs.task != 'replace-upload'
     runs-on: ubuntu-latest
     timeout-minutes: 150
     env:
@@ -360,3 +368,38 @@ jobs:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: npx tsx src/social/repost-shorts.ts
+  # Owner-requested 2026-10-16: the QA-passed dynamic re-edit replaces the scheduled upload of the same run.
+  replace-upload:
+    if: inputs.task == 'replace-upload' && inputs.replace_video_id != '' && inputs.source_run_id != ''
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: youtube-private
+    env:
+      RUN_ID: ${{ inputs.run_id }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id }}
+      OLD_VIDEO_ID: ${{ inputs.replace_video_id }}
+      SHORT_IDS: ${{ inputs.replace_short_ids }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Restore the QA-passed re-edit
+        run: python3 scripts/github_checkpoints.py restore
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Replace the scheduled upload
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: npx tsx scripts/replace-upload.ts
+      - name: Keep the replacement record
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          f="data/runs/$RUN_ID/replace-upload.json"
+          if [ -f "$f" ]; then cat "$f"; cp "$f" "replace-upload-${{ github.run_id }}.json"; gh release upload "pipeline-checkpoint-$RUN_ID" "replace-upload-${{ github.run_id }}.json" --clobber -R "${{ github.repository }}"; fi
