@@ -15,6 +15,7 @@ const pause=(word:TimedWord,next?:TimedWord)=>/[.!?;:,]["')\]]?$/.test(word.text
 
 // Wide establishing frame, then progressively closer punch-ins toward the image's visual focus.
 const FRAMINGS=[{scale:1.05,pull:.25},{scale:1.24,pull:.8},{scale:1.34,pull:1},{scale:1.16,pull:.55}];
+const LAYERED_FRAMINGS=[{scale:1.02,pull:.2},{scale:1.16,pull:.85},{scale:1.08,pull:.5},{scale:1.22,pull:1}];
 const TRANSITIONS=['whip-left','zoom','whip-right','cut'] as const;
 const MIN_BEAT=1.5;
 
@@ -53,35 +54,51 @@ export function verseReferences(words:TimedWord[],scenes:Scene[]){
  return found;
 }
 
-export function planDynamicEdit({shots,words,scenes,titles,focus,zones={}}:{shots:Shot[];words:TimedWord[];scenes:Scene[];titles:ChapterTitles;focus:Focus;zones?:Zones}):DynamicEdit{
- const beats:DynamicEdit['beats']=[];const pops:DynamicEdit['pops']=[];const cards:DynamicEdit['cards']=[];
+/** Cut-out actors found in an approved illustration (fractions of the frame), from scripts/extract-layers.py. */
+export type Layers=Record<string,{background:string;actors:{path:string;x:number;y:number;width:number;height:number}[]}>;
+const ENTRIES=['pop','rise','slide-left','slide-right'] as const;
+
+export function planDynamicEdit({shots,words,scenes,titles,focus,zones={},layers={},presenter=[]}:{shots:Shot[];words:TimedWord[];scenes:Scene[];titles:ChapterTitles;focus:Focus;zones?:Zones;layers?:Layers;presenter?:string[]}):DynamicEdit{
+ const beats:DynamicEdit['beats']=[];const pops:DynamicEdit['pops']=[];const cards:DynamicEdit['cards']=[];const scenesOut:DynamicEdit['layers']=[];
  let transition=0;
  shots.forEach((shot,index)=>{
-  const bounds=[shot.start,...splitShot(shot,words),shot.end];const point=focus[shot.id]??[.5,.45];
+  const layer=layers[shot.id];
+  // Actors enter one after another as the shot opens, like pieces placed on a stage.
+  const actors=layer?.actors.map((a,i)=>({...a,entry:ENTRIES[(index+i)%2],delay:Number((i*.22).toFixed(2))}));
+  if(layer&&actors)scenesOut.push({shotId:shot.id,background:layer.background,actors});
+  const lead=layer?.actors.reduce((a,b)=>a.width*a.height>=b.width*b.height?a:b);
+  // Arrows only point at a single upright figure, never at a merged group or a prop.
+  const head:[number,number]|undefined=lead&&lead.height*1080>lead.width*1920*1.25?[lead.x+lead.width/2,lead.y+lead.height*.12]:undefined;
+  const point:[number,number]=lead?[lead.x+lead.width/2,lead.y+lead.height*.4]:focus[shot.id]??[.5,.45];
+  const bounds=[shot.start,...splitShot(shot,words),shot.end];
   const newScene=index>0&&shots[index-1].sceneId!==shot.sceneId;
   for(let i=0;i<bounds.length-1;i++){
-   const framing=FRAMINGS[i%FRAMINGS.length];
-   const entry=i>0?'punch':index===0?'cut':newScene?'zoom':TRANSITIONS[transition++%TRANSITIONS.length];
+   // Layered shots never hard-cut inside themselves: the camera glides to the next framing.
+   const framing=layer?LAYERED_FRAMINGS[i%LAYERED_FRAMINGS.length]:FRAMINGS[i%FRAMINGS.length];
+   const entry=i>0?(layer?'glide':'punch'):index===0?'cut':newScene?'zoom':TRANSITIONS[transition++%TRANSITIONS.length];
    beats.push({shotId:shot.id,start:bounds[i],end:bounds[i+1],scale:framing.scale,...frameCenter(framing.scale,point,framing.pull),drift:(index+i)%2?1:-1,entry});
   }
-  if(shot.overlay&&shot.editorialTiming){const start=shot.editorialTiming.start,end=Math.min(shot.end-.05,start+2.8);if(end-start>=.8)pops.push({start,end,text:shot.overlay,placement:zones[shot.id]??'top'});}
+  if(shot.overlay&&shot.editorialTiming){const start=shot.editorialTiming.start,end=Math.min(shot.end-.05,start+2.8);if(end-start>=.8)pops.push({start,end,text:shot.overlay,placement:zones[shot.id]??'top',...(head?{target:head}:{})});}
  });
  scenes.forEach((scene,i)=>{const title=titles[scene.id];if(i>0&&title)cards.push({kind:'chapter',start:scene.start,end:scene.start+2.6,title,number:i});});
- // At most one verse card every 20 seconds, never over a chapter card.
+ // Verse chips stay up while the passage is discussed: at most one every 20 seconds, never over a chapter card.
  for(const verse of verseReferences(words,scenes)){
   const last=cards.filter(c=>c.kind==='verse').at(-1);
   if(last&&verse.time-last.start<20)continue;
   if(cards.some(c=>c.kind==='chapter'&&verse.time<c.end+.5&&verse.time+3.2>c.start))continue;
-  cards.push({kind:'verse',start:verse.time,end:verse.time+3.2,title:verse.title});
+  const next=scenes.find(s=>s.start>verse.time)?.start??Infinity;
+  cards.push({kind:'verse',start:verse.time,end:Math.min(verse.time+8,next-.1),title:verse.title});
  }
  cards.sort((a,b)=>a.start-b.start);
- // A label never competes with a card for the same moment.
- const free=pops.filter(p=>!cards.some(c=>p.start<c.end&&p.end>c.start));pops.length=0;pops.push(...free);
+ // A label never competes with a chapter card, and moves right of a verse chip.
+ const free=pops.filter(p=>!cards.some(c=>c.kind==='chapter'&&p.start<c.end&&p.end>c.start)).map(p=>cards.some(c=>c.kind==='verse'&&p.start<c.end&&p.end>c.start)?{...p,placement:'right' as const}:p);
+ pops.length=0;pops.push(...free);
  const sfx:DynamicEdit['sfx']=[];
- const add=(time:number,type:DynamicEdit['sfx'][number]['type'])=>{time=Math.max(0,Number(time.toFixed(3)));if(!sfx.some(s=>Math.abs(s.time-time)<.4))sfx.push({time,type});};
+ const add=(time:number,type:DynamicEdit['sfx'][number]['type'],gap=.4)=>{time=Math.max(0,Number(time.toFixed(3)));if(!sfx.some(s=>Math.abs(s.time-time)<gap))sfx.push({time,type});};
  for(const card of cards)add(card.start,card.kind==='chapter'?'boom':'shimmer');
- for(const beat of beats)if(beat.entry!=='cut'&&beat.entry!=='punch')add(beat.start-.12,'whoosh');
+ for(const beat of beats)if(beat.entry!=='cut'&&beat.entry!=='punch'&&beat.entry!=='glide')add(beat.start-.12,'whoosh');
  for(const pop of pops)add(pop.start,'pop');
+ for(const scene of scenesOut){const shot=shots.find(s=>s.id===scene.shotId)!;for(const a of scene.actors)add(shot.start+a.delay,'pop',.22);}
  sfx.sort((a,b)=>a.time-b.time);
- return {version:'dynamic-v1',beats,pops,cards,sfx};
+ return {version:'dynamic-v1',beats,pops,cards,layers:scenesOut,sfx,presenter};
 }

@@ -17,13 +17,17 @@ export const profile=z.object({name:z.string(),accent:z.string(),secondary:z.str
 export type Shot=z.infer<typeof shot>;export type ShotPlan=z.infer<typeof shotPlan>;export type MediaAsset=z.infer<typeof mediaAsset>;export type VisualProfile=z.infer<typeof profile>;
 // Owner-requested 2026-10-16 dynamic edit: more framings per approved illustration, motion transitions,
 // pop labels, verse/chapter cards and timed sound design. Pure layout data; the art and narration are unchanged.
-export const editEntries=z.enum(['cut','punch','whip-left','whip-right','zoom']);
+export const editEntries=z.enum(['cut','punch','glide','whip-left','whip-right','zoom']);
 export const editSounds=z.enum(['whoosh','pop','boom','shimmer','paper']);
 export const dynamicEdit=z.object({
  version:z.literal('dynamic-v1'),
  beats:z.array(z.object({shotId:z.string(),start:z.number().nonnegative(),end:z.number().positive(),scale:z.number().min(1).max(1.4),centerX:z.number().min(0).max(1),centerY:z.number().min(0).max(1),drift:z.number().min(-1).max(1),entry:editEntries})),
- pops:z.array(z.object({start:z.number().nonnegative(),end:z.number().positive(),text:z.string().min(1).max(40),placement:z.enum(['top','left','right'])})),
+ pops:z.array(z.object({start:z.number().nonnegative(),end:z.number().positive(),text:z.string().min(1).max(40),placement:z.enum(['top','left','right']),target:z.tuple([z.number().min(0).max(1),z.number().min(0).max(1)]).optional()})),
+ // Cut-out actors of an approved illustration over its own softened plate (2.5D); absent shots stay full-frame.
+ layers:z.array(z.object({shotId:z.string(),background:z.string(),actors:z.array(z.object({path:z.string(),x:z.number(),y:z.number(),width:z.number().positive(),height:z.number().positive(),entry:z.enum(['pop','rise','slide-left','slide-right']),delay:z.number().nonnegative()})).min(1).max(5)})).default([]),
  cards:z.array(z.object({kind:z.enum(['verse','chapter']),start:z.number().nonnegative(),end:z.number().positive(),title:z.string().min(1).max(48),number:z.number().int().positive().optional()})),
- sfx:z.array(z.object({time:z.number().nonnegative(),type:editSounds}))
+ sfx:z.array(z.object({time:z.number().nonnegative(),type:editSounds})),
+ // Cut-out poses of the approved Eli sheet (front, walking, surprised) for chapter-card presenter moments.
+ presenter:z.array(z.string()).max(3).default([])
 });
 export type DynamicEdit=z.infer<typeof dynamicEdit>;

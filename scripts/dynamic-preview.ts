@@ -1,6 +1,6 @@
 // Renders a short owner-review excerpt of an already QA-passed run with the dynamic edit. Reuses the run's
 // approved illustrations, captions and mixed narration; only the edit layer and its sound effects are new.
-import {readFile,mkdir,copyFile,writeFile} from 'node:fs/promises';
+import {readFile,mkdir,copyFile,writeFile,cp} from 'node:fs/promises';
 import {join,resolve} from 'node:path';
 import {execFileSync} from 'node:child_process';
 import {bundle} from '@remotion/bundler';
@@ -19,10 +19,11 @@ const script=await read('final-script.json') as {scenes:{id:string;claims?:{text
 const visuals=await read('visuals.json') as {assets:{shotId:string;path:string}[]};
 const words=props.cues.flatMap(c=>c.words??[]);
 const scenes=props.scenes.map(s=>({id:s.id,start:s.from/props.fps,claims:script.scenes.find(x=>x.id===s.id)?.claims}));
-const edit=await buildDynamicEdit({runId,shots:props.shots,words,scenes,images:visuals.assets.map(a=>({shotId:a.shotId,path:join(runDir,a.path.replace(`data/runs/${runId}/`,''))}))});
+const edit=await buildDynamicEdit({runId,shots:props.shots,words,scenes,images:visuals.assets.map(a=>({shotId:a.shotId,path:join(runDir,a.path.replace(`data/runs/${runId}/`,''))})),layersDir:join(runDir,'assets/layers'),layerShots:new Set(props.shots.filter(s=>s.start<to).map(s=>s.id))});
 await writeFile(out.replace(/\.mp4$/,'-edit.json'),JSON.stringify(edit,null,1));
 
 const pub=resolve('public',runId);await mkdir(pub,{recursive:true});
+await cp(join(runDir,'assets/layers'),join(pub,'layers'),{recursive:true});
 for(const a of visuals.assets)await copyFile(join(runDir,a.path.replace(`data/runs/${runId}/`,'')),join(pub,`${a.shotId}.png`));
 const seconds=props.durationInFrames/props.fps,config=await loadAudioConfig();
 const sfx=join(runDir,'sfx-dynamic.wav');await writeSfxTrack(edit.sfx,seconds,sfx);

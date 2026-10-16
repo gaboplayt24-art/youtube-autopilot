@@ -63,3 +63,15 @@ test('the angels re-edit chapter titles are short and belong to their run',async
  const titles=await chapterTitles('bible-angels-001');assert.equal(Object.keys(titles).length,5);
  assert.deepEqual(await chapterTitles('no-such-run'),{});
 });
+
+test('a layered shot glides instead of cutting, staggers its actors and points arrows only at an upright figure',()=>{
+ const shots=[shot('s0','c1',0,8,'Hidden in plain sight'),shot('s1','c1',8,14,'A simple meal')];
+ const spoken=words('Why do angels look like guests? In Genesis, figures arrive at a house. They eat bread together, and nobody notices anything unusual at all tonight.',0,.6);
+ const layers={s0:{background:'r/layers/s0/bg.png',actors:[{path:'r/layers/s0/actor-0.png',x:.1,y:.3,width:.12,height:.5},{path:'r/layers/s0/actor-1.png',x:.5,y:.3,width:.12,height:.5}]},s1:{background:'r/layers/s1/bg.png',actors:[{path:'r/layers/s1/actor-0.png',x:.3,y:.4,width:.5,height:.5}]}};
+ const plan=dynamicEdit.parse(planDynamicEdit({shots,words:spoken,scenes:[{id:'c1',start:0}],titles:{},focus:{},layers,presenter:['p0','p1','p2']}));
+ assert.ok(plan.beats.filter(b=>b.shotId==='s0').slice(1).every(b=>b.entry==='glide'));
+ assert.deepEqual(plan.layers[0].actors.map(a=>a.delay),[0,.22]);
+ assert.ok(plan.pops.find(p=>p.text==='Hidden in plain sight')?.target,'upright lead figure gets an arrow');
+ assert.equal(plan.pops.find(p=>p.text==='A simple meal')?.target,undefined,'a wide group gets no arrow');
+ assert.equal(plan.presenter.length,3);
+});
