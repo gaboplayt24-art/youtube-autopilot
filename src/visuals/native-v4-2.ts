@@ -31,7 +31,8 @@ export class VisualStyleEngine{
   const reviewName='native-'+stageId+'-density-QA-v4.3';const reviewPath=join(runner.dir,reviewName+'.json');
   // Repair only our obsolete None-as-human code decision; retain prior evidence and every objective gate.
   try{const previous=densityReview.parse(await read(reviewPath));if(!previous.passed&&!requiresHumanAssessment(idea)&&previous.scores.humanDesign===null&&previous.issues.includes('Required humans not assessed')&&acceptDensityReview(previous,0).passed){await copyFile(reviewPath,reviewPath+'.before-cast-sentinel-fix.json');await copyFile(join(runner.dir,reviewName+'.integrity.json'),reviewPath+'.before-cast-sentinel-fix.integrity.json');await rm(reviewPath);await rm(join(runner.dir,reviewName+'.integrity.json'));}}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
-  const priorEffective=process.env.LLM_PROVIDER==='groq'?await existingEffectiveGroqReview(runner.dir,stageId,source.sha256,source.referenceSha256):null;
+  // A hash-bound effective Groq decision stays valid when another free provider continues the episode; it is never relabelled.
+  const priorEffective=await existingEffectiveGroqReview(runner.dir,stageId,source.sha256,source.referenceSha256);
   let groqUsed=false,minorStage:string|null=null;
   let review=priorEffective?.review??await existingNarrativeReview(runner.dir,stageId,source.sha256,source.referenceSha256);
   // A rejected legacy narrative decision is not a current Groq assessment.
