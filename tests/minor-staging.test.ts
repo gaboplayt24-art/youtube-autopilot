@@ -1,9 +1,36 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';import {join} from 'node:path';import {tmpdir} from 'node:os';
-import {densityReview,mayReviewMinorStaging,applyMinorStagingDecision,effectiveGroqReview,effectiveGroqReviewStage,existingEffectiveGroqReview} from '../src/visuals/density-qa';
+import {densityReview,mayReviewMinorStaging,applyMinorStagingDecision,effectiveGroqReview,effectiveGroqReviewStage,existingEffectiveGroqReview,effectiveGeminiReview,effectiveGeminiReviewStage,existingEffectiveGeminiReview} from '../src/visuals/density-qa';
 import {Runner} from '../src/orchestration/runner';import {visualReviewEvidence} from '../src/orchestration/production-summary';import {fileDigest} from '../src/orchestration/integrity';import {mediaAsset} from '../src/editor/schemas';
 async function poseOnly(){const raw=JSON.parse(await readFile('assets/approved-style/original-gemini-review.json','utf8'));return densityReview.parse({...raw.source02,passed:false,referenceCompared:true,referenceStyleMatches:true,conceptMatches:false,historicallyPlausible:true,cropPreservesSubjects:true,photorealism:false,cgi:false,geometricCodeLook:false,webUILook:false,bakedText:false,watermark:false,adultAnatomyCorrect:true,seriousAnatomyDefects:[],wrongProp:false,majorHistoricalError:false,unreadableOutput:false,issues:['Holding the scroll instead of resting hands by his sides']});}
 const decision={supportsNarration:true,allNarratedSubjectsPresent:true,cosmeticStagingOnly:true,factualMismatch:false,historicalError:false,seriousAnatomyError:false,visibleEvidence:'The reader visibly holds an open scroll, supporting the narrated close reading.'};
+test('a planned textual-source shot need not reenact quoted figures, but must show its requested subjects and prop',async()=>{
+ const before=await poseOnly(),idea={characterRoles:['Eli'],concept:'Eli consults an open parchment scroll on a stone ledge.',narration:'Here, Jude explicitly addresses Michael with the title of archangel.'};
+ const evidence={...decision,allNarratedSubjectsPresent:false,textualSourceIllustrationOnly:true,plannedTextualSubjectsPresent:true};
+ assert.equal(applyMinorStagingDecision(before,evidence,idea).passed,true);
+ assert.equal(applyMinorStagingDecision(before,{...evidence,plannedTextualSubjectsPresent:false},idea).passed,false);
+ assert.equal(applyMinorStagingDecision(before,evidence,{...idea,concept:'Eli stands alone in a street.'}).passed,false);
+ assert.equal(applyMinorStagingDecision(before,evidence,{...idea,narration:'A hand touches Daniel on the shoulder.'}).passed,false);
+ for(const key of ['factualMismatch','historicalError','seriousAnatomyError'] as const)assert.equal(applyMinorStagingDecision(before,{...evidence,[key]:true},idea).passed,false);
+ assert.equal(applyMinorStagingDecision({...before,adultAnatomyCorrect:false},evidence,idea).passed,false);
+ assert.equal(before.conceptMatches,false);
+});
+test('new Gemini adjudication preserves valid legacy decisions and rejected historical evidence',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'gemini-staging-version-'));
+ try{
+  const sourceSha256='a'.repeat(64),referenceSha256='b'.repeat(64),originalReview=await poseOnly(),review=applyMinorStagingDecision(originalReview,decision,{characterRoles:['Eli']});
+  const receipt={policy:'gemini-free-owner-minor-v1' as const,provider:'gemini' as const,model:'fixture-gemini',sourceSha256,referenceSha256,review,originalReview,minorStagingStage:'fixture-review'};
+  const runner=new Runner(dir),legacy=(id:string)=>'native-'+id+'-effective-gemini-v1-'+sourceSha256.slice(0,12);
+  await runner.stage(legacy('accepted'),effectiveGeminiReview,async()=>receipt);
+  assert.equal((await existingEffectiveGeminiReview(dir,'accepted',sourceSha256,referenceSha256))!.review.passed,true);
+  await runner.stage(legacy('rejected'),effectiveGeminiReview,async()=>({...receipt,review:originalReview}));
+  assert.equal(await existingEffectiveGeminiReview(dir,'rejected',sourceSha256,referenceSha256),null);
+  await runner.stage(effectiveGeminiReviewStage('rejected',sourceSha256),effectiveGeminiReview,async()=>receipt);
+  assert.equal((await existingEffectiveGeminiReview(dir,'rejected',sourceSha256,referenceSha256))!.review.passed,true);
+  assert.equal(JSON.parse(await readFile(join(dir,legacy('rejected')+'.json'),'utf8')).review.passed,false);
+  await assert.rejects(existingEffectiveGeminiReview(dir,'rejected',sourceSha256,'c'.repeat(64)),/reference mismatch/);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
 test('owner minor-staging tolerance changes narrative matching only after actual-image adjudication',async()=>{
  const before=await poseOnly();assert.equal(mayReviewMinorStaging(before),true);const after=applyMinorStagingDecision(before,decision,{characterRoles:['Eli']});assert.equal(after.passed,true);assert.equal(before.conceptMatches,false);assert.equal(after.conceptMatches,true);
  const offscreen={...decision,allNarratedSubjectsPresent:false,offscreenInteractionPartnerOnly:true};assert.equal(applyMinorStagingDecision(before,offscreen,{characterRoles:['Eli']}).passed,true);assert.equal(applyMinorStagingDecision(before,{...offscreen,factualMismatch:true},{characterRoles:['Eli']}).passed,false);
