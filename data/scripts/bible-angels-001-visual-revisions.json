@@ -329,19 +329,19 @@
       "sourceId": "chapter-3-shot-10",
       "replacement": {
         "overlayAnchor": "touched by a hand",
-        "id": "chapter-3-shot-10-period-clothing",
+        "id": "chapter-3-shot-10-daniel-touch",
         "narration": "Daniel records an experience where he is touched by a hand, followed by a vision of a figure who speaks of a struggle against the prince",
         "historicalContext": "Biblical Daniel 10 vision, ancient Levant. Illustrated interpretation; plain uncollared linen tunic and simple cloth sash, no modern garments.",
-        "concept": "Two separate round-head adults, waist-up: Eli reacts with surprise at left. At right a distinct curly-haired messenger wears a plain white uncollared linen tunic tied with a simple rust sash, gently resting one clear cartoon hand on Eli's shoulder. Cream wall, flat warm ink colours.",
+        "concept": "Two separate round-head adults, waist-up, on a cream wall with flat warm ink colours: at left Daniel, a bearded adult in a plain brown uncollared tunic, kneels and looks up in surprise. At right a distinct curly-haired messenger in a plain white uncollared linen tunic tied with a simple rust sash gently rests one clear cartoon hand on Daniel's shoulder.",
         "overlay": "Visionary Touch",
         "labelPlacement": "right",
         "characterRoles": [
-          "Eli",
+          "Daniel, bearded adult in plain brown uncollared tunic",
           "Adult messenger, white uncollared linen tunic"
         ],
         "promptFocus": true
       },
-      "reason": "Manual pixel inspection found a modern pointed shirt collar in the machine-accepted source. Preserve that source and its raw QA; replace its wardrobe without changing the narrated touch or timing."
+      "reason": "Manual pixel inspection found a modern pointed shirt collar in the machine-accepted source. Preserve that source and its raw QA; replace its wardrobe without changing the narrated touch or timing. 2026-10-16: the period-clothing redraw failed identity QA twice because Eli was drawn off-model; the narration is Daniel's own experience, so the frame now shows Daniel, not Eli, under a fresh evidence ID. Earlier sources and verdicts are kept."
     },
     {
       "sourceId": "chapter-3-shot-11",
