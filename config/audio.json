@@ -20,5 +20,5 @@
   "musicProvider": "local",
   "allowProceduralFallback": true,
   "sfxProvider": "local",
-  "note": "LRA 4-9 is an editorial target, measured and reported as a warning (owner decision 2026-10-16: it no longer blocks; the approved narrator is very even and dynamics are never expanded artificially). Prosody and voice identity require human approval."
+  "note": "LRA 4-9 is an editorial target; short clips may have lower LRA. Never expand dynamics artificially. Prosody and voice identity require human approval."
 }

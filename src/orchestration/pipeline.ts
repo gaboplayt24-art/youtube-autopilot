@@ -50,9 +50,9 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
  const config=await loadConfig();const strategy=config.strategy;const options=optionsSchema.parse({runId:input.runId??randomUUID(),mode:input.mode??'demo',topic:input.topic??strategy.topics[0],productionKind:input.productionKind??'longform'});
  const dir=join('data/runs',options.runId);const storage=options.mode==='production'&&process.env.SUPABASE_URL&&process.env.SUPABASE_SERVICE_ROLE_KEY?new SupabaseStorage():undefined;const runner=new Runner(dir,storage,options.runId);await runner.lock();
  try{
-  // Publishing schedule and the thumbnail-only reference crop never change the produced video, so they stay out of the run identity.
+  // Publishing schedule, the thumbnail-only reference crop and whether an LRA warning blocks never change the produced video, so they stay out of the run identity.
   const {thumbnailReference:_thumbnailReference,...visualSystem}=config.visualSystem;void _thumbnailReference;const dnaConfig=await read('config/channel-packaging-dna.json'),providers={tts:process.env.TTS_PROVIDER,kokoroVoice:process.env.KOKORO_VOICE,elevenModel:process.env.ELEVENLABS_MODEL,elevenVoice:process.env.ELEVENLABS_VOICE_ID,llm:process.env.GEMINI_MODEL,targetDurationMode:process.env.TARGET_DURATION_MODE};
-  const identity=(schedule:unknown)=>createHash('sha256').update(JSON.stringify({engineVersion:7,options,config:{...config,visualSystem,schedule},packagingDNA:dnaConfig,providers})).digest('hex');
+  const identity=(schedule:unknown)=>createHash('sha256').update(JSON.stringify({engineVersion:7,options,config:{...config,audio:{...config.audio,strictLra:true},visualSystem,schedule},packagingDNA:dnaConfig,providers})).digest('hex');
   const fingerprint=identity(undefined),legacyFingerprint=identity({autoPublish:false,privacyStatus:'private',publishAt:null});
   const manifest=join(dir,'manifest.json');let previous;try{previous=await read(manifest);}catch(error){if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;}
   if(previous&&previous.fingerprint!==fingerprint&&previous.fingerprint!==legacyFingerprint)throw new Error('Run configuration changed; choose a new run ID');
