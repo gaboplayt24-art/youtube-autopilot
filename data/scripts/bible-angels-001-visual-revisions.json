@@ -480,81 +480,91 @@
       "sourceId": "chapter-4-shot-1",
       "replacement": {
         "overlayAnchor": "beings identified as seraphims",
-        "id": "chapter-4-shot-1-editorial-repair",
+        "id": "chapter-4-shot-1-above-throne-detail",
         "narration": "He records the presence of beings identified as seraphims standing above the throne. The text specifies their unique appearance,",
-        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
-        "concept": "One small flat-ink throne with a representative seraph hovering clearly above it. The being has exactly six distinct wings: one pair covering its face, one covering its feet, one spread for flight. No ordinary human figures, cream and ochre fills, simple readable outlines.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
+        "concept": "A simple empty ochre throne low in the frame. Above it, exactly one pair of golden feathered wings enters from the upper frame edge; the rest of the visionary being is outside the crop. This is a partial architectural-and-wing detail, not a complete two-winged being. Flat cream ink artwork, no people.",
         "overlay": "Seraphim Guardians",
         "labelPlacement": "right",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wing-pair-detail",
+        "promptFocus": true
       },
-      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence."
+      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-2",
       "replacement": {
         "overlayAnchor": "possesses six wings",
-        "id": "chapter-4-shot-2-editorial-repair",
+        "id": "chapter-4-shot-2-six-wing-study",
         "narration": "stating that each of these figures possesses six wings. Their arrangement is described with precision:",
-        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
-        "concept": "One representative seraph in full view, exactly six wings separated into three pairs. Upper pair covers face, lower pair covers feet, middle pair extends left and right for flight. Flat ochre, cream, and brown fills; bold ink outline; clear plain cream surroundings.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
+        "concept": "A clear illustrated anatomy study: exactly THREE separate PAIRS of feathered wings, SIX wings total, arranged across one cream field with generous gaps between the pairs. Gold flat fills and organic black ink contours. Wings only, no bodies, faces, Eli or throne; a component study of one seraph, not three beings.",
         "overlay": "Six-Winged Presence",
         "labelPlacement": "left",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wing-study",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-3",
       "replacement": {
         "overlayAnchor": "cover their faces",
-        "id": "chapter-4-shot-3-editorial-repair",
+        "id": "chapter-4-shot-3-face-covering-pair-detail",
         "narration": "they use two wings to cover their faces, and another two to cover their feet, utilizing the final pair of wings for flight.",
-        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
-        "concept": "Close view of a single seraph with three distinct pairs of wings: upper two crossed before its face, lower two crossed before its feet, middle two extended sideways. Six wings total, each separate and easy to count; flat ink drawing on a warm cream field.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
+        "concept": "Close detail of exactly TWO feathered wings crossed before a mostly hidden face. The entire lower body, feet and other wing pairs are outside the frame. A tightly cropped face-covering pair from a six-winged being, never a complete two-winged figure. Warm ochre and cream flat ink, no Eli or extra subjects.",
         "overlay": "Postured for Reverence",
         "labelPlacement": "top",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wing-pair-detail",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-4",
       "replacement": {
         "overlayAnchor": "Isaiah\u2019s recorded vision",
-        "id": "chapter-4-shot-4-editorial-repair",
+        "id": "chapter-4-shot-4-isaiah-source-scroll",
         "narration": "This description stands as a fixed element of Isaiah\u2019s recorded vision, providing a specific anatomical count within the",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Only Eli standing beside a small wooden table with one blank open parchment scroll. He looks down thoughtfully. Clear reference face, hands resting at his sides, plain cream wall, two simple table legs and no other props.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
+        "concept": "One open parchment scroll unrolled on a plain wooden tabletop, viewed close from above. Two naturally curled parchment edges, blank cream surface and organic dark ink outlines. Table legs are outside the crop. Source-reading illustration only; no people, beings, tools or lettering.",
         "overlay": "Prophetic Record",
         "labelPlacement": "bottom",
         "characterRoles": [
-          "Eli"
-        ]
+          "None"
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-5",
       "replacement": {
         "overlayAnchor": "prophetic text",
-        "id": "chapter-4-shot-5-editorial-repair",
+        "id": "chapter-4-shot-5-flight-pair-detail",
         "narration": "prophetic text. It remains distinct from other accounts, focusing on the posture and movement of these beings as they",
-        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
-        "concept": "A single six-winged seraph in side-oriented full view, hovering beside a simple stone column. Three clearly distinct pairs: face covering, feet covering, flight. Exactly six wings total, flat ochre feathers and black ink contours; no ordinary human figures.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
+        "concept": "A close diagonal detail of exactly ONE pair of broad feathered wings spread for flight. The visionary body and its other wing pairs remain outside the crop. A narrow edge of an ochre stone column suggests the temple. Flat hand-drawn ink and warm cream; no complete two-winged figure and no Eli.",
         "overlay": "Six-winged Seraphim",
         "labelPlacement": "top",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wing-pair-detail",
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-6",
@@ -576,49 +586,55 @@
       "sourceId": "chapter-4-shot-7",
       "replacement": {
         "overlayAnchor": "visionary experience",
-        "id": "chapter-4-shot-7-editorial-repair",
+        "id": "chapter-4-shot-7-ezekiel-source-reading",
         "narration": "the book of Ezekiel details a different visionary experience. The first chapter describes four living creatures,",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "Four distinct visionary living creatures, spaced clearly across a calm cream ground. Each shown with four outlined wings and a compact cluster of human, lion, ox and eagle faces. Flat gold and brown ink drawing; no ordinary humans, no clouds or glow.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "A single blank parchment scroll unrolled across a low stone ledge, its two rolled edges visible. Calm cream wall, flat ochre stone and clear hand-drawn ink. This introduces the written account; no creatures, human figures, wings or lettering. Space above for the source citation added in editing.",
         "overlay": "Ezekiel's Vision",
         "labelPlacement": "left",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence."
+      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-4-shot-8",
       "replacement": {
         "overlayAnchor": "four faces",
-        "id": "chapter-4-shot-8-editorial-repair",
+        "id": "chapter-4-shot-8-four-face-study",
         "narration": "each exhibiting four faces\u2014the likeness of a man, a lion, an ox, and an eagle\u2014alongside four",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "Close-up of ONE representative visionary creature: four distinct faces belonging to the same creature, human, lion, ox, eagle, above one shared torso with exactly four wings. Flat gold and cream colours, clearly drawn contours and a simple calm background.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "Four clearly separate face-type portraits in one illustrated study: one human face, one lion with a mane, one ox with horns and broad muzzle, one eagle with a hooked beak. They explain FOUR faces of ONE visionary creature, not four species of creatures. Body and wings outside this view. Flat gold, brown and cream ink; no Eli, panels or lettering.",
         "overlay": "The Four Faces",
         "labelPlacement": "right",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "face-study",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-9",
       "replacement": {
         "overlayAnchor": "living creatures",
-        "id": "chapter-4-shot-9-editorial-repair",
+        "id": "chapter-4-shot-9-accompanying-wheel-detail",
         "narration": "wings. These creatures are not presented in isolation; they are accompanied by complex wheels that stand beside them.",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "One representative four-winged creature with the four source-described faces stands beside a large upright wheel. Small drawn eyes decorate the wheel rim only. Each element remains clearly separate, flat gold and brown fills and clean black ink contours.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "One tall upright illustrated wheel with simple hand-drawn eyes around its thick rim. A small arc of the inner wheel is visible; the accompanying creatures are outside this detail view. Bold organic dark outlines and flat ochre on cream, no human figures, metal shine, gears or extra entities.",
         "overlay": "Living Creatures",
         "labelPlacement": "top",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wheel-detail",
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-10",
@@ -640,65 +656,73 @@
       "sourceId": "chapter-4-shot-11",
       "replacement": {
         "overlayAnchor": "deviates significantly from human appearance",
-        "id": "chapter-4-shot-11-editorial-repair",
+        "id": "chapter-4-shot-11-nonhuman-wheel-detail",
         "narration": "These visionary elements emphasize a form that deviates significantly from human appearance. Later,",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "One large upright wheel, its rim covered with clearly drawn simple eyes, all rendered in flat ochre ink colours. A plain cream background and bold dark outlines make the unusual rim easy to read. No ordinary people, no metallic rendering or atmospheric lighting.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "One large upright ochre wheel with a thick curved rim full of simple cartoon eyes. No creatures or people in this wheel-only detail. Flat cream and warm earth fills, clean organic ink lines, no metallic finish, glow or lettering.",
         "overlay": "Non-human presence",
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wheel-detail",
+        "promptFocus": true
       },
-      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence."
+      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-12",
       "replacement": {
         "overlayAnchor": "categorical identification",
-        "id": "chapter-4-shot-12-editorial-repair",
+        "id": "chapter-4-shot-12-cherubim-text-source",
         "narration": "in the tenth chapter of the same book, the text provides a categorical identification, stating that these specific living",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "One representative living creature with four clearly differentiated faces, human, lion, ox and eagle, and four wings. Whole figure has clean black outlines, flat warm cream and ochre fills, simple shared body and calm background. No Eli or other ordinary human figures.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "One blank open parchment scroll rests diagonally on a simple wooden surface. The rolled edges and warm paper are clearly illustrated with bold dark outlines and flat fills. A close source-reading view for the textual identification; no living creatures, people, tools or lettering.",
         "overlay": "Categorical identification",
         "labelPlacement": "top",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-13",
       "replacement": {
         "overlayAnchor": "cherubims",
-        "id": "chapter-4-shot-13-editorial-repair",
+        "id": "chapter-4-shot-13-cherubim-face-study",
         "narration": "creatures are cherubims. By keeping these descriptions tied strictly to their respective passages\u2014Isaiah\u2019s",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "A direct, clear flat-ink illustration of one representative cherubic living creature, four faces on one shared body and four wings. Human, lion, ox and eagle faces all belong to that one figure. Warm ochre and cream fills; no temple carving or extra people.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "Four clearly separate face-type portraits in a compact horizontal illustrated study: one human face, one lion with a mane, one ox with horns and broad muzzle, one eagle with a hooked beak. They explain FOUR faces of ONE visionary creature, not four species of creatures. Body and wings outside this view. Flat gold, brown and cream ink; no Eli, panels or lettering.",
         "overlay": "Cherubim description",
         "labelPlacement": "left",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "face-study",
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-14",
       "replacement": {
         "overlayAnchor": "distinguish how the biblical text characterizes",
-        "id": "chapter-4-shot-14-editorial-repair",
+        "id": "chapter-4-shot-14-separate-texts",
         "narration": "six-winged seraphim and Ezekiel\u2019s four-faced cherubim\u2014we can distinguish how the biblical text characterizes these",
-        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
-        "concept": "Two clearly separated symbolic figures on one quiet cream field. Left: Isaiah's seraph with six wings in three functional pairs. Right: Ezekiel's creature with four faces and four wings beside an eye-covered wheel. Flat ink illustrations, separate bodies, no ordinary people.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Distinct textual accounts, never merged anatomy. A source-reading illustration only.",
+        "concept": "Two separate blank parchment scrolls lie far apart on a plain wooden surface. One is unrolled vertically at left, the other horizontally at right; a broad clear gap separates the textual sources. Flat cream parchment and warm ochre ink artwork. No people or visionary beings and no merged anatomy; citations are added in editing.",
         "overlay": "Distinct prophetic visions",
         "labelPlacement": "top",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-15",
@@ -720,65 +744,73 @@
       "sourceId": "chapter-4-shot-16",
       "replacement": {
         "overlayAnchor": "individual reports",
-        "id": "chapter-4-shot-16-editorial-repair",
+        "id": "chapter-4-shot-16-prophetic-reports-scrolls",
         "narration": "rather, they present individual reports of prophetic visions where the appearance of the celestial beings is tied directly to the majesty",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Eli seated at a plain low table studying one blank parchment scroll. His head tilts with thoughtful eyebrows; both hands rest at his sides. A simple cream wall and one table define the space, clean flat drawing.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Distinct textual accounts, never merged anatomy. A source-reading illustration only.",
+        "concept": "Two distinct unrolled parchment scrolls on separate low wooden stands, viewed close enough to see their curled paper edges. The stands and blank cream paper have simple dark ink outlines and flat warm fills. A source-reading comparison; no people, tools, visionary beings or lettering.",
         "overlay": "Individual prophetic reports",
         "labelPlacement": "right",
         "characterRoles": [
-          "Eli"
-        ]
+          "None"
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
     },
     {
       "sourceId": "chapter-4-shot-17",
       "replacement": {
         "overlayAnchor": "eyes on the wheel rims",
-        "id": "chapter-4-shot-17-editorial-repair",
+        "id": "chapter-4-shot-17-eye-rim-closeup",
         "narration": "and setting of the throne room itself. The presence of the eyes on the wheel rims,",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "Extreme close-up of one portion of the wheel rim from Ezekiel's vision. A row of large simple illustrated eyes follows its curved ochre edge; thick irregular dark contours and flat cream fills, no realistic eye textures, no humans.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "Extreme close-up of a curved ochre wheel rim. A row of large, simple illustrated eyes follows its edge. Only a small section of the rim is in frame; the rest of the wheel and all creatures remain outside the crop. Flat cream fills and irregular dark ink contours, no realistic eye textures or humans.",
         "overlay": "Wheels full of eyes",
         "labelPlacement": "top",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wheel-detail",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-4-shot-18",
       "replacement": {
         "overlayAnchor": "encounter",
-        "id": "chapter-4-shot-18-editorial-repair",
+        "id": "chapter-4-shot-18-single-rim-eye-detail",
         "narration": "as specified in the first chapter of Ezekiel, serves as a defining visual detail of his encounter,",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Only Eli kneeling on plain ground, one hand resting on his knee and the other held calmly near his chest. His eyes look upward with wonder. One simple brown ground line and cream sky, clear reference face and flat colour.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "Macro detail of one large hand-drawn eye embedded in the curved ochre rim of a visionary wheel. Enough rim is visible to show the eye belongs to the wheel, not a human face. Other eyes and creatures are outside the crop. Flat cream and ochre ink, no realistic texture, people or lettering.",
         "overlay": "Ezekiel's vision",
         "labelPlacement": "left",
         "characterRoles": [
-          "Eli"
-        ]
+          "None"
+        ],
+        "depictionScope": "wheel-detail",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-4-shot-19",
       "replacement": {
         "overlayAnchor": "six-wing configuration",
-        "id": "chapter-4-shot-19-editorial-repair",
+        "id": "chapter-4-shot-19-three-pair-wing-study",
         "narration": "just as the six-wing configuration distinguishes the seraphim in Isaiah\u2019s vision. Each passage remains a distinct record",
-        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
-        "concept": "A representative seraph clearly hovering: six wings in three separate pairs, upper pair across the face, lower pair covering the feet and middle pair open sideways for flight. Flat gold and cream fills, broad black ink outlines and simple cream background.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
+        "concept": "Exactly SIX separate feathered wings in THREE clearly spaced pairs, arranged vertically as a clean illustrated component study of one seraph. Warm gold flat fills, dark organic ink and cream negative space. No body or face; never a complete two-winged figure. No Eli or lettering.",
         "overlay": "Isaiah's seraphim",
         "labelPlacement": "right",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wing-study",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-4-shot-20",
@@ -832,49 +864,55 @@
       "sourceId": "chapter-5-shot-1",
       "replacement": {
         "overlayAnchor": "Isaiah 6:2",
-        "id": "chapter-5-shot-1-editorial-repair",
+        "id": "chapter-5-shot-1-isaiah-citation-reading",
         "narration": "When viewing a figure with six wings, check Isaiah 6:2 to confirm it",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Eli reads a single blank open parchment scroll at a low stone ledge, eyes focused downward and eyebrows raised. A clean empty area remains beside the scroll for the source citation added in editing. Flat ochre and cream colours, no written letters in the image.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
+        "concept": "Eli reads one blank open parchment scroll at a low stone ledge, with the recognizable white round face, dark beard and ochre head covering of our reference. The scroll and Eli are the only subjects. Flat warm ink, clear cream space for the citation; no visionary being or lettering.",
         "overlay": "Isaiah 6:2",
         "labelPlacement": "top",
         "characterRoles": [
           "Eli"
-        ]
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-5-shot-2",
       "replacement": {
         "overlayAnchor": "seraphims",
-        "id": "chapter-5-shot-2-editorial-repair",
+        "id": "chapter-5-shot-2-ezekiel-face-comparison",
         "narration": "reflects the seraphims in that specific temple vision. Conversely, if an image displays four faces paired with wheels containing",
-        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
-        "concept": "A flat-ink close-up of one representative seraph, six wings in three distinct pairs arranged over face, over feet, and extended for flight. The separate pairs are large and countable, bold dark outlines on calm cream. No ordinary humans or documents.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "Four clearly separate face-type portraits in one illustrated study: one human face, one lion with a mane, one ox with horns and broad muzzle, one eagle with a hooked beak. They explain FOUR faces of ONE visionary creature, not four species of creatures. Body and wings outside this view. Flat gold, brown and cream ink; no Eli, panels or lettering.",
         "overlay": "Seraphim",
         "labelPlacement": "right",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "face-study",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-5-shot-3",
       "replacement": {
         "overlayAnchor": "Ezekiel 1:4-21",
-        "id": "chapter-5-shot-3-editorial-repair",
+        "id": "chapter-5-shot-3-ezekiel-eye-wheel",
         "narration": "eyes, Ezekiel 1:4-21 serves as the precise source.",
-        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
-        "concept": "One large upright wheel with simple hand-drawn eyes on its rim beside a representative four-faced, four-winged living creature. The human, lion, ox and eagle faces belong to that single creature. Flat gold and cream art, no ordinary people.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. One creature has human, lion, ox and eagle faces, four wings; eyes on wheel rims.",
+        "concept": "A close diagonal portion of a thick wheel rim covered with simple illustrated eyes. The inner wheel edge curves away across clear cream space. Source-specific wheel detail only: creatures and ordinary humans are outside the crop. Flat warm ink, no metal shine, extra heads or lettering.",
         "overlay": "Ezekiel 1:4-21",
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "wheel-detail",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-5-shot-4",
@@ -896,17 +934,19 @@
       "sourceId": "chapter-5-shot-5",
       "replacement": {
         "overlayAnchor": "separate",
-        "id": "chapter-5-shot-5-editorial-repair",
+        "id": "chapter-5-shot-5-two-distinct-accounts",
         "narration": "Isaiah\u2019s six-winged beings and Ezekiel\u2019s four-faced creatures represent separate,",
-        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
-        "concept": "A separate six-winged seraph at left and four-faced, four-winged living creature at right, with generous calm space between them. Seraph wing pairs cover face, cover feet, and extend for flight. Flat ochre ink drawing, clear distinct bodies, no ordinary humans.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Distinct textual accounts, never merged anatomy. A source-reading illustration only.",
+        "concept": "Two separate blank open parchment scrolls on two low wooden stands, one at each side of the cream frame. Broad negative space keeps the written accounts distinct. Warm flat paper and brown organic ink outlines, no people or visionary creatures. Text-source comparison only; citations are editorial overlays.",
         "overlay": "Distinct Visions",
         "labelPlacement": "top",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-5-shot-6",
@@ -1111,17 +1151,19 @@
       "sourceId": "chapter-6-shot-3",
       "replacement": {
         "overlayAnchor": "prophetic",
-        "id": "chapter-6-shot-3-editorial-repair",
+        "id": "chapter-6-shot-3-distinct-prophetic-sources",
         "narration": "The six-winged seraphim of Isaiah and the four-faced cherubim of Ezekiel remain fixed within their own prophetic",
-        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
-        "concept": "Two clearly separated source-specific beings: Isaiah's seraph with six wings in three functional pairs, and Ezekiel's single creature with four faces and four wings beside an eye-covered wheel. Simple flat ink artwork on cream, no human host, no merged bodies.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Distinct textual accounts, never merged anatomy. A source-reading illustration only.",
+        "concept": "A close top-down view of two separate unrolled parchment scrolls, one vertical and one diagonal, with a clear empty gap between them. Dark organic ink contours, muted ochre paper and a quiet cream background. Two distinct textual sources, not merged creatures; no people or lettering.",
         "overlay": "Distinct Prophecies",
         "labelPlacement": "bottom",
         "characterRoles": [
           "None"
-        ]
+        ],
+        "depictionScope": "text-source",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
     },
     {
       "sourceId": "chapter-6-shot-4",

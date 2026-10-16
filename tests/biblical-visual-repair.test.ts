@@ -24,8 +24,12 @@ test('real selective repairs validate within native provider limits and preserve
   assert.notEqual(r.sourceId,r.replacement.id);
   for(const v of ['v1','v2','v3'] as const)assert.ok(nativePrompt(style,r.replacement,v).length<=2048,r.replacement.id);
   if(sourceBoundVision(r.replacement)){
-   const prompt=nativePrompt(style,r.replacement,'v3');assert.match(prompt,/SOURCE VISION/);assert.doesNotMatch(prompt,/No people or characters/);
-   const retried=regenerationIdea(r.replacement,style);assert.doesNotMatch(retried.concept,/empty scene|nobody else/);assert.ok(nativePrompt(style,retried,'v3').length<=2048);
+   const prompt=nativePrompt(style,r.replacement,'v3'),retried=regenerationIdea(r.replacement,style),retryPrompt=nativePrompt(style,retried,'v3');
+   if(r.replacement.depictionScope==='text-source'){
+    for(const value of [prompt,retryPrompt]){assert.match(value,/Source-reading scene only/);assert.match(value,/no visionary beings/);assert.doesNotMatch(value,/only the requested visionary subject/);}
+    assert.equal(retried.depictionScope,'text-source');assert.match(retried.concept,/manuscript/);assert.doesNotMatch(retried.concept,/Preserve the source-described visionary anatomy/);
+   }else{assert.match(prompt,/SOURCE VISION/);assert.doesNotMatch(prompt,/No people or characters/);assert.doesNotMatch(retried.concept,/empty scene|nobody else/);}
+   assert.ok(retryPrompt.length<=2048);
   }
  }
  // Source count corrections do not change the approved medium, model or reference.
