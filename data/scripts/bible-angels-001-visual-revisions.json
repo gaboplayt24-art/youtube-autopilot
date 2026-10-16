@@ -329,19 +329,18 @@
       "sourceId": "chapter-3-shot-10",
       "replacement": {
         "overlayAnchor": "touched by a hand",
-        "id": "chapter-3-shot-10-daniel-touch-v2",
+        "id": "chapter-3-shot-10-daniel-touch-v3",
         "narration": "Daniel records an experience where he is touched by a hand, followed by a vision of a figure who speaks of a struggle against the prince",
         "historicalContext": "Biblical Daniel 10 vision, ancient Levant. Illustrated interpretation; plain uncollared linen tunic and simple cloth sash, no modern garments.",
-        "concept": "Two round-head adults, waist-up, cream wall, flat warm ink: at left Daniel, NOT Eli: clean-shaven, short black hair, no beard, no head cloth, plain green uncollared tunic, kneeling, looking up surprised. At right a messenger with short golden hair, plain white uncollared linen tunic and rust sash, rests one hand on Daniel's shoulder.",
+        "concept": "One round-head adult, waist-up, cream wall, flat warm ink: Daniel, NOT Eli: clean-shaven, short black hair, no head cloth, plain green uncollared tunic, kneeling and looking up in surprise. A single softly glowing hand enters from the right frame edge and rests on his shoulder (Daniel 10:10); the rest of that figure stays offscreen.",
         "overlay": "Visionary Touch",
         "labelPlacement": "right",
         "characterRoles": [
-          "Daniel, clean-shaven, short black hair, green tunic",
-          "Messenger, golden hair, white linen tunic"
+          "Daniel, clean-shaven, short black hair, green tunic"
         ],
         "promptFocus": true
       },
-      "reason": "Manual pixel inspection found a modern pointed shirt collar in the machine-accepted source. Preserve that source and its raw QA; replace its wardrobe without changing the narrated touch or timing. 2026-10-16: the period-clothing redraw failed identity QA twice because Eli was drawn off-model; the narration is Daniel's own experience, so the frame now shows Daniel, not Eli, under a fresh evidence ID. Earlier sources and verdicts are kept. Second redraw: Gemini judged the bearded Daniel an Eli clone, so Daniel is now clean-shaven with short black hair and a green tunic."
+      "reason": "Manual pixel inspection found a modern pointed shirt collar in the machine-accepted source. Preserve that source and its raw QA; replace its wardrobe without changing the narrated touch or timing. 2026-10-16: the period-clothing redraw failed identity QA twice because Eli was drawn off-model; the narration is Daniel's own experience, so the frame now shows Daniel, not Eli, under a fresh evidence ID. Earlier sources and verdicts are kept. Second redraw: Gemini judged the bearded Daniel an Eli clone, so Daniel is now clean-shaven with short black hair and a green tunic. Third redraw: two-figure versions failed (Eli clone, then a missing arm), so the beat follows Daniel 10:10 literally: one kneeling figure and a hand entering from the frame edge."
     },
     {
       "sourceId": "chapter-3-shot-11",
