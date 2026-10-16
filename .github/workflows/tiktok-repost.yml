@@ -1,0 +1,65 @@
+name: tiktok-repost
+# Owner decision 2026-10-16: post Shorts already reviewed on YouTube to TikTok, once each (config/tiktok-reposts.json).
+on:
+  workflow_dispatch:
+    inputs:
+      content_preview_confirmed:
+        description: Owner has watched the exact Shorts listed in config/tiktok-reposts.json
+        type: boolean
+        default: false
+      express_consent_given:
+        description: Owner consents to posting them publicly on TikTok
+        type: boolean
+        default: false
+      allow_comment:
+        type: choice
+        options: [disable, allow]
+        default: allow
+      allow_duet:
+        type: choice
+        options: [disable, allow]
+        default: allow
+      allow_stitch:
+        type: choice
+        options: [disable, allow]
+        default: allow
+permissions:
+  contents: read
+concurrency:
+  group: tiktok-repost
+  cancel-in-progress: false
+jobs:
+  repost:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: youtube-private
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Shorts rendered before checkpoints moved to Releases live in the old per-run Actions cache.
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/runs/bible-long-001
+          key: run-bible-long-001-none
+          restore-keys: run-bible-long-001-
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/runs/bible-test-002
+          key: run-bible-test-002-none
+          restore-keys: run-bible-test-002-
+      - run: ls -la data/runs/*/short.mp4 data/runs/*/short-upload.json || true
+      - name: Schedule the reviewed Shorts on TikTok
+        env:
+          CONTENT_PREVIEW_CONFIRMED: ${{ inputs.content_preview_confirmed }}
+          EXPRESS_CONSENT_GIVEN: ${{ inputs.express_consent_given }}
+          ALLOW_COMMENT: ${{ inputs.allow_comment }}
+          ALLOW_DUET: ${{ inputs.allow_duet }}
+          ALLOW_STITCH: ${{ inputs.allow_stitch }}
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx tsx src/social/repost-shorts.ts
