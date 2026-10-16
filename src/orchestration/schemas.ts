@@ -1,6 +1,6 @@
 import {z} from 'zod';
 import {performance} from '../longform';
-import {shot,mediaAsset,profile,word} from '../editor/schemas';
+import {shot,mediaAsset,profile,word,dynamicEdit} from '../editor/schemas';
 export const source=z.object({url:z.string().url(),title:z.string(),excerpt:z.string().min(10)});
 export const research=z.object({topic:z.string(),sources:z.array(source).min(1),summary:z.string()});
 export const ideas=z.object({ideas:z.array(z.object({topic:z.string(),hook:z.string(),score:z.number().min(0).max(100),reason:z.string()})).min(1)});
@@ -11,7 +11,7 @@ export const plan=z.object({scenes:z.array(z.object({id:z.string(),narration:z.s
 export const voice=z.object({chapters:z.array(z.object({id:z.string(),path:z.string(),duration:z.number().positive(),identity:z.string(),words:z.array(word)})).optional(),scenes:z.array(z.object({id:z.string(),path:z.string(),duration:z.number().positive(),words:z.array(word).optional(),alignment:z.array(z.object({start:z.number().nonnegative(),end:z.number().positive(),text:z.string().min(1)})).min(1)}))});
 export const visuals=z.object({scenes:z.array(z.object({id:z.string(),path:z.string(),license:z.literal('original')}))});
 export const captions=z.object({cues:z.array(z.object({sceneId:z.string(),start:z.number().nonnegative(),end:z.number().positive(),text:z.string(),words:z.array(word).optional()}))});
-export const composition=z.object({fps:z.number().positive(),width:z.number().positive(),height:z.number().positive(),durationInFrames:z.number().int().positive(),scenes:z.array(z.object({id:z.string(),text:z.string(),audio:z.string(),image:z.string(),from:z.number().int().nonnegative(),frames:z.number().int().positive()})),cues:captions.shape.cues,shots:z.array(shot).default([]),assets:z.array(mediaAsset).default([]),audioMixPath:z.string().optional(),visualProfile:profile.optional(),thumbnailVariant:z.enum(['A','B','C']).optional(),thumbnailTitle:z.string().optional(),short:z.object({startSeconds:z.number().nonnegative(),endSeconds:z.number().positive(),title:z.string().min(5).max(100)}).optional()});
+export const composition=z.object({fps:z.number().positive(),width:z.number().positive(),height:z.number().positive(),durationInFrames:z.number().int().positive(),scenes:z.array(z.object({id:z.string(),text:z.string(),audio:z.string(),image:z.string(),from:z.number().int().nonnegative(),frames:z.number().int().positive()})),cues:captions.shape.cues,shots:z.array(shot).default([]),assets:z.array(mediaAsset).default([]),audioMixPath:z.string().optional(),visualProfile:profile.optional(),thumbnailVariant:z.enum(['A','B','C']).optional(),thumbnailTitle:z.string().optional(),short:z.object({startSeconds:z.number().nonnegative(),endSeconds:z.number().positive(),title:z.string().min(5).max(100)}).optional(),edit:dynamicEdit.optional()});
 export const rendered=z.object({path:z.string(),duration:z.number().positive(),sha256:z.string().length(64)});
 export const qa=z.object({passed:z.boolean(),checks:z.array(z.object({name:z.string(),passed:z.boolean(),detail:z.string(),severity:z.enum(['hard','advisory']).optional()}))});
 export const thumbnail=z.object({path:z.string(),variant:z.string(),sha256:z.string().length(64),variants:z.array(z.object({variant:z.enum(['A','B','C']),path:z.string(),sha256:z.string(),scores:z.record(z.number())})).default([])});
