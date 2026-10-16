@@ -1,14 +1,15 @@
 import {TITLE_GUIDANCE} from '../packaging/title-formula';
 import {z} from 'zod';
 import {join,basename,extname} from 'node:path';
-import {copyFile} from 'node:fs/promises';
+import {copyFile,access} from 'node:fs/promises';
 import {json,read,duration,exec} from './io';
 import type {Script} from './schemas';
 import type {ShotPlan,MediaAsset} from '../editor/schemas';
 import type {LLMProvider} from '../providers/interfaces';
 import {validatedJSON} from '../providers/validated-json';
-import {existingNarrativeReview,existingEffectiveGroqReview} from '../visuals/density-qa';
-import {fileDigest} from './integrity';
+import {existingNarrativeReview,existingEffectiveGroqReview,existingEffectiveGeminiReview} from '../visuals/density-qa';
+import {fileDigest,artifact} from './integrity';
+import {wingCountEvidence,wingCountStage} from '../visuals/wing-count';
 import {currentQuota} from '../quota';
 const titleReport=z.object({candidates:z.array(z.object({title:z.string().min(8).max(100),clarity:z.number().min(0).max(100),curiosity:z.number().min(0).max(100),specificity:z.number().min(0).max(100),historicalTone:z.number().min(0).max(100),thumbnailSynergy:z.number().min(0).max(100),rationale:z.string().min(15)})).length(5)}).refine(v=>new Set(v.candidates.map(c=>c.title.toLowerCase())).size===5,'Five distinct original titles required')
  // Channel rule (2026-10-10): present the Bible as an ancient source; never stage evidence as proof or disproof of faith claims.
@@ -19,11 +20,16 @@ export async function visualReviewEvidence(dir:string,assets:MediaAsset[]){
  return Promise.all([...new Map(assets.map(a=>[a.sourceImageId!,a])).entries()].map(async([id,a])=>{
   if(!id||!a.sourceSha256||!a.artwork||await fileDigest(a.path)!==a.sourceSha256)throw new Error('Visual review export source integrity mismatch');
   const stage=basename(a.path,extname(a.path));
-  const groq=await existingEffectiveGroqReview(dir,stage,a.sourceSha256,a.artwork.referenceSha256);
-  if(groq)return {id,stage,sourceSha256:a.sourceSha256,review:groq.review,reviewPolicy:groq.policy,reviewer:{provider:groq.provider,model:groq.model},originalReview:groq.originalReview,minorStagingStage:groq.minorStagingStage};
+  let componentCount: z.infer<typeof wingCountEvidence>|undefined,hasCount=false;
+  const countStage=wingCountStage(stage,a.sourceSha256);
+  try{await access(join(dir,countStage+'.json'));hasCount=true;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}
+  if(hasCount)componentCount=await artifact(dir,countStage,wingCountEvidence);
+  if(componentCount&&(componentCount.sourceSha256!==a.sourceSha256||!componentCount.measurement.passed))throw Error('Visual count evidence failed or mismatched');
+  const groq=await existingEffectiveGroqReview(dir,stage,a.sourceSha256,a.artwork.referenceSha256)??await existingEffectiveGeminiReview(dir,stage,a.sourceSha256,a.artwork.referenceSha256);
+  if(groq)return {id,stage,sourceSha256:a.sourceSha256,componentCount,review:groq.review,reviewPolicy:groq.policy,reviewer:{provider:groq.provider,model:groq.model},originalReview:groq.originalReview,minorStagingStage:groq.minorStagingStage};
   const originalReview=await read(join(dir,`native-${stage}-density-QA-v4.3.json`));
   const reviewed=await existingNarrativeReview(dir,stage,a.sourceSha256,a.artwork.referenceSha256);
-  return {id,stage,sourceSha256:a.sourceSha256,review:reviewed??originalReview,...(reviewed?{reviewPolicy:'narrative-facts-v1',originalReview}:{})};
+  return {id,stage,sourceSha256:a.sourceSha256,componentCount,review:reviewed??originalReview,...(reviewed?{reviewPolicy:'narrative-facts-v1',originalReview}:{})};
  }));
 }
 export async function finalizeProductionTest(dir:string,script:Script,shots:ShotPlan,visuals:{assets:MediaAsset[]},audio:{path:string;duration:number;events:{time:number;type:string}[];provenance:string;sfxDb:number},audioReport:unknown,qa:unknown,llm:LLMProvider,seconds:number,kind:'production_test'|'quality_test'|'longform'='production_test',ownerThumbnail=false){

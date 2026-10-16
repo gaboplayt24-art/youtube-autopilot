@@ -498,19 +498,23 @@
       "sourceId": "chapter-4-shot-2",
       "replacement": {
         "overlayAnchor": "possesses six wings",
-        "id": "chapter-4-shot-2-six-wing-study",
+        "id": "chapter-4-shot-2-verified-layout-six-wings",
         "narration": "stating that each of these figures possesses six wings. Their arrangement is described with precision:",
         "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
-        "concept": "A clear illustrated anatomy study: exactly THREE separate PAIRS of feathered wings, SIX wings total, arranged across one cream field with generous gaps between the pairs. Gold flat fills and organic black ink contours. Wings only, no bodies, faces, Eli or throne; a component study of one seraph, not three beings.",
+        "concept": "One horizontal row of SIX isolated upright feathered wings, grouped as THREE separated pairs. Follow the six-component layout in input_image_1, with new muted ochre curved feathers and generous gaps. Each silhouette is taller than it is wide and separate from every other wing. Cream background, organic ink, no bodies, heads, extra rows or lettering.",
         "overlay": "Six-Winged Presence",
         "labelPlacement": "left",
         "characterRoles": [
           "None"
         ],
         "depictionScope": "wing-study",
-        "promptFocus": true
+        "promptFocus": true,
+        "layoutReference": {
+          "stage": "native-chapter-1-shot-1-wing-study-p3-source",
+          "sha256": "31d38ef0d174182721e4d13d53dd870abe8bf4a7302c0681855e3e51878ab2f7"
+        }
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: actual saved full-figure variants have wrong source counts or unrequested subjects. Use the existing explicitly scoped study/detail/source-reading view under fresh evidence, without altering narration, counts or timing. Cropped details never assert a complete two-winged being; face studies explain the four faces of one creature, not four species. Preserve prior PNGs and reviews. Actual-image inspection found twelve wings in the prior machine-passed source (SHA 297869d68ae8a7ccdd137decaa09fb4d33e850f91f833a0191e6ea8d7ef56d72). Preserve that false-positive evidence. Use our hash-verified six-wing illustration only as an additional layout guide for a new FLUX inference, with quantitative isolated-component QA."
     },
     {
       "sourceId": "chapter-4-shot-3",
@@ -798,19 +802,23 @@
       "sourceId": "chapter-4-shot-19",
       "replacement": {
         "overlayAnchor": "six-wing configuration",
-        "id": "chapter-4-shot-19-three-pair-wing-study",
+        "id": "chapter-4-shot-19-verified-layout-six-wings",
         "narration": "just as the six-wing configuration distinguishes the seraphim in Isaiah\u2019s vision. Each passage remains a distinct record",
         "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings in three pairs. Interpretive ink study; never a complete two-winged being.",
-        "concept": "Exactly SIX separate feathered wings in THREE clearly spaced pairs, arranged vertically as a clean illustrated component study of one seraph. Warm gold flat fills, dark organic ink and cream negative space. No body or face; never a complete two-winged figure. No Eli or lettering.",
+        "concept": "One horizontal row of SIX isolated upright feathered wings, grouped as THREE separated pairs. Follow the six-component layout in input_image_1, with new pale gold feathers, curved tips and wider spacing. Each silhouette is taller than it is wide and separate from every other wing. Cream background, organic ink, no bodies, heads, extra rows or lettering.",
         "overlay": "Isaiah's seraphim",
         "labelPlacement": "right",
         "characterRoles": [
           "None"
         ],
         "depictionScope": "wing-study",
-        "promptFocus": true
+        "promptFocus": true,
+        "layoutReference": {
+          "stage": "native-chapter-1-shot-1-wing-study-p3-source",
+          "sha256": "31d38ef0d174182721e4d13d53dd870abe8bf4a7302c0681855e3e51878ab2f7"
+        }
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts. Actual-image inspection found twelve wings in the prior machine-passed source (SHA 297869d68ae8a7ccdd137decaa09fb4d33e850f91f833a0191e6ea8d7ef56d72). Preserve that false-positive evidence. Use our hash-verified six-wing illustration only as an additional layout guide for a new FLUX inference, with quantitative isolated-component QA."
     },
     {
       "sourceId": "chapter-4-shot-20",

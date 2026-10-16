@@ -1,0 +1,27 @@
+{
+  "sourceExecution": "38864339605",
+  "artwork": "Our own original FLUX illustrations; Cloudflare/BFL terms apply. These are diagnostic pixel fixtures, not new production artwork.",
+  "preprocessing": "Uniform FFmpeg reduction from 2048x1152 to 512x288; no content editing.",
+  "fixtures": [
+    {
+      "file": "six.png",
+      "sha256": "666ddddebe991efb1626c20b3e275f67de1338c57fe8ae3e954887cf0b56f83f",
+      "originalSourceSha256": "31d38ef0d174182721e4d13d53dd870abe8bf4a7302c0681855e3e51878ab2f7",
+      "expectedWings": 6,
+      "derivedSize": [
+        512,
+        288
+      ]
+    },
+    {
+      "file": "twelve.png",
+      "sha256": "0172f93d87f13195e475641a037be036aa127d2a2691a3ca2f2514c0c6781ac3",
+      "originalSourceSha256": "297869d68ae8a7ccdd137decaa09fb4d33e850f91f833a0191e6ea8d7ef56d72",
+      "expectedWings": 12,
+      "derivedSize": [
+        512,
+        288
+      ]
+    }
+  ]
+}

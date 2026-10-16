@@ -1,0 +1,11 @@
+{
+  "version": "actual-image-count-rejection-v1",
+  "reviewer": "Codex visual inspection; not a human-owner approval",
+  "sourceExecution": "38864339605",
+  "sourceStage": "native-chapter-4-shot-2-six-wing-study-p3-source",
+  "sourceSha256": "297869d68ae8a7ccdd137decaa09fb4d33e850f91f833a0191e6ea8d7ef56d72",
+  "observedWings": 12,
+  "requiredWings": 6,
+  "priorGeminiPassed": true,
+  "action": "Exclude this source under a fresh evidence ID; preserve raw PNG and AI verdict. A quantitative component check now blocks the false pass."
+}

@@ -1,0 +1,174 @@
+{
+  "sourceExecution": "38864339605",
+  "method": "Offline FFmpeg RGB analysis and connected components on actual retained source PNGs; no external API call",
+  "cases": [
+    {
+      "name": "correct-six",
+      "sourceSha256": "31d38ef0d174182721e4d13d53dd870abe8bf4a7302c0681855e3e51878ab2f7",
+      "measurement": {
+        "algorithm": "isolated-wing-silhouettes-v1",
+        "width": 512,
+        "height": 288,
+        "backgroundRgb": [
+          251,
+          248,
+          234
+        ],
+        "backgroundUniformity": 1,
+        "foregroundRatio": 0.20442030164930555,
+        "components": [
+          {
+            "x": 28,
+            "y": 51,
+            "width": 70,
+            "height": 156,
+            "area": 5823
+          },
+          {
+            "x": 182,
+            "y": 52,
+            "width": 70,
+            "height": 156,
+            "area": 5803
+          },
+          {
+            "x": 264,
+            "y": 53,
+            "width": 70,
+            "height": 155,
+            "area": 5573
+          },
+          {
+            "x": 418,
+            "y": 55,
+            "width": 69,
+            "height": 153,
+            "area": 5597
+          },
+          {
+            "x": 107,
+            "y": 61,
+            "width": 55,
+            "height": 132,
+            "area": 3871
+          },
+          {
+            "x": 353,
+            "y": 62,
+            "width": 54,
+            "height": 130,
+            "area": 3476
+          }
+        ],
+        "detectedCount": 6,
+        "expectedCount": 6,
+        "passed": true
+      }
+    },
+    {
+      "name": "false-positive-twelve",
+      "sourceSha256": "297869d68ae8a7ccdd137decaa09fb4d33e850f91f833a0191e6ea8d7ef56d72",
+      "measurement": {
+        "algorithm": "isolated-wing-silhouettes-v1",
+        "width": 512,
+        "height": 288,
+        "backgroundRgb": [
+          254,
+          251,
+          240
+        ],
+        "backgroundUniformity": 1,
+        "foregroundRatio": 0.22679307725694445,
+        "components": [
+          {
+            "x": 258,
+            "y": 38,
+            "width": 68,
+            "height": 93,
+            "area": 3057
+          },
+          {
+            "x": 350,
+            "y": 40,
+            "width": 57,
+            "height": 91,
+            "area": 2484
+          },
+          {
+            "x": 413,
+            "y": 40,
+            "width": 71,
+            "height": 92,
+            "area": 3373
+          },
+          {
+            "x": 184,
+            "y": 41,
+            "width": 66,
+            "height": 90,
+            "area": 2632
+          },
+          {
+            "x": 26,
+            "y": 43,
+            "width": 73,
+            "height": 91,
+            "area": 2961
+          },
+          {
+            "x": 112,
+            "y": 51,
+            "width": 47,
+            "height": 81,
+            "area": 2092
+          },
+          {
+            "x": 263,
+            "y": 135,
+            "width": 59,
+            "height": 93,
+            "area": 2974
+          },
+          {
+            "x": 185,
+            "y": 137,
+            "width": 62,
+            "height": 93,
+            "area": 2967
+          },
+          {
+            "x": 354,
+            "y": 145,
+            "width": 48,
+            "height": 91,
+            "area": 2790
+          },
+          {
+            "x": 415,
+            "y": 146,
+            "width": 64,
+            "height": 86,
+            "area": 2685
+          },
+          {
+            "x": 113,
+            "y": 147,
+            "width": 49,
+            "height": 93,
+            "area": 2689
+          },
+          {
+            "x": 37,
+            "y": 150,
+            "width": 63,
+            "height": 85,
+            "area": 2738
+          }
+        ],
+        "detectedCount": 12,
+        "expectedCount": 6,
+        "passed": false
+      }
+    }
+  ]
+}
