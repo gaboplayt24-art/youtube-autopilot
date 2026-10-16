@@ -61,7 +61,7 @@ permissions:
   contents: write
   actions: read
 concurrency:
-  group: free-provider-account
+  group: ${{ inputs.task == 'tiktok-repost' && 'tiktok-repost' || 'free-provider-account' }}
   cancel-in-progress: false
 jobs:
   # Owner-approved v5 reference (2026-10-10): copy the single Eli pose from the audition artifact into the repo.
