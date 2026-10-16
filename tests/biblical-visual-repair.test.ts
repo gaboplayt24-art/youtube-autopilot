@@ -26,7 +26,7 @@ test('real selective repairs validate within native provider limits and preserve
   if(sourceBoundVision(r.replacement)){
    const prompt=nativePrompt(style,r.replacement,'v3'),retried=regenerationIdea(r.replacement,style),retryPrompt=nativePrompt(style,retried,'v3');
    if(r.replacement.depictionScope==='text-source'){
-    for(const value of [prompt,retryPrompt]){assert.match(value,/Source-reading scene only/);assert.match(value,/no visionary beings/);assert.doesNotMatch(value,/only the requested visionary subject/);}
+    for(const value of [prompt,retryPrompt]){assert.match(value,/Source-reading scene only: blank manuscripts/);assert.match(value,/reader ONLY if explicitly listed in the cast/);assert.match(value,/No visionary beings/);assert.doesNotMatch(value,/only the requested visionary subject/);assert.doesNotMatch(value,/manuscript and requested reader/);}
     assert.equal(retried.depictionScope,'text-source');assert.match(retried.concept,/manuscript/);assert.doesNotMatch(retried.concept,/Preserve the source-described visionary anatomy/);
    }else{assert.match(prompt,/SOURCE VISION/);assert.doesNotMatch(prompt,/No people or characters/);assert.doesNotMatch(retried.concept,/empty scene|nobody else/);}
    assert.ok(retryPrompt.length<=2048);
