@@ -25,9 +25,13 @@ on:
         description: Optional existing eligible free model override
         type: string
       task:
-        description: video (default) or branding (channel logo and banner only)
+        description: video (default), branding (channel logo and banner only) or tiktok-repost (owner-reviewed Shorts in config/tiktok-reposts.json)
         type: string
         default: video
+      tiktok_owner_consent:
+        description: tiktok-repost only - owner watched the listed Shorts and consents to posting them publicly
+        type: boolean
+        default: false
       style:
         description: v4 (locked doodle) or v5 (owner-approved round-head Eli style)
         type: string
@@ -114,7 +118,7 @@ jobs:
           PY
   quality:
     environment: youtube-private
-    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
+    if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan' && inputs.task != 'tiktok-repost'
     runs-on: ubuntu-latest
     timeout-minutes: 80
     env:
@@ -292,3 +296,38 @@ jobs:
       llm_provider: ${{ inputs.llm_provider || 'gemini' }}
       groq_free_plan_confirmed: ${{ inputs.groq_free_plan_confirmed }}
     secrets: inherit
+  tiktok-repost:
+    if: inputs.task == 'tiktok-repost'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    environment: youtube-private
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      # Shorts rendered before checkpoints moved to Releases live in the old per-run Actions cache.
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/runs/bible-long-001
+          key: run-bible-long-001-none
+          restore-keys: run-bible-long-001-
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/runs/bible-test-002
+          key: run-bible-test-002-none
+          restore-keys: run-bible-test-002-
+      - run: ls -la data/runs/*/short.mp4 data/runs/*/short-upload.json || true
+      - name: Schedule the reviewed Shorts on TikTok
+        env:
+          CONTENT_PREVIEW_CONFIRMED: ${{ inputs.tiktok_owner_consent }}
+          EXPRESS_CONSENT_GIVEN: ${{ inputs.tiktok_owner_consent }}
+          ALLOW_COMMENT: allow
+          ALLOW_DUET: allow
+          ALLOW_STITCH: allow
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx tsx src/social/repost-shorts.ts
