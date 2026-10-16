@@ -1,9 +1,19 @@
 import {test} from 'node:test';import assert from 'node:assert/strict';
 import {readFile,mkdtemp,writeFile,rm} from 'node:fs/promises';import {join} from 'node:path';import {tmpdir} from 'node:os';
-import {densityReview,mayReviewMinorStaging,applyMinorStagingDecision,effectiveGroqReview,effectiveGroqReviewStage,existingEffectiveGroqReview,effectiveGeminiReview,effectiveGeminiReviewStage,existingEffectiveGeminiReview} from '../src/visuals/density-qa';
+import {densityReview,mayReviewMinorStaging,applyMinorStagingDecision,inspectMinorStaging,effectiveGroqReview,effectiveGroqReviewStage,existingEffectiveGroqReview,effectiveGeminiReview,effectiveGeminiReviewStage,existingEffectiveGeminiReview} from '../src/visuals/density-qa';
 import {Runner} from '../src/orchestration/runner';import {visualReviewEvidence} from '../src/orchestration/production-summary';import {fileDigest} from '../src/orchestration/integrity';import {mediaAsset} from '../src/editor/schemas';
 async function poseOnly(){const raw=JSON.parse(await readFile('assets/approved-style/original-gemini-review.json','utf8'));return densityReview.parse({...raw.source02,passed:false,referenceCompared:true,referenceStyleMatches:true,conceptMatches:false,historicallyPlausible:true,cropPreservesSubjects:true,photorealism:false,cgi:false,geometricCodeLook:false,webUILook:false,bakedText:false,watermark:false,adultAnatomyCorrect:true,seriousAnatomyDefects:[],wrongProp:false,majorHistoricalError:false,unreadableOutput:false,issues:['Holding the scroll instead of resting hands by his sides']});}
 const decision={supportsNarration:true,allNarratedSubjectsPresent:true,cosmeticStagingOnly:true,factualMismatch:false,historicalError:false,seriousAnatomyError:false,visibleEvidence:'The reader visibly holds an open scroll, supporting the narrated close reading.'};
+test('actual-image adjudication receives the planned label and cast but still preserves a rejection',async()=>{
+ const idea={id:'messenger',narration:'Gabriel delivers news.',historicalContext:'Interpretive biblical illustration.',concept:'Eli listens to a human-looking white-robed messenger.',characterRoles:['Eli','Gabriel, human-looking messenger'],overlay:'Gabriel the Messenger',overlayAnchor:'delivers news',labelPlacement:'right' as const};
+ const rejected={...decision,supportsNarration:false,factualMismatch:true};let calls=0;
+ const result=await inspectMinorStaging('assets/references/style-v5-eli.png',idea,await poseOnly(),{images:async<T>(prompt:string,images:{mimeType:string;data:string}[],schema:import('zod').z.ZodType<T>)=>{
+  calls++;assert.equal(images.length,1);assert.ok(images[0].data.length>100);
+  assert.ok(prompt.includes(JSON.stringify(idea.overlay)));assert.ok(prompt.includes(JSON.stringify(idea.overlayAnchor)));assert.ok(prompt.includes(JSON.stringify(idea.characterRoles)));
+  return schema.parse(rejected);
+ }});
+ assert.equal(calls,1);assert.equal(result.supportsNarration,false);assert.equal(result.factualMismatch,true);
+});
 test('a planned textual-source shot need not reenact quoted figures, but must show its requested subjects and prop',async()=>{
  const before=await poseOnly(),idea={characterRoles:['Eli'],concept:'Eli consults an open parchment scroll on a stone ledge.',narration:'Here, Jude explicitly addresses Michael with the title of archangel.'};
  const evidence={...decision,allNarratedSubjectsPresent:false,textualSourceIllustrationOnly:true,plannedTextualSubjectsPresent:true};
@@ -23,6 +33,8 @@ test('new Gemini adjudication preserves valid legacy decisions and rejected hist
   const runner=new Runner(dir),legacy=(id:string)=>'native-'+id+'-effective-gemini-v1-'+sourceSha256.slice(0,12);
   await runner.stage(legacy('accepted'),effectiveGeminiReview,async()=>receipt);
   assert.equal((await existingEffectiveGeminiReview(dir,'accepted',sourceSha256,referenceSha256))!.review.passed,true);
+  await runner.stage('native-accepted-v2-effective-gemini-v2-'+sourceSha256.slice(0,12),effectiveGeminiReview,async()=>receipt);
+  assert.equal((await existingEffectiveGeminiReview(dir,'accepted-v2',sourceSha256,referenceSha256))!.review.passed,true);
   await runner.stage(legacy('rejected'),effectiveGeminiReview,async()=>({...receipt,review:originalReview}));
   assert.equal(await existingEffectiveGeminiReview(dir,'rejected',sourceSha256,referenceSha256),null);
   await runner.stage(effectiveGeminiReviewStage('rejected',sourceSha256),effectiveGeminiReview,async()=>receipt);

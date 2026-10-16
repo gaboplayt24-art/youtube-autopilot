@@ -57,7 +57,7 @@ export class VisualStyleEngine{
   }
   // The same owner minor-staging tolerance when Gemini continues: only a sole requiredConcept failure, judged again on the actual candidate.
   if(process.env.LLM_PROVIDER!=='groq'&&!priorEffective&&mayReviewMinorStaging(review)){
-   const stage='native-'+stageId+'-minor-staging-gemini-v2-'+source.sha256.slice(0,12)+'-'+createHash('sha256').update(JSON.stringify({idea,issues:review.issues})).digest('hex').slice(0,8);
+   const stage='native-'+stageId+'-minor-staging-gemini-v3-'+source.sha256.slice(0,12)+'-'+createHash('sha256').update(JSON.stringify({idea,issues:review.issues})).digest('hex').slice(0,8);
    const priorReview=review;
    const evidence=await runner.stage(stage,z.object({sourceSha256:z.literal(source.sha256),referenceSha256:z.literal(source.referenceSha256),decision:minorStagingDecision}),async()=>({sourceSha256:source.sha256,referenceSha256:source.referenceSha256,decision:await inspectMinorStaging(source.path,idea,priorReview,vision)}));
    const result=applyMinorStagingDecision(priorReview,evidence.decision,idea);
