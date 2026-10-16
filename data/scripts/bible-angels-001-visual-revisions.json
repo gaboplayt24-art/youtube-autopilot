@@ -732,17 +732,19 @@
       "sourceId": "chapter-4-shot-15",
       "replacement": {
         "overlayAnchor": "throne-room guardians",
-        "id": "chapter-4-shot-15-editorial-repair",
+        "id": "chapter-4-shot-15-guardian-threshold-detail",
         "narration": "figures in their varying roles as throne-room guardians. These accounts do not attempt a unified taxonomy;",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Eli seated beside a simple closed ancient wooden doorway, looking upward with respectful curiosity. A single plain stone arch frames the door; all fills flat warm ochre and cream, clean black outlines. Hands rest clearly on knees.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2. Interpretive temple-threshold and wing-pair detail; a partial view, never a complete two-winged being.",
+        "concept": "A plain ochre stone doorway under one broad temple arch, viewed from low down. High above the lintel, exactly ONE pair of golden feathered wings enters the upper view; the visionary body and its other pairs remain outside the crop. Quiet cream ink artwork, no people, lettering or complete winged figure. A threshold detail suggests the throne-room setting.",
         "overlay": "Throne room guardians",
         "labelPlacement": "bottom",
         "characterRoles": [
-          "Eli"
-        ]
+          "None"
+        ],
+        "depictionScope": "wing-pair-detail",
+        "promptFocus": true
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: the preserved Eli variants remain rejected after actual-image adjudication. Replace this unresolved beat with a source-scoped temple-threshold detail, improving the guardian/setting connection without another disputed host portrait. Previous PNGs and verdicts remain intact."
     },
     {
       "sourceId": "chapter-4-shot-16",
@@ -900,9 +902,13 @@
           "None"
         ],
         "depictionScope": "face-study",
-        "promptFocus": true
+        "promptFocus": true,
+        "layoutReference": {
+          "stage": "native-chapter-4-shot-8-four-face-study-p3-source",
+          "sha256": "0661236a41c13e31d7d760046847f6d6b8ae5db6cb3bc97c730c15e2981aacc1"
+        }
       },
-      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts."
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending. 2026-10-16: this pending source has no successful retained drawing. Before spending, use the existing scoped study/detail/source-reading format because retained chapter-4 full-figure controls failed exact source counts. Preserve the narrated facts and timing; do not present a detail as a complete creature or merge the two accounts. The retained four-face study was inspected directly and shows a human, lion, ox and eagle. Use it as an owned layout guide for a new FLUX inference; preserve the primary Eli style reference."
     },
     {
       "sourceId": "chapter-5-shot-3",
