@@ -4,6 +4,7 @@ import {QuotaPause} from '../quota';
 import {GeminiSession} from './gemini-reliability';
 import {currentCosts} from '../cost';
 import {OpenAIProvider} from './openai';
+import {GroqProvider} from './groq';
 export class GeminiProvider implements LLMProvider,VisionProvider {
  private session:GeminiSession;
  constructor(request:typeof fetch=fetch,wait:(ms:number)=>Promise<void>=ms=>new Promise(resolve=>setTimeout(resolve,ms))){this.session=new GeminiSession(request,wait);}
@@ -14,8 +15,14 @@ export class GeminiProvider implements LLMProvider,VisionProvider {
   return this.session.complete(instruction,schema,images);
  }
 }
+export function configuredFreeProvider():LLMProvider&VisionProvider{
+ const selected=process.env.LLM_PROVIDER??'gemini';
+ if(selected==='groq')return new GroqProvider();
+ if(selected!=='gemini')throw Error('Unsupported free LLM provider');
+ return new GeminiProvider();
+}
 export class FreeFirstLLM implements LLMProvider,VisionProvider {
- constructor(private free:LLMProvider=new GeminiProvider(),private premium:LLMProvider=new OpenAIProvider()){}
+ constructor(private free:LLMProvider=configuredFreeProvider(),private premium:LLMProvider=new OpenAIProvider()){}
  async images<T>(instruction:string,images:{mimeType:string;data:string}[],schema:z.ZodType<T>):Promise<T>{if(!('images' in this.free))throw new Error('Free LLM does not support multimodal semantic QA');return (this.free as LLMProvider&VisionProvider).images(instruction,images,schema);}
  async json<T>(instruction:string,schema:z.ZodType<T>):Promise<T>{
   let failure:unknown;try{return await this.free.json(instruction,schema);}catch(e){failure=e;}

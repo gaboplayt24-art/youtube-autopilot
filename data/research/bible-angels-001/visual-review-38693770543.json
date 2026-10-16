@@ -1,0 +1,28 @@
+{
+  "runId": "bible-angels-001",
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38693770543",
+  "workflowConclusion": "failure",
+  "commit": "a8eb81b1182b19dc5a0879fd5559bb749d59d446",
+  "sourceExecution": "38693417262",
+  "newFluxGenerations": 0,
+  "newPaidProviderCostUsd": 0,
+  "newReviewCompleted": false,
+  "providerFailure": "Gemini 3.8 HTTP 503 followed by 429, daily free request limit 20; other preferred free models unavailable",
+  "resumeNotBefore": "2026-10-16T00:00:00Z",
+  "checkpointSaved": true,
+  "partialEvidenceExported": true,
+  "evidenceJsonUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/visual-evidence-38693770543.json",
+  "partialProgress": {
+    "processedBeats": 37,
+    "totalBeats": 89,
+    "counts": {
+      "accepted": 19,
+      "rejected": 13,
+      "pending-review": 1,
+      "no-source": 4
+    },
+    "failure": "Error: Gemini HTTP 429 for gemini-3.8-flash: You exceeded your current quota, please check your plan and billing details. For more information on this error, head to: https://ai.google.dev/gemini-api/docs/rate-limits. To monitor your current usage, head to: https://ai.dev/rate-limit. \n* Quota exceeded for metric: generativelanguage.googleapis.com/generate_content_free_tier_requests, limit: 20, model: gemini-3.8-flash\nPlease retry in 17h16m28.826182796s.; all discovered preferred models exhausted; checkpoints preserved"
+  },
+  "videoGenerated": false,
+  "videoScheduled": false
+}

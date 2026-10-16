@@ -1,4 +1,5 @@
 import {resolve} from 'node:path';
+import {reviewedPrimaryTranscript} from '../voice/human-asr-review';
 import {superviseWorker} from '../render/supervisor';
 import {currentQuota} from '../quota';
 import {duration,json} from '../orchestration/io';
@@ -35,9 +36,9 @@ export async function alignWithASRFallback(narration:string,transcribe:(model:st
 }
 export async function validatedVoiceAlignment(path:string,text:string,declared:string[]=[],approvedReview=false){
  const terms=extractCriticalTerms(text,declared);await json(path+'.critical-terms.json',{criticalTerms:terms,text});
- const primary=await localTranscript(path,'Xenova/whisper-small.en');const alternatives:Transcript[]=[];
+ const human=await reviewedPrimaryTranscript(path,text);const primary=human?.primary??await localTranscript(path,'Xenova/whisper-small.en');const alternatives:Transcript[]=human?[human.raw]:[];
  if(evaluateVoice(text,primary,terms,await loadVoiceQAPolicy()).normalizedComparison.differences.length)alternatives.push(await localTranscript(path,'Xenova/whisper-base.en'));
- const report=await saveVoiceEvidence(path,text,primary,terms,alternatives);requireVoiceQA(report,approvedReview);if(report.status==='review'&&approvedReview)await json(path+'.review-authorization.json',{scope:'90-second visual quality milestone',status:'review',reason:'Channel owner approved reference-cloned Nano; critical/acoustic hard failures remain blocked'});return measuredReferenceAlignment(text,primary);
+ const report=await saveVoiceEvidence(path,text,primary,terms,alternatives);if(human)await json(path+'.voice-QA.json',{...report,humanTranscriptReview:{evidencePath:human.evidencePath,rawTranscriptPreserved:true,scope:'Only the exact owner-confirmed ASR word; all other gates unchanged'}});requireVoiceQA(report,approvedReview);if(report.status==='review'&&approvedReview)await json(path+'.review-authorization.json',{scope:'90-second visual quality milestone',status:'review',reason:'Channel owner approved reference-cloned Nano; critical/acoustic hard failures remain blocked'});return measuredReferenceAlignment(text,primary);
 }
 export class LocalTranscriptionProvider implements TranscriptionProvider {
  async transcribe(path:string,narration:string){return validatedVoiceAlignment(path,narration);}

@@ -10,6 +10,18 @@ on:
         description: GitHub Actions ID of the create-video or previous private-upload run
         type: string
         required: true
+      llm_provider:
+        type: string
+        default: gemini
+      groq_free_plan_confirmed:
+        type: boolean
+        default: false
+      owner_applies_thumbnail:
+        type: boolean
+        default: false
+      owner_cover_confirmed:
+        type: boolean
+        default: false
       artifact_prefix:
         description: Artifact name prefix (production for production-validation runs, pipeline for create-video runs)
         type: string
@@ -23,12 +35,24 @@ on:
       source_run_id:
         type: string
         required: true
+      llm_provider:
+        type: string
+        default: gemini
+      groq_free_plan_confirmed:
+        type: boolean
+        default: false
+      owner_applies_thumbnail:
+        type: boolean
+        default: false
+      owner_cover_confirmed:
+        type: boolean
+        default: false
       artifact_prefix:
         type: string
         default: production
 
 permissions:
-  contents: read
+  contents: write
   actions: read
 concurrency:
   group: publish-${{ inputs.run_id || github.run_id }}
@@ -36,7 +60,7 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 45
     environment: youtube-private
     env:
       # Owner-authorized 2026-10-10: upload private and schedule publishAt for the next config/schedule.json slot.
@@ -46,6 +70,9 @@ jobs:
       PAID_FALLBACK_ENABLED: 'false'
       MAX_PAID_COST_USD: '0'
       FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+      LLM_PROVIDER: ${{ inputs.llm_provider || 'gemini' }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GROQ_FREE_PLAN_CONFIRMED: ${{ inputs.groq_free_plan_confirmed }}
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.1-flash-lite' }}
       GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
@@ -58,95 +85,37 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      # The shared quota ledger also lives in the Actions cache: artifact storage can be full, and a lost ledger would
-      # under-count Cloudflare usage. The restore script keeps whichever copy (cache or artifact) is newest.
-      - uses: actions/cache/restore@v4
-        with:
-          path: .cache/quota/free-quota-ledger.json
-          key: free-quota-ledger-${{ github.run_id }}-${{ github.job }}
-          restore-keys: free-quota-ledger-
       - run: python3 scripts/restore-free-quota.py
         env:
           GH_TOKEN: ${{ github.token }}
-      # Production runs keep their state in the Actions cache; older runs (and create-video) fall back to the artifact.
-      - uses: actions/cache/restore@v4
-        id: runcache
-        if: (inputs.artifact_prefix || 'production') == 'production'
-        with:
-          path: data/runs/${{ env.RUN_ID }}
-          key: run-${{ env.RUN_ID }}-${{ inputs.source_run_id }}
-          restore-keys: run-${{ env.RUN_ID }}-
-      - uses: actions/download-artifact@v4
-        if: steps.runcache.outputs.cache-matched-key == ''
-        with:
-          name: ${{ inputs.artifact_prefix || 'production' }}-${{ env.RUN_ID }}
-          path: ${{ (inputs.artifact_prefix || 'production') == 'pipeline' && 'data/runs' || format('data/runs/{0}', env.RUN_ID) }}
-          run-id: ${{ inputs.source_run_id }}
-          github-token: ${{ github.token }}
-      # Previous publish records (YouTube Short, playlist, TikTok) so a re-run resumes instead of posting twice.
-      - uses: actions/cache/restore@v4
-        with:
-          path: data/runs/${{ env.RUN_ID }}/.records
-          key: upload-record-${{ env.RUN_ID }}-${{ github.run_id }}
-          restore-keys: upload-record-${{ env.RUN_ID }}-
-      - run: python3 scripts/restore-upload-record.py
+      - name: Restore video from private release or legacy Actions artifact
+        run: python3 scripts/github_checkpoints.py restore
         env:
           GH_TOKEN: ${{ github.token }}
+          ARTIFACT_PREFIX: ${{ inputs.artifact_prefix || 'production' }}
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Private upload, scheduled publish (protected environment approval)
         run: npm run publish -- --run-id "$RUN_ID"
         env:
-          SUPABASE_URL: ${{ vars.SUPABASE_URL }}
+          OWNER_APPLIES_YOUTUBE_THUMBNAIL: ${{ inputs.owner_applies_thumbnail }}
+          OWNER_COVER_CONFIRMED: ${{ inputs.owner_cover_confirmed }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
-          # Optional (owner-authorized 2026-10-11): without these secrets the TikTok step is skipped and logged.
-          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
-          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
-          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
       - name: Show titles and translations for the owner's Test & Compare and review
         if: always()
         run: |
-          for f in titles.json localizations.json short-upload.json short-schedule.json playlist.json tiktok.json; do echo "== $f"; cat "data/runs/$RUN_ID/$f" 2>/dev/null || echo "(missing)"; echo; done
-      - name: Collect publish records
+          for f in titles.json localizations.json; do echo "== $f"; cat "data/runs/$RUN_ID/$f" 2>/dev/null || echo "(missing)"; echo; done
+      - name: Preserve upload and scheduling evidence in private release
+        if: always()
+        run: python3 scripts/github_checkpoints.py save --publish-record-only
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - name: Persist shared quota in private repository release
         if: always()
         run: |
-          cd "data/runs/$RUN_ID" && mkdir -p .records
-          for f in upload.json tiktok.json schedule*.json youtube-*.json localizations*.json short-*.json playlist*.json; do [ -f "$f" ] && cp "$f" .records/; done; ls .records
-      - uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: data/runs/${{ env.RUN_ID }}/.records
-          key: upload-record-${{ env.RUN_ID }}-${{ github.run_id }}
-      - uses: actions/upload-artifact@v4
-        if: always()
-        continue-on-error: true
-        with:
-          name: upload-${{ env.RUN_ID }}
-          # Small upload record only; the full run already lives in the production artifact.
-          path: |
-            data/runs/${{ env.RUN_ID }}/upload.json
-            data/runs/${{ env.RUN_ID }}/qa-upload.json
-            data/runs/${{ env.RUN_ID }}/schedule*.json
-            data/runs/${{ env.RUN_ID }}/youtube-*.json
-            data/runs/${{ env.RUN_ID }}/localizations*.json
-            data/runs/${{ env.RUN_ID }}/short-*.json
-            data/runs/${{ env.RUN_ID }}/playlist*.json
-            data/runs/${{ env.RUN_ID }}/tiktok.json
-            data/runs/${{ env.RUN_ID }}/logs.jsonl
-          retention-days: 30
-          if-no-files-found: warn
-      - uses: actions/cache/save@v4
-        if: always()
-        with:
-          path: .cache/quota/free-quota-ledger.json
-          key: free-quota-ledger-${{ github.run_id }}-${{ github.job }}
-      - uses: actions/upload-artifact@v4
-        if: always()
-        continue-on-error: true
-        with:
-          name: free-quota-ledger
-          path: .cache/quota/free-quota-ledger.json
-          include-hidden-files: true
-          retention-days: 30
+          if [ -f scripts/github_checkpoints.py ]; then python3 scripts/github_checkpoints.py save-quota; fi
+        env:
+          GH_TOKEN: ${{ github.token }}

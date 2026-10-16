@@ -1,0 +1,1227 @@
+{
+  "runId": "bible-angels-001",
+  "sourceRevisions": [
+    {
+      "sourceId": "chapter-1-shot-1",
+      "replacement": {
+        "overlayAnchor": "with six wings",
+        "id": "chapter-1-shot-1-wing-study",
+        "narration": "while others appear with six wings and four different faces?",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah. Illustrated study of three wing pairs, not a complete being.",
+        "concept": "A flat ink feather study showing THREE separated pairs of wings, SIX individual wings total. One pair per row on a cream field, generous space between all six silhouettes, warm ochre feathers and bold black outlines. Feathered wings only, no complete body or human head.",
+        "overlay": "Isaiah: six wings",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ],
+        "promptFocus": true,
+        "depictionScope": "wing-study"
+      },
+      "reason": "Both preserved full-figure attempts visibly have only two wings. Replace with a countable six-wing study, retaining the actual Isaiah source and hard count gate."
+    },
+    {
+      "sourceId": "chapter-1-shot-4",
+      "replacement": {
+        "overlayAnchor": "wheels full of eyes",
+        "id": "chapter-1-shot-4-wheel-detail",
+        "narration": "of beings with six wings or creatures paired with wheels full of eyes.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE prophetic text. Wheel-rim detail only; the living creatures remain outside the view.",
+        "concept": "A close illustrative view of a curved golden wheel rim with a row of large almond-shaped cartoon eyes. Each eye has a cream white, black pupil and clear dark outline. Flat ochre and cream ink fills, simple background. Only the rim and eyes are in this detail view.",
+        "overlay": "Eyes on the rims",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ],
+        "promptFocus": true,
+        "depictionScope": "wheel-detail"
+      },
+      "reason": "Existing sources mix creature faces into the wheel. Request the actual narrated eye-covered rim as a detail, not a false complete creature or a wheel full of human heads."
+    },
+    {
+      "sourceId": "chapter-1-shot-5",
+      "replacement": {
+        "overlayAnchor": "reading of the text",
+        "id": "chapter-1-shot-5-editorial-repair",
+        "narration": "We will explore these distinct accounts through a close reading of the text.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli seated at a low plain wooden table, looking thoughtfully at one wide open blank parchment scroll. Both hands rest naturally at his sides. Clear face and beard, a single expressive raised eyebrow; calm cream wall, no other props.",
+        "overlay": "Studying the text",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-1",
+      "replacement": {
+        "overlayAnchor": "mundane fashion",
+        "id": "chapter-2-shot-1-editorial-repair",
+        "narration": "celestial figures who interact in an entirely mundane fashion.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly two adult travelers of equal adult height, one bald in a blue cloak and one curly-haired in a rust cloak, talking beside a plain stone gate. Their relaxed expressions and ordinary clothes convey an everyday arrival.",
+        "overlay": "Mundane Visitors",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-2",
+      "replacement": {
+        "overlayAnchor": "two figures arrive",
+        "id": "chapter-2-shot-2-editorial-repair",
+        "narration": "As evening falls, two figures arrive, and when Lot sees them, he rises to meet them at the city gate.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly three adults: Eli rises from a stone bench at left while two adult travelers approach at right. One traveler is bald in blue, the other curly-haired in rust. One simple gate arch behind; expressive welcoming body language.",
+        "overlay": "Arrival at Sunset",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-3",
+      "replacement": {
+        "overlayAnchor": "invitation to stay",
+        "id": "chapter-2-shot-3-editorial-repair",
+        "narration": "He bows his face toward the ground and offers them an invitation to stay for the night.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli alone shown in clear side profile, bending forward in a respectful bow. His face and beard remain visible in profile, arms resting close to his sides, both feet clearly planted. A simple house doorway is behind him; the arriving guests are outside this close-up.",
+        "overlay": "Offering Hospitality",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-4",
+      "replacement": {
+        "overlayAnchor": "enter his house",
+        "id": "chapter-2-shot-4-editorial-repair",
+        "narration": "The text records that he pressed upon them greatly, and eventually, they turned aside to enter his house.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly three separated adult figures: Eli stands beside an open doorway, the blue-cloaked bald traveler steps toward the door, and the curly-haired rust-cloaked traveler follows. Clear space between all bodies and feet; simple mud-brick house.",
+        "overlay": "Entering the House",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-6",
+      "replacement": {
+        "overlayAnchor": "ordinary travelers",
+        "id": "chapter-2-shot-6-editorial-repair",
+        "narration": "The account concludes with the visitors eating the meal provided, functioning in a way that is indistinguishable from ordinary travelers of the",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly two adult guests seated on opposite sides of a low table with a clay plate of flatbread. Blue-cloaked bald guest at left, rust-cloaked curly-haired guest at right. Both have full adult torsos and legs; simple cream wall, friendly relaxed faces.",
+        "overlay": "Ordinary Travelers",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-2-shot-8",
+      "replacement": {
+        "overlayAnchor": "human form",
+        "id": "chapter-2-shot-8-editorial-repair",
+        "narration": "that would signal a departure from the human form observed by those around them in the city of Sodom.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly three adult figures of similar height: Eli on the left, a bald blue-cloaked traveler in the middle, a curly-haired rust-cloaked traveler on the right. The guests have ordinary round cartoon faces and simple walking sandals. Quiet stone gateway background.",
+        "overlay": "Human Form",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-9",
+      "replacement": {
+        "overlayAnchor": "instructional context",
+        "id": "chapter-2-shot-9-editorial-repair",
+        "narration": "This narrative pattern is echoed later in the New Testament, though presented in a more instructional context.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli sitting at a simple wooden desk with two blank parchment scrolls held apart on the tabletop. He leans toward the second scroll with an interested expression. Flat cream wall, clean black outlines, no writing in the artwork.",
+        "overlay": "Instructional Context",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-10",
+      "replacement": {
+        "overlayAnchor": "brotherly love",
+        "id": "chapter-2-shot-10-editorial-repair",
+        "narration": "The letter to the Hebrews explicitly encourages believers to continue in brotherly love and not to neglect the practice of hospitality.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly two distinct adults share flatbread at a small low table: a gray-bearded host in a blue head cloth at left and a bald clean-shaven guest in a rust cloak at right. Warm smiles and clear space between the figures; a single clay plate.",
+        "overlay": "Brotherly Love",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Adult host, blue head cloth, gray beard",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-11",
+      "replacement": {
+        "overlayAnchor": "kindness to strangers",
+        "id": "chapter-2-shot-11-editorial-repair",
+        "narration": "The author provides a specific rationale for this conduct, reminding readers not to forget to show kindness to strangers.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly two visible adults: a gray-bearded blue-clothed host stands beside a completely open doorway, welcoming a bald adult traveler in a rust cloak. Both figures are fully inside the frame, clearly separated from the door. Simple cream wall.",
+        "overlay": "Kindness to Strangers",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Adult host, blue head cloth, gray beard",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-12",
+      "replacement": {
+        "overlayAnchor": "entertained angels",
+        "id": "chapter-2-shot-12-editorial-repair",
+        "narration": "The passage notes that by doing so, some have entertained angels without realizing it.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly three adults share a plain meal at a low table: Eli faces two adult travelers, one bald in blue and the other curly-haired in rust. A single plate of flatbread is between them. All bodies are distinct and adult in scale, relaxed welcoming expressions.",
+        "overlay": "Entertained angels unaware",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-13",
+      "replacement": {
+        "overlayAnchor": "celestial visitors",
+        "id": "chapter-2-shot-13-editorial-repair",
+        "narration": "This verse serves as a reflection on the nature of these encounters, suggesting that celestial visitors can appear in a form that does",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "One ordinary adult traveler, bald and clean-shaven in a blue wool cloak, holds a clearly visible wooden walking staff by his side. Full adult figure, sandals, tired but calm expression, one simple stone gateway behind.",
+        "overlay": "Divine, disguised",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Adult traveler, blue cloak, bald, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-15",
+      "replacement": {
+        "overlayAnchor": "awe-inspiring visual displays",
+        "id": "chapter-2-shot-15-editorial-repair",
+        "narration": "that encounters with divine emissaries were not always marked by awe-inspiring visual displays,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Two adult travelers caught mid-stride along a clear path: the bald one in blue has his left foot forward, the curly-haired one in rust his right foot forward. Distinct separated limbs and small cloth bundles. One distant simple gate and flat warm sky.",
+        "overlay": "No visual display",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-16",
+      "replacement": {
+        "overlayAnchor": "common interactions",
+        "id": "chapter-2-shot-16-editorial-repair",
+        "narration": "but could instead be experienced through the common interactions of daily life, such as offering food and shelter to",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly two adults of equal adult height at a low table: Eli has just set a clay cup beside a full clay jug while a bald blue-cloaked visitor looks grateful. Clear simple cartoon hands, no complex pouring gesture; quiet cream background.",
+        "overlay": "Daily life encounter",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-2-shot-17",
+      "replacement": {
+        "overlayAnchor": "ordinary strangers",
+        "id": "chapter-2-shot-17-editorial-repair",
+        "narration": "travelers who might otherwise appear as ordinary strangers to any local inhabitant of the region.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "A wide view of a simple path. Eli at the left foreground raises a welcoming arm; one adult bald blue-cloaked traveler walks toward him at the distant right. The distance separates the two figures clearly; simple ground and flat sky.",
+        "overlay": "Ordinary strangers",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-3-shot-6",
+      "replacement": {
+        "overlayAnchor": "messenger",
+        "id": "chapter-3-shot-6-editorial-repair",
+        "narration": "messenger rather than detailing his physical anatomy. He acts as a bridge for information,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly two clearly distinct adults in conversation: a clean-shaven curly-haired messenger in white at left speaks with one simple mitten hand raised; Eli at right listens attentively with hands at his sides. Plain courtyard wall and flat warm sky.",
+        "overlay": "Divine Messenger",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli",
+          "Adult messenger, white robe, curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-3-shot-9",
+      "replacement": {
+        "overlayAnchor": "authority and conflict",
+        "id": "chapter-3-shot-9-editorial-repair",
+        "narration": "those they meet. In the book of Daniel, the description of celestial involvement shifts toward authority and conflict.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli stands with a concerned raised eyebrow and tense shoulders beside one plain stone doorway. His face is clear, arms close to the body. Flat ochre wall, bold black outlines and simple cream ground; apprehension comes from his pose alone.",
+        "overlay": "Authority and Conflict",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence."
+    },
+    {
+      "sourceId": "chapter-3-shot-10",
+      "replacement": {
+        "overlayAnchor": "touched by a hand",
+        "id": "chapter-3-shot-10-period-clothing",
+        "narration": "Daniel records an experience where he is touched by a hand, followed by a vision of a figure who speaks of a struggle against the prince",
+        "historicalContext": "Biblical Daniel 10 vision, ancient Levant. Illustrated interpretation; plain uncollared linen tunic and simple cloth sash, no modern garments.",
+        "concept": "Two separate round-head adults, waist-up: Eli reacts with surprise at left. At right a distinct curly-haired messenger wears a plain white uncollared linen tunic tied with a simple rust sash, gently resting one clear cartoon hand on Eli's shoulder. Cream wall, flat warm ink colours.",
+        "overlay": "Visionary Touch",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli",
+          "Adult messenger, white uncollared linen tunic"
+        ],
+        "promptFocus": true
+      },
+      "reason": "Manual pixel inspection found a modern pointed shirt collar in the machine-accepted source. Preserve that source and its raw QA; replace its wardrobe without changing the narrated touch or timing."
+    },
+    {
+      "sourceId": "chapter-3-shot-11",
+      "replacement": {
+        "overlayAnchor": "assist",
+        "id": "chapter-3-shot-11-editorial-repair",
+        "narration": "of the kingdom of Persia. Within this passage, Daniel identifies Michael as one of the chief princes who arrives to assist",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Two distinct adults: Eli in his ochre head cloth at left looks relieved; a tall clean-shaven curly-haired messenger in a plain white tunic at right stands resolutely with arms folded. Their clothing, hair and expressions clearly differ, against a simple cream ground.",
+        "overlay": "Divine Assistance",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli",
+          "Michael, adult, white robe, curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-3-shot-12",
+      "replacement": {
+        "overlayAnchor": "active participant",
+        "id": "chapter-3-shot-12-editorial-repair",
+        "narration": "him in his distress. The narrative portrays Michael as an active participant in an ongoing conflict.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "A close view of one clean-shaven curly-haired adult in a plain white tunic standing firmly with arms crossed. His round cartoon face has determined eyebrows. Flat ochre ground and cream sky; visual role of resolve, no invented battle anatomy.",
+        "overlay": "Michael the Participant",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Michael, adult, white robe, curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-3-shot-13",
+      "replacement": {
+        "overlayAnchor": "authority of Michael",
+        "id": "chapter-3-shot-13-editorial-repair",
+        "narration": "This specific role is further referenced in the book of Jude, which calls upon the authority of Michael during a disagreement over the body of Moses.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli stands at left observing one clean-shaven white-robed adult at right making a restrained gesture of firm disagreement. Both complete adult figures remain distinct and separated. One simple rocky ground line, plain sky, no body or combat detail.",
+        "overlay": "Authority of Michael",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli",
+          "Michael, adult, white robe, curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-3-shot-14",
+      "replacement": {
+        "overlayAnchor": "title of archangel",
+        "id": "chapter-3-shot-14-editorial-repair",
+        "narration": "Here, Jude explicitly addresses Michael with the title of archangel. These accounts highlight the variation in how named",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli looks closely at an open blank parchment scroll resting on a low stone ledge. His hands stay beside his body. The upper-left area remains calm for the editorial label; clear flat ink drawing, only the scroll and ledge.",
+        "overlay": "The Archangel Title",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-3-shot-15",
+      "replacement": {
+        "overlayAnchor": "defined by his mission",
+        "id": "chapter-3-shot-15-editorial-repair",
+        "narration": "celestial figures are portrayed within different biblical contexts. While Gabriel is defined by his mission to deliver news,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Two adults shown in a clear medium shot: a clean-shaven white-robed messenger faces Eli and speaks with a simple closed mitten hand near his chest. Eli listens with a warm interested face. Plain cream wall, flat fills, no elaborate hand gesture.",
+        "overlay": "Gabriel the Messenger",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli",
+          "Adult messenger, white robe, curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-3-shot-16",
+      "replacement": {
+        "overlayAnchor": "spiritual contention",
+        "id": "chapter-3-shot-16-editorial-repair",
+        "narration": "Michael is associated with a role of high-level involvement in spiritual contention. Neither account relies on the visionary descriptions",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "One clean-shaven adult in a plain white tunic stands with a firm, defensive pose, one leg forward and elbows naturally bent. His expression conveys resolve. Complete ordinary human silhouette, flat ochre ground and calm cream sky.",
+        "overlay": "Spiritual Contention",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Michael, adult, white robe, curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-3-shot-17",
+      "replacement": {
+        "overlayAnchor": "confirm their specific positions",
+        "id": "chapter-3-shot-17-editorial-repair",
+        "narration": "of multiple wings or eyes that appear in other sections of the scripture, yet both confirm their specific positions within these",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Only Eli seated on a stone bench, contemplating two separate blank parchment scrolls lying on the bench beside him. One scroll is rolled, the other unrolled. His eyebrows show a thoughtful comparison, plain cream wall and no other objects.",
+        "overlay": "Roles Confirmed",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-0",
+      "replacement": {
+        "overlayAnchor": "throne room",
+        "id": "chapter-4-shot-0-editorial-repair",
+        "narration": "In the sixth chapter of the book of Isaiah, the prophet describes an intense vision of the throne room.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli looks upward with wide expressive eyes in a simple ancient hall. Two outlined stone columns and a plain ochre wall suggest the temple. All architecture is flat ink artwork with solid fills and nearly no shading, one clear subject.",
+        "overlay": "Vision of the Throne",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-1",
+      "replacement": {
+        "overlayAnchor": "beings identified as seraphims",
+        "id": "chapter-4-shot-1-editorial-repair",
+        "narration": "He records the presence of beings identified as seraphims standing above the throne. The text specifies their unique appearance,",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
+        "concept": "One small flat-ink throne with a representative seraph hovering clearly above it. The being has exactly six distinct wings: one pair covering its face, one covering its feet, one spread for flight. No ordinary human figures, cream and ochre fills, simple readable outlines.",
+        "overlay": "Seraphim Guardians",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence."
+    },
+    {
+      "sourceId": "chapter-4-shot-2",
+      "replacement": {
+        "overlayAnchor": "possesses six wings",
+        "id": "chapter-4-shot-2-editorial-repair",
+        "narration": "stating that each of these figures possesses six wings. Their arrangement is described with precision:",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
+        "concept": "One representative seraph in full view, exactly six wings separated into three pairs. Upper pair covers face, lower pair covers feet, middle pair extends left and right for flight. Flat ochre, cream, and brown fills; bold ink outline; clear plain cream surroundings.",
+        "overlay": "Six-Winged Presence",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-3",
+      "replacement": {
+        "overlayAnchor": "cover their faces",
+        "id": "chapter-4-shot-3-editorial-repair",
+        "narration": "they use two wings to cover their faces, and another two to cover their feet, utilizing the final pair of wings for flight.",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
+        "concept": "Close view of a single seraph with three distinct pairs of wings: upper two crossed before its face, lower two crossed before its feet, middle two extended sideways. Six wings total, each separate and easy to count; flat ink drawing on a warm cream field.",
+        "overlay": "Postured for Reverence",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-4",
+      "replacement": {
+        "overlayAnchor": "Isaiah’s recorded vision",
+        "id": "chapter-4-shot-4-editorial-repair",
+        "narration": "This description stands as a fixed element of Isaiah’s recorded vision, providing a specific anatomical count within the",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Only Eli standing beside a small wooden table with one blank open parchment scroll. He looks down thoughtfully. Clear reference face, hands resting at his sides, plain cream wall, two simple table legs and no other props.",
+        "overlay": "Prophetic Record",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-5",
+      "replacement": {
+        "overlayAnchor": "prophetic text",
+        "id": "chapter-4-shot-5-editorial-repair",
+        "narration": "prophetic text. It remains distinct from other accounts, focusing on the posture and movement of these beings as they",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
+        "concept": "A single six-winged seraph in side-oriented full view, hovering beside a simple stone column. Three clearly distinct pairs: face covering, feet covering, flight. Exactly six wings total, flat ochre feathers and black ink contours; no ordinary human figures.",
+        "overlay": "Six-winged Seraphim",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-6",
+      "replacement": {
+        "overlayAnchor": "throne room",
+        "id": "chapter-4-shot-6-editorial-repair",
+        "narration": "exist within the setting of the divine throne room as perceived by the prophet. In stark contrast,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli sits cross-legged on a plain cream floor looking upward with an amazed expression. Behind him one flat ochre stone arch suggests the throne room. Clear cartoon face and simple hands resting on knees, nearly no shading.",
+        "overlay": "Divine Throne Room",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-7",
+      "replacement": {
+        "overlayAnchor": "visionary experience",
+        "id": "chapter-4-shot-7-editorial-repair",
+        "narration": "the book of Ezekiel details a different visionary experience. The first chapter describes four living creatures,",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "Four distinct visionary living creatures, spaced clearly across a calm cream ground. Each shown with four outlined wings and a compact cluster of human, lion, ox and eagle faces. Flat gold and brown ink drawing; no ordinary humans, no clouds or glow.",
+        "overlay": "Ezekiel's Vision",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence."
+    },
+    {
+      "sourceId": "chapter-4-shot-8",
+      "replacement": {
+        "overlayAnchor": "four faces",
+        "id": "chapter-4-shot-8-editorial-repair",
+        "narration": "each exhibiting four faces—the likeness of a man, a lion, an ox, and an eagle—alongside four",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "Close-up of ONE representative visionary creature: four distinct faces belonging to the same creature, human, lion, ox, eagle, above one shared torso with exactly four wings. Flat gold and cream colours, clearly drawn contours and a simple calm background.",
+        "overlay": "The Four Faces",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-9",
+      "replacement": {
+        "overlayAnchor": "living creatures",
+        "id": "chapter-4-shot-9-editorial-repair",
+        "narration": "wings. These creatures are not presented in isolation; they are accompanied by complex wheels that stand beside them.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "One representative four-winged creature with the four source-described faces stands beside a large upright wheel. Small drawn eyes decorate the wheel rim only. Each element remains clearly separate, flat gold and brown fills and clean black ink contours.",
+        "overlay": "Living Creatures",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-10",
+      "replacement": {
+        "overlayAnchor": "rims full of eyes",
+        "id": "chapter-4-shot-10-editorial-repair",
+        "narration": "The prophet notes that these wheels are of a great height and are bordered with rims full of eyes.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "A close-up of a tall upright gold wheel rim covered in simple black-outlined cartoon eyes. Only the rim detail and a small arc of the inner wheel are visible; flat ink and ochre fills, calm cream negative space. This is a detail of the source vision, not a human figure.",
+        "overlay": "Wheels full of eyes",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-11",
+      "replacement": {
+        "overlayAnchor": "deviates significantly from human appearance",
+        "id": "chapter-4-shot-11-editorial-repair",
+        "narration": "These visionary elements emphasize a form that deviates significantly from human appearance. Later,",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "One large upright wheel, its rim covered with clearly drawn simple eyes, all rendered in flat ochre ink colours. A plain cream background and bold dark outlines make the unusual rim easy to read. No ordinary people, no metallic rendering or atmospheric lighting.",
+        "overlay": "Non-human presence",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Manual contact-sheet review: photographic/cinematic rendering or missing narrated subjects; original Gemini pass retained as evidence."
+    },
+    {
+      "sourceId": "chapter-4-shot-12",
+      "replacement": {
+        "overlayAnchor": "categorical identification",
+        "id": "chapter-4-shot-12-editorial-repair",
+        "narration": "in the tenth chapter of the same book, the text provides a categorical identification, stating that these specific living",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "One representative living creature with four clearly differentiated faces, human, lion, ox and eagle, and four wings. Whole figure has clean black outlines, flat warm cream and ochre fills, simple shared body and calm background. No Eli or other ordinary human figures.",
+        "overlay": "Categorical identification",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-13",
+      "replacement": {
+        "overlayAnchor": "cherubims",
+        "id": "chapter-4-shot-13-editorial-repair",
+        "narration": "creatures are cherubims. By keeping these descriptions tied strictly to their respective passages—Isaiah’s",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "A direct, clear flat-ink illustration of one representative cherubic living creature, four faces on one shared body and four wings. Human, lion, ox and eagle faces all belong to that one figure. Warm ochre and cream fills; no temple carving or extra people.",
+        "overlay": "Cherubim description",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+    },
+    {
+      "sourceId": "chapter-4-shot-14",
+      "replacement": {
+        "overlayAnchor": "distinguish how the biblical text characterizes",
+        "id": "chapter-4-shot-14-editorial-repair",
+        "narration": "six-winged seraphim and Ezekiel’s four-faced cherubim—we can distinguish how the biblical text characterizes these",
+        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
+        "concept": "Two clearly separated symbolic figures on one quiet cream field. Left: Isaiah's seraph with six wings in three functional pairs. Right: Ezekiel's creature with four faces and four wings beside an eye-covered wheel. Flat ink illustrations, separate bodies, no ordinary people.",
+        "overlay": "Distinct prophetic visions",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-15",
+      "replacement": {
+        "overlayAnchor": "throne-room guardians",
+        "id": "chapter-4-shot-15-editorial-repair",
+        "narration": "figures in their varying roles as throne-room guardians. These accounts do not attempt a unified taxonomy;",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli seated beside a simple closed ancient wooden doorway, looking upward with respectful curiosity. A single plain stone arch frames the door; all fills flat warm ochre and cream, clean black outlines. Hands rest clearly on knees.",
+        "overlay": "Throne room guardians",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-16",
+      "replacement": {
+        "overlayAnchor": "individual reports",
+        "id": "chapter-4-shot-16-editorial-repair",
+        "narration": "rather, they present individual reports of prophetic visions where the appearance of the celestial beings is tied directly to the majesty",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli seated at a plain low table studying one blank parchment scroll. His head tilts with thoughtful eyebrows; both hands rest at his sides. A simple cream wall and one table define the space, clean flat drawing.",
+        "overlay": "Individual prophetic reports",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-17",
+      "replacement": {
+        "overlayAnchor": "eyes on the wheel rims",
+        "id": "chapter-4-shot-17-editorial-repair",
+        "narration": "and setting of the throne room itself. The presence of the eyes on the wheel rims,",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "Extreme close-up of one portion of the wheel rim from Ezekiel's vision. A row of large simple illustrated eyes follows its curved ochre edge; thick irregular dark contours and flat cream fills, no realistic eye textures, no humans.",
+        "overlay": "Wheels full of eyes",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-18",
+      "replacement": {
+        "overlayAnchor": "encounter",
+        "id": "chapter-4-shot-18-editorial-repair",
+        "narration": "as specified in the first chapter of Ezekiel, serves as a defining visual detail of his encounter,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Only Eli kneeling on plain ground, one hand resting on his knee and the other held calmly near his chest. His eyes look upward with wonder. One simple brown ground line and cream sky, clear reference face and flat colour.",
+        "overlay": "Ezekiel's vision",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-19",
+      "replacement": {
+        "overlayAnchor": "six-wing configuration",
+        "id": "chapter-4-shot-19-editorial-repair",
+        "narration": "just as the six-wing configuration distinguishes the seraphim in Isaiah’s vision. Each passage remains a distinct record",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
+        "concept": "A representative seraph clearly hovering: six wings in three separate pairs, upper pair across the face, lower pair covering the feet and middle pair open sideways for flight. Flat gold and cream fills, broad black ink outlines and simple cream background.",
+        "overlay": "Isaiah's seraphim",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-20",
+      "replacement": {
+        "overlayAnchor": "prophets",
+        "id": "chapter-4-shot-20-editorial-repair",
+        "narration": "of a visionary experience, offering a look at the diversity of descriptive language used by the prophets when documenting",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli compares two blank open scrolls on a low table, one rolled edge facing left and the other right. Hands rest away from the scrolls and his face looks thoughtful. Simple cream wall, one table, flat warm colours.",
+        "overlay": "Prophetic record",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-4-shot-21",
+      "replacement": {
+        "overlayAnchor": "celestial",
+        "id": "chapter-4-shot-21-editorial-repair",
+        "narration": "their encounter with the celestial.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli walks alone along a simple rocky path, one foot visibly forward, thoughtful expression looking upward. Warm ochre ground, flat pale sky and one small rock. Original reference face and garments, clearly outlined full adult silhouette.",
+        "overlay": "Celestial encounter",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-0",
+      "replacement": {
+        "overlayAnchor": "anchor",
+        "id": "chapter-5-shot-0-editorial-repair",
+        "narration": "To resolve the visual confusion in these accounts, anchor every artistic interpretation directly to the text.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli at a simple desk comparing one rolled scroll with one open blank scroll. He leans toward the open scroll with a focused expression, hands at his sides. Flat cream wall, clear reference face and simple wooden table.",
+        "overlay": "Textual anchor",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-1",
+      "replacement": {
+        "overlayAnchor": "Isaiah 6:2",
+        "id": "chapter-5-shot-1-editorial-repair",
+        "narration": "When viewing a figure with six wings, check Isaiah 6:2 to confirm it",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli reads a single blank open parchment scroll at a low stone ledge, eyes focused downward and eyebrows raised. A clean empty area remains beside the scroll for the source citation added in editing. Flat ochre and cream colours, no written letters in the image.",
+        "overlay": "Isaiah 6:2",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-2",
+      "replacement": {
+        "overlayAnchor": "seraphims",
+        "id": "chapter-5-shot-2-editorial-repair",
+        "narration": "reflects the seraphims in that specific temple vision. Conversely, if an image displays four faces paired with wheels containing",
+        "historicalContext": "Source-bound vision, Isaiah 6:2; eighth-century BCE Judah text. Six wings: two cover face, two cover feet, two for flight. Symbolic illustrated depiction.",
+        "concept": "A flat-ink close-up of one representative seraph, six wings in three distinct pairs arranged over face, over feet, and extended for flight. The separate pairs are large and countable, bold dark outlines on calm cream. No ordinary humans or documents.",
+        "overlay": "Seraphim",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-3",
+      "replacement": {
+        "overlayAnchor": "Ezekiel 1:4-21",
+        "id": "chapter-5-shot-3-editorial-repair",
+        "narration": "eyes, Ezekiel 1:4-21 serves as the precise source.",
+        "historicalContext": "Source-bound vision, Ezekiel 1:4-21; sixth-century BCE text. Each creature has four faces and four wings; eyes on wheel rims. Symbolic illustration.",
+        "concept": "One large upright wheel with simple hand-drawn eyes on its rim beside a representative four-faced, four-winged living creature. The human, lion, ox and eagle faces belong to that single creature. Flat gold and cream art, no ordinary people.",
+        "overlay": "Ezekiel 1:4-21",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-4",
+      "replacement": {
+        "overlayAnchor": "merging these distinct",
+        "id": "chapter-5-shot-4-editorial-repair",
+        "narration": "A common error involves merging these distinct prophetic reports into a single, inaccurate composite.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Only Eli looking down at two separate blank scrolls resting far apart on one low table. His eyebrows show caution and both hands remain at his sides. Calm plain wall; clearly separated scrolls convey comparison without combining them.",
+        "overlay": "Keep Separate",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-5",
+      "replacement": {
+        "overlayAnchor": "separate",
+        "id": "chapter-5-shot-5-editorial-repair",
+        "narration": "Isaiah’s six-winged beings and Ezekiel’s four-faced creatures represent separate,",
+        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
+        "concept": "A separate six-winged seraph at left and four-faced, four-winged living creature at right, with generous calm space between them. Seraph wing pairs cover face, cover feet, and extend for flight. Flat ochre ink drawing, clear distinct bodies, no ordinary humans.",
+        "overlay": "Distinct Visions",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-6",
+      "replacement": {
+        "overlayAnchor": "in isolation",
+        "id": "chapter-5-shot-6-editorial-repair",
+        "narration": "highly specific visionary accounts. By examining each passage in isolation, we see that these descriptions are not",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli focuses closely on one blank parchment scroll on a wooden ledge. Side profile with his reference face and beard visible, hands at his sides. Plain cream wall, one scroll, simple flat warm colours.",
+        "overlay": "Isolation Study",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-7",
+      "replacement": {
+        "overlayAnchor": "distinct details",
+        "id": "chapter-5-shot-7-editorial-repair",
+        "narration": "interchangeable, as each prophet documented distinct details within his specific encounter.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli compares two blank scrolls placed on separate simple wooden stands. He looks from one toward the other with a questioning eyebrow. Both arms rest naturally by his body, calm cream space and flat ochre furniture.",
+        "overlay": "Distinct Records",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-8",
+      "replacement": {
+        "overlayAnchor": "settings vastly different",
+        "id": "chapter-5-shot-8-editorial-repair",
+        "narration": "Verifying the source confirms that these visionary figures operate in settings vastly different from the messengers seen in Genesis or the New",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Two distinct ordinary adult travelers in blue and rust cloaks walking toward a simple stone doorway. One is bald, the other curly-haired, both clean-shaven. Flat cream sky, expressive round-head figures and no supernatural additions.",
+        "overlay": "Context Matters",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-9",
+      "replacement": {
+        "overlayAnchor": "match descriptive features",
+        "id": "chapter-5-shot-9-editorial-repair",
+        "narration": "Testament. The identification method is simple: match descriptive features against the specific verse rather",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "A clear close-up of one blank parchment scroll lying open on a plain wooden surface. Its edges curl naturally; bold black contours and flat cream and ochre fills. Empty space above for the citation added later, no hands or people.",
+        "overlay": "Verify Source",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-10",
+      "replacement": {
+        "overlayAnchor": "appearing as travelers",
+        "id": "chapter-5-shot-10-editorial-repair",
+        "narration": "than relying on generalized traditions. Genesis 19:1-3 presents visitors appearing as travelers,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly three clearly separated adults: Eli welcomes two adult travelers, bald in blue and curly-haired in rust, at a small house doorway. All figures have ordinary human forms, similar adult height, simple sandals and relaxed expressions.",
+        "overlay": "Mundane Travelers",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-11",
+      "replacement": {
+        "overlayAnchor": "ordinary strangers",
+        "id": "chapter-5-shot-11-editorial-repair",
+        "narration": "while Hebrews 13:2 notes that such beings may appear as ordinary strangers. Distinguishing these categories requires",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "A bald blue-cloaked adult visitor rests on a stone bench while Eli stands beside a small clay plate of flatbread. Both figures have full adult proportions and distinct faces. Plain cream courtyard, one bench and one plate, friendly expressions.",
+        "overlay": "Unexpected Guest",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-12",
+      "replacement": {
+        "overlayAnchor": "symbolic vision",
+        "id": "chapter-5-shot-12-editorial-repair",
+        "narration": "identifying if a passage describes an encounter with a human-like messenger or a symbolic vision.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli sitting thoughtfully between two widely separated blank parchment scrolls placed on a low table. Both hands rest on his knees; clear raised eyebrows convey comparison. Simple warm cream wall and flat ink art.",
+        "overlay": "Categorize Visitations",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-13",
+      "replacement": {
+        "overlayAnchor": "wide variety",
+        "id": "chapter-5-shot-13-editorial-repair",
+        "narration": "By honoring the specific language of each report, we recognize that the biblical record preserves a wide variety",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Only Eli at a low table with two blank parchment scrolls, carefully looking between them. The scrolls remain separate with room between. One simple cream wall, clear round-head face and flat warm colours, no lamp or writing implement.",
+        "overlay": "Diverse Records",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-5-shot-14",
+      "replacement": {
+        "overlayAnchor": "these encounters",
+        "id": "chapter-5-shot-14-editorial-repair",
+        "narration": "of contexts for these encounters.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Three ordinary adults at an open house doorway: Eli welcomes a bald visitor in blue and a curly-haired visitor in rust. A clay jug stands beside the door; everyone is clearly separated and adult-sized, warm flat colours.",
+        "overlay": "Varied Contexts",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-0",
+      "replacement": {
+        "overlayAnchor": "distinct portrayals",
+        "id": "chapter-6-shot-0-editorial-repair",
+        "narration": "Ultimately, no single image can reconcile these distinct portrayals. When we look past the desire for a standardized",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli with a puzzled expression before two separate blank parchment scrolls on a low table. His hands rest by his sides and the scrolls remain distinct. Clean cream wall, bold outlines and a single focal character; no digital devices.",
+        "overlay": "Beyond Synthesis",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-1",
+      "replacement": {
+        "overlayAnchor": "specific context",
+        "id": "chapter-6-shot-1-editorial-repair",
+        "narration": "catalogue, we find that these texts preserve encounters defined by their specific context,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Only Eli looks upward with wide thoughtful eyes under one plain stone arch. His hands rest near his chest. Warm flat ochre wall and cream ground, clean outlined reference face, a quiet reverent pose without atmospheric effects.",
+        "overlay": "Situational Encounters",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-2",
+      "replacement": {
+        "overlayAnchor": "throne-room vision",
+        "id": "chapter-6-shot-2-editorial-repair",
+        "narration": "whether it is the unexpected arrival of a traveler or the symbolic intensity of a throne-room vision.",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli stands by an open house door welcoming one bald adult traveler in a blue cloak. Both have ordinary human appearances and clear separated adult figures. One clay jug by the doorway, simple cream background, friendly expressions.",
+        "overlay": "Traveler & Vision",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-3",
+      "replacement": {
+        "overlayAnchor": "prophetic",
+        "id": "chapter-6-shot-3-editorial-repair",
+        "narration": "The six-winged seraphim of Isaiah and the four-faced cherubim of Ezekiel remain fixed within their own prophetic",
+        "historicalContext": "Source-bound vision, Isaiah 6:2 and Ezekiel 1:4-21. Separate accounts: six wings versus four faces and four wings; eyes on wheel rims, never merged.",
+        "concept": "Two clearly separated source-specific beings: Isaiah's seraph with six wings in three functional pairs, and Ezekiel's single creature with four faces and four wings beside an eye-covered wheel. Simple flat ink artwork on cream, no human host, no merged bodies.",
+        "overlay": "Distinct Prophecies",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-4",
+      "replacement": {
+        "overlayAnchor": "human story",
+        "id": "chapter-6-shot-4-editorial-repair",
+        "narration": "narratives, distinct from the messengers who engage in the human story. This reading does not offer a scientific proof of",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Eli watches two distinct adult travelers walk away along a plain path. One bald guest wears blue, the curly-haired guest wears rust. Their walking poses are ordinary and relaxed, all bodies separate. A simple house wall at left and calm flat sky.",
+        "overlay": "Divine messengers vs. human story",
+        "labelPlacement": "top",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-5",
+      "replacement": {
+        "overlayAnchor": "function in the text",
+        "id": "chapter-6-shot-5-editorial-repair",
+        "narration": "anatomy, but highlights how these accounts function in the text. The perspective in Hebrews 13:1-3 returns our",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Close-up of one open blank parchment scroll on a plain wooden surface. The two rolled edges and cream parchment are clearly ink-outlined, with warm flat fills. No hands or people; space for the editorial source citation.",
+        "overlay": "Text as the primary witness",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "None"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-6",
+      "replacement": {
+        "overlayAnchor": "hospitality remains a vital act",
+        "id": "chapter-6-shot-6-editorial-repair",
+        "narration": "focus to the practical, reminding us that hospitality remains a vital act,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Exactly two adults at a low table: Eli sets a clay cup before a bald blue-cloaked guest. The visitor smiles gratefully, both figures have clear separated adult bodies and simple mitten-like hands. Plain cream wall, one table and one cup.",
+        "overlay": "The practice of hospitality",
+        "labelPlacement": "left",
+        "characterRoles": [
+          "Eli",
+          "Adult traveler, blue cloak, bald, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-7",
+      "replacement": {
+        "overlayAnchor": "visitor is recognized",
+        "id": "chapter-6-shot-7-editorial-repair",
+        "narration": "regardless of whether a visitor is recognized. Given these strikingly different descriptions,",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "A gray-bearded adult host in a blue head cloth holds an open wooden door for a bald adult traveler wearing a rust cloak. Their friendly expressions and clearly separate adult bodies convey hospitality. Flat cream wall and ochre ground.",
+        "overlay": "Kindness to the unrecognized",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Adult host, blue head cloth, gray beard",
+          "Adult traveler, rust cloak, dark curly hair, clean-shaven"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-6-shot-8",
+      "replacement": {
+        "overlayAnchor": "nature of such encounters",
+        "id": "chapter-6-shot-8-editorial-repair",
+        "narration": "how do we interpret the nature of such encounters?",
+        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
+        "concept": "Only Eli standing in a clear cream space, head tilted with a thoughtful raised eyebrow and one simple mitten hand by his chest. His face and clothes match the reference. One flat ground line, a questioning expressive pose and no other props.",
+        "overlay": "The nature of the encounter",
+        "labelPlacement": "bottom",
+        "characterRoles": [
+          "Eli"
+        ]
+      },
+      "reason": "Unfinished or prompt-rejected beat: clarify source, cast and flat illustrated medium before further spending."
+    },
+    {
+      "sourceId": "chapter-3-shot-1",
+      "replacement": {
+        "overlayAnchor": "identifies himself as Gabriel",
+        "id": "chapter-3-shot-1-period-room",
+        "narration": "each fulfilling specific assignments. In the gospel of Luke, a figure identifies himself as Gabriel during",
+        "historicalContext": "Biblical narrative in first-century Judea. Plain stone room, low stone bench, linen or wool garments and sandals. Illustrated interpretation.",
+        "concept": "Eli stands beside a low stone bench inside a small room with plain cream stone walls. One expressive open hand gestures into the clear empty space at right. His round white face, beard and sand tunic match the reference. Only the character and bench, flat warm ink colours.",
+        "overlay": "Gabriel's Assignment",
+        "labelPlacement": "right",
+        "characterRoles": [
+          "Eli"
+        ],
+        "promptFocus": true
+      },
+      "reason": "Manual pixel inspection found a glass-chimney oil lamp in the accepted regeneration. Preserve that source and QA; use an uncluttered period room without an unrequested lamp."
+    }
+  ],
+  "beatReassignments": []
+}

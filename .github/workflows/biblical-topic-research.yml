@@ -1,0 +1,73 @@
+name: biblical-topic-research
+on:
+  workflow_dispatch:
+    inputs:
+      reference_channel:
+        description: Optional public handle to inspect all uploads instead of the topic sample
+        type: string
+        default: ''
+      validate_storage_only:
+        description: Check artifact storage without any external API calls
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      MAX_PAID_COST_USD: '0'
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: npx tsx src/ideas/biblical-demand-cli.ts
+        if: inputs.validate_storage_only != true
+        env:
+          YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
+          REFERENCE_CHANNEL: ${{ inputs.reference_channel }}
+      - name: Prepare tiny storage probe
+        if: inputs.validate_storage_only == true
+        run: mkdir -p data/research/biblical-demand && printf 'storage check\n' > data/research/biblical-demand/storage-check.txt
+      - name: Preserve research in private release without Actions artifact storage
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PYRESEARCH'
+          import datetime, os, runpy, shutil
+          from pathlib import Path
+          store=runpy.run_path('scripts/github_checkpoints.py')
+          repo=os.environ['GITHUB_REPOSITORY']; store['require_private'](repo)
+          files=list(Path('data/research/biblical-demand').glob('*.json'))
+          if not files: raise SystemExit(0)
+          tag='channel-research-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m')
+          store['release'](repo,tag)
+          output=Path('.cache/channel-research'); output.mkdir(parents=True,exist_ok=True)
+          links=[]
+          for path in files:
+              dest=output/(os.environ['GITHUB_RUN_ID']+'-attempt-'+os.environ['GITHUB_RUN_ATTEMPT']+'-'+path.name)
+              shutil.copyfile(path,dest); store['upload'](repo,tag,dest)
+              links.append('https://github.com/'+repo+'/releases/download/'+tag+'/'+dest.name)
+          with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as summary:
+              summary.write('## Research evidence\n\n'+'\n\n'.join(links)+'\n')
+          PYRESEARCH
+      - name: Persist shared quota in private repository release
+        if: always() && inputs.validate_storage_only != true
+        run: python3 scripts/github_checkpoints.py save-quota
+        env:
+          GH_TOKEN: ${{ github.token }}

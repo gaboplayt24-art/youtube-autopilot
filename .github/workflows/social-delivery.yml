@@ -1,0 +1,131 @@
+name: social-delivery
+on:
+  workflow_dispatch:
+    inputs:
+      action:
+        type: choice
+        options: [preflight, layout-preview, build, youtube, tiktok]
+        default: preflight
+      run_id:
+        type: string
+        default: bible-angels-001
+      source_run_id:
+        description: Complete production checkpoint Actions run ID
+        type: string
+      clip_build_run_id:
+        description: Social build run ID whose exact previews were reviewed
+        type: string
+      approved_bundle_sha256:
+        description: Exact bundle SHA256 shown by the build; required for scheduling
+        type: string
+      content_preview_confirmed:
+        description: Owner has watched the actual TikTok clips
+        type: boolean
+        default: false
+      express_consent_given:
+        description: Owner consents to sending the reviewed clips to TikTok
+        type: boolean
+        default: false
+      allow_comment:
+        type: choice
+        options: [disable, allow]
+        default: disable
+      allow_duet:
+        type: choice
+        options: [disable, allow]
+        default: disable
+      allow_stitch:
+        type: choice
+        options: [disable, allow]
+        default: disable
+  workflow_run:
+    workflows: [production-validation]
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: social-${{ inputs.run_id || 'bible-angels-001' }}
+  cancel-in-progress: false
+jobs:
+  delivery:
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.display_title == 'production-bible-angels-001')
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    environment: youtube-private
+    env:
+      GH_TOKEN: ${{ github.token }}
+      SOCIAL_ACTION: ${{ inputs.action || 'build' }}
+      RUN_ID: ${{ inputs.run_id || 'bible-angels-001' }}
+      SOURCE_RUN_ID: ${{ inputs.source_run_id || github.event.workflow_run.id }}
+      CLIP_BUILD_RUN_ID: ${{ inputs.clip_build_run_id }}
+      APPROVED_BUNDLE_SHA256: ${{ inputs.approved_bundle_sha256 }}
+      CONTENT_PREVIEW_CONFIRMED: ${{ inputs.content_preview_confirmed }}
+      EXPRESS_CONSENT_GIVEN: ${{ inputs.express_consent_given }}
+      ALLOW_COMMENT: ${{ inputs.allow_comment }}
+      ALLOW_DUET: ${{ inputs.allow_duet }}
+      ALLOW_STITCH: ${{ inputs.allow_stitch }}
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      MAX_PAID_COST_USD: '0'
+      CHROME_EXECUTABLE: /usr/bin/google-chrome
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Restore integrity-checked production evidence
+        if: env.SOCIAL_ACTION != 'preflight'
+        run: python3 scripts/github_checkpoints.py restore
+      - name: Media tools
+        if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview'
+        run: bash scripts/ensure-media-ci.sh
+      - name: Restore reviewed clip package for scheduling
+        if: env.SOCIAL_ACTION == 'youtube' || env.SOCIAL_ACTION == 'tiktok'
+        run: |
+          python3 - <<'PY'
+          import os, re, subprocess, zipfile
+          from pathlib import Path
+          source = os.environ['CLIP_BUILD_RUN_ID']
+          assert re.fullmatch(r'[0-9]+', source), 'Clip build run ID required'
+          root = Path('data/runs') / os.environ['RUN_ID']
+          target = Path('.cache/social-download'); target.mkdir(parents=True, exist_ok=True)
+          subprocess.run(['gh','release','download','pipeline-checkpoint-'+os.environ['RUN_ID'],'--pattern','social-'+source+'.zip','--dir',str(target)], check=True)
+          with zipfile.ZipFile(target / ('social-'+source+'.zip')) as archive:
+              for info in archive.infolist():
+                  path=Path(info.filename)
+                  assert not path.is_absolute() and '..' not in path.parts and path.parts[0]=='social'
+                  assert (info.external_attr >> 16) & 0o170000 != 0o120000
+              archive.extractall(root)
+          PY
+      - name: Inspect, render or schedule through official APIs
+        env:
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: npx tsx scripts/social-delivery.ts
+      - name: Preserve clips, preview frames, plans, QA and scheduling receipts
+        if: always() && env.SOCIAL_ACTION != 'preflight'
+        run: |
+          python3 - <<'PY'
+          import hashlib, os, runpy, zipfile
+          from pathlib import Path
+          root=Path('data/runs') / os.environ['RUN_ID']; folder=root/'social'
+          if not folder.exists(): raise SystemExit(0)
+          package=Path('.cache')/('social-'+os.environ['GITHUB_RUN_ID']+'.zip'); package.parent.mkdir(exist_ok=True)
+          with zipfile.ZipFile(package,'w',zipfile.ZIP_DEFLATED) as z:
+              for path in folder.rglob('*'):
+                  if path.is_file() and path.name!='.lock': z.write(path,path.relative_to(root))
+          store=runpy.run_path('scripts/github_checkpoints.py'); tag='pipeline-checkpoint-'+os.environ['RUN_ID']; repo=os.environ['GITHUB_REPOSITORY']
+          store['release'](repo,tag); store['upload'](repo,tag,package)
+          bundle=folder/'bundle.json'
+          with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as s:
+              s.write('## Social delivery evidence\n\nhttps://github.com/'+repo+'/releases/download/'+tag+'/'+package.name+'\n\n')
+              if bundle.exists(): s.write('Exact bundle SHA256: `'+hashlib.sha256(bundle.read_bytes()).hexdigest()+'`\n\nBuild is never publication approval. TikTok requires review of actual previews before consent.\n')
+          PY

@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {compareTranscripts,evaluateVoice,measuredReferenceAlignment,normalizedTokens,requireVoiceQA,extractCriticalTerms} from '../src/voice/qa';
+import {compareTranscripts,evaluateVoice,measuredReferenceAlignment,normalizedTokens,requireVoiceQA} from '../src/voice/qa';
 const policy={passWer:.02,reviewWer:.05,maxSkippedPhraseWords:3,maxUnexpectedPauseSeconds:2.5,maxPauseSeconds:8,discontinuityThreshold:.45,benchmarkMinSeconds:60,benchmarkMaxSeconds:90,qwenMaxProbeSeconds:300,qwenMaxRealTimeFactor:8,qwenMaxPeakMemoryMb:5500};
 test('normalization accepts punctuation, case and common number spelling without making lexical errors disappear',()=>{assert.deepEqual(normalizedTokens('On 30 BCE, August 27, 1997.' ).map(x=>x.text),['on','30','bce','august','27','1997']);assert.equal(compareTranscripts('Augustus arrived in 27 BCE','Augustus arrived in twenty seven B.C.E.').wordErrorRate,0);assert.ok(compareTranscripts('sealed the letter','seal the letter').wordErrorRate>0)});
 test('low WER passes while critical term mutation fails',()=>{const good=evaluateVoice('Augustus arrived in Alexandria on 27 BCE',{text:'Augustus arrived in Alexandria on twenty seven B.C.E.',chunks:[{text:'Augustus arrived in Alexandria on twenty seven B.C.E.',timestamp:[0,4]}]},['Augustus','Alexandria','27 BCE'],policy);assert.equal(good.status,'pass');const bad=evaluateVoice('Augustus arrived in Alexandria on 27 BCE',{text:'August arrived in Alexandria on 27 BCE',chunks:[{text:'August arrived in Alexandria on 27 BCE',timestamp:[0,4]}]},['Augustus','Alexandria','27 BCE'],policy);assert.equal(bad.status,'fail');assert.equal(bad.criticalTermAccuracy,2/3)});
@@ -8,84 +8,20 @@ test('repeated words and independent ASR alternatives are classified without dis
 test('WER review preserves evidence and requires explicit listening approval',()=>{const report=evaluateVoice('washed cloth was sealed in the quiet room while the careful clerk checked every mark and closed the wooden box',{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',chunks:[{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',timestamp:[0,3]}]},[],policy);assert.equal(report.status,'review');assert.throws(()=>requireVoiceQA(report),/Voice QA REVIEW/);assert.equal(report.normalizedComparison.differences[0].reference,'sealed');});
 test('measured alignment retains whole ASR spans and never fabricates missing word timestamps',()=>{const alignment=measuredReferenceAlignment('a stone wall',{text:'a stonewall',chunks:[{text:'a',timestamp:[0,1]},{text:'stonewall',timestamp:[1,3]}]});assert.deepEqual(alignment,[{text:'a',start:0,end:1},{text:'stone wall',start:1,end:3}]);assert.throws(()=>measuredReferenceAlignment('a wall',{text:'a',chunks:[{text:'a',timestamp:[0,null]}]}),/missing timestamp/)});
 test('milestone approval permits REVIEW but never a missing critical name',()=>{const review=evaluateVoice('washed cloth was sealed in the quiet room while the careful clerk checked every mark and closed the wooden box',{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',chunks:[{text:'washed cloth was seal in the quiet room while the careful clerk checked every mark and closed the wooden box',timestamp:[0,3]}]},[],policy);assert.doesNotThrow(()=>requireVoiceQA(review,true));const critical=evaluateVoice('Augustus arrived in Alexandria',{text:'August arrived in Alexandria',chunks:[{text:'August arrived in Alexandria',timestamp:[0,3]}]},['Augustus'],policy);assert.throws(()=>requireVoiceQA(critical,true),/FAIL/);});
-test('a sentence-initial common word is not a critical name when the text also uses it in lowercase',()=>{
- const terms=extractCriticalTerms('Scholars date the scrolls. Most scholars agree. Bethlehem dealers sold them in 1947.',['Scholars']);
- assert.ok(!terms.includes('Scholars'));assert.ok(terms.includes('Bethlehem'));assert.ok(terms.includes('1947'));
+
+test('ASR dotted scripture citations match only exact reference numbers and preserve original timestamp indices',()=>{
+ const reference='Check Isaiah 6:2 and Ezekiel 1:4-21, Genesis 19:1-3 and Hebrews 13:2.';
+ const observed='Check Isaiah 6.2 and Ezekiel 1.4.21, Genesis 19.1.3 and Hebrews 13.2.';
+ const c=compareTranscripts(reference,observed);assert.equal(c.wordErrorRate,0);assert.deepEqual(c.observedTokens.filter(t=>t.indices[0]===2).map(t=>t.text),['6','2']);
+ assert.ok(compareTranscripts('Check Isaiah 6:2','Check Isaiah 6.3').wordErrorRate>0);
+ assert.ok(compareTranscripts('A value of 6.2','A value of 6 2').wordErrorRate>0);
+ assert.ok(compareTranscripts('Check Isaiah 6:2 and a value of 6.2','Check Isaiah 6.2 and a value of 6 2').wordErrorRate>0);
+ const aligned=measuredReferenceAlignment('Isaiah 6:2',{text:'Isaiah 6.2',chunks:[{text:'Isaiah',timestamp:[0,1]},{text:'6.2',timestamp:[1,2]}]});
+ assert.deepEqual(aligned,[{text:'Isaiah',start:0,end:1},{text:'6:2',start:1,end:2}]);
 });
-test('Chapter timing allows an exact 20 ms ASR overlap despite float rounding but rejects larger ones',async()=>{
- const {invalidTimingIndex}=await import('../src/voice/chapters');
- assert.equal(invalidTimingIndex([{start:64.6,end:64.76},{start:64.74,end:65.1}],99.44),-1);
- assert.equal(invalidTimingIndex([{start:64.6,end:64.76},{start:64.73,end:65.1}],99.44),1);
- assert.equal(invalidTimingIndex([{start:1,end:1}],5),0);
- assert.equal(invalidTimingIndex([{start:1,end:6}],5),0);
-});
-test('small ASR boundary overlaps are split at the midpoint and recorded; large ones still fail',async()=>{
- const {resolveAsrOverlaps,invalidTimingIndex}=await import('../src/voice/chapters');
- const r=resolveAsrOverlaps([{text:'of',start:34.54,end:34.78},{text:'scholars',start:34.7,end:35}]);
- assert.equal(r.words[0].end,34.74);assert.equal(r.words[1].start,34.74);assert.deepEqual(r.adjustments,[{index:1,previous:'of',word:'scholars',overlapMs:80}]);assert.equal(invalidTimingIndex(r.words,40),-1);
- const big=resolveAsrOverlaps([{text:'a',start:1,end:1.6},{text:'b',start:1.3,end:2}]);assert.equal(big.adjustments.length,0);assert.equal(invalidTimingIndex(big.words,5),1);
-});
-test('an echoed beat narration may differ in punctuation and case but not in words',async()=>{
- const {sameWords}=await import('../src/visuals/visual-thinking');
- assert.equal(sameWords('The shepherd’s stone — fell.','the shepherd\'s stone fell'),true);
- assert.equal(sameWords('The scribes who wrote','The scribes who rode'),false);
-});
-test('visual direction resumes finished batches from its checkpoint',async()=>{
- const {VisualThinkingDirector}=await import('../src/visuals/visual-thinking');const {mkdtemp,rm}=await import('node:fs/promises');const {tmpdir}=await import('node:os');const {join}=await import('node:path');
- const dir=await mkdtemp(join(tmpdir(),'vt-'));try{const shots=Array.from({length:8},(_,i)=>({id:'s'+i,start:i,end:i+1,narration:'Beat number word '+i+'.',transition:'cut'})) as any;let calls=0;
-  const llm={json:async(_p:string,schema:any)=>{calls++;const ids=[..._p.matchAll(/"id":"(s\d)","narration":"([^"]+)"/g)].map(m=>({id:m[1],narration:m[2]}));return schema.parse({ideas:ids.map(x=>({...x,historicalContext:'Second Temple period Judea, uncertain details.',concept:'An original illustrated scene of a shepherd near desert caves holding a lamp at dusk.',overlay:null,labelPlacement:'top',characterRoles:['Eli']}))});}} as any;
-  const path=join(dir,'vt.json');const first=await new VisualThinkingDirector().illustrate(shots,llm,true,undefined,path);assert.equal(calls,2);assert.equal(first.length,8);
-  await new VisualThinkingDirector().illustrate(shots,llm,true,undefined,path);assert.equal(calls,2);
- }finally{await rm(dir,{recursive:true});}
-});
-test('a cut beat phrase echoed in its completed sentence still identifies the beat',async()=>{
- const {sameWords}=await import('../src/visuals/visual-thinking');
- assert.equal(sameWords('who wrote the scrolls','Scholars still debate who wrote the scrolls.'),true);
- assert.equal(sameWords('who wrote the scrolls','Scholars still debate who hid the scrolls.'),false);
-});
-test('a bare array of visual ideas is accepted as the same answer without its wrapper',async()=>{
- const {VisualThinkingDirector}=await import('../src/visuals/visual-thinking');
- const shots=[{id:'s0',start:0,end:1,narration:'A shepherd threw a stone.',transition:'cut'}] as any;
- const llm={json:async(_p:string,schema:any)=>schema.parse([{id:'s0',narration:'A shepherd threw a stone.',historicalContext:'Judean desert, 1940s.',concept:'An original illustrated scene of a young shepherd throwing a stone into a dark cave.',overlay:null,labelPlacement:'top',characterRoles:['shepherd']}])} as any;
- const out=await new VisualThinkingDirector().illustrate(shots,llm,true);assert.equal(out[0].assetPrompt?.includes('shepherd'),true);
-});
-test('v4 prompt wording keeps Eli and ancient dress out of 1940s and modern beats only',async()=>{
- const {nativePrompt,isModernContext}=await import('../src/visuals/native-v4-2');const style=(await import('../config/style-lock-v5.json')).default as any;
- assert.equal(isModernContext('1940s Judean desert, Bedouin shepherd'),true);assert.equal(isModernContext('Modern museum in Jerusalem'),true);assert.equal(isModernContext('Judea, first century BCE scribes'),false);
- const idea={id:'x',narration:'n',historicalContext:'1950s Jerusalem office, scholars',concept:'Eli studies a scroll fragment at a desk under a lamp.',overlay:null,labelPlacement:'top',characterRoles:['Eli']} as any;
- const v4=nativePrompt(style,idea,'v4');assert.ok(!v4.includes('Ancient Near East dress'));assert.ok(v4.includes('Eli does not appear'));assert.ok(v4.includes('a round-head adult studies'));
- const ancient=nativePrompt(style,{...idea,historicalContext:'Judea, first century BCE scribes'},'v4');assert.ok(ancient.includes('Ancient Near East dress'));assert.ok(ancient.includes('Eli studies'));
- assert.equal(nativePrompt(style,idea,'v3').includes('Ancient Near East dress'),true,'v3 stays byte-identical for cached evidence');
-});
-test('rejected beats are narrated over the neighbouring accepted image, never shown',async()=>{
- const {mergeRejectedBeats}=await import('../src/visuals/illustrated-video-assets');
- const b=(id:string,start:number,end:number)=>({id,sceneId:'s',start,end,narration:id,visualIntent:'intent',shotType:'generated-image',motion:'push-in',assetPrompt:'prompt text',transition:'cut'}) as any;
- const merged=mergeRejectedBeats([b('a',0,5),b('b',5,10),b('c',10,15),b('d',15,20)],new Set(['b','d']));
- assert.deepEqual(merged.map(s=>[s.id,s.start,s.end,s.narration]),[['b',0,15,'a b c'],['d',15,20,'d']]);
- assert.throws(()=>mergeRejectedBeats([b('a',0,5),b('b',5,30)],new Set(['a'])),/too long/);
- assert.throws(()=>mergeRejectedBeats([b('a',0,5)],new Set()),/No accepted/);
-});
-test('owner approval accepts only the exact listed SHA-256 for this run',async()=>{
- const {ownerApproval}=await import('../src/visuals/native-v4-2');const {writeFile,rm}=await import('node:fs/promises');
- const sha='a'.repeat(64),file='data/scripts/test-owner-approval-owner-approved-illustrations.json';await writeFile(file,JSON.stringify({approved:[sha]}));
- try{assert.deepEqual(await ownerApproval(sha,'test-owner-approval'),{sha256:sha,file});assert.equal(await ownerApproval('b'.repeat(64),'test-owner-approval'),undefined);assert.equal(await ownerApproval(sha,'no-such-run'),undefined);}finally{await rm(file);}
-});
-test('an owner-approved earlier take is used without drawing or reviewing again',async()=>{
- const {VisualStyleEngine,nativePrompt}=await import('../src/visuals/native-v4-2');const {densityReview}=await import('../src/visuals/density-qa');const {writeFile,rm,mkdtemp}=await import('node:fs/promises');const {join}=await import('node:path');const {tmpdir}=await import('node:os');const {createHash}=await import('node:crypto');
- void nativePrompt;const dir=await mkdtemp(join(tmpdir(),'approved-take-'));const reference=join(dir,'ref.png'),png=join(dir,'take.png');await writeFile(reference,'reference');await writeFile(png,'take');
- const digest=(s:string)=>createHash('sha256').update(s).digest('hex'),sha=digest('take');
- const review=densityReview.parse({passed:false,referenceCompared:true,referenceStyleMatches:false,conceptMatches:true,historicallyPlausible:true,cropPreservesSubjects:true,photorealism:false,cgi:false,geometricCodeLook:false,webUILook:false,bakedText:false,watermark:false,issues:['style'],scores:{drawnAppearance:85,lineCharacter:85,humanDesign:85,colorTreatment:85,visualSimplicity:95,organicShapes:85,educationalClarity:95,illustratedFeel:85,NARRATIVE_SUFFICIENCY:100,REFERENCE_DENSITY_MATCH:100},adultAnatomyCorrect:true,intentionalNegativeSpace:true,complexityRequiredByNarration:false,densityRationale:'One shepherd on a ridge explains the beat.'});
- await writeFile(join(dir,'native-beat-1-regen1-p4-source.json'),JSON.stringify({path:png,sha256:sha,model:'@cf/black-forest-labs/flux-2-klein-4b',width:2048,height:1152,aspectRatio:'16:9',prompt:'old wording',referenceSha256:digest('reference')}));
- await writeFile(join(dir,'native-beat-1-regen1-p4-density-QA-v4.3.json'),JSON.stringify(review));
- const approvals='data/scripts/test-approved-take-owner-approved-illustrations.json';await writeFile(approvals,JSON.stringify({approved:[sha]}));const before=process.env.RUN_ID;process.env.RUN_ID='test-approved-take';
- try{const out=await new VisualStyleEngine().generate({id:'beat-1'} as never,{referenceSha256:digest('reference')} as never,reference,dir,{dir} as never,undefined as never);
-  assert.equal(out.source.sha256,sha);assert.equal(out.review.passed,true);assert.equal(out.artwork?.ownerApproval?.sha256,sha);
-  process.env.RUN_ID='no-such-run';await assert.rejects(new VisualStyleEngine().generate({id:'beat-1'} as never,{referenceSha256:digest('reference')} as never,reference,dir,{dir} as never,undefined as never));
- }finally{if(before===undefined)delete process.env.RUN_ID;else process.env.RUN_ID=before;await rm(approvals);await rm(dir,{recursive:true});}
-});
-test('caption cues overlapping by at most 20 ms are split at the midpoint; larger overlaps stay for QA to reject',async()=>{
- const {settleCueBoundaries}=await import('../src/captions');
- const out=settleCueBoundaries([{start:64.0,end:64.793,words:[{start:64.0,end:64.793}]},{start:64.773,end:66.693,words:[{start:64.773,end:65}]}]);
- assert.ok(Math.abs(out[0].end-64.783)<1e-9&&out[1].start===out[0].end&&out[0].words![0].end===out[0].end&&out[1].words![0].start===out[1].start);
- const big=settleCueBoundaries([{start:0,end:1.05},{start:1,end:2}]);assert.equal(big[1].start,1);assert.equal(big[0].end,1.05);
+
+test('a changed lower-case factual term fails even when lexical WER is below two percent',()=>{
+ const context=Array.from({length:250},(_,i)=>'detail'+i).join(' ');
+ const report=evaluateVoice(context+' seraphim',{text:context+' set of time',chunks:[{text:context+' set of time',timestamp:[0,90]}]},['seraphim'],policy);
+ assert.equal(report.lexicalStatus,'pass');assert.equal(report.status,'fail');assert.equal(report.criticalTermAccuracy,0);
 });

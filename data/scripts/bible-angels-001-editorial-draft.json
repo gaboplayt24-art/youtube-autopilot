@@ -1,0 +1,93 @@
+{
+  "provenance": "Original Codex editorial brief, 2026-10-14. The public channel metadata identified the topic; the subsequently supplied full video was inspected only for abstract editing techniques. No competitor narration or artwork is reused.",
+  "sourceUrls": [
+    "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Luke%201%3A11-20&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Daniel%2010%3A10-21&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Jude%201%3A8-10&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Ezekiel%2010%3A15-22&version=KJV"
+  ],
+  "researchFocus": "Compare source-attributed biblical messengers, named figures, six-winged beings in Isaiah, and the visionary creatures/wheels in Ezekiel. Retrieve evidence from every supplied passage. Distinguish literary narrative, symbolic vision, terminology and interpretations; do not present supernatural imagery as archaeological footage or scientifically established creatures.",
+  "scriptGuidance": "An original roughly ten-minute illustrated documentary, target eight to ten minutes when the source material supports it; existing quality_test plan targets 600 seconds at the approved narrator pace. Never pad to reach duration. Topic inspired by Every Angel in the Bible Drawn and Explained, but do not reuse its title, narration, chapter sequence, distinctive analogies, artwork or characters. Use original Eli v5, real voice QA, mobile captions and evidence-based claims. Every claim must be explicitly attributed to its biblical passage or identified as interpretation. Not every celestial being in a vision is simply called an angel. State which passage has which wing/face/eye description. Do not claim a universal taxonomy, confirmed appearance of every angel, secretly revealed knowledge, predictions, proof/disproof of religion or a recovered physical being. Distinguish Gabriel in Luke, Michael in Daniel/Jude, and Isaiah/Ezekiel visions. Proper names and factual numbers actually spoken remain critical terms and must pass ASR QA. Do not use unverified pronunciation respelling. One new idea per measured shot, meaningful visual changes every two to four seconds, direct hook and unresolved source-based question early, callback ending without filler. CORRECTION AFTER ACTUAL FACT QA: obey every factualCorrections item. Keep chapters distinct. Avoid repeating the human-visitors-versus-vision contrast in every chapter; use concrete scenes, source details and questions. A textual absence (e.g. wings not described here) is not proof of a universal absence. Do not invent biblical author motives. The hook must be exactly the first spoken sentence.",
+  "instruction": "Use the existing long-form chapter pipeline and one approved narrator throughout; approximately 1400 words for the existing 600-second quality_test plan, respecting each chapter budget. First title must come from the original packaging candidates, never copy the reference title. Scripture references may appear as editorial overlays. No baked text in FLUX. Heavenly visions are expressly symbolic illustrated interpretations, not photographed creatures; intentional source-described wings/faces must match the exact passage, while unintended duplicated limbs, malformed bodies or wrong counts remain hard failures. Ordinary people are historically appropriate ancient Near Eastern reconstructions; Luke scenes are first-century Judaea, prophetic visions have no claim of a physically excavated being. Modern comparisons, if any, are explicitly modern. Title packaging for this episode must clearly mention Bible or Biblical and offer a concrete visual contrast or question. Favor our original candidates: Six Wings, Four Faces: What the Bible Actually Describes; Why Biblical Angels Look So Different; Would You Recognize an Angel in a Bible Story? Avoid vague academic headings such as morphology, divine symbolism, or temple imagery. These are editorial choices, not promises of CTR or reach.",
+  "chapters": [
+    {
+      "act": "HOOK",
+      "purpose": "HOOK only: start with the exact hook question as the first spoken sentence. In about 70 words tease the contrast between a visitor at a table and six-wing/four-face visions. Do not explain etymology, functions or a taxonomy. Promise a close reading, not a catalogue of all angels.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 1",
+      "purpose": "ACT 1 only: Genesis 19:1-3 arrival, hospitality, meal/unleavened bread; Hebrews 13:1-3 strangers and unawares. Use the scene as a concrete narrative. Never claim Lot washed feet, an invisible universal disguise, or a universal lack of wings. Save Isaiah/Ezekiel explanations for ACT 3; no replay of the whole episode here.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 2",
+      "purpose": "ACT 2 only: Luke Gabriel identifies himself and is sent to speak; Daniel Michael is one of the chief princes; Jude calls Michael archangel. Do not assign that title to Gabriel from Luke. Compare named passages without Greek/Hebrew etymology, biological species theories or an invented universal hierarchy. Add new information rather than restating ACT 1.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Luke%201%3A11-20&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Daniel%2010%3A10-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Jude%201%3A8-10&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 3",
+      "purpose": "ACT 3 only: Isaiah 6 six wings, exactly the two/two/two uses; Ezekiel 1 four faces and four wings, wheels beside the living creatures with eyes on rims; Ezekiel 10 identifies creatures as cherubim (only the identification is in the selected verses; do not describe eyes on bodies). Keep the passages distinct. No Chebar, unsupported ANE comparisons, omniscience interpretation or claims about an actual physical specimen.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%2010%3A15-22&version=KJV"
+      ]
+    },
+    {
+      "act": "PAYOFF",
+      "purpose": "PAYOFF: resolve the specific visual confusion with a sourced side-by-side comparison of what belongs to Isaiah and what belongs to Ezekiel. Explain how to check an illustration label against its verse. No second full tour of Genesis/Gabriel/Michael, no linguistic definition or universal theory of angel biology. This is a close-reading method, not additional ancient evidence.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Luke%201%3A11-20&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Daniel%2010%3A10-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Jude%201%3A8-10&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%2010%3A15-22&version=KJV"
+      ]
+    },
+    {
+      "act": "ENDING",
+      "purpose": "ENDING: callback to the initial recognition question, then the practical hospitality emphasis in Hebrews 13:1-3. A single silhouette cannot summarize all these passages. Distinguish this interpretive reading from a supernatural or scientific proof. No long recap of each creature, no formulaic subscribe outro; end on a concise thought-provoking question.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV"
+      ]
+    }
+  ],
+  "editingGuidance": "See docs/analysis/bible-animations-editing.md. Use progressive explanation, original expressive reactions, source-attributed comparisons and selective short labels anchored to actual aligned speech. A meaningful visual event is not necessarily a new full-frame illustration. Preserve v5 one-original-per-beat; do not claim independent character animation when the source is flattened. Keep captions readable and separate from conceptual labels. Avoid index-driven flashes or copying the competitor six-category sequence, diagram, narration or closing religious interpretation.",
+  "factualCorrections": [
+    "Omit Hebrew/Greek etymology, malakh/angelos definitions and the claim that angel literally means messenger: the supplied English passages are not linguistic sources.",
+    "Omit foot washing entirely. Genesis 19 contains an invitation, not a statement that Lot washed the visitors feet; do not turn an offer into an action.",
+    "Omit Chebar, Ancient Near Eastern composite-creature traditions, and scholarly claims about omniscience unless a supplied excerpt directly supports them. These are not established by the current verse selection.",
+    "Do not assert what the biblical authors intended or that different shapes exist because of a universal celestial job hierarchy. Distinguish direct wording from an explicitly labeled possible reading.",
+    "Do not call the vision beings physical manifestations or classify all heavenly figures as angels. Attribute descriptions to each passage, preserving its own face/wing/eye counts.",
+    "Do not invent bystander reactions, public alarm or absence of alarm, exhaustion of the visitors, or certainty about what an observer perceived. Genesis 19:1-3 reports arrival, invitation and a meal; narrate those actions as what the text says. Human-looking resemblance is an inference to label, not an explicit costume or anatomy statement.",
+    "Do not call the Genesis visitors silent or claim Gabriel adopted a human-like persona to ensure understanding. Luke 1:11-20 describes an appearance, fear and speech; do not invent communicative motives, appearance details, or first-century dating based on this excerpt.",
+    "Do not repeat the opening question in any later chapter. PAYOFF must teach source-checking through a new worked example, not repeat the exact list of faces and wing counts. ENDING resolves the opening with a short callback and Hebrews hospitality, not an authors-intent question.",
+    "Ezekiel 10:12 describes eyes on bodies but is OUTSIDE the selected source excerpt 10:15-22. Omit eyes on bodies, backs, hands and wings. The supplied Ezekiel 1:18 supports eyes on wheel rims; the supplied Ezekiel 10:15-22 supports the cherubim identification only. Highest priority over an older outline.",
+    "Hebrews 13:1-3 does not name Lot, Sodom or Genesis, and does not explicitly identify which hospitality story it references. We may compare passages editorially but must not claim an explicit cross-reference to Lot."
+  ],
+  "criticalTerms": [
+    "seraphim",
+    "cherubim",
+    "archangel"
+  ]
+}

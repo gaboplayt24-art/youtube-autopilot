@@ -41,3 +41,13 @@ test('Small English resolves weak recognizers with measured timestamps; it never
  const models:string[]=[];const result=await alignWithASRFallback('salt spray stings',async model=>{models.push(model);return {chunks:model.endsWith('small.en')?[{text:'salt',timestamp:[.1,.3]},{text:'spray',timestamp:[.3,.6]},{text:'stings',timestamp:[.6,.9]}]:[{text:'salt',timestamp:[.1,.3]},{text:'spray',timestamp:[.3,.6]},{text:'stinks',timestamp:[.6,.9]}]};});assert.equal(models.length,3);assert.deepEqual(result.at(-1),{text:'stings',start:.6,end:.9});
  await assert.rejects(alignWithASRFallback('salt spray stings',async()=>({chunks:[{text:'salt spray',timestamp:[.1,.6]}]})),/Voice QA FAIL/);
 });
+
+test('new critical terms invalidate cached alignment without accepting an older weaker QA contract',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'voice-critical-cache-'));
+ try{const source=join(dir,'source.wav');await exec('ffmpeg',['-y','-v','error','-f','lavfi','-i','sine=frequency=200:duration=1','-ar','48000',source]);
+  let calls=0;const words=[{text:'seraphim',start:0,end:1}];const tts={speak:async(_text:string,path:string,context?:{criticalTerms?:string[]})=>{calls++;if(calls===2)assert.deepEqual(context?.criticalTerms,['seraphim']);await copyFile(source,path);return {alignment:words,words};}};
+  const plan={scenes:[{id:'s1',narration:'seraphim',visual:'Source-attributed illustration'}]};
+  await narrateChapters(plan,tts,dir);await narrateChapters(plan,tts,dir);assert.equal(calls,1);
+  await narrateChapters(plan,tts,dir,140,'demo',{},['seraphim']);assert.equal(calls,2);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});

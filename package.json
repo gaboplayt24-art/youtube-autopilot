@@ -9,7 +9,7 @@
   "scripts": {
     "lint": "eslint src tests scripts *.js",
     "typecheck": "tsc --noEmit",
-    "test": "tsx --import ./scripts/test-isolation.mjs --test tests/*.test.ts",
+    "test": "tsx --import ./scripts/test-isolation.mjs --test tests/*.test.ts && python3 -m unittest discover -s tests/python",
     "video": "tsx src/orchestration/cli.ts video",
     "research": "tsx src/orchestration/cli.ts research",
     "publish": "tsx src/orchestration/cli.ts publish",
@@ -38,7 +38,8 @@
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "remotion": "4.0.533",
-    "zod": "^3.25.0"
+    "zod": "^3.25.0",
+    "zod-to-json-schema": "3.25.1"
   },
   "devDependencies": {
     "@types/node": "^22.15.0",

@@ -1,0 +1,52 @@
+{
+  "runId": "bible-angels-001",
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38684318949",
+  "conclusion": "success",
+  "codeCommit": "9141d0876700758176b0c193f88d16cac047871f",
+  "archiveUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38684318949-attempt-1.zip",
+  "archiveSha256": "3f31353ca6719bfe11fa7f0f34c37604be77307c741f89a731607ba40cd5c2aa",
+  "archiveBytes": 21037441,
+  "verifiedManifestFiles": 39,
+  "coverage": {
+    "complete": true,
+    "prefixMatches": true,
+    "generatedScriptWords": 1445,
+    "totalScriptWords": 1445
+  },
+  "parts": [
+    {
+      "name": "narration-chapter-1.wav",
+      "sha256": "826e7a43ba2bacec0c97e170376a62aa9fed6a8ec17fe756c17bbe328e1fad32",
+      "durationSeconds": 281.16,
+      "humanReviewApplied": false,
+      "status": "pass",
+      "wordErrorRate": 0.0013623978201634877,
+      "criticalTermAccuracy": 1,
+      "failedCriticalTerms": []
+    },
+    {
+      "name": "narration-chapter-2.wav",
+      "sha256": "46de7b75ff0d195b88e7320015ace6ab317249ba17c730d9467ce5f979e5335f",
+      "durationSeconds": 245.8,
+      "humanReviewApplied": true,
+      "status": "pass",
+      "wordErrorRate": 0.011764705882352941,
+      "criticalTermAccuracy": 1,
+      "failedCriticalTerms": []
+    },
+    {
+      "name": "narration-chapter-3.wav",
+      "sha256": "7e1a99576bd0791f70d5d405e5ae17e782fd66aa40eb734d9e53f26175b7b147",
+      "durationSeconds": 56.26,
+      "humanReviewApplied": false,
+      "status": "pass",
+      "wordErrorRate": 0.007142857142857143,
+      "criticalTermAccuracy": 1,
+      "failedCriticalTerms": []
+    }
+  ],
+  "originalASRAndOwnerReviewedTranscriptIncluded": true,
+  "paidApiCalls": 0,
+  "youtubePublication": false,
+  "videoGeneratedByThisExport": false
+}

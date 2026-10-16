@@ -1,0 +1,229 @@
+{
+  "runId": "bible-angels-001",
+  "status": "visual-review-paused-gemini-free-quota",
+  "ownerRequestedLength": "Choose what best serves the video; editorial target about 8–10 minutes",
+  "productionKind": "quality_test",
+  "targetSeconds": 600,
+  "style": "v5",
+  "voice": "Existing approved Chatterbox Nano reference-cloned narrator",
+  "reference": {
+    "channel": "Bible Animations",
+    "handle": "@bible.animations",
+    "publicUploadsReturned": 144,
+    "playlistTraversalComplete": true,
+    "snapshotAt": "2026-10-14T15:56:28.691Z",
+    "mostViewed": {
+      "videoId": "TC_Y5J48sxk",
+      "url": "https://www.youtube.com/watch?v=TC_Y5J48sxk",
+      "title": "Every Angel in the Bible Drawn and Explained",
+      "description": "Join this channel to get access to perks:\nhttps://www.youtube.com/channel/UCRKZqt7rf6_Lo5rFwuPTKmw/join\n\nJoin the Family! https://discord.com/invite/eM4UdWjtHv\nInstagram: https://www.instagram.com/bibleanimationsyt\nX: https://x.com/bibleanimationz\nTiktok: https://www.tiktok.com/@bibleanimations\nPatreon: https://www.patreon.com/BibleAnimations949",
+      "publishedAt": "2025-12-21T15:09:04Z",
+      "durationSeconds": 1607,
+      "views": 5755653,
+      "likes": 139885,
+      "comments": 7531,
+      "thumbnailUrl": "https://i.ytimg.com/vi/TC_Y5J48sxk/maxresdefault.jpg",
+      "liveBroadcastContent": "none"
+    },
+    "scope": "Public uploads returned by the official API with disclosed view counts; no private/deleted videos or hidden metrics."
+  },
+  "adaptation": "Use the biblical angel/heavenly-being topic. Original source-based explanation, artwork, host, narration and packaging; no copied transcript or source artwork.",
+  "titles": [
+    {
+      "rank": 1,
+      "title": "Bible Angels Don't All Look the Same. Here's Why.",
+      "reason": "Clear correction of a common visual assumption; matches the source comparisons without promising a universal angel catalogue."
+    },
+    {
+      "rank": 2,
+      "title": "Six Wings, Four Faces: What the Bible Actually Describes",
+      "reason": "Specific visual contrast, supported only when tied to the separate Isaiah and Ezekiel passages."
+    },
+    {
+      "rank": 3,
+      "title": "Why Biblical Angels Look So Different",
+      "reason": "Short explanatory promise; narration must distinguish messengers and visionary beings."
+    },
+    {
+      "rank": 4,
+      "title": "Would You Recognize an Angel in a Bible Story?",
+      "reason": "Direct curiosity grounded in hospitality narratives; no real-world encounter prediction."
+    },
+    {
+      "rank": 5,
+      "title": "The Angels Behind the Familiar Wings and Halo",
+      "reason": "Familiar visual premise, but avoid unsupported claims about the history of halos unless additional scholarly evidence is retrieved."
+    }
+  ],
+  "titleRanksAreEditorialHypothesesNotCTRPredictions": true,
+  "thumbnailConcepts": [
+    {
+      "variant": "A",
+      "art": "Original Eli surprised beside a clearly labelled-by-Remotion contrast of an ordinary narrative visitor and a six-winged visionary figure; purposeful empty space and one primary focal surprise.",
+      "overlay": "SAME ANGEL?",
+      "risk": "Do not imply these passages describe the same being."
+    },
+    {
+      "variant": "B",
+      "art": "Original Eli pointing at an original simple illustrated seraphic vision with the exact source-described wing count and paired positions; saturated dark blue separation.",
+      "overlay": "SIX WINGS",
+      "risk": "A visionary interpretation of Isaiah, not the universal appearance of angels."
+    },
+    {
+      "variant": "C",
+      "art": "Original Eli as curious reader, scripture scroll and a clearly separated illustrative eye-covered wheel detail; clean high-contrast composition.",
+      "overlay": "READ THE VERSE",
+      "risk": "Eyes on wheel rims in Ezekiel 1; do not falsely attach that detail to every angel."
+    }
+  ],
+  "shorts": [
+    {
+      "id": "A",
+      "angle": "Why some biblical visitors are received as ordinary people",
+      "targetSeconds": [
+        25,
+        45
+      ],
+      "evidence": [
+        "https://www.biblegateway.com/passage/?search=Genesis%2019%3A1-3&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Hebrews%2013%3A1-3&version=KJV"
+      ]
+    },
+    {
+      "id": "B",
+      "angle": "The six wings in Isaiah, and what each pair does",
+      "targetSeconds": [
+        25,
+        45
+      ],
+      "evidence": [
+        "https://www.biblegateway.com/passage/?search=Isaiah%206%3A1-7&version=KJV"
+      ]
+    },
+    {
+      "id": "C",
+      "angle": "The eyes and wheels in Ezekiel: why the exact passage matters",
+      "targetSeconds": [
+        25,
+        45
+      ],
+      "evidence": [
+        "https://www.biblegateway.com/passage/?search=Ezekiel%201%3A4-21&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Ezekiel%2010%3A15-22&version=KJV"
+      ]
+    }
+  ],
+  "shortsBoundaryPolicy": "Select self-contained original narration from actual ASR word timestamps after synthesis. No fabricated timestamps or mid-sentence crop. Adapt portrait visuals and captions; verify each export before upload.",
+  "publishing": "Owner authorized an original next video and its scheduling. Upload private only after all QA, then use the existing daily publication slot. Social posting requires connected accounts and a compatible approved publisher.",
+  "costPolicy": "Existing Cloudflare total cap of 8 USD/month applies; every other provider remains free-only. No new paid service authorized.",
+  "blocker": "Gemini primary free model reached the 500-request daily cap; fallback models returned 503 or exhausted free quota. Preserve reviews, fix confirmed factual/period defects selectively. No final video yet.",
+  "videoGenerated": false,
+  "videoScheduled": false,
+  "productionAttempt": {
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38671014999",
+    "commit": "a84cde48aa0dafbd6eb4392a90f8daad57be0467",
+    "conclusion": "failure",
+    "failedStage": "voice",
+    "inferenceStarted": true,
+    "voiceGenerated": "first two parts only; closing chapter pending",
+    "fluxGenerated": false,
+    "publishJob": "skipped",
+    "factsPassed": true,
+    "checkedClaims": 17,
+    "scriptWords": 1445,
+    "generatedVoiceWords": 1310,
+    "rawVoiceSeconds": 526.96
+  },
+  "validation": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "typescriptTestsPassed": 202,
+    "pythonTestsPassed": 8,
+    "githubWorkflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38676074281",
+    "githubEvidenceExport": "success; voice remains blocked, not a completed video",
+    "localHumanReviewChecks": "lint, typecheck, 199 TypeScript and 8 Python tests passed",
+    "localVisualCorrectionChecks": "lint, typecheck, 202 TypeScript and 8 Python tests passed"
+  },
+  "editingReview": {
+    "referenceFileSha256": "e72173e7ead6a3603c3973f0ae2473ae8fb49072cf78fbe2ef7d5b6274b1cc14",
+    "analysis": "docs/analysis/bible-animations-editing.md",
+    "fullReferenceDurationSeconds": 1606.85424,
+    "newProductionDispatched": false,
+    "nextStep": "Generate the original episode with the measured-speech edit; owner supplies the final thumbnail before scheduling.",
+    "productionPaused": false
+  },
+  "delivery": {
+    "thumbnail": "owner-supplied",
+    "generateThumbnails": false,
+    "automaticUpload": false,
+    "scheduling": "Pending owner thumbnail and all QA gates"
+  },
+  "supportRecommendation": "docs/recommendations/channel-support.md",
+  "voiceReview": "docs/analysis/bible-angels-001-voice-review.md",
+  "multiplatformRecommendation": "docs/recommendations/multiplatform-free.md",
+  "voiceEvidenceDelivery": "data/research/bible-angels-001/voice-evidence-delivery-complete.json",
+  "voiceHumanReview": "data/scripts/bible-angels-001-voice-asr-review.json",
+  "activeProductionAttempt": {
+    "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38684114367",
+    "commit": "10ee18a12255381927bf0a82a8943af4f7f9248c",
+    "sourceRunId": "38683611379",
+    "retryFrom": "visuals",
+    "statusAtDispatch": "in_progress",
+    "reason": "One bounded manual continuation after Cloudflare transport timeout; uncertain reservation retained",
+    "publish": false,
+    "ownerThumbnail": true,
+    "conclusion": "failure",
+    "failureReason": "60-minute illustration timeout; 21 machine-accepted beats, 38 rejected, 30 unfinished/provider-rejected",
+    "checkpointSaved": true
+  },
+  "shortsMeasuredCandidates": "data/ideas/bible-angels-001-shorts-candidates.json",
+  "progressEvidence": "data/research/bible-angels-001/production-progress-38684114367.json",
+  "visualCorrections": "data/scripts/bible-angels-001-visual-revisions.json",
+  "productionAttemptHistory": [
+    {
+      "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38677085186",
+      "commit": "dcacece91f01d9afc1a686299c3b7e895b2e4c8d",
+      "sourceRunId": "38671014999",
+      "retryFrom": "critical-terms",
+      "statusAtDispatch": "in_progress",
+      "publish": false,
+      "ownerThumbnail": true,
+      "conclusion": "failure",
+      "failedStage": "visuals",
+      "failureReason": "60-minute step timeout; checkpoints saved",
+      "completeVoicePassed": true,
+      "generatedRawImages": 79
+    },
+    {
+      "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38683611379",
+      "commit": "61f88709d74a72ddf6bb1653555162c0e71087e0",
+      "sourceRunId": "38677085186",
+      "retryFrom": "visuals",
+      "statusAtDispatch": "in_progress",
+      "publish": false,
+      "ownerThumbnail": true,
+      "unchangedAcceptedIllustrations": 16,
+      "selectiveRevisedOrUnfinishedBeats": 73,
+      "conclusion": "failure",
+      "failureReason": "Cloudflare first revised image request exceeded 120-second transport deadline; no HTTP response. Checkpoint and conservative quota saved."
+    }
+  ],
+  "latestVisualReview": "data/research/bible-angels-001/visual-review-38693770543.json",
+  "nextProductionResume": {
+    "sourceRunId": "38693770543",
+    "retryFrom": "visuals",
+    "publish": false,
+    "ownerThumbnail": true,
+    "prerequisite": "Finish actual image QA; do not dispatch FLUX while Gemini is unavailable."
+  },
+  "visualEvidenceDelivery": "data/research/bible-angels-001/visual-evidence-delivery-38693417262.json",
+  "nextReviewResume": {
+    "workflow": "visual-evidence-review.yml",
+    "runId": "bible-angels-001",
+    "sourceRunId": "38693770543",
+    "cachedOnly": false,
+    "geminiModel": "gemini-3.1-flash-lite",
+    "notBefore": "2026-10-16T00:00:00Z",
+    "automaticallyScheduled": false
+  }
+}

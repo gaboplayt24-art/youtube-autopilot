@@ -7,7 +7,7 @@ on:
         type: boolean
         default: false
 permissions:
-  contents: read
+  contents: write
   actions: read
 concurrency:
   group: free-provider-account
@@ -44,10 +44,9 @@ jobs:
           name: benchmark-report
           path: data/benchmarks/
           retention-days: 30
-      - uses: actions/upload-artifact@v4
+      - name: Persist shared quota in private repository release
         if: always()
-        with:
-          name: free-quota-ledger
-          path: .cache/quota/free-quota-ledger.json
-          include-hidden-files: true
-          retention-days: 30
+        run: |
+          if [ -f scripts/github_checkpoints.py ]; then python3 scripts/github_checkpoints.py save-quota; fi
+        env:
+          GH_TOKEN: ${{ github.token }}

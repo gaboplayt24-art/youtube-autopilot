@@ -1,0 +1,83 @@
+name: groq-vision-probe
+on:
+  workflow_dispatch:
+    inputs:
+      validate_only:
+        description: Configuration inventory only; no inference
+        type: boolean
+        default: true
+      free_plan_confirmed:
+        description: Owner confirms the Groq account uses Free plan without paid overflow
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: groq-isolated-vision-probe
+  cancel-in-progress: false
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment: youtube-private
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
+      GROQ_FREE_PLAN_CONFIRMED: ${{ inputs.free_plan_confirmed }}
+      RUN_ID: bible-angels-001
+      SOURCE_RUN_ID: '38693770543'
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      PAID_FALLBACK_ENABLED: 'false'
+      MAX_PAID_COST_USD: '0'
+    steps:
+      - name: Check configuration without exposing credentials
+        env:
+          VALIDATE_ONLY: ${{ inputs.validate_only }}
+        run: |
+          configured=false
+          if [ -n "$GROQ_API_KEY" ]; then configured=true; fi
+          echo "Groq Secret configured: $configured. Inventory is not inference." >> "$GITHUB_STEP_SUMMARY"
+          echo "groq_secret_configured=$configured"
+          if [ "$VALIDATE_ONLY" != true ]; then
+            test "$configured" = true
+            test "$GROQ_FREE_PLAN_CONFIRMED" = true
+          fi
+      - uses: actions/checkout@v4
+        if: inputs.validate_only == false
+      - uses: actions/setup-node@v4
+        if: inputs.validate_only == false
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+        if: inputs.validate_only == false
+      - name: Require private repository and restore hash-verified source checkpoint
+        if: inputs.validate_only == false
+        timeout-minutes: 5
+        run: |
+          python3 -c "import os,runpy; runpy.run_path('scripts/github_checkpoints.py')['require_private'](os.environ['GITHUB_REPOSITORY'])"
+          python3 scripts/github_checkpoints.py restore
+      - name: Eight real free-plan vision requests, no retries or production changes
+        if: inputs.validate_only == false
+        timeout-minutes: 8
+        run: npx tsx scripts/groq-vision-probe.ts
+      - name: Preserve raw audition evidence in private Release
+        if: always() && inputs.validate_only == false
+        timeout-minutes: 3
+        run: |
+          if [ -d .cache/groq-vision-probe ]; then
+            python3 - <<'PY'
+          import os,zipfile
+          from pathlib import Path
+          root=Path('.cache/groq-vision-probe')
+          name='groq-vision-'+os.environ['GITHUB_RUN_ID']+'-attempt-'+os.environ['GITHUB_RUN_ATTEMPT']+'.zip'
+          with zipfile.ZipFile(name,'w',zipfile.ZIP_DEFLATED) as z:
+              for path in sorted(root.rglob('*')):
+                  if path.is_symlink(): raise ValueError('No symlink evidence')
+                  if path.is_file(): z.write(path,path.relative_to(root))
+          PY
+            gh release upload pipeline-checkpoint-bible-angels-001 "groq-vision-$GITHUB_RUN_ID-attempt-$GITHUB_RUN_ATTEMPT.zip" --repo "$GITHUB_REPOSITORY"
+            echo "Isolated audition evidence: https://github.com/$GITHUB_REPOSITORY/releases/download/pipeline-checkpoint-bible-angels-001/groq-vision-$GITHUB_RUN_ID-attempt-$GITHUB_RUN_ATTEMPT.zip" >> "$GITHUB_STEP_SUMMARY"
+          fi

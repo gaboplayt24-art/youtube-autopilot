@@ -1,0 +1,72 @@
+name: update-published-titles
+on:
+  workflow_dispatch:
+    inputs:
+      apply:
+        description: Apply the reviewed title plan after private backup; never uploads videos
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  revise:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    environment: youtube-private
+    env:
+      GH_TOKEN: ${{ github.token }}
+      AUTO_PUBLISH: 'false'
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Verify channel ownership and prepare exact before and after metadata
+        run: npx tsx scripts/update-published-titles.ts
+      - name: Back up original metadata before any write
+        run: |
+          python3 - <<'PY'
+          import datetime,os,runpy,shutil
+          from pathlib import Path
+          store=runpy.run_path('scripts/github_checkpoints.py');repo=os.environ['GITHUB_REPOSITORY']
+          tag='metadata-revisions-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m');store['release'](repo,tag)
+          root=Path('.cache/title-revision')
+          for name in ['before.json','preview.json']:
+              target=root/('titles-'+os.environ['GITHUB_RUN_ID']+'-attempt-'+os.environ['GITHUB_RUN_ATTEMPT']+'-'+name)
+              shutil.copyfile(root/name,target);store['upload'](repo,tag,target)
+          PY
+      - name: Apply title-only revision and verify preservation of other metadata
+        if: inputs.apply == true
+        env:
+          TITLE_ACTION: apply
+          APPLY_TITLE_UPDATES: 'true'
+        run: npx tsx scripts/update-published-titles.ts
+      - name: Preserve actual update receipt
+        if: always()
+        run: |
+          python3 - <<'PY'
+          import datetime,json,os,runpy,shutil
+          from pathlib import Path
+          root=Path('.cache/title-revision');report=root/'after.json'
+          if not report.exists(): raise SystemExit(0)
+          store=runpy.run_path('scripts/github_checkpoints.py');repo=os.environ['GITHUB_REPOSITORY']
+          tag='metadata-revisions-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m');store['release'](repo,tag)
+          target=root/('titles-'+os.environ['GITHUB_RUN_ID']+'-attempt-'+os.environ['GITHUB_RUN_ATTEMPT']+'-after.json')
+          shutil.copyfile(report,target);store['upload'](repo,tag,target)
+          with Path(os.environ['GITHUB_STEP_SUMMARY']).open('a') as summary:
+              summary.write('## Verified title updates\n\nhttps://github.com/'+repo+'/releases/download/'+tag+'/'+target.name+'\n\n')
+              for item in json.loads(report.read_text())['receipts']:
+                  summary.write('- ['+item['after']+']('+item['url']+')\n')
+              for item in json.loads(report.read_text()).get('blocked',[]):
+                  summary.write('- BLOCKED (active Studio title experiment preserved): '+item['videoId']+'\n')
+          PY
+

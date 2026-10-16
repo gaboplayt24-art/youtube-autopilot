@@ -1,3 +1,11 @@
+# youtube-autopilot
+
+Canal bíblico ilustrado producido en la nube. Guía actual de reparto entre GitHub, Supabase y distribución social: [cloud-and-social-setup](docs/recommendations/cloud-and-social-setup.md). Presentación para replicar el método con un canal propio: [fuentes y generación](docs/presentations/README.md).
+
+El episodio `bible-angels-001` conserva su narración completa aprobada de 9:43; imágenes, render y QA final siguen pendientes. La portada es del propietario. No se ha habilitado publicación en TikTok/Instagram. `cloud-connections` es un diagnóstico de solo lectura; no equivale a un publicador conectado. La prueba SmolVLM2 no reemplaza el QA vigente.
+
+Los apartados siguientes conservan hitos anteriores del desarrollo. Para decisiones vigentes, consultar AGENTS.md y las guías actuales enlazadas arriba.
+
 Production validation freezes the existing architecture. `final-style-review` performs only the owner-authorized additional source-02 correction and source-01 reassessment, preserves approved 03/04, and uploads STYLE-PREVIEW-FINAL.jpg with a draft channel-art-direction.json. Subjective Gemini scores are advisory; objective anatomy, historical/prop/style/readability defects and corrupted/wrong-sized files still block acceptance. The draft is not an active human approval. The 90-second production test starts only after the owner approves the final four-frame preview. Existing 30-thumbnail public evidence is frozen under data/benchmarks/initial-packaging; production generates topic-specific direction from this dataset without repeatedly rediscovering competitors. Packaging DNA remains permanent owner policy. Target 24-32 visual beats can reuse 8-12 illustrations through progressive reveals and camera/editorial changes; no consecutive identical completed frames. No new visual version, provider or benchmark layer. AUTO_PUBLISH=false; paid API cost $0.
 
 ### Current milestone: v4.3 selective style review and packaging v2
@@ -266,3 +274,23 @@ The real style audition first generates exactly four representative samples (cha
 The channel owner approved the final illustrated style on 2026-10-09. The permanent direction is `config/channel-art-direction.json`; the exact repaired source-02 digest has a human stylization exception while its original Gemini refusal remains in `assets/approved-style/original-gemini-review.json`. Serious anatomical defects remain blocking.
 
 Run the single approved 90–105-second production validation from Actions → **production-validation** → Run workflow. Use `run_id=production-approved-001`. It uses the frozen topic/packaging evidence, approved reference-cloned Chatterbox Nano, actual Gemini/FLUX, and the existing Remotion pipeline. Only GitHub Secrets supply credentials. No paid fallback or YouTube upload is enabled. After a failure, use the same run ID and `source_run_id` to restore its artifact and resume completed stages; never reuse the ID for a different script/configuration. Inspect `production-<run_id>` before authorizing a longer video. Editorial title scores are not predicted CTR.
+
+Production checkpoint storage (private repository)
+
+Production and upload checkpoints now use versioned assets in private-repository
+prereleases named `pipeline-checkpoint-<run_id>`. This avoids depending on the
+exhausted Actions artifact-storage allowance. GitHub Releases allows files under
+2 GiB; archives are split into 1 GiB parts with SHA-256 verification. The helper
+refuses to write in a public repository. This does not publish videos to YouTube.
+After all QA passes, the release also contains individually downloadable video,
+thumbnail and JSON review files. Raw checkpoint archives retain intermediate evidence.
+
+Run **Actions → checkpoint-storage-check** to verify write/read access without
+inference. Production first checks this storage, and `source_run_id` can restore
+its archives or original Actions artifacts. Shared quota persistence uses the
+private `pipeline-quota-ledger` prerelease; restoration merges recorded events
+with legacy artifacts, retaining historical uncertainty and budget reservations.
+The affected manual workflows need `contents: write` for checkpoint/ledger assets,
+using the repository-scoped `github.token`. No new credential or paid plan is needed.
+
+When the owner designs the cover, dispatch `production-validation` with `owner_thumbnail=true` and `publish=false`. The video, metadata and all video QA still run, but no thumbnail illustrations are generated. A successful run ends in `awaiting_owner_thumbnail`, with `thumbnail-handoff.json`; it is not upload-ready. QA-passed review media and checkpoints remain downloadable from the private release. Supply and validate the actual owner cover before creating its checksum-backed thumbnail checkpoint and scheduling; the publish command continues to require that checkpoint.

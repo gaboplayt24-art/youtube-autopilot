@@ -1,6 +1,15 @@
 import {script,type Script} from '../orchestration/schemas';
 import {validatedJSON} from '../providers/validated-json';
+import {scriptQuality} from '../longform';
 import type {LLMProvider} from '../providers/interfaces';
+import {z} from 'zod';
+import {join} from 'node:path';
+import {read} from '../orchestration/io';
+export const editorialDraftSchema=z.object({criticalTerms:z.array(z.string().min(1)).optional(),sourceUrls:z.array(z.string().url()).min(1),researchFocus:z.string().min(10).optional(),scriptGuidance:z.string().min(10).optional(),instruction:z.string().min(10).optional(),narration:z.string().min(10).optional()}).passthrough();
+export async function loadEditorialDraft(runId:string,required:boolean,directory='data/scripts'){
+ z.string().regex(/^[A-Za-z0-9_-]+$/).parse(runId);
+ try{return editorialDraftSchema.parse(await read(join(directory,runId+'-editorial-draft.json')));}catch(error){if(!required&&(error as NodeJS.ErrnoException).code==='ENOENT')return undefined;throw error;}
+}
 export const demoScript:Script={title:'Where Your Attention Goes',topic:'A visual metaphor for attention',hook:'Imagine your attention as a spotlight.',criticalTerms:[],scenes:[
 {id:'scene-1',narration:'Imagine your attention as a spotlight in a dark city. Every window is a possible story. Tonight, one small light has to choose where to look.',visual:'A luminous eye above a night city; attention as a spotlight',claims:[]},
 {id:'scene-2',narration:'Messages arrive like bright signs along a crowded street. Follow every sign, and the route becomes a maze. The destination slips out of view. Pause at the corner before choosing another turn.',visual:'A city street, notification signs and a maze map',claims:[]},
@@ -19,9 +28,36 @@ export async function writeScript(context:unknown,llm:LLMProvider,review?: (s:Sc
 }
 
 
+/** Shape repair may revise prose length, never the approved budget or evidence requirement. */
+export function chapterScriptContract(targetWords:number,act:string,covered:string[]=[],priorNarration:string[]=[]){
+ return script.superRefine((result,ctx)=>{
+  const count=result.scenes.reduce((n,s)=>n+s.narration.split(/\s+/).length,0);
+  if(Math.abs(count-targetWords)>targetWords*.15)ctx.addIssue({code:'custom',path:['scenes'],message:`Chapter narration contains ${count} words; approved target ${targetWords}, range ${Math.ceil(targetWords*.85)}–${Math.floor(targetWords*1.15)}. Revise using source evidence without filler; never change the approved target.`});
+  if(result.scenes.length!==2)ctx.addIssue({code:'custom',path:['scenes'],message:'Return exactly two narrative blocks for this chapter.'});
+  if(act==='HOOK'&&(!result.hook.trim()||!result.scenes[0].narration.trimStart().startsWith(result.hook.trim())))ctx.addIssue({code:'custom',path:['hook'],message:'The hook must be the exact first spoken sentence, not separate unused metadata.'});
+  if(priorNarration.length){const quality=scriptQuality([...priorNarration,result.scenes.map(s=>s.narration).join(' ')]);if(!quality.passed)ctx.addIssue({code:'custom',path:['scenes'],message:'Chapter repeats earlier narration. Rewrite this chapter without the previous hook, repeated sentences or twelve-word passages: '+JSON.stringify(quality)});}
+  const prior=new Set(covered.map(c=>c.toLowerCase().trim()));
+  if(act.startsWith('ACT')&&!result.scenes.some(s=>s.claims.some(c=>c.kind==='fact'&&!prior.has(c.text.toLowerCase().trim()))))ctx.addIssue({code:'custom',path:['scenes'],message:'Main chapter needs a new sourced fact; do not repeat earlier claims or invent evidence.'});
+ });
+}
+
+/** Revise the actual rejected prose, rather than regenerating blind from a schema error. */
+export async function writeChapter(llm:LLMProvider,instruction:string,targetWords:number,act:string,covered:string[]=[],priorNarration:string[]=[]):Promise<Script>{
+ const contract=chapterScriptContract(targetWords,act,covered,priorNarration);let correction='';
+ for(let attempt=0;attempt<3;attempt++){
+  const candidate=await validatedJSON(llm,instruction+correction,script);
+  const checked=contract.safeParse(candidate);if(checked.success)return checked.data;
+  if(attempt===2)throw checked.error;
+  const count=candidate.scenes.reduce((n,s)=>n+s.narration.trim().split(/\s+/).length,0);
+  correction='\nREVISE THIS ACTUAL REJECTED CHAPTER: '+JSON.stringify(candidate)+'\nValidation errors: '+JSON.stringify(checked.error.issues)+` Spoken narration currently totals ${count} words. Rewrite the TWO narration blocks to approximately ${targetWords} words TOTAL, not per block. Count only narration. Shorten redundant explanation when over budget; retain supported facts, citations and the exact spoken opening hook. Do not alter the approved budget or add facts to satisfy length. Return the complete corrected object.`;
+ }
+ throw new Error('Chapter revision exhausted');
+}
+
 export async function writeLongForm(context:unknown,llm:LLMProvider,p:import('zod').z.infer<typeof import('../longform').longFormPlan>){
- const scenes:Script['scenes']=[];let title='';let hook='';let topic='';const {scriptQuality}=await import('../longform');
- for(const chapter of p.chapters){const result=await llm.json(`Write ONE original documentary chapter, not a short video expanded. Source context: ${JSON.stringify(context)}. Chapter plan: ${JSON.stringify(chapter)}. Already covered facts: ${JSON.stringify(scenes.flatMap(s=>s.claims.map(c=>c.text)))}. When packagingCandidates exists, select title EXACTLY from its three candidates and follow packagingDirection.selectedAngle; never invent a creator/vlog identity. Target ${chapter.targetWords} words, within 15%. Introduce NEW evidence and resolve curiosity using facts, never fabricated suspense. Sources insufficient? Fail instead of adding filler. Narration is plain speakable English without bracketed performance instructions. Return {title,topic,hook,scenes:[{id,narration,visual,chapterAct,performance:{tone,pace:"slow"|"normal"|"slightly-fast",pauseAfterMs,emphasis:[],pronunciation:[],emotion,energy},claims:[{text,sourceUrl,kind:"fact"|"speculation"}]}]}; use exactly two narrative blocks within this chapter with total target word count. Title/hook consistent with previous: ${JSON.stringify({title,hook,topic})}. Every factual assertion must have a source claim.`,script);
+ const scenes:Script['scenes']=[];let title='';let hook='';let topic='';
+ const owner=z.object({editorialDraft:z.object({chapters:z.array(z.object({act:z.string(),purpose:z.string()}).passthrough()).optional(),factualCorrections:z.array(z.string()).optional()}).passthrough().optional()}).passthrough().parse(context).editorialDraft;
+ for(const chapter of p.chapters){const result=await writeChapter(llm,`Write ONE original documentary chapter, not a short video expanded. Source context: ${JSON.stringify(context)}. Chapter plan: ${JSON.stringify(chapter)}. Already covered facts: ${JSON.stringify(scenes.flatMap(s=>s.claims.map(c=>c.text)))}. When packagingCandidates exists, select title EXACTLY from its three candidates and follow packagingDirection.selectedAngle; never invent a creator/vlog identity. Target ${chapter.targetWords} words, within 15%. Introduce NEW evidence and resolve curiosity using facts, never fabricated suspense. Sources insufficient? Fail instead of adding filler. Narration is plain speakable English without bracketed performance instructions. Omit per-scene performance metadata entirely: this episode uses the approved locked Chatterbox reference narrator, which does not consume energy/emphasis metadata. Do not include a performance object. Return {title,topic,hook,scenes:[{id,narration,visual,chapterAct,claims:[{text,sourceUrl,kind:"fact"|"speculation"}]}]}; use exactly two narrative blocks within this chapter with total target word count. Retain the title and topic from previous metadata: ${JSON.stringify({title,topic})}. Previous complete spoken chapters (do NOT repeat their opening, sentences or explanations): ${JSON.stringify(scenes.map(s=>s.narration))}. Every factual assertion must have a source claim. Highest-priority chapter-specific owner instructions: ${JSON.stringify(owner?.chapters?.find(c=>c.act===chapter.act))}. Correct these ACTUAL prior fact-QA issues: ${JSON.stringify(owner?.factualCorrections??[])}. ${chapter.act==='HOOK'?'For this opening chapter ONLY, hook must be exactly the first spoken sentence.':'This is NOT the hook chapter. Begin directly with new chapter content, never recite the earlier opening question. The hook field is metadata only here.'}`,chapter.targetWords,chapter.act,scenes.flatMap(s=>s.claims.filter(c=>c.kind==='fact').map(c=>c.text)),scenes.map(s=>s.narration));
  const count=result.scenes.reduce((n,s)=>n+s.narration.split(/\s+/).length,0);if(Math.abs(count-chapter.targetWords)>chapter.targetWords*.15)throw new Error(`Chapter ${chapter.id} missed word budget: ${count}/${chapter.targetWords}; revise text, never stretch audio`);
  if(!title){title=result.title;hook=result.hook;topic=result.topic;}
  const claims=result.scenes.flatMap(s=>s.claims);const prior=new Set(scenes.flatMap(s=>s.claims.filter(c=>c.kind==='fact').map(c=>c.text.toLowerCase().trim())));if(chapter.act.startsWith('ACT')&&(!claims.some(c=>c.kind==='fact'&&!prior.has(c.text.toLowerCase().trim()))))throw new Error('Chapter contains no new sourced facts');

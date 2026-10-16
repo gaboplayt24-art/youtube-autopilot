@@ -1,0 +1,54 @@
+name: cloud-connections
+on:
+  workflow_dispatch:
+    inputs:
+      service:
+        type: choice
+        options: [all, supabase, zernio]
+        default: all
+      verify_live:
+        description: Read-only API checks after configuration; never publishes
+        type: boolean
+        default: false
+      include_public_handles:
+        description: Include public usernames for the owner-requested profile review
+        type: boolean
+        default: false
+      verify_storage_write:
+        description: Verify isolated Supabase delivery reservation, duplicate rejection and readback; creates no posts
+        type: boolean
+        default: false
+      inspect_episode_progress:
+        description: Read the latest completed checkpoint records for bible-angels-001
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  connection-status:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Report configuration or validate read-only access
+        env:
+          CONNECTION_SERVICE: ${{ inputs.service }}
+          INCLUDE_PUBLIC_HANDLES: ${{ inputs.include_public_handles }}
+          VERIFY_LIVE: ${{ inputs.verify_live }}
+          INSPECT_EPISODE_PROGRESS: ${{ inputs.inspect_episode_progress }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+        run: npx tsx scripts/cloud-connections.ts
+      - name: Verify isolated delivery ledger reservation and persistence
+        if: inputs.verify_storage_write && inputs.service != 'zernio'
+        env:
+          VERIFY_LEDGER_WRITE: 'true'
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: npx tsx scripts/verify-delivery-ledger.ts

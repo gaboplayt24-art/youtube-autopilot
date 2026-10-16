@@ -1,0 +1,30 @@
+{
+  "kind": "voice-evidence-delivery-not-production-approval",
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38676074281",
+  "workflowConclusion": "success",
+  "testedCommit": "850096ec6c4aa41612896ba948d77e134a42e24a",
+  "sourceProductionRun": "38671014999",
+  "productionConclusion": "failure at voice QA",
+  "archiveUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1.zip",
+  "excerptUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1-excerpt.mp3",
+  "summaryUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-angels-001/voice-evidence-bible-angels-001-38676074281-attempt-1-summary.json",
+  "archiveSha256": "62c9e16dcf0a157e22eb3c71182ba9a802f1e9d1ce58bcaad3593f3580098659",
+  "zipCrcVerified": true,
+  "manifestFilesSha256Verified": 23,
+  "voiceStatus": "blocked-critical-review",
+  "criticalTerm": "seraphim",
+  "narrationCoverage": {
+    "generatedScriptWords": 1310,
+    "totalScriptWords": 1445,
+    "complete": false
+  },
+  "checks": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "typescriptTestsPassed": 196,
+    "pythonTestsPassed": 8
+  },
+  "ttsRegeneratedInEvidenceExport": false,
+  "newExternalProviderCallsInEvidenceExport": 0,
+  "youtubePublished": false
+}

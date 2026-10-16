@@ -1,5 +1,6 @@
 import type {Composition} from '../orchestration/schemas';
 import {pacing} from './planner';
+import {spokenLabelStart} from './illustrated-edit';
 export function compositionVariety(c:Pick<Composition,'shots'>){return new Set(c.shots.map(s=>s.visualIdea?.conceptType??s.shotType)).size;}
 export function visualQuality(c:Composition){const checks:{name:string;passed:boolean;detail:string}[]=[];const add=(name:string,passed:boolean,detail:string)=>checks.push({name,passed,detail});const metrics=pacing(c.shots);
  add('shot pacing',c.shots.length>0&&c.shots.every(s=>s.end>s.start&&s.end-s.start<=(c.durationInFrames/c.fps>120?(s.start<30?4.2:['map','chart','timeline','document'].includes(s.shotType)?12:7.5):4.2))&&metrics.pacingScore>=90,JSON.stringify(metrics));
@@ -9,5 +10,12 @@ export function visualQuality(c:Composition){const checks:{name:string;passed:bo
  const hashes=c.assets.map(a=>a.sha256);add('asset repetition',hashes.every(h=>hashes.filter(x=>x===h).length<=(c.assets.every(a=>!!a.sourceImageId&&!!a.editorialVariant)||c.durationInFrames/c.fps>120?4:2)),'Controlled asset reuse; long-form allows four non-consecutive uses');
  add('caption readability',!!c.visualProfile&&c.visualProfile.captionSize>=48&&c.cues.every(c=>c.text.length<=40&&c.text.split(/\s+/).length<=5),'48+ px at 1080p, short cues, safe margins');
  add('text density',c.shots.every(s=>(s.overlay?.split(/\s+/).length??0)<=5),'Short overlays, max 5 words; never full paragraphs');
+ add('editorial speech timing',c.shots.every(s=>{
+  if(!s.editorialTiming)return true;
+  const timing=s.editorialTiming;
+  const words=c.cues.flatMap(c=>c.words??[]).filter(w=>w.start>=s.start&&w.end<=s.end+.001);
+  const actual=spokenLabelStart(timing.anchor,words);
+  return !!s.overlay&&timing.start>=s.start&&timing.end<=s.end&&actual!==undefined&&Math.abs(actual-timing.start)<.001;
+ }),'Timed labels must match actual aligned words within their own shot; no estimated word timing');
  return {checks,...metrics};
 }
