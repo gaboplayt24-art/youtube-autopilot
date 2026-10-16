@@ -21,7 +21,9 @@ export async function repostShorts(){
  for(const [index,item] of pending.entries()){
   const path=join('data','runs',item.runId,'short.mp4');try{await access(path);}catch{console.log(JSON.stringify({event:'short_missing',runId:item.runId,path}));continue;}
   // Only a Short that passed its own QA and reached YouTube is reposted.
-  const upload=z.object({videoId:z.string()}).parse(await read(join('data','runs',item.runId,'short-upload.json')));if(upload.videoId!==item.youtubeShortId)throw Error('Short on disk is not the reviewed YouTube Short '+item.youtubeShortId);
+  // Its upload record (or, when the run cache has expired, the record of downloading the published Short itself) must name the reviewed Short.
+  let videoId:string|null=null;for(const record of ['.records/short-upload.json','short-upload.json','youtube-download.json']){try{videoId=z.object({videoId:z.string()}).parse(await read(join('data','runs',item.runId,record))).videoId;break;}catch(e){if((e as NodeJS.ErrnoException).code!=='ENOENT')throw e;}}
+  if(videoId!==item.youtubeShortId)throw Error('Short on disk is not the reviewed YouTube Short '+item.youtubeShortId);
   const size=(await stat(path)).size,sha256=await fileDigest(path),key='tiktok-repost-'+item.runId,at=slots[index];
   if(!await ledger.create(key,{state:'pending',sha256,at}))throw Error('Concurrent TikTok reservation for '+item.runId+'; reconcile before retry');
   const url=await zernio.upload(path),response=z.object({post:z.object({_id:z.string()})}).parse(await zernio.api('/posts',{content:item.caption,mediaItems:[{type:'video',url}],platforms:[{platform:'tiktok',accountId:account._id}],tiktokSettings:settings,scheduledFor:at,timezone:'UTC'},key));

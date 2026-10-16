@@ -319,7 +319,24 @@ jobs:
           path: data/runs/bible-test-002
           key: run-bible-test-002-none
           restore-keys: run-bible-test-002-
-      - run: ls -la data/runs/*/short.mp4 data/runs/*/short-upload.json || true
+      - uses: actions/cache/restore@v4
+        with:
+          path: data/runs/bible-long-001/.records
+          key: upload-record-bible-long-001-none
+          restore-keys: upload-record-bible-long-001-
+      # A Short whose run cache expired is fetched from the channel's own published YouTube Short.
+      - name: Download expired Shorts from YouTube
+        continue-on-error: true
+        run: |
+          pip install -q yt-dlp
+          for row in $(jq -r '.items[] | "\(.runId),\(.youtubeShortId)"' config/tiktok-reposts.json); do
+            run="${row%%,*}"; id="${row##*,}"; dir="data/runs/$run"
+            if [ ! -f "$dir/short.mp4" ]; then
+              mkdir -p "$dir"
+              python3 -m yt_dlp -f "bv*[ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b" --merge-output-format mp4 -o "$dir/short.mp4" "https://www.youtube.com/shorts/$id" && printf '{"videoId":"%s","source":"public YouTube Short of this channel"}' "$id" > "$dir/youtube-download.json"
+            fi
+          done
+      - run: ls -la data/runs/*/short.mp4 data/runs/*/.records/short-upload.json || true
       - name: Schedule the reviewed Shorts on TikTok
         env:
           CONTENT_PREVIEW_CONFIRMED: ${{ inputs.tiktok_owner_consent }}
