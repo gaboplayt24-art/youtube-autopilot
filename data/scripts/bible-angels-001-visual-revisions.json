@@ -414,34 +414,35 @@
       "sourceId": "chapter-3-shot-15",
       "replacement": {
         "overlayAnchor": "defined by his mission",
-        "id": "chapter-3-shot-15-editorial-repair",
+        "id": "chapter-3-shot-15-gabriel-news",
         "narration": "celestial figures are portrayed within different biblical contexts. While Gabriel is defined by his mission to deliver news,",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "Two adults shown in a clear medium shot: a clean-shaven white-robed messenger faces Eli and speaks with a simple closed mitten hand near his chest. Eli listens with a warm interested face. Plain cream wall, flat fills, no elaborate hand gesture.",
+        "historicalContext": "Luke 1:19,26; interpretive portrait of the named messenger, not a claimed historical likeness. Ancient uncollared linen, wool and sandals.",
+        "concept": "Only Gabriel, a full-length adult with a simple white round face, short fair wavy hair and smooth clean-shaven chin, in an uncollared ochre linen tunic and sandals. He announces news with a friendly open mouth and one mitten hand raised near his chest. Two arms and two legs, simple ink outlines, flat warm fills and quiet cream ground. No Eli; one expository messenger portrait.",
         "overlay": "Gabriel the Messenger",
         "labelPlacement": "right",
         "characterRoles": [
-          "Eli",
-          "Adult messenger, white robe, curly hair, clean-shaven"
-        ]
+          "Gabriel, white round face, short fair hair, ochre tunic"
+        ],
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium. 2026-10-16: preserve existing drawings and negative actual-image reviews; use a fresh focused, single-figure portrait in the approved white round-face ink medium. Distinct posture, hair, wardrobe and composition distinguish the named messengers; narration and timing remain unchanged. No invented wings, halo, battle or historical likeness."
     },
     {
       "sourceId": "chapter-3-shot-16",
       "replacement": {
         "overlayAnchor": "spiritual contention",
-        "id": "chapter-3-shot-16-editorial-repair",
+        "id": "chapter-3-shot-16-michael-resolve",
         "narration": "Michael is associated with a role of high-level involvement in spiritual contention. Neither account relies on the visionary descriptions",
-        "historicalContext": "Biblical narrative, ancient Levant; uncertain date not asserted. Plain linen or wool tunics, sandals, stone, mud brick, wooden furniture, clay vessels.",
-        "concept": "One clean-shaven adult in a plain white tunic stands with a firm, defensive pose, one leg forward and elbows naturally bent. His expression conveys resolve. Complete ordinary human silhouette, flat ochre ground and calm cream sky.",
+        "historicalContext": "Daniel 10:13 and Jude 9; interpretive portrait of the named figure, not a physical battle or claimed historical likeness. Plain uncollared linen and sandals.",
+        "concept": "Only Michael, a full-length adult with a simple white round face, dark curly hair and smooth clean-shaven chin, in an uncollared white linen tunic and sandals. A firm protective stance with one leg forward, one mitten hand raised palm outward and the other relaxed. One low stone on ochre ground, calm cream sky. Same simple ink medium; no Eli and no invented battle.",
         "overlay": "Spiritual Contention",
         "labelPlacement": "top",
         "characterRoles": [
-          "Michael, adult, white robe, curly hair, clean-shaven"
-        ]
+          "Michael, white round face, dark curly hair, white tunic"
+        ],
+        "promptFocus": true
       },
-      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium."
+      "reason": "Actual source/prompt QA rejected this beat; simplify cast, preserve factual source anatomy and flat illustrated medium. 2026-10-16: preserve existing drawings and negative actual-image reviews; use a fresh focused, single-figure portrait in the approved white round-face ink medium. Distinct posture, hair, wardrobe and composition distinguish the named messengers; narration and timing remain unchanged. No invented wings, halo, battle or historical likeness."
     },
     {
       "sourceId": "chapter-3-shot-17",
