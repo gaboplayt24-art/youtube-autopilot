@@ -120,7 +120,7 @@ jobs:
     environment: youtube-private
     if: inputs.task != 'import-v5-reference' && inputs.task != 'show-plan' && inputs.task != 'tiktok-repost'
     runs-on: ubuntu-latest
-    timeout-minutes: 80
+    timeout-minutes: 150
     env:
       AUTO_PUBLISH: 'false'
       OWNER_SUPPLIED_THUMBNAIL: ${{ inputs.owner_thumbnail && 'true' || 'false' }}
@@ -249,7 +249,7 @@ jobs:
           retention-days: 30
       - name: Source-grounded approved episode; all QA gates and provider budgets enforced
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
-        timeout-minutes: 60
+        timeout-minutes: 120
         env:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}

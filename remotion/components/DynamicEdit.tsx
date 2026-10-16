@@ -35,32 +35,40 @@ export function cameraAt(beats:Beat[],t:number,fps:number):Camera{
 }
 const toScreen=(c:Camera,[px,py]:[number,number])=>[960+(px-.5)*1920*c.scale+c.x,540+(py-.5)*1080*c.scale+c.y] as const;
 
-function Actor({actor,index,shotFrames}:{actor:Layer['actors'][number];index:number;shotFrames:number}){
+function Actor({actor,index,hops}:{actor:Layer['actors'][number];index:number;hops:number[]}){
  const frame=useCurrentFrame(),{fps}=useVideoConfig();const t=frame/fps,local=frame-Math.round(actor.delay*fps);
  if(local<0)return null;
- const enter=spring({frame:local,fps,config:{damping:12,stiffness:260,mass:.6}});
+ const enter=spring({frame:local,fps,config:{damping:actor.entry==='drop'?9:12,stiffness:260,mass:.6}});
  const left=actor.x*1920,top=actor.y*1080,width=actor.width*1920,height=actor.height*1080;
- let dx=0,dy=0,s=1;
+ let dx=0,dy=0,s=1,turn=0;
  // Each actor sharpens out of its own softened copy: a quick focus pull rather than a second figure.
  if(actor.entry==='pop')s=.88+.12*enter;
  if(actor.entry==='rise')dy=(1-enter)*90;
- const appear=Math.min(1,enter*2.2);
+ if(actor.entry==='drop')dy=-(1-enter)*120;
+ if(actor.entry==='swing')turn=(1-enter)*-9;
  if(actor.entry==='slide-left')dx=-(1-enter)*(left+width+60);
  if(actor.entry==='slide-right')dx=(1-enter)*(1920-left+60);
- // Idle life: a gentle bob, sway and breath, phase-shifted per actor so a group never moves in unison.
- const phase=index*1.7,bob=Math.sin(2*Math.PI*.5*t+phase)*5,sway=Math.sin(2*Math.PI*.33*t+phase)*.7,breath=1+.012*Math.sin(2*Math.PI*.45*t+phase);
- const fade=interpolate(frame,[shotFrames-4,shotFrames],[1,1],clamp);
+ const appear=Math.min(1,enter*2.2);
+ // Idle life differs per actor so a group never moves in unison.
+ const phase=index*1.7,w=(f:number)=>Math.sin(2*Math.PI*f*t+phase);
+ let bob=0,sway=0,breath=1+.01*w(.45);
+ if(actor.idle==='float'){bob=w(.5)*4;sway=w(.33)*.6;}
+ if(actor.idle==='sway'){sway=w(.4)*1.6;bob=w(.8)*2;}
+ if(actor.idle==='breathe'){breath=1+.022*w(.38);sway=w(.2)*.4;}
+ if(actor.idle==='hop'){const cycle=(t+phase)%2.6;bob=cycle<.32?-Math.sin(Math.PI*cycle/.32)*10:0;sway=w(.3)*.5;}
+ // The lead figure reacts when the camera moves on: a small hop with squash and stretch.
+ let squash=1;if(actor.lead)for(const h of hops){const d=t-h;if(d>=0&&d<.36){const k=Math.sin(Math.PI*d/.36);bob-=k*12;squash=1+(d<.08?-.05:.04)*k;}}
  return <>
-  <div style={{position:'absolute',left:left+width*.15,top:top+height-height*.03,width:width*.7,height:Math.max(14,height*.06),borderRadius:'50%',background:'rgba(13,10,7,.22)',filter:'blur(6px)',opacity:appear*fade,transform:`translateX(${dx}px) scaleX(${.9+.1*Math.cos(2*Math.PI*.5*t+phase)})`}}/>
-  <Img src={staticFile(actor.path)} style={{position:'absolute',left,top,width,height,transformOrigin:'50% 100%',transform:`translate(${dx}px,${dy+bob*enter}px) rotate(${sway*enter}deg) scale(${s},${s*breath})`,opacity:fade*appear}}/>
+  <div style={{position:'absolute',left:left+width*.15,top:top+height-height*.03,width:width*.7,height:Math.max(14,height*.06),borderRadius:'50%',background:'rgba(13,10,7,.22)',filter:'blur(6px)',opacity:appear,transform:`translateX(${dx}px) scaleX(${.9+.1*Math.cos(2*Math.PI*.5*t+phase)-Math.min(0,bob)/200})`}}/>
+  <Img src={staticFile(actor.path)} style={{position:'absolute',left,top,width,height,transformOrigin:'50% 100%',transform:`translate(${dx}px,${dy+bob*enter}px) rotate(${sway*enter+turn}deg) scale(${s/Math.sqrt(squash)},${s*breath*squash})`,opacity:appear}}/>
  </>;
 }
 
-function ShotView({beats,path,layer,fps,shotStart,shotFrames}:{beats:Beat[];path:string;layer?:Layer;fps:number;shotStart:number;shotFrames:number}){
+function ShotView({beats,path,layer,fps,shotStart}:{beats:Beat[];path:string;layer?:Layer;fps:number;shotStart:number}){
  const frame=useCurrentFrame();const c=cameraAt(beats,shotStart+frame/fps,fps);
  const filter=c.blur?`blur(${c.blur.toFixed(1)}px)`:undefined;
  if(!layer)return <AbsoluteFill style={{background:'#0d0a07',overflow:'hidden'}}>
-  <Img src={staticFile(path)} style={{position:'absolute',width:1920,height:1080,objectFit:'cover',transformOrigin:'50% 50%',transform:`translate(${c.x}px,${c.y}px) scale(${c.scale})`,filter,opacity:c.opacity}}/>
+  <Img src={staticFile(path)} style={{position:'absolute',width:1920,height:1080,objectFit:'cover',transformOrigin:'50% 50%',transform:`translate(${c.x}px,${c.y+Math.sin(frame/fps*2*Math.PI*.3)*3}px) scale(${c.scale*1.02}) rotate(${Math.sin(frame/fps*2*Math.PI*.18)*.3}deg)`,filter,opacity:c.opacity}}/>
   <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 50% 45%,transparent 55%,rgba(13,10,7,.38) 100%)'}}/>
  </AbsoluteFill>;
  // Depth: the softened plate moves at 60% of the camera, the actors at 100%.
@@ -68,7 +76,7 @@ function ShotView({beats,path,layer,fps,shotStart,shotFrames}:{beats:Beat[];path
  return <AbsoluteFill style={{background:'#0d0a07',overflow:'hidden',filter,opacity:c.opacity}}>
   <Img src={staticFile(layer.background)} style={{position:'absolute',width:1920,height:1080,objectFit:'cover',transformOrigin:'50% 50%',transform:`translate(${c.x*.6}px,${c.y*.6}px) scale(${bgScale})`}}/>
   <div style={{position:'absolute',width:1920,height:1080,transformOrigin:'50% 50%',transform:`translate(${c.x}px,${c.y}px) scale(${c.scale})`}}>
-   {layer.actors.map((a,i)=><Actor key={a.path} actor={a} index={i} shotFrames={shotFrames}/>)}
+   {layer.actors.map((a,i)=><Actor key={a.path} actor={a} index={i} hops={beats.slice(1).map(b=>b.start-shotStart)}/>)}
   </div>
   <div style={{position:'absolute',inset:0,background:'radial-gradient(ellipse at 50% 45%,transparent 60%,rgba(13,10,7,.32) 100%)'}}/>
  </AbsoluteFill>;
@@ -145,7 +153,7 @@ export function DynamicVideo(props:Composition&{edit:DynamicEdit}){
  const camera=(t:number)=>{const s=shots.find(x=>t>=x.shot.start&&t<x.shot.end);return s?cameraAt(s.beats,t,fps):undefined;};
  const chapters=edit.cards.filter(c=>c.kind==='chapter');const end=props.durationInFrames/fps;
  return <>
-  {shots.map(({shot,beats})=>{const asset=props.assets.find(a=>a.shotId===shot.id);if(!asset)throw new Error(`Missing shot asset: ${shot.id}`);requireIllustratedArtwork(asset);const n=frames(shot.start,shot.end);return <Sequence key={shot.id} from={Math.round(shot.start*fps)} durationInFrames={n}><ShotView beats={beats} path={asset.path} layer={edit.layers.find(l=>l.shotId===shot.id)} fps={fps} shotStart={shot.start} shotFrames={n}/></Sequence>;})}
+  {shots.map(({shot,beats})=>{const asset=props.assets.find(a=>a.shotId===shot.id);if(!asset)throw new Error(`Missing shot asset: ${shot.id}`);requireIllustratedArtwork(asset);const n=frames(shot.start,shot.end);return <Sequence key={shot.id} from={Math.round(shot.start*fps)} durationInFrames={n}><ShotView beats={beats} path={asset.path} layer={edit.layers.find(l=>l.shotId===shot.id)} fps={fps} shotStart={shot.start}/></Sequence>;})}
   {chapters.map((c,i)=>{const until=chapters[i+1]?.start??end;return <Sequence key={`head-${i}`} from={Math.round(c.end*fps)} durationInFrames={frames(c.end,until)}><ChapterHeader number={c.number??i+1} title={c.title}/></Sequence>;})}
   {edit.pops.map((pop,i)=><Sequence key={`pop-${i}`} from={Math.round(pop.start*fps)} durationInFrames={frames(pop.start,pop.end)}><Pop pop={pop} frames={frames(pop.start,pop.end)} camera={camera}/></Sequence>)}
   {edit.cards.map((card,i)=><Sequence key={`card-${i}`} from={Math.round(card.start*fps)} durationInFrames={frames(card.start,card.end)}>{card.kind==='chapter'?<ChapterCard number={card.number??i+1} title={card.title} frames={frames(card.start,card.end)} poses={poses}/>:<VerseChip title={card.title} frames={frames(card.start,card.end)}/>}</Sequence>)}

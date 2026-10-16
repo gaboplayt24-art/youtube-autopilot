@@ -81,10 +81,12 @@ def main():
         plate[grown] = filled[grown]
         # Depth of field: the softened artwork sits behind the crisp actors. Where an actor's own blurred copy
         # remains, an entering actor reads as a focus pull; the inpainted plate only fills the rest of its outline.
-        soft = cv2.GaussianBlur(rgb, (0, 0), 7)
+        # Half the actor's heavily softened copy, half the inpainted plate: enough for a focus pull on entry,
+        # too faint to read as a ghost when the actor bobs or hops.
+        soft = cv2.GaussianBlur(rgb, (0, 0), 16)
         plate = cv2.GaussianBlur(plate, (0, 0), 7)
-        core = cv2.erode(union, np.ones((31, 31), np.uint8)).astype(bool)
-        plate[core] = soft[core]
+        core = cv2.GaussianBlur(cv2.erode(union, np.ones((31, 31), np.uint8)).astype(np.float32), (0, 0), 12)[..., None]
+        plate = (plate * (1 - 0.5 * core) + soft * 0.5 * core).astype(np.uint8)
         Image.fromarray(plate).save(out / "bg.png")
         for n, i in enumerate(keep):
             x, y, bw, bh = (int(stats[i, k]) for k in (cv2.CC_STAT_LEFT, cv2.CC_STAT_TOP, cv2.CC_STAT_WIDTH, cv2.CC_STAT_HEIGHT))

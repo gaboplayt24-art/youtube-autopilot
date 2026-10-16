@@ -13,9 +13,15 @@ const bookPattern=new RegExp(`^(${BOOKS.join('|')})(?:['’]s)?[,.;:]?$`);
 const reference=/^(\d{1,3}(?::\d{1,3}(?:[-–]\d{1,3})?)?)[,.;:]?$/;
 const pause=(word:TimedWord,next?:TimedWord)=>/[.!?;:,]["')\]]?$/.test(word.text)||(next!==undefined&&next.start-word.end>=.16);
 
-// Wide establishing frame, then progressively closer punch-ins toward the image's visual focus.
-const FRAMINGS=[{scale:1.05,pull:.25},{scale:1.24,pull:.8},{scale:1.34,pull:1},{scale:1.16,pull:.55}];
-const LAYERED_FRAMINGS=[{scale:1.02,pull:.2},{scale:1.16,pull:.85},{scale:1.08,pull:.5},{scale:1.22,pull:1}];
+// Each shot follows one camera pattern; beats inside a shot glide between its framings.
+// Camera patterns rotate per shot so consecutive scenes never move the same way: push in, pull out, traverse.
+type Framing={scale:number;pull:number;pan?:number};
+const PATTERNS:Framing[][]=[
+ [{scale:1.04,pull:.2},{scale:1.18,pull:.85},{scale:1.26,pull:1}],
+ [{scale:1.26,pull:1},{scale:1.14,pull:.6},{scale:1.05,pull:.2}],
+ [{scale:1.16,pull:.4,pan:-1},{scale:1.16,pull:.4,pan:1},{scale:1.24,pull:.9}],
+ [{scale:1.16,pull:.4,pan:1},{scale:1.16,pull:.4,pan:-1},{scale:1.08,pull:.5}]];
+const IDLES=['float','sway','breathe','hop'] as const;
 const TRANSITIONS=['whip-left','zoom','whip-right','cut'] as const;
 const MIN_BEAT=1.5;
 
@@ -56,7 +62,7 @@ export function verseReferences(words:TimedWord[],scenes:Scene[]){
 
 /** Cut-out actors found in an approved illustration (fractions of the frame), from scripts/extract-layers.py. */
 export type Layers=Record<string,{background:string;actors:{path:string;x:number;y:number;width:number;height:number}[]}>;
-const ENTRIES=['pop','rise','slide-left','slide-right'] as const;
+const ENTRIES=['rise','pop','drop','swing'] as const;
 
 export function planDynamicEdit({shots,words,scenes,titles,focus,zones={},layers={},presenter=[]}:{shots:Shot[];words:TimedWord[];scenes:Scene[];titles:ChapterTitles;focus:Focus;zones?:Zones;layers?:Layers;presenter?:string[]}):DynamicEdit{
  const beats:DynamicEdit['beats']=[];const pops:DynamicEdit['pops']=[];const cards:DynamicEdit['cards']=[];const scenesOut:DynamicEdit['layers']=[];
@@ -64,7 +70,8 @@ export function planDynamicEdit({shots,words,scenes,titles,focus,zones={},layers
  shots.forEach((shot,index)=>{
   const layer=layers[shot.id];
   // Actors enter one after another as the shot opens, like pieces placed on a stage.
-  const actors=layer?.actors.map((a,i)=>({...a,entry:ENTRIES[(index+i)%2],delay:Number((i*.22).toFixed(2))}));
+  const big=layer?layer.actors.reduce((m,a,i,all)=>a.width*a.height>all[m].width*all[m].height?i:m,0):-1;
+  const actors=layer?.actors.map((a,i)=>({...a,entry:ENTRIES[(index+i)%ENTRIES.length],idle:IDLES[(index*2+i)%IDLES.length],lead:i===big,delay:Number((i*.22).toFixed(2))}));
   if(layer&&actors)scenesOut.push({shotId:shot.id,background:layer.background,actors});
   const lead=layer?.actors.reduce((a,b)=>a.width*a.height>=b.width*b.height?a:b);
   // Arrows only point at a single upright figure, never at a merged group or a prop.
@@ -74,9 +81,11 @@ export function planDynamicEdit({shots,words,scenes,titles,focus,zones={},layers
   const newScene=index>0&&shots[index-1].sceneId!==shot.sceneId;
   for(let i=0;i<bounds.length-1;i++){
    // Layered shots never hard-cut inside themselves: the camera glides to the next framing.
-   const framing=layer?LAYERED_FRAMINGS[i%LAYERED_FRAMINGS.length]:FRAMINGS[i%FRAMINGS.length];
-   const entry=i>0?(layer?'glide':'punch'):index===0?'cut':newScene?'zoom':TRANSITIONS[transition++%TRANSITIONS.length];
-   beats.push({shotId:shot.id,start:bounds[i],end:bounds[i+1],scale:framing.scale,...frameCenter(framing.scale,point,framing.pull),drift:(index+i)%2?1:-1,entry});
+   const pattern=PATTERNS[index%PATTERNS.length],framing=pattern[Math.min(i,pattern.length-1)];
+   const entry=i>0?'glide':index===0?'cut':newScene?'zoom':TRANSITIONS[transition++%TRANSITIONS.length];
+   const center=frameCenter(framing.scale,point,framing.pull);
+   if(framing.pan)center.centerX=Number((.5+framing.pan*(1-1/framing.scale)/2*.9).toFixed(4));
+   beats.push({shotId:shot.id,start:bounds[i],end:bounds[i+1],scale:framing.scale,...center,drift:(index+i)%2?1:-1,entry});
   }
   if(shot.overlay&&shot.editorialTiming){const start=shot.editorialTiming.start,end=Math.min(shot.end-.05,start+2.8);if(end-start>=.8)pops.push({start,end,text:shot.overlay,placement:zones[shot.id]??'top',...(head?{target:head}:{})});}
  });
