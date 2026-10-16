@@ -91,6 +91,8 @@ def pack(root, directory, run_id, source_run_id, attempt, chunk_bytes=CHUNK_BYTE
     allowed = {'upload.json', 'qa-upload.json', 'schedule.json', 'youtube-thumbnail.json',
                'localizations.json', 'youtube-localizations.json', 'events.jsonl', 'metadata.json',
                'owner-cover-handoff.json', 'owner-cover-confirmation.json'}
+    # A resumed stage needs its integrity record next to its JSON.
+    allowed |= {name[:-5] + '.integrity.json' for name in allowed if name.endswith('.json')}
     count = 0
     with zipfile.ZipFile(archive, 'w', zipfile.ZIP_DEFLATED, compresslevel=4) as zipped:
         for path in sorted(root.rglob('*')):

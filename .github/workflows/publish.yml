@@ -93,6 +93,13 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           ARTIFACT_PREFIX: ${{ inputs.artifact_prefix || 'production' }}
+      # Older publish records saved completed stage JSON without its integrity record. These stages already ran
+      # against YouTube from this same private-release record, so the record is re-sealed instead of redoing the
+      # remote call (redoing youtube-localizations would resend the title and could overwrite an owner edit).
+      - name: Re-seal restored publish records that lack their integrity file
+        run: |
+          [ -d "data/runs/$RUN_ID" ] || exit 0
+          npx tsx -e "import {readFileSync,writeFileSync,existsSync} from 'node:fs';import {digest} from './src/orchestration/integrity';for(const f of ['localizations','youtube-localizations','youtube-thumbnail','schedule']){const p='data/runs/'+process.env.RUN_ID+'/'+f;if(existsSync(p+'.json')&&!existsSync(p+'.integrity.json')){writeFileSync(p+'.integrity.json',JSON.stringify({sha256:digest(JSON.parse(readFileSync(p+'.json','utf8')))},null,2));console.log('re-sealed '+f);}}"
       - run: sudo apt-get update && sudo apt-get install -y ffmpeg
       - name: Private upload, scheduled publish (protected environment approval)
         run: npm run publish -- --run-id "$RUN_ID"
