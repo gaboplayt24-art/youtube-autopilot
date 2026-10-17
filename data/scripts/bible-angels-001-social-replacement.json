@@ -1,0 +1,10 @@
+{
+  "runId": "bible-angels-001",
+  "note": "Owner-requested 2026-10-17: the three scheduled clips built with the old portrait layout are replaced by the dynamic-edit clips at the same release times; old YouTube Shorts stay private, old TikTok drafts are removed from the Zernio queue.",
+  "mainVideoId": "fZkGQDZcmig",
+  "clips": [
+    {"id": "A", "youtubeShortId": "IIz838IqBSA", "youtubeAt": "2026-10-17T23:00:00.000Z", "tiktokPostId": "6ad27985242db72c2cf20fc7", "tiktokAt": "2026-10-17T23:30:00.000Z"},
+    {"id": "B", "youtubeShortId": "lasgUc6JDBA", "youtubeAt": "2026-10-18T23:00:00.000Z", "tiktokPostId": "6ad2798ad9d7090c4c0460c0", "tiktokAt": "2026-10-18T23:30:00.000Z"},
+    {"id": "C", "youtubeShortId": "W12-ZWUxz-Q", "youtubeAt": "2026-10-19T23:00:00.000Z", "tiktokPostId": "6ad2798e0a071fbd4c1dc7f6", "tiktokAt": "2026-10-19T23:30:00.000Z"}
+  ]
+}

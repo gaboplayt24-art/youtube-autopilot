@@ -64,7 +64,7 @@ function Actor({actor,index,hops}:{actor:Layer['actors'][number];index:number;ho
  </>;
 }
 
-function ShotView({beats,path,layer,fps,shotStart}:{beats:Beat[];path:string;layer?:Layer;fps:number;shotStart:number}){
+export function ShotView({beats,path,layer,fps,shotStart}:{beats:Beat[];path:string;layer?:Layer;fps:number;shotStart:number}){
  const frame=useCurrentFrame();const c=cameraAt(beats,shotStart+frame/fps,fps);
  const filter=c.blur?`blur(${c.blur.toFixed(1)}px)`:undefined;
  if(!layer)return <AbsoluteFill style={{background:'#0d0a07',overflow:'hidden'}}>

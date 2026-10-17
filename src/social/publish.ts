@@ -15,8 +15,8 @@ import {releaseSlots} from './plan';
 import {shortMetadata} from './localize';
 export class ZernioClient {
  constructor(private key:string,private request:typeof fetch=fetch){if(!key)throw Error('ZERNIO_API_KEY required in GitHub Actions');}
- async api(path:string,body?:unknown,idempotencyKey?:string){
-  const response=await this.request('https://zernio.com/api/v1'+path,{method:body===undefined?'GET':'POST',redirect:'error',headers:{Authorization:'Bearer '+this.key,'Content-Type':'application/json',...(idempotencyKey?{'x-request-id':idempotencyKey}:{})},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(60000)});
+ async api(path:string,body?:unknown,idempotencyKey?:string,method?:'DELETE'){
+  const response=await this.request('https://zernio.com/api/v1'+path,{method:method??(body===undefined?'GET':'POST'),redirect:'error',headers:{Authorization:'Bearer '+this.key,'Content-Type':'application/json',...(idempotencyKey?{'x-request-id':idempotencyKey}:{})},body:body===undefined?undefined:JSON.stringify(body),signal:AbortSignal.timeout(60000)});
   if(!response.ok)throw Error('Zernio API HTTP '+response.status+'; no blind post retry');return response.json();
  }
  async account(){const response=z.object({accounts:z.array(z.object({_id:z.string().regex(/^[a-f0-9]{24}$/i),platform:z.string(),isActive:z.boolean().optional(),username:z.string().optional()}))}).parse(await this.api('/accounts'));const accounts=response.accounts.filter(a=>a.platform==='tiktok'&&a.isActive!==false);if(accounts.length!==1)throw Error('Exactly one active owner TikTok required; ambiguous destinations blocked');return accounts[0];}

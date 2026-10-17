@@ -111,3 +111,11 @@ export function planDynamicEdit({shots,words,scenes,titles,focus,zones={},layers
  sfx.sort((a,b)=>a.time-b.time);
  return {version:'dynamic-v1',beats,pops,cards,layers:scenesOut,sfx,presenter};
 }
+
+/** The part of a full-video edit inside [start,end), re-timed to start at zero, for a vertical clip of the same video. */
+export function sliceEdit(edit:DynamicEdit,start:number,end:number):DynamicEdit{
+ const within=<T extends {start:number;end:number}>(items:T[])=>items.filter(x=>x.end>start&&x.start<end).map(x=>({...x,start:Math.max(0,x.start-start),end:Math.min(end,x.end)-start}));
+ const beats=within(edit.beats).map((b,i)=>i===0?{...b,entry:'cut' as const}:b);
+ const shots=new Set(beats.map(b=>b.shotId));
+ return {version:edit.version,beats,pops:within(edit.pops),cards:within(edit.cards.filter(c=>c.kind==='verse')),layers:edit.layers.filter(l=>shots.has(l.shotId)),sfx:edit.sfx.filter(s=>s.time>=start&&s.time<end).map(s=>({...s,time:Number((s.time-start).toFixed(3))})),presenter:[]};
+}

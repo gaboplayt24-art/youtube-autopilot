@@ -75,3 +75,12 @@ test('a layered shot glides instead of cutting, staggers its actors and points a
  assert.equal(plan.pops.find(p=>p.text==='A simple meal')?.target,undefined,'a wide group gets no arrow');
  assert.equal(plan.presenter.length,3);
 });
+
+test('a clip slice re-times the full edit, keeps only its own shots and never carries chapter cards or the presenter',async()=>{
+ const {sliceEdit}=await import('../src/editor/dynamic-edit');
+ const edit=dynamicEdit.parse({version:'dynamic-v1',beats:[{shotId:'a',start:0,end:10,scale:1.1,centerX:.5,centerY:.5,drift:1,entry:'cut'},{shotId:'b',start:10,end:20,scale:1.1,centerX:.5,centerY:.5,drift:1,entry:'zoom'},{shotId:'c',start:20,end:30,scale:1.1,centerX:.5,centerY:.5,drift:1,entry:'glide'}],pops:[{start:12,end:14,text:'Six wings',placement:'top'}],cards:[{kind:'chapter',start:10,end:12,title:'Two',number:2},{kind:'verse',start:15,end:20,title:'ISAIAH 6:2'}],layers:[{shotId:'b',background:'r/b.png',actors:[{path:'r/a.png',x:.1,y:.1,width:.2,height:.5,entry:'pop',delay:0}]},{shotId:'c',background:'r/c.png',actors:[{path:'r/c0.png',x:.1,y:.1,width:.2,height:.5,entry:'pop',delay:0}]}],sfx:[{time:9,type:'whoosh'},{time:12,type:'pop'}],presenter:['p']});
+ const clip=sliceEdit(edit,11,19);
+ assert.deepEqual(clip.beats.map(b=>[b.shotId,b.start,b.end,b.entry]),[['b',0,8,'cut']]);
+ assert.deepEqual(clip.cards.map(c=>c.kind),['verse']);assert.equal(clip.pops[0].start,1);
+ assert.deepEqual(clip.layers.map(l=>l.shotId),['b']);assert.deepEqual(clip.sfx,[{time:1,type:'pop'}]);assert.deepEqual(clip.presenter,[]);
+});

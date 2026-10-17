@@ -1,5 +1,5 @@
 import {join,resolve} from 'node:path';
-import {copyFile,mkdir,stat} from 'node:fs/promises';
+import {copyFile,mkdir,stat,cp,access} from 'node:fs/promises';
 import {z} from 'zod';
 import {artifact,fileDigest} from '../orchestration/integrity';
 import {composition,qa,rendered} from '../orchestration/schemas';
@@ -10,6 +10,9 @@ import {Runner} from '../orchestration/runner';
 import {renderVideo} from '../render';
 import {inspectAudio} from '../audio/qa';
 import {candidate,planClip} from './plan';
+import {sliceEdit} from '../editor/dynamic-edit';
+import {writeSfxTrack} from '../audio/sfx-library';
+import {loadAudioConfig} from '../audio/qa';
 export const clipRecord=z.object({id:z.string(),title:z.string(),source:z.string(),path:z.string(),sha256:z.string().length(64),duration:z.number(),qa:qa,sourceRenderSha256:z.string(),narration:z.string()});
 export const clipBundle=z.object({runId:z.string(),clips:z.array(clipRecord).length(3)});
 export async function buildClips(runId:string){
@@ -24,9 +27,15 @@ export async function buildClips(runId:string){
   const plan=planClip(input,full),path=join(out,`clip-${plan.id}.mp4`),publicDir=resolve('public',runId);await mkdir(publicDir,{recursive:true});
   for(const shot of plan.shots){const a=assets.assets.find(a=>a.shotId===shot.id);if(!a||await fileDigest(a.path)!==a.sha256)throw Error('Missing or changed approved illustration');await copyFile(a.path,join(publicDir,`${shot.id}.png`));}
   const wav=join(out,`clip-${plan.id}-narration.wav`);
-  await exec('ffmpeg',['-y','-v','error','-i',audio.narrationPath,'-af',`atrim=start=${plan.start}:end=${plan.end},asetpts=PTS-STARTPTS,loudnorm=I=-15.5:TP=-2:LRA=8,aresample=48000,apad,atrim=duration=${Math.ceil(plan.duration*30)/30}`,'-ar','48000',wav],{timeout:120000});
+  // The same dynamic edit as the full video, cut to this passage; its original CC0 effects join the isolated narration.
+  const edit=full.edit?sliceEdit(full.edit,plan.start,plan.end):undefined;
+  if(edit?.layers.length&&!await access(join(publicDir,'layers')).then(()=>true,()=>false))await cp(join(dir,'assets','layers'),join(publicDir,'layers'),{recursive:true});
+  const trim=`atrim=start=${plan.start}:end=${plan.end},asetpts=PTS-STARTPTS`,finish=`loudnorm=I=-15.5:TP=-2:LRA=8,aresample=48000,apad,atrim=duration=${Math.ceil(plan.duration*30)/30}`;
+  if(edit?.sfx.length){const sfx=join(out,`clip-${plan.id}-sfx.wav`);await writeSfxTrack(edit.sfx,plan.duration,sfx);const db=(await loadAudioConfig()).sfxDb;
+   await exec('ffmpeg',['-y','-v','error','-i',audio.narrationPath,'-i',sfx,'-filter_complex',`[0:a]${trim}[n];[1:a]volume=${db}dB[s];[n][s]amix=inputs=2:duration=first:normalize=0,${finish}[m]`,'-map','[m]','-ar','48000',wav],{timeout:120000});}
+  else await exec('ffmpeg',['-y','-v','error','-i',audio.narrationPath,'-af',`${trim},${finish}`,'-ar','48000',wav],{timeout:120000});
   await copyFile(wav,join(publicDir,`clip-${plan.id}-narration.wav`));
-  const props=composition.parse({...full,width:1080,height:1920,fps:30,durationInFrames:Math.ceil(plan.duration*30),scenes:[],shots:plan.shots,cues:plan.cues,audioMixPath:`${runId}/clip-${plan.id}-narration.wav`,thumbnailTitle:plan.title});
+  const props=composition.parse({...full,width:1080,height:1920,fps:30,durationInFrames:Math.ceil(plan.duration*30),scenes:[],shots:plan.shots,cues:plan.cues,audioMixPath:`${runId}/clip-${plan.id}-narration.wav`,thumbnailTitle:plan.title,edit});
   await json(join(out,`clip-${plan.id}-plan.json`),{...plan,sourceRenderSha256:master.sha256,audio:'Approved original narration only; no externally licensed music reused'});
   const result=await runner.stage('clip-'+plan.id,clipRecord,async()=>{
    await renderVideo(props,path);const seconds=await duration(path);const audioQA=await inspectAudio(path,{expectedDuration:props.durationInFrames/30});

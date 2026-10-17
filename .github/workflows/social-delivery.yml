@@ -4,7 +4,7 @@ on:
     inputs:
       action:
         type: choice
-        options: [preflight, layout-preview, build, youtube, tiktok]
+        options: [preflight, layout-preview, build, youtube, tiktok, replace-clips]
         default: preflight
       run_id:
         type: string
@@ -84,7 +84,7 @@ jobs:
         if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview'
         run: bash scripts/ensure-media-ci.sh
       - name: Restore reviewed clip package for scheduling
-        if: env.SOCIAL_ACTION == 'youtube' || env.SOCIAL_ACTION == 'tiktok'
+        if: env.SOCIAL_ACTION == 'youtube' || env.SOCIAL_ACTION == 'tiktok' || env.SOCIAL_ACTION == 'replace-clips'
         run: |
           python3 - <<'PY'
           import os, re, subprocess, zipfile
@@ -102,6 +102,7 @@ jobs:
               archive.extractall(root)
           PY
       - name: Inspect, render or schedule through official APIs
+        if: env.SOCIAL_ACTION != 'replace-clips'
         env:
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
@@ -110,6 +111,15 @@ jobs:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: npx tsx scripts/social-delivery.ts
+      # Owner-requested 2026-10-17: the dynamic-edit clips take over the already scheduled Shorts and TikToks.
+      - name: Replace the scheduled clips at the same release times
+        if: env.SOCIAL_ACTION == 'replace-clips'
+        env:
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: npx tsx scripts/replace-clips.ts
       - name: Preserve clips, preview frames, plans, QA and scheduling receipts
         if: always() && env.SOCIAL_ACTION != 'preflight'
         run: |
