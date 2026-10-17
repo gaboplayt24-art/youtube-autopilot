@@ -83,6 +83,9 @@ jobs:
       - name: Media tools
         if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview'
         run: bash scripts/ensure-media-ci.sh
+      - name: Fetch the Anton display font (SIL OFL) for clip titles and captions
+        if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview'
+        run: mkdir -p public/fonts && curl -fsSL --retry 3 -o public/fonts/Anton-Regular.ttf https://raw.githubusercontent.com/google/fonts/main/ofl/anton/Anton-Regular.ttf && test -s public/fonts/Anton-Regular.ttf
       - name: Restore reviewed clip package for scheduling
         if: env.SOCIAL_ACTION == 'youtube' || env.SOCIAL_ACTION == 'tiktok' || env.SOCIAL_ACTION == 'replace-clips'
         run: |

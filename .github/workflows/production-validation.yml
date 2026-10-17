@@ -229,7 +229,7 @@ jobs:
         run: bash scripts/setup-rembg-cpu.sh && U2NET_HOME=.cache/rembg .venv-rembg/bin/python -c "from rembg import new_session; [new_session(m) for m in ('u2net','isnet-general-use')]"
       - name: Fetch the Anton display font (SIL OFL) for thumbnail labels
         continue-on-error: true
-        run: mkdir -p public/fonts && curl -fsSL --retry 3 -o public/fonts/Anton-Regular.ttf https://github.com/google/fonts/raw/main/ofl/anton/Anton-Regular.ttf
+        run: mkdir -p public/fonts && curl -fsSL --retry 3 -o public/fonts/Anton-Regular.ttf https://raw.githubusercontent.com/google/fonts/main/ofl/anton/Anton-Regular.ttf
       - name: Channel logo and banner in the locked illustrated style; no upload
         if: inputs.task == 'branding'
         run: npm run branding -- --run-id "$RUN_ID"
