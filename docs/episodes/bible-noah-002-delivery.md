@@ -15,3 +15,7 @@ Three vertical candidates in `data/ideas/bible-noah-002-shorts-candidates.json` 
 ## Production dispatch
 
 The authorized run was dispatched from commit `72a382a3e16ed8862db0c8609450acfaf213c6d1`: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678 . Startup passed the checkpoint-storage probe and reached cache restoration. This records dispatch, not completed generation, QA approval or publication. Lint, typecheck, 274 TypeScript tests and 9 Python tests passed before dispatch. On a successful production workflow, the existing social workflow now builds the three Noah candidates automatically; it does not automatically attest preview review or post them.
+
+## Duration correction after owner feedback
+
+The owner approved the topic, but the 90-105-second choice was Codex's interpretation of the single-session request, not an explicit owner duration requirement. On 2026-10-18 the owner questioned the short length. Cancellation of Actions run 39170301678 was requested before publishing. The runner reached checkpoint/quota preservation during shutdown. Do not schedule or resume this compact episode as the principal upload. A ChatGPT session can dispatch a longer cloud job; there is no need to make the content shorter to fit the session. The 246-word draft remains reference material; a longer documentary requires a broader supported outline, not padding. No replacement long-form workflow has been launched.

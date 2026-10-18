@@ -1,5 +1,5 @@
 {
-  "status": "production-dispatched-not-yet-completed",
+  "status": "short-run-cancellation-requested-duration-under-review",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -93,8 +93,17 @@
     ]
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor production; on failure restore its newest complete checkpoint using the same run ID. On success inspect full-video QA and generated covers, then verify scheduling and measured clip build.",
+  "nextAction": "Preserve checkpoint and quota evidence from 39170301678. Do not schedule the compact draft. The owner questioned the short duration; a ChatGPT session does not constrain the cloud video duration. Prepare a properly sourced long-form outline rather than stretching the 246-word draft.",
   "runId": "bible-noah-002",
   "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
-  "productionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1"
+  "productionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
+  "durationDecision": {
+    "selectedBy": "Codex, not an explicit owner duration instruction",
+    "ownerFeedback": "porque tan corto?",
+    "recommendedPrincipalMinutes": [
+      8,
+      12
+    ],
+    "newLongFormRunDispatched": false
+  }
 }
