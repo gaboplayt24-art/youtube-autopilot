@@ -1,0 +1,93 @@
+{
+  "status": "editorial-proposal-not-generated",
+  "preparedAt": "2026-10-18T21:03:26.868Z",
+  "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
+  "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
+  "existingDraft": "data/scripts/bible-noah-001-editorial-draft.json",
+  "existingDraftStatus": "Unrendered source-grounded draft; previously deferred in favor of the angels episode. Recheck sources and packaging before synthesis.",
+  "recommendedTitle": "Noah's Ark: 3 Details Most Pictures Get Wrong",
+  "alternativeTitles": [
+    "What Noah's Ark ACTUALLY Looked Like in Genesis",
+    "Noah's Ark Had Three Floors. What Else Did You Miss?"
+  ],
+  "thumbnail": {
+    "concept": "Eli beside an illustrated cutaway of the ark showing exactly three levels; one strong focal point",
+    "text": "THREE FLOORS?",
+    "factualConstraint": "Interpretive illustration of Genesis 6:14-16; never a recovered vessel or archaeological proof."
+  },
+  "selectionReason": "Noah leads this updated public-interest sample, closely followed by Enoch. Existing original draft and narrow textual claims reduce new research and difficult visionary anatomy work. This is an editorial choice, not a statistical claim that Noah will outperform Enoch.",
+  "signals": [
+    {
+      "topic": "Noahs ark",
+      "sampleSize": 12,
+      "distinctChannels": 12,
+      "medianViewsPerDay": 3072.889883497163
+    },
+    {
+      "topic": "Book of Enoch",
+      "sampleSize": 14,
+      "distinctChannels": 13,
+      "medianViewsPerDay": 3052.149892381644
+    },
+    {
+      "topic": "Ark of the Covenant",
+      "sampleSize": 8,
+      "distinctChannels": 6,
+      "medianViewsPerDay": 711.2935288734996
+    },
+    {
+      "topic": "Dead Sea Scrolls",
+      "sampleSize": 19,
+      "distinctChannels": 18,
+      "medianViewsPerDay": 188.31291680688685
+    },
+    {
+      "topic": "Life in ancient Jerusalem",
+      "sampleSize": 13,
+      "distinctChannels": 13,
+      "medianViewsPerDay": 36.52109945267199
+    },
+    {
+      "topic": "Tower of Babel",
+      "sampleSize": 14,
+      "distinctChannels": 14,
+      "medianViewsPerDay": 17.674663638304374
+    },
+    {
+      "topic": "Food in Bible times",
+      "sampleSize": 20,
+      "distinctChannels": 20,
+      "medianViewsPerDay": 2.1135674366959027
+    },
+    {
+      "topic": "Women in Bible times",
+      "sampleSize": 11,
+      "distinctChannels": 9,
+      "medianViewsPerDay": 1.1331664465946538
+    }
+  ],
+  "limitations": [
+    "Public view velocity is an interest signal, not search volume or a forecast of our reach.",
+    "Search relevance results are a biased sample, not all videos or all searches.",
+    "Channel size, video age, promotion and format affect views; unknown audio language is explicitly retained.",
+    "No competitor scripts, audience geography, impressions, CTR or retention were retrieved."
+  ],
+  "plannedSocialAngles": [
+    "The three levels and the side door",
+    "Why the wood species is uncertain",
+    "Why Genesis specifies coating inside and outside"
+  ],
+  "productionPolicy": {
+    "style": "approved Eli v5",
+    "edit": "existing dynamic editor",
+    "voice": "approved Chatterbox Nano reference-cloned",
+    "preserveQA": true,
+    "noNewPaidServices": true,
+    "cloudflareMonthlyTotalCapUsd": 8,
+    "freeOnlyOtherProviders": true,
+    "newVideoGenerated": false,
+    "newUploadScheduled": false
+  },
+  "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
+  "nextAction": "Review the existing source excerpts and spoken draft against the proposed title, then use the existing production workflow. Do not claim that a production run has already been launched."
+}
