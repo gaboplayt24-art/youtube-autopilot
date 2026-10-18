@@ -129,3 +129,7 @@ El MP4 descargado fue comprobado con SHA256 `b1b389cb648984f2c71b44df8d19d7ba0ea
 `data/metadata/bible-angels-001-delivery-targets.json` registra los IDs definitivos de los recibos, separados de los IDs antiguos del plan de reemplazo (no volver a ejecutar ese plan). El diagnóstico manual `cloud-connections` permite `audit_episode_delivery=true` para consultar los estados reales en YouTube/Zernio mediante Secrets de Actions, sin modificar publicaciones. Un recibo de programación no se considera prueba de publicación; los errores, fechas distintas y entregas vencidas quedan visibles.
 
 Se desactiva `config/episode-delivery.json` porque la generación terminó; no se cambian cuotas ni se lanzan nuevas inferencias para este episodio.
+
+### Verificación real de entrega
+
+El diagnóstico https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39160313367 terminó verde el 18 de octubre a las 19:47 UTC: Supabase y Zernio responden HTTP 200. YouTube confirma público el video `fZkGQDZcmig` (30 vistas en esa consulta) y el Short A `9yt_VPFmmw8` (1.159 vistas). Zernio confirma TikTok A publicado. B y C siguen programados para 18 y 19 de octubre, respectivamente: Shorts a las 23:00 UTC, TikToks a las 23:30 UTC (20:00 y 20:30 en Argentina). No se reprogramó ni duplicó contenido. Evidencia estructurada: `data/metadata/bible-angels-001-delivery-audit-2026-10-18.json`. Los contadores son una instantánea, no una evaluación de retención ni alcance futuro.

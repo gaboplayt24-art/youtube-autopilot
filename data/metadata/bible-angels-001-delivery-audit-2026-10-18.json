@@ -1,0 +1,104 @@
+{
+  "workflowUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39160313367",
+  "connections": {
+    "mode": "read-only",
+    "live": true,
+    "publishingReady": false,
+    "ready": true,
+    "results": [
+      {
+        "service": "supabase",
+        "credentialsPresent": true,
+        "status": "database-readable",
+        "httpStatus": 200
+      },
+      {
+        "service": "zernio",
+        "credentialsPresent": true,
+        "status": "channels-readable",
+        "httpStatus": 200,
+        "connectedChannels": 1,
+        "platforms": [
+          "tiktok"
+        ]
+      }
+    ]
+  },
+  "delivery": {
+    "runId": "bible-angels-001",
+    "checkedAt": "2026-10-18T19:47:10.581Z",
+    "mode": "read-only",
+    "healthy": true,
+    "rows": [
+      {
+        "platform": "youtube",
+        "role": "full",
+        "id": "fZkGQDZcmig",
+        "state": "public",
+        "healthy": true,
+        "scheduledFor": "2026-10-17T22:00:00Z",
+        "title": "What Angels ACTUALLY Look Like in the Bible",
+        "views": "30"
+      },
+      {
+        "platform": "youtube",
+        "role": "A",
+        "id": "9yt_VPFmmw8",
+        "state": "public",
+        "healthy": true,
+        "scheduledFor": "2026-10-17T23:00:00Z",
+        "title": "Would You Recognize an Angel? #Shorts",
+        "views": "1159"
+      },
+      {
+        "platform": "youtube",
+        "role": "B",
+        "id": "bVY7Ge6mnOQ",
+        "state": "scheduled",
+        "healthy": true,
+        "scheduledFor": "2026-10-18T23:00:00Z",
+        "actualPublishAt": "2026-10-18T23:00:00Z",
+        "title": "Why These Biblical Beings Have Six Wings #Shorts",
+        "views": "0"
+      },
+      {
+        "platform": "youtube",
+        "role": "C",
+        "id": "5e40EDDt1hQ",
+        "state": "scheduled",
+        "healthy": true,
+        "scheduledFor": "2026-10-19T23:00:00Z",
+        "actualPublishAt": "2026-10-19T23:00:00Z",
+        "title": "The Wheels Full of Eyes in Ezekiel #Shorts",
+        "views": "0"
+      },
+      {
+        "platform": "tiktok",
+        "role": "A",
+        "id": "6ad30bfb6c4d41716f8af310",
+        "state": "published",
+        "healthy": true,
+        "scheduledFor": "2026-10-17T23:30:00Z",
+        "actualPublishAt": "2026-10-17T23:30:00.000Z"
+      },
+      {
+        "platform": "tiktok",
+        "role": "B",
+        "id": "6ad30c026c4d41716f8af321",
+        "state": "scheduled",
+        "healthy": true,
+        "scheduledFor": "2026-10-18T23:30:00Z",
+        "actualPublishAt": "2026-10-18T23:30:00.000Z"
+      },
+      {
+        "platform": "tiktok",
+        "role": "C",
+        "id": "6ad30c097a81c7edd634fdd9",
+        "state": "scheduled",
+        "healthy": true,
+        "scheduledFor": "2026-10-19T23:30:00Z",
+        "actualPublishAt": "2026-10-19T23:30:00.000Z"
+      }
+    ]
+  }
+}
