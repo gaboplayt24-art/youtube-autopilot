@@ -1,0 +1,26 @@
+{
+  "runId": "bible-noah-002",
+  "status": "editorial-candidates-unrendered",
+  "publish": false,
+  "notes": "Draft passages only. No timestamps claimed; builder must find one unique measured passage in the final ASR-aligned timeline and pass clip QA. Reconcile against final script if factual editing changes the wording.",
+  "candidates": [
+    {
+      "id": "A",
+      "title": "The Rooms Inside Noah\u2019s Ark",
+      "source": "Genesis 6:14-16",
+      "narration": "Detail number one: the rooms. Genesis tells Noah to make rooms inside the ark. Picture a divided interior, rather than one enormous empty space. The passage gives instructions, but it does not show us a complete building plan. Any illustrated arrangement of those compartments is an interpretation."
+    },
+    {
+      "id": "B",
+      "title": "Noah\u2019s Ark Had Three Levels",
+      "source": "Genesis 6:14-16",
+      "narration": "Detail number two: the levels. The text names lower, second, and third stories, and places the door in the side. That means three levels, not simply animals standing beneath a roof. In our drawing, the cutaway makes those levels visible. Their exact internal arrangement remains an illustration, not something recovered from an ancient wreck."
+    },
+    {
+      "id": "C",
+      "title": "Why the Ark Was Coated Inside Too",
+      "source": "Genesis 6:14-16",
+      "narration": "Detail number three: the coating. The instruction is to cover the ark within and without with pitch. The inside matters too. Look at a wooden section: the coating belongs on both faces in this explanation, not just the outside of the hull."
+    }
+  ]
+}

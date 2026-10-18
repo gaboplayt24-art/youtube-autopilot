@@ -1,11 +1,11 @@
 {
-  "status": "editorial-proposal-not-generated",
+  "status": "owner-authorized-production-prepared",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
-  "existingDraft": "data/scripts/bible-noah-001-editorial-draft.json",
+  "existingDraft": "data/scripts/bible-noah-002-editorial-draft.json",
   "existingDraftStatus": "Unrendered source-grounded draft; previously deferred in favor of the angels episode. Recheck sources and packaging before synthesis.",
-  "recommendedTitle": "Noah's Ark: 3 Details Most Pictures Get Wrong",
+  "recommendedTitle": "Noah's Ark: 3 Details You Probably Missed",
   "alternativeTitles": [
     "What Noah's Ark ACTUALLY Looked Like in Genesis",
     "Noah's Ark Had Three Floors. What Else Did You Miss?"
@@ -73,9 +73,9 @@
     "No competitor scripts, audience geography, impressions, CTR or retention were retrieved."
   ],
   "plannedSocialAngles": [
-    "The three levels and the side door",
-    "Why the wood species is uncertain",
-    "Why Genesis specifies coating inside and outside"
+    "The rooms inside the ark",
+    "The three levels and side door",
+    "Pitch inside and outside"
   ],
   "productionPolicy": {
     "style": "approved Eli v5",
@@ -86,8 +86,13 @@
     "cloudflareMonthlyTotalCapUsd": 8,
     "freeOnlyOtherProviders": true,
     "newVideoGenerated": false,
-    "newUploadScheduled": false
+    "newUploadScheduled": false,
+    "targetDurationSeconds": [
+      90,
+      105
+    ]
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Review the existing source excerpts and spoken draft against the proposed title, then use the existing production workflow. Do not claim that a production run has already been launched."
+  "nextAction": "Dispatch production_test, v5, Gemini Free, 90-105 seconds; existing QA, generated original covers and next daily YouTube slot. Build three measured clips after a valid master exists.",
+  "runId": "bible-noah-002"
 }

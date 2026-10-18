@@ -1,0 +1,31 @@
+{
+  "sources": [
+    {
+      "url": "https://en.wikipedia.org/wiki/Noah's_Ark",
+      "httpStatus": 200,
+      "retrievedAt": "2026-10-18T21:58:59.112904+00:00",
+      "responseSha256": "3514beb4b9bd25efb8fec2dd8d6cc1c711e6fca001d14484eeb4bbce22d9f9ed",
+      "verbatimParagraphs": [
+        "Its three internal divisions reflect the three-part universe imagined by the ancient Israelites: heaven, the earth, and the underworld. [ 12 ] Each deck is the same height as the Temple in Jerusalem, itself a microcosmic model of the universe, and each is three times the area of the court of the tabernacle, leading to the suggestion that the author saw both Ark and tabernacle as serving for the preservation of human life. [ 13 ] [ 14 ] It has a door in the side, and a tsohar , which may be either a roof or a skylight . [ 11 ] It is to be made of gopher wood \" goper \", a word which appears nowhere else in the Bible, but thought to be a loan word from the Akkadian gupru [ 15 ] \u2013 and divided into qinnim , a word which always refers to birds' nests elsewhere in the Bible, leading some scholars to emend this to qanim , reeds. [ 16 ] The finished vessel is to be smeared with koper , meaning pitch or bitumen ; in Hebrew the two words are closely related, kaparta (\"smeared\") ... bakopper . [ 16 ] Bitumen is the more likely option, as \"koper\" is thought to be a loanword from the Akkadian \" kupru \", meaning bitumen. [ 15 ]"
+      ]
+    },
+    {
+      "url": "https://www.biblegateway.com/passage/?search=Genesis%206%3A14-16&version=KJV",
+      "httpStatus": 200,
+      "retrievedAt": "2026-10-18T21:58:59.113774+00:00",
+      "responseSha256": "d9a72173f12d0983dab96ef591174be390704bc092984b00de19131f4de528dc",
+      "verbatimParagraphs": [
+        "14 Make thee an ark of gopher wood; rooms shalt thou make in the ark, and shalt pitch it within and without with pitch.",
+        "15 And this is the fashion which thou shalt make it of: The length of the ark shall be three hundred cubits, the breadth of it fifty cubits, and the height of it thirty cubits.",
+        "16 A window shalt thou make to the ark, and in a cubit shalt thou finish it above; and the door of the ark shalt thou set in the side thereof; with lower, second, and third stories shalt thou make it."
+      ]
+    }
+  ],
+  "noModelInferencePerformedLocally": true,
+  "rejectedAdditionalSource": {
+    "url": "https://en.wikipedia.org/wiki/Gopher_wood",
+    "httpStatus": 403,
+    "used": false
+  },
+  "narrationWords": 246
+}
