@@ -11,3 +11,7 @@ Production: `production-validation`, `run_id=bible-noah-002`, `production_kind=p
 No media or API inference is generated in Codex. CI receives GitHub Secrets. Checkpoints and media remain in Releases, not Actions artifacts. On failure, retain the run ID and restore the newest complete checkpoint with `source_run_id`; never regenerate successful voice/assets from zero.
 
 Three vertical candidates in `data/ideas/bible-noah-002-shorts-candidates.json` are draft passages, not measured timestamps. Reconcile any final factual edits, then run the existing `social-delivery` build against the completed master. Nothing is posted merely because a draft candidate exists.
+
+## Production dispatch
+
+The authorized run was dispatched from commit `72a382a3e16ed8862db0c8609450acfaf213c6d1`: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678 . Startup passed the checkpoint-storage probe and reached cache restoration. This records dispatch, not completed generation, QA approval or publication. Lint, typecheck, 274 TypeScript tests and 9 Python tests passed before dispatch. On a successful production workflow, the existing social workflow now builds the three Noah candidates automatically; it does not automatically attest preview review or post them.
