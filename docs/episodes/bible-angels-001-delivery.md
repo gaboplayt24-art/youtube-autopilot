@@ -113,3 +113,19 @@ El control local analiza RGB con FFmpeg, estima el fondo uniforme y cuenta compo
 Cada estudio nuevo requiere ese stage cuantitativo ligado a su SHA antes de crear artwork aprobado. Su fallo no entra en la tolerancia cosmética. El estudio inicial del capítulo 1 sí tiene seis alas verificadas (31d38ef0d174182721e4d13d53dd870abe8bf4a7302c0681855e3e51878ab2f7): se conserva y se usa como segundo input de composición para NUEVAS inferencias Klein, manteniendo la referencia de estilo original como input_image_0. La guía tiene stage/SHA comprobados antes de gastar y el source registra layoutReferenceSha256. No se cambia la arquitectura de una ilustración completa por toma ni se fabrican alas con geometría de Remotion.
 
 El exportador visual ahora conserva también las adjudicaciones efectivas Gemini y las mediciones locales, en lugar de mostrar únicamente su rechazo canónico previo. Lint, typecheck, 260 tests TypeScript y 8 Python pasaron, incluyendo los PNG reales positivo/negativo, rechazo de formas ambiguas, ausencia de inferencia ante una guía alterada y conservación de un fallo previo de QA.
+
+
+## 2026-10-18 — Consolidación del trabajo de Claude
+
+La rama `claude/brave-brahmagupta-ceozm3` hasta `424b89dfcbf7abc6724f9af668ac2e4c72a8ed20` contiene la entrega final: edición dinámica por frases, recortes locales de las ilustraciones aprobadas, entradas y movimiento de personajes, capítulos, referencias bíblicas, efectos sonoros originales y versiones verticales con zonas seguras. Se conserva la narración aprobada.
+
+- QA completo: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38970369648
+- Reemplazo del video con portada copiada y programación: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/38985083758
+- Sustitución de los tres Shorts y TikToks: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39007458585
+- Video definitivo: https://www.youtube.com/watch?v=fZkGQDZcmig
+
+El MP4 descargado fue comprobado con SHA256 `b1b389cb648984f2c71b44df8d19d7ba0ea5e267725b9bcf17a42ee1acd31d07`; ffprobe confirma 583.317 s, 1920×1080, 30 fps, H.264/AAC. Se revisaron fotogramas representativos. El QA conserva el pacing como advertencia autorizada, no como comprobación aprobada. El ZIP social no presenta errores CRC y contiene los recibos de reemplazo.
+
+`data/metadata/bible-angels-001-delivery-targets.json` registra los IDs definitivos de los recibos, separados de los IDs antiguos del plan de reemplazo (no volver a ejecutar ese plan). El diagnóstico manual `cloud-connections` permite `audit_episode_delivery=true` para consultar los estados reales en YouTube/Zernio mediante Secrets de Actions, sin modificar publicaciones. Un recibo de programación no se considera prueba de publicación; los errores, fechas distintas y entregas vencidas quedan visibles.
+
+Se desactiva `config/episode-delivery.json` porque la generación terminó; no se cambian cuotas ni se lanzan nuevas inferencias para este episodio.

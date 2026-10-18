@@ -22,6 +22,10 @@ on:
         description: Read the latest completed checkpoint records for bible-angels-001
         type: boolean
         default: false
+      audit_episode_delivery:
+        description: Read actual YouTube and TikTok delivery status; never publishes or reschedules
+        type: boolean
+        default: false
 permissions:
   contents: read
 jobs:
@@ -52,3 +56,11 @@ jobs:
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: npx tsx scripts/verify-delivery-ledger.ts
+      - name: Verify existing episode and clip deliveries without changing them
+        if: inputs.audit_episode_delivery
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+        run: npx tsx scripts/audit-delivery.ts

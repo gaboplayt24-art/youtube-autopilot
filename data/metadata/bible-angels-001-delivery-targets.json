@@ -1,0 +1,14 @@
+{
+ "runId":"bible-angels-001",
+ "youtube":[
+  {"role":"full","id":"fZkGQDZcmig","scheduledFor":"2026-10-17T22:00:00Z"},
+  {"role":"A","id":"9yt_VPFmmw8","scheduledFor":"2026-10-17T23:00:00Z"},
+  {"role":"B","id":"bVY7Ge6mnOQ","scheduledFor":"2026-10-18T23:00:00Z"},
+  {"role":"C","id":"5e40EDDt1hQ","scheduledFor":"2026-10-19T23:00:00Z"}
+ ],
+ "tiktok":[
+  {"role":"A","id":"6ad30bfb6c4d41716f8af310","scheduledFor":"2026-10-17T23:30:00Z"},
+  {"role":"B","id":"6ad30c026c4d41716f8af321","scheduledFor":"2026-10-18T23:30:00Z"},
+  {"role":"C","id":"6ad30c097a81c7edd634fdd9","scheduledFor":"2026-10-19T23:30:00Z"}
+ ]
+}

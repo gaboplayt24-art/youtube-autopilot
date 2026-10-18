@@ -13,7 +13,7 @@ test('episode guard handles more than 1 MiB of GitHub history and retains its at
   await writeFile(join(dir,'history.json'),fixture);
   const config=JSON.parse(await readFile('config/episode-delivery.json','utf8'));
   await mkdir(join(dir,'config'));
-  await writeFile(join(dir,'config/episode-delivery.json'),JSON.stringify({...config,notBefore:new Date(Date.now()-86400000).toISOString(),expiresAt:new Date(Date.now()+86400000).toISOString()}));
+  await writeFile(join(dir,'config/episode-delivery.json'),JSON.stringify({...config,enabled:true,notBefore:new Date(Date.now()-86400000).toISOString(),expiresAt:new Date(Date.now()+86400000).toISOString()}));
   // Execute the real jq projection, as gh does, before the CLI captures stdout.
   await writeFile(join(dir,'gh'),'#!/usr/bin/env node\n'+
    'const {readFileSync}=require("node:fs");const {execFileSync}=require("node:child_process");'+
@@ -23,5 +23,10 @@ test('episode guard handles more than 1 MiB of GitHub history and retains its at
   const cli=resolve('scripts/resume-approved-episode.ts');
   const {stdout}=await exec(process.execPath,['--import',resolve('node_modules/tsx/dist/loader.mjs'),cli],{cwd:dir,env:{...process.env,PATH:dir+':'+process.env.PATH,GITHUB_REPOSITORY:'gaboplayt24-art/youtube-autopilot',GITHUB_STEP_SUMMARY:'',DISPATCH_READY:'false',EPISODE_HISTORY_FIXTURE:join(dir,'history.json')},timeout:30000});
   const report=JSON.parse(stdout.trim());assert.equal(report.decision,'attempt-cap-reached');assert.equal(report.dispatched,false);
+  // A completed episode must stay disabled even if dispatch is requested; gh must never be invoked.
+  await writeFile(join(dir,'config/episode-delivery.json'),JSON.stringify({...config,enabled:false}));
+  await writeFile(join(dir,'gh'),'#!/bin/sh\nexit 90\n',{mode:0o755});
+  const stopped=await exec(process.execPath,['--import',resolve('node_modules/tsx/dist/loader.mjs'),cli],{cwd:dir,env:{...process.env,PATH:dir+':'+process.env.PATH,GITHUB_REPOSITORY:'gaboplayt24-art/youtube-autopilot',GITHUB_STEP_SUMMARY:'',DISPATCH_READY:'true'},timeout:30000});
+  assert.equal(JSON.parse(stopped.stdout.trim()).decision,'disabled');assert.equal(JSON.parse(stopped.stdout.trim()).dispatched,false);
  }finally{await rm(dir,{recursive:true,force:true});}
 });

@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "runId": "bible-angels-001",
   "notBefore": "2026-10-15T23:07:32Z",
   "expiresAt": "2026-10-22T23:59:59Z",
@@ -7,7 +7,7 @@
   "topic": "Why biblical angels look so different: messengers, Michael, Gabriel, and the visions of Isaiah and Ezekiel",
   "ownerThumbnail": true,
   "publish": false,
-  "note": "Owner authorized Groq Free continuation on 2026-10-15, accepting minor residual visual errors. Preserve known-defect corrections, all technical/factual QA, approved narration and checkpoints. Private upload after QA for owner cover; public schedule still requires cover confirmation. Existing one attempt/day and three-attempt cap retained; no paid fallback.",
+  "note": "Disabled 2026-10-18 after Claude completed the approved episode: quality run 38970369648, replacement upload 38985083758, clip replacements 39007458585. Preserve these receipts and narration; do not generate or upload this episode again automatically. Existing free-provider rules, owner approvals and Cloudflare cap remain unchanged.",
   "maxAttempts": 3,
   "uploadPrivateForOwnerThumbnail": true,
   "llmProvider": "groq",
