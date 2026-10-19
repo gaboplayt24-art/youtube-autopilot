@@ -55,3 +55,5 @@ Failed factual/script/audio/final gates now fail inside the stage instead of log
 Validation: npm run lint, npm run typecheck, 284 TypeScript tests and 9 Python tests passed. New regressions cover incomplete source recovery, actual-quote rejection, failed-cache status, exact prior evidence preservation, stale factual approvals and chapter reuse after provider failure.
 
 The owner's renewed request authorizes a new bounded continuation window starting 2026-10-19T02:58:54Z; previous attempts are retained in config approvalHistory. The maximum remains three within this window, unchanged expiry and budgets. Resume the completed script from checkpoint 39187154400 with retry_from=facts. Full production and scheduling are not yet verified.
+
+Corrective workflow dispatched: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39192567746 . Source commit `09ab131038b4ca34b4e94fa16e11b4574624bff7` was verified in origin/main. Restores 39187154400, retry_from=facts, all prior delivery/model/style/topic settings unchanged. This is the first attempt within the owner-renewed bounded window; startup is not factual approval or completed video evidence.

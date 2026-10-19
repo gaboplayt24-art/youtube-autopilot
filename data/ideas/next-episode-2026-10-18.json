@@ -1,5 +1,5 @@
 {
-  "status": "structural-repair-validated-awaiting-factual-resume",
+  "status": "factual-recovery-in-progress",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Resume checkpoint 39187154400 from facts after primary-evidence repair, preserving completed script and all prior rejection evidence. Owner renewed bounded continuation; no factual or financial gate waived.",
+  "nextAction": "Monitor actual factual recovery, then voice/assets/render and full QA. Do not claim delivery until final media and upload/schedule receipts exist.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39187154400",
-  "productionCommit": "3501678f816f9f21e301cb17546e521053774f95",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39192567746",
+  "productionCommit": "09ab131038b4ca34b4e94fa16e11b4574624bff7",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
@@ -126,6 +126,10 @@
     {
       "id": 39187154400,
       "result": "failed factual review: selected source excerpts omitted required Genesis 7 verses; script passed"
+    },
+    {
+      "id": 39192567746,
+      "result": "in_progress at recording; first attempt after explicit owner renewal, restoring 39187154400 from facts"
     }
   ]
 }
