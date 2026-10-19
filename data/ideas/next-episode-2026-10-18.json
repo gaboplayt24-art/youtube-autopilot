@@ -1,5 +1,5 @@
 {
-  "status": "owner-reviewed-continuation-in-progress",
+  "status": "voice-captions-shots-passed-numeric-overlay-repair-ready",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor real voice gate, then actual visual generation/edit/render/QA and authorized delivery. No completed video or schedule claimed.",
+  "nextAction": "Resume source 39201301855 from visual-thinking-v5 after tested numeric validation repair; retain voice/captions/shots and facts. No QA waiver or new narration.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -141,7 +141,7 @@
     },
     {
       "id": 39201301855,
-      "result": "in_progress at recording; first attempt after explicit ending review, restores 39195273263 from voice with exact owner-confirmed ASR spellings"
+      "result": "Voice, captions and timed shots passed in real Actions; visual-thinking-v5 rejected 300 and 50 because narration spells three hundred and fifty. No image generation/render/upload yet. Fixed numeric evidence to compare complete normalized values."
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",

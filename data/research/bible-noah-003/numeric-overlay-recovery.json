@@ -1,0 +1,27 @@
+{
+  "scope": "Offline validation of actual immutable failed provider output under corrected whole-value numeric comparison; not new inference or visual approval",
+  "sourceExecution": "39201301855",
+  "results": [
+    {
+      "sourceResponse": "gemini-responses/95d85322c7e2e99993f14f8190140f83f1c80e4bd6bbbfd346f3454020033662-gemini-3.1-flash-lite-0.json",
+      "id": "chapter-2-shot-1",
+      "narration": "In Genesis, the instructions give the ark a length of three hundred cubits, a width of fifty,",
+      "overlay": "300 by 50 Cubits",
+      "unsupportedNumbers": []
+    },
+    {
+      "sourceResponse": "gemini-responses/ae36f9b9eeed2daca46d5b142afe4d7ab3c04d344774bd379cd4f690e756ef3e-gemini-3.1-flash-lite-0.json",
+      "id": "chapter-2-shot-1",
+      "narration": "In Genesis, the instructions give the ark a length of three hundred cubits, a width of fifty,",
+      "overlay": "300 x 50 Cubits",
+      "unsupportedNumbers": []
+    },
+    {
+      "sourceResponse": "gemini-responses/da48284b73af2b564ea94a917647b8aa596f17e29a0beb7964fdd0c853db2b2a-gemini-3.1-flash-lite-0.json",
+      "id": "chapter-2-shot-1",
+      "narration": "In Genesis, the instructions give the ark a length of three hundred cubits, a width of fifty,",
+      "overlay": null,
+      "unsupportedNumbers": []
+    }
+  ]
+}

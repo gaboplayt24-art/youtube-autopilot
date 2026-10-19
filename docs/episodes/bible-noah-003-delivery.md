@@ -111,3 +111,11 @@ The prior three attempts remain in approvalHistory. New bounded maximum-three wi
 Exact local owner-review application verified: the original WAV SHA and raw Small transcript SHA match the signed review record; every measured timestamp remains unchanged. Corrected comparison passes at WER 0.7092%, critical accuracy 100%, one could→can substitution retained, acoustic pause/continuity checks pass. See `data/research/bible-noah-003/voice-owner-approved-recheck.json`. This is not a new synthesis or full-video QA approval. Lint, typecheck and the 295-test suite passed before dispatch.
 
 Owner-reviewed continuation dispatched: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39201301855 , verified main source commit `824f89813fb885980e571796b3a67c012673570b`. Restore 39195273263 from voice. First attempt within the owner-reviewed bounded window; all original synthesis retained, exact ASR review only. No completed imagery/render/schedule claimed at dispatch.
+
+## Real voice gate passed; numeric visual validator repaired
+
+Run 39201301855 passed voice, captions and speech-timed shots at 2026-10-19T04:50:26Z. It then failed visual-thinking-v5 because the overlay guard required literal digits: 300/50 were rejected although the same beat explicitly says three hundred/fifty. This is a validator defect, not invented dimensions or a voice failure. No image generation, render or upload occurred.
+
+Visual numeric checks now reuse the existing numeric representation tokenizer and compare complete values, accepting 300 for three hundred and 50 for fifty. They reject 30 for 300, 40 for fourteen, and a cardinal replacing an ordinal. Both schema and post-generation checks use the same rule; no model prompt/style/history threshold is weakened. Actual previously rejected raw responses were verified from the checkpoint archive and replayed locally, with unchanged shot IDs/narration and both dimensions supported. Receipt: `data/research/bible-noah-003/numeric-overlay-recovery.json`.
+
+Lint, typecheck, 288 TypeScript and 9 Python tests passed. Resume 39201301855 from visual-thinking-v5; completed voice/captions/shots and factual approval remain untouched. This correction uses the second attempt in the current owner-reviewed maximum-three window.
