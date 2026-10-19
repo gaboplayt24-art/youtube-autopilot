@@ -1,5 +1,5 @@
 {
-  "status": "facts-passed-voice-in-progress",
+  "status": "voice-pronoun-false-positive-corrected",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor approved-narrator synthesis and measured voice QA, then actual source images/render/final QA before scheduling.",
+  "nextAction": "Resume latest checkpoint 39193191490 from voice, preserving approved factual report and both synthesized WAVs. Third and final run in renewed bounded window; do not invent a completed render or schedule.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -133,7 +133,7 @@
     },
     {
       "id": 39193191490,
-      "result": "Actual indexed factual QA passed at 2026-10-19T03:11:02.719Z, plan and approved voice selection completed; voice is in progress, no render or schedule claimed."
+      "result": "Factual QA passed; first voice chapter passed at WER 1.78%. Second WAV failed solely because inferred critical term Our differed at WER 0.99%; complete WAVs and Whisper evidence retained. Pronoun heuristic repaired and exact second audio re-evaluated locally: PASS, factual critical accuracy 100%, acoustics pass."
     }
   ]
 }

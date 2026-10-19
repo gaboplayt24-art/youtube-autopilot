@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {compareTranscripts,evaluateVoice,measuredReferenceAlignment,normalizedTokens,requireVoiceQA} from '../src/voice/qa';
+import {compareTranscripts,evaluateVoice,measuredReferenceAlignment,normalizedTokens,requireVoiceQA,extractCriticalTerms} from '../src/voice/qa';
 const policy={passWer:.02,reviewWer:.05,maxSkippedPhraseWords:3,maxUnexpectedPauseSeconds:2.5,maxPauseSeconds:8,discontinuityThreshold:.45,benchmarkMinSeconds:60,benchmarkMaxSeconds:90,qwenMaxProbeSeconds:300,qwenMaxRealTimeFactor:8,qwenMaxPeakMemoryMb:5500};
 test('normalization accepts punctuation, case and common number spelling without making lexical errors disappear',()=>{assert.deepEqual(normalizedTokens('On 30 BCE, August 27, 1997.' ).map(x=>x.text),['on','30','bce','august','27','1997']);assert.equal(compareTranscripts('Augustus arrived in 27 BCE','Augustus arrived in twenty seven B.C.E.').wordErrorRate,0);assert.ok(compareTranscripts('sealed the letter','seal the letter').wordErrorRate>0)});
 test('low WER passes while critical term mutation fails',()=>{const good=evaluateVoice('Augustus arrived in Alexandria on 27 BCE',{text:'Augustus arrived in Alexandria on twenty seven B.C.E.',chunks:[{text:'Augustus arrived in Alexandria on twenty seven B.C.E.',timestamp:[0,4]}]},['Augustus','Alexandria','27 BCE'],policy);assert.equal(good.status,'pass');const bad=evaluateVoice('Augustus arrived in Alexandria on 27 BCE',{text:'August arrived in Alexandria on 27 BCE',chunks:[{text:'August arrived in Alexandria on 27 BCE',timestamp:[0,4]}]},['Augustus','Alexandria','27 BCE'],policy);assert.equal(bad.status,'fail');assert.equal(bad.criticalTermAccuracy,2/3)});
@@ -24,4 +24,13 @@ test('a changed lower-case factual term fails even when lexical WER is below two
  const context=Array.from({length:250},(_,i)=>'detail'+i).join(' ');
  const report=evaluateVoice(context+' seraphim',{text:context+' set of time',chunks:[{text:context+' set of time',timestamp:[0,90]}]},['seraphim'],policy);
  assert.equal(report.lexicalStatus,'pass');assert.equal(report.status,'fail');assert.equal(report.criticalTermAccuracy,0);
+});
+test('sentence-initial personal pronouns are not inferred historical names; WER and factual gates remain strict',()=>{
+ const script='Our timeline follows Genesis. Augustus lived in Rome for forty years. '+Array(30).fill('The illustration is explanatory.').join(' ');
+ const terms=extractCriticalTerms(script,['Augustus','Rome','Genesis']);assert.ok(!terms.includes('Our'));for(const name of ['Augustus','Rome','Genesis','40'])assert.ok(terms.includes(name));
+ const transcript=(text:string)=>({text,chunks:[{text,timestamp:[0,50] as [number,number]}]});
+ const ordinary=evaluateVoice(script,transcript(script.replace('Our','A')),terms,policy);assert.equal(ordinary.status,'pass');assert.equal(ordinary.substitutions,1);assert.ok(ordinary.wordErrorRate>0);
+ const changed=evaluateVoice(script,transcript(script.replace('Augustus','August')),terms,policy);assert.equal(changed.status,'fail');assert.ok(changed.criticalChecks.some(t=>t.term==='Augustus'&&!t.passed));
+ const number=evaluateVoice(script,transcript(script.replace('forty','fourteen')),terms,policy);assert.equal(number.status,'fail');assert.ok(number.criticalChecks.some(t=>t.term==='40'&&!t.passed));
+ for(const pronoun of ['Our','Your','Their','His','Her','My','You','We'])assert.ok(!extractCriticalTerms(pronoun+' illustration is interpretive.').includes(pronoun));
 });

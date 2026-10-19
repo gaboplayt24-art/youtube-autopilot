@@ -73,3 +73,13 @@ CI cache efficiency correction: completed job logs show the rembg environment is
 ## Actual factual recovery verified
 
 Read-only Actions probe 39193447048 confirmed Supabase HTTP 200 and the actual `facts` record passed at 2026-10-19T03:11:02.719Z. Critical terms, scene plan and approved voice selection completed immediately afterward; narration is now executing. Receipt: `data/research/bible-noah-003/factual-recovery-progress.json`. This verifies the original incomplete-evidence/citation blockers are resolved in real inference; it is not voice approval, a completed render or a YouTube scheduling receipt.
+
+## Voice false-positive repair with actual audio evidence
+
+Run 39193191490 ended at voice, preserving two complete synthesized WAVs. First voice chapter passed at WER 1.78%, 253.74 seconds. Second measured WAV was 185.18 seconds, WER 0.99% (five substitutions, no insertions/deletions), no acoustic discontinuity or unexpected pauses. All factual names/numbers passed. The sole failed critical occurrence was the pronoun “Our”, misclassified as a historical name because it started a sentence and that voice group contained no lowercase occurrence. Publish was skipped.
+
+Personal pronouns are now excluded from inferred proper names. This does not normalize the actual lexical difference away: our→a remains one of the five WER substitutions. Existing declared terms, factual names/dates/numbers, WER thresholds and acoustic gates are unchanged. Tests still reject Augustus→August and forty→fourteen with low total WER.
+
+The downloaded checkpoint archive and WAV SHA256 values were verified. A local rerun of voice QA against the exact second WAV and saved measured Whisper transcript now passes with 100% factual critical accuracy and passing acoustic checks. Receipt: `data/research/bible-noah-003/voice-pronoun-recovery.json`; original rejected evidence remains in the prior versioned release checkpoint. The first chapter sidecar matches the corrected expected terms and can be reused unchanged. Second synthesis is likewise reusable; Actions will re-run its ASR/QA and then synthesize only the remaining narration. No timestamps were fabricated.
+
+Validation: lint, typecheck, 286 TypeScript tests and 9 Python tests pass. The next continuation is the third/final within the existing renewed window, restoring 39193191490 from voice. A later objective failure must stop at that cap with evidence, not silently add attempts. No final video or schedule is yet claimed.

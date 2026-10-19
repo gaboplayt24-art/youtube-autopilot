@@ -47,7 +47,10 @@ export function compareTranscripts(reference:string,observed:string){
  edits.reverse();const count=(type:Edit['type'])=>edits.filter(e=>e.type===type).length;const substitutions=count('substitution'),insertions=count('insertion'),deletions=count('deletion');
  return {referenceTokens:a,observedTokens:b,wordErrorRate:a.length?(substitutions+insertions+deletions)/a.length:1,substitutions,insertions,deletions,edits,differences:edits.filter(e=>e.type!=='equal')};
 }
-const generic=new Set('Before After The This These Those A An In On At By For From To As And But We They He She It There Every Somewhere Beyond Somewhere Salt Deep Thick Loud Dark Smooth High Cool Wet Another Shouts Every Imagine Tonight Messages Follow Pause Now One Turn Put Choose Write What How When Why'.toLowerCase().split(' '));
+// Grammatical pronouns are not historical entities just because they start a
+// sentence. Their ASR differences still count in WER; no lexical substitution
+// is normalized away and declared factual names/numbers retain their checks.
+const generic=new Set('I Me My Mine Myself You Your Yours Yourself Yourselves We Us Our Ours Ourselves They Them Their Theirs Themselves He Him His Himself She Her Hers Herself It Its Itself Before After The This These Those A An In On At By For From To As And But There Every Somewhere Beyond Somewhere Salt Deep Thick Loud Dark Smooth High Cool Wet Another Shouts Every Imagine Tonight Messages Follow Pause Now One Turn Put Choose Write What How When Why'.toLowerCase().split(' '));
 export function extractCriticalTerms(text:string,declared:string[]=[]){const names=(text.match(/\b[A-Z][a-z]+(?:\s+(?:[A-Z][a-z]+|[IVX]+))*/g)??[]).filter(t=>!generic.has(t.toLowerCase()));const numbers=normalizedTokens(text).filter(t=>/^\d/.test(t.text)).map(t=>t.text);// A capitalized single word that the text also uses in lowercase ("Scholars" opening a sentence, "most scholars" later) is a common word, not a name.
  const common=(term:string)=>/^[A-Z][a-z]+$/.test(term)&&new RegExp(`(^|[^A-Za-z])${term.toLowerCase()}([^A-Za-z]|$)`).test(text);
  return [...new Set([...declared,...names,...numbers])].filter(term=>!common(term)).filter(term=>{const words=normalizedTokens(term).map(t=>t.text),all=normalizedTokens(text).map(t=>t.text);return all.some((_,i)=>words.every((w,j)=>all[i+j]===w));});}

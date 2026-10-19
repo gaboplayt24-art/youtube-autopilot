@@ -1,0 +1,18 @@
+{
+  "scope": "Local re-evaluation of exact checkpointed WAV and measured Whisper evidence under corrected pronoun heuristic. Original rejected report retained in release. Not a full video approval.",
+  "sourceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39193191490",
+  "audioSha256": "766c358f314c78611b3cd54fc9b59d8e0f968f08b3694904e861a7975c9b0620",
+  "previousStatus": "fail",
+  "status": "pass",
+  "wordErrorRate": 0.009861932938856016,
+  "substitutions": 5,
+  "insertions": 0,
+  "deletions": 0,
+  "criticalTermAccuracy": 1,
+  "failedCriticalTerms": [],
+  "removedHeuristicTerm": "Our",
+  "lexicalDifferenceRetained": true,
+  "pauseQuality": "pass",
+  "speechContinuity": true,
+  "firstChapterCheckpointReusable": true
+}
