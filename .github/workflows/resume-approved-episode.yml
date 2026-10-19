@@ -12,7 +12,7 @@ permissions:
   contents: read
   actions: write
 concurrency:
-  group: approved-bible-angels-resume
+  group: approved-episode-resume
   cancel-in-progress: false
 jobs:
   guard:

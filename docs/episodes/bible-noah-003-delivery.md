@@ -19,3 +19,9 @@ Claude integration was checked against the current remote head `424b89dfcbf7abc6
 Workflow: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025 . Production source commit: `3902c10ef3c369502840319ba509a4691a49241b`. Dispatch uses `production_kind=quality_test` (600-second planner), `style=v5`, Gemini Free, generated covers, existing QA-gated YouTube scheduling. Startup reached media-tool preparation after storage probing and cache restoration. This is dispatch evidence, not a claim of completed narration/render or public upload.
 
 The read-only `cloud-connections` progress probe accepts `episode_run_id=bible-noah-003`; no credentials or new API bindings are needed in Codex. This avoids reporting stale angels-stage records while the Noah workflow is active.
+
+## Bounded cloud continuation
+
+The existing daily `resume-approved-episode` guard is configured for bible-noah-003 only, with `notBefore=2026-10-19T00:10:22Z`, unchanged expiry `2026-10-22T23:59:59Z`, one production attempt per UTC day and three total attempts including the initial run. It restores the latest complete same-run checkpoint rather than restarting the video. It stops on workflow success, an active/same-day attempt, expiry or the attempt cap. No provider budget is increased. The completed angels run and cancelled Noah short are not eligible.
+
+Delivery-mode validation retains distinct literal policies: angels requires the owner-cover/private-only handoff; Noah uses generated covers and the existing QA-gated private upload/next-slot scheduling. Neither configuration can silently change the other episode's cover gate. Tests exercise dispatch arguments with a mocked gh process; the real guard will be invoked in dry-run mode to confirm it does not launch a duplicate of the active production.
