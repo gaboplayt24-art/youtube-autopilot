@@ -1,5 +1,5 @@
 {
-  "status": "voice-captions-shots-passed-numeric-overlay-repair-ready",
+  "status": "numeric-visual-recovery-in-progress",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Resume source 39201301855 from visual-thinking-v5 after tested numeric validation repair; retain voice/captions/shots and facts. No QA waiver or new narration.",
+  "nextAction": "Monitor visual plan and actual asset generation, then dynamic edit/render/final QA and authorized delivery. Voice/captions/shots/facts retained.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39201301855",
-  "productionCommit": "824f89813fb885980e571796b3a67c012673570b",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39201840298",
+  "productionCommit": "060ec2c152650900784fadbe232f1756147ee2fa",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
@@ -142,6 +142,10 @@
     {
       "id": 39201301855,
       "result": "Voice, captions and timed shots passed in real Actions; visual-thinking-v5 rejected 300 and 50 because narration spells three hundred and fifty. No image generation/render/upload yet. Fixed numeric evidence to compare complete normalized values."
+    },
+    {
+      "id": 39201840298,
+      "result": "in_progress at recording; owner-reviewed-window second attempt, restore 39201301855 from visual-thinking-v5 after exact numeric-value validator repair"
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
