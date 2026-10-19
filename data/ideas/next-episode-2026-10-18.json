@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor long-form run 39179570025. Preserve its checkpoints on failure and resume the same bible-noah-003 run ID; never resume the cancelled short. Verify final QA and scheduling; automatic social build produces candidates without inventing preview consent.",
+  "nextAction": "Monitor corrective continuation 39180720903. This is the second full-episode production attempt, resuming the same run ID and completed research/packaging/outline. The automated guard must still enforce three total attempts and never dispatch over an active run.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,6 +108,10 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
-  "productionCommit": "3902c10ef3c369502840319ba509a4691a49241b"
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39180720903",
+  "productionCommit": "a9b04d3fa0b265e3bae48bfb2b7f9c1d747d0526",
+  "previousLongFormAttempt": {
+    "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
+    "result": "failed script word budget; checkpoints retained"
+  }
 }

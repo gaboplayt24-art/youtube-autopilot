@@ -7,7 +7,7 @@
   "topic": "What did Noahs ark actually look like? Construction, life inside and the long wait in Genesis 6-9, distinguished from later illustrations",
   "ownerThumbnail": false,
   "publish": true,
-  "note": "Continue the approved full Noah episode only. Existing cap: one production attempt per UTC day, three total including initial run 39179570025, expiry unchanged at 2026-10-22. Restore complete same-run checkpoints; stop after workflow success. The completed angels episode and cancelled short bible-noah-002 are excluded. Same QA/provider budgets; generated Noah covers, QA-gated private upload and next-slot scheduling.",
+  "note": "Automatic guard: at most one automatic dispatch per UTC day, three total production runs including manual corrective continuations. Initial run 39179570025 failed word-budget validation, not a quota; 39180720903 resumes its checkpoints after an exact 70-word hook repair. Expiry remains 2026-10-22. Stop after success or total cap; do not resume angels or the cancelled short. Same provider budgets and QA-gated delivery.",
   "maxAttempts": 3,
   "uploadPrivateForOwnerThumbnail": false,
   "llmProvider": "gemini",
