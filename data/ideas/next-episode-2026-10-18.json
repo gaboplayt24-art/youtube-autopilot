@@ -1,5 +1,5 @@
 {
-  "status": "visuals-51-of-77-targeted-repair-ready-for-daily-resume",
+  "status": "corrected-same-day-noah-continuation-running",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Daily controller resumes newest39212046350 checkpoint after UTC cooldown. Existing pitch repair passed and kept; prepared source-only library-page correction for shot51. Narration/checkpoints retained; no additional owner renewal or same-day dispatch bypass. No final video/schedule yet.",
+  "nextAction": "Actual corrected retry39306180977 is running from39212046350 after green source/digest-bound controller. Prior tonight-only estimate superseded. Preserve complete narration and previous accepted media. No final render/schedule claimed.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39212046350",
-  "productionCommit": "e178057d1981b8e81693efe6e668fd39a5ed8917",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39306180977",
+  "productionCommit": "90bad2e013f55eb55d9fc4393b83c0221fead6b8",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
