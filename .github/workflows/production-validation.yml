@@ -181,14 +181,14 @@ jobs:
             .cache/huggingface
           key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
           restore-keys: cpu-models-nano71ccd-depth5426-kokoro82-whispertiny-v1
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
         id: rembg-env
         with:
           path: |
             .venv-rembg
             .cache/rembg
           key: rembg-cpu-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-rembg-cpu.sh') }}-isnet-v1
-      - uses: actions/cache@v4
+      - uses: actions/cache/restore@v4
         id: python-env
         with:
           path: |
@@ -217,12 +217,14 @@ jobs:
             sudo timeout 240s apt-get install --no-install-recommends -y ffmpeg
           fi
       - name: Install CPU models environment
+        id: cpu-env-install
         if: steps.python-env.outputs.cache-hit != 'true'
         timeout-minutes: 12
         run: bash scripts/setup-cpu-ai.sh
       - run: ffmpeg -version && ffprobe -version && /usr/bin/google-chrome --version
       - run: npm run lint && npm run typecheck && npm test
       - name: Install the local cut-out environment for the dynamic edit (rembg CPU, free)
+        id: rembg-install
         if: steps.rembg-env.outputs.cache-hit != 'true'
         continue-on-error: true
         timeout-minutes: 10
@@ -304,6 +306,24 @@ jobs:
             .cache/models
             .cache/huggingface
           key: cpu-models-nano71ccd-depth5426-kokoro82-whispersmall-v3
+      # Default actions/cache only saves on job success. A later QA failure must
+      # not force another installation of already validated CPU environments.
+      - name: Retain validated CPU environment after a failed quality gate
+        if: always() && !cancelled() && steps.python-env.outputs.cache-hit != 'true' && steps.cpu-env-install.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .venv-ai
+            .cache/pip
+          key: cpu-ai-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-cpu-ai.sh', 'scripts/requirements-cpu-ai.lock') }}
+      - name: Retain validated cut-out environment after a failed quality gate
+        if: always() && !cancelled() && steps.rembg-env.outputs.cache-hit != 'true' && steps.rembg-install.outcome == 'success'
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            .venv-rembg
+            .cache/rembg
+          key: rembg-cpu-ubuntu-${{ steps.python.outputs.python-version }}-${{ hashFiles('scripts/setup-rembg-cpu.sh') }}-isnet-v1
   publish:
     needs: quality
     if: success() && ((inputs.publish && !inputs.owner_thumbnail) || (inputs.upload_private_for_owner_thumbnail && inputs.owner_thumbnail)) && inputs.task != 'branding' && inputs.task != 'style-v5' && inputs.task != 'import-v5-reference' && inputs.task != 'show-plan'
