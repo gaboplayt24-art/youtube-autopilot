@@ -46,6 +46,16 @@ test('production may omit rejected optional numeric text only after its exact de
  await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],llm,true,async()=>{throw Error('Evidence disk unavailable');}),/Evidence disk unavailable/);
  await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],llm,true),/unsupported number/);
 });
+test('null placement on an absent label has no rendering effect; real labels still require a placement',async()=>{
+ const narration='Eli examines the wooden hull.';const shot=make('unlabelled-hull',narration);
+ const idea={id:shot.id,narration,historicalContext:'Interpretive Genesis illustration, uncertain date.',concept:'Eli examines the wooden hull beside the vessel, with a simple background and no lettering in the illustration.',overlay:null as string|null,overlayAnchor:null,labelPlacement:null,characterRoles:['Eli']};
+ const provider=(overlay:string|null)=>({json:async<T>(_prompt:string,schema:z.ZodType<T>)=>schema.parse({ideas:[{...idea,overlay}]})});
+ const [result]=await new VisualThinkingDirector().illustrate([shot],provider(null),true);
+ assert.equal(result.overlay,null);assert.equal(result.overlayAnchor,undefined);assert.equal(result.illustrationIdea?.labelPlacement,'top');assert.equal(idea.labelPlacement,null);
+ await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],provider('HULL'),true));
+ const withAnchor={json:async<T>(_prompt:string,schema:z.ZodType<T>)=>schema.parse({ideas:[{...idea,overlay:'HULL',overlayAnchor:'wooden hull'}]})};
+ await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],withAnchor,true));
+});
 test('active v4 identity cancels code clipart; legacy scene graphs remain debug evidence only',async()=>{
  const lock=await loadStyleLock();assert.equal(lock.version,'illustrated-doodle-v4.2');assert.ok(lock.prefix.startsWith('Hand-drawn-looking 2D historical editorial cartoon'));assert.match(lock.lineQuality,/thick/);assert.ok(lock.negativeRules.includes('no geometric stick figures'));
  assert.throws(()=>visualIdea.parse({...localVisualIdea('A merchant pays coins'),style:'photorealistic'}));

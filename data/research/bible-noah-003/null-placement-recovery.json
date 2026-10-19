@@ -1,0 +1,46 @@
+{
+  "sourceExecution": "39208398640",
+  "archiveSha256": "80de78bc934277ecfa271b78131d3bf781b18517691002a7381dfcd4557e0d9d",
+  "archiveCrcVerified": true,
+  "scope": "Offline replay only. No new artwork or final video approval. Explicitly absent label placement has no rendering effect. Raw responses preserved.",
+  "receipts": [
+    {
+      "sourceResponse": "gemini-responses/df1d10b10cfac1f1ba6da157cac4b0ebec518246eba1eb17b327bf92bc84634e-gemini-3.1-flash-lite-0.json",
+      "recoveredAbsentLabels": [
+        {
+          "id": "chapter-2-shot-11",
+          "rawOverlay": null,
+          "rawPlacement": null,
+          "effectiveOverlay": null,
+          "effectivePlacement": "top"
+        }
+      ]
+    },
+    {
+      "sourceResponse": "gemini-responses/2e8e0d5c545368bbb873ed3d6d132c5c9a887fadb764cd2962627658c7b376d2-gemini-3.1-flash-lite-0.json",
+      "recoveredAbsentLabels": [
+        {
+          "id": "chapter-2-shot-11",
+          "rawOverlay": null,
+          "rawPlacement": null,
+          "effectiveOverlay": null,
+          "effectivePlacement": "top"
+        },
+        {
+          "id": "chapter-2-shot-12",
+          "rawOverlay": null,
+          "rawPlacement": null,
+          "effectiveOverlay": null,
+          "effectivePlacement": "top"
+        },
+        {
+          "id": "chapter-2-shot-14",
+          "rawOverlay": null,
+          "rawPlacement": null,
+          "effectiveOverlay": null,
+          "effectivePlacement": "top"
+        }
+      ]
+    }
+  ]
+}
