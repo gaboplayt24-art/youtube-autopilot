@@ -1,0 +1,70 @@
+{
+  "provenance": "Original long-form editorial brief for the owner-approved Noah topic, following the owner\u2019s objection to the short format. The 246-word cancelled draft is not the long-form narration. No competitor script/art is reused.",
+  "sourceUrls": [
+    "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Genesis%208%3A1-22&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Genesis%209%3A8-17&version=KJV",
+    "https://en.wikipedia.org/wiki/Noah's_Ark"
+  ],
+  "researchFocus": "Source-grounded illustrated reading of Noah\u2019s ark: Genesis 6:9-22 construction/food/household, Genesis 7 clean/unclean and flooding, Genesis 8 bird tests and waiting to leave, Genesis 9:8-17 covenant sign. Include the source\u2019s exact paragraphs for every main act, not only the familiar blueprint. Wikipedia supplies limited explicitly attributed interpretive context; it is not archaeological confirmation.",
+  "scriptGuidance": "Use the EXISTING quality_test target of 600 seconds at the approved narrator pace (about 1400 words), roughly 8-12 minutes when spoken naturally. This is a genuine documentary with distinct sourced chapters, NOT a 246-word short stretched with repeated caveats. No padding, audio stretching, invented facts or filler to reach a minute count. If evidence is insufficient, fail explicitly. Titles may ask what the ark looked like, but narration must distinguish biblical description, interpretive art and physical evidence. Original Eli v5 and approved Nano voice, same dynamic editor, chapter cards, source labels, measured phrase changes and licensed music. Every proper name/number actually spoken must pass the real voice gate; no fake timestamps or pronunciation exemptions. Retain minor cosmetic tolerance only within existing objective factual/historical/anatomy gates. No claimed historical date for Noah, specific identified wreck, engineering feasibility proof, animal species totals, exact wood species, dinosaur scenes, Christian cross imagery anachronistically embedded in the Genesis setting, modern tools or invented archaeological discovery. Proper anatomy/counts remain required for actual full depictions; prefer source documents and partial construction details when a full count is unnecessary. Labels/numerals belong in Remotion overlays, not FLUX text.",
+  "instruction": "Existing six-chapter quality_test, about ten minutes. Start directly with the question; no new test, audition, demo or narrator. Respect the chapter-specific sources and unique content scopes below. Preferred packaging hypothesis: What Did Noah\u2019s Ark Actually Look Like? Generate original title candidates and select a source-faithful title; never promise archaeological proof.",
+  "chapters": [
+    {
+      "act": "HOOK",
+      "purpose": "Open immediately with an original concrete question about the familiar ark picture versus the description in Genesis. About 70 spoken words; make the hook field the exact first spoken sentence. Promise to inspect the construction, the occupants and the long wait; do not summarize every reveal, claim to reconstruct the exact recovered ark, or reuse the cancelled short narration.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 1",
+      "purpose": "Chapter two ONLY: blueprint in Genesis 6:14-16. The text specifies rooms, three levels, side door, wood and pitch inside and out; it gives proportions, but do not convert cubits to a precise modern length. Distinguish stated instructions from the interpretive positions of rooms, roof shape and the drawn cutaway. KJV says window, Wikipedia records roof/skylight ambiguity: do not present one settled modern engineering diagram or identify an exact wood species. The familiar ship-and-sloping-roof picture belongs to interpretive illustration; if discussing a later historical depiction, attribute the specific source rather than asserting most pictures are wrong. Each paragraph adds a concrete distinct textual observation, not 300 words saying we do not know.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV",
+        "https://en.wikipedia.org/wiki/Noah's_Ark"
+      ]
+    },
+    {
+      "act": "ACT 2",
+      "purpose": "Chapter three ONLY: occupants and provisions from Genesis 6:18-21 and 7:1-16. Noah\u2019s household enters in the narrative, and the instruction includes gathering food. Distinguish the general two-of-each instruction in chapter six from chapter seven\u2019s clean/unclean distinction. If mentioning the sevens, quote or accurately paraphrase the supplied KJV instead of silently converting it into a disputed exact count; do not claim every species had exactly one pair. No species totals, deck assignment, animal biology calculations, air conditioning, manure disposal machinery or invented crew tasks. Show illustrated examples, not a census claimed by the text. Keep this chapter about living occupants and provisions, not repeating the blueprint.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV"
+      ]
+    },
+    {
+      "act": "ACT 3",
+      "purpose": "Chapter four ONLY: the long wait in Genesis 7-8. Begin with the source-grounded raven/dove tests, then explain why the rain, prevailing water, grounding, dry ground and permission to leave are different narrative milestones. In Genesis 8 the dove first finds no rest, later brings a freshly plucked olive leaf, and at the later sending does not return. Do not confuse the raven with the dove or turn the dove\u2019s absence into archaeological evidence. If mentioning duration, distinguish forty days/nights of rain from the water prevailing a hundred and fifty days; avoid building a complete arithmetic calendar or exact historical date. Mountains of Ararat in the text do not identify a verified wreck on a modern peak. Attribute events to the biblical narrative. No repeated construction explanation.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Genesis%208%3A1-22&version=KJV"
+      ]
+    },
+    {
+      "act": "PAYOFF",
+      "purpose": "Resolve the episode\u2019s core question: a drawing can follow explicit textual details while still making interpretive visual choices. Introduce the narrative\u2019s exit/altar in Genesis 8 and covenant/sign of the bow in Genesis 9 as the story\u2019s own conclusion, attributed respectfully to the text; no proof/disproof or invented narrator motives. Explain why source-reading and an archaeological recovery are different claims, without introducing alleged discoveries. A single concise callback to the three levels suffices; do not repeat whole earlier claims/sentences.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%208%3A1-22&version=KJV",
+        "https://www.biblegateway.com/passage/?search=Genesis%209%3A8-17&version=KJV"
+      ]
+    },
+    {
+      "act": "ENDING",
+      "purpose": "Close with a brief original source-reading callback and natural invitation to the already published angels episode, which also compares biblical descriptions with familiar pictures. No new historical assertions, multiple summaries, generic welcome/outro, repeated twelve-word passages or artificial cliffhanger. Let the precise open questions of visual interpretation remain open. End naturally; do not pad to hit a runtime.",
+      "sources": [
+        "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV"
+      ]
+    }
+  ],
+  "factualCorrections": [
+    "Do not present a single common illustration as the exact appearance of the ark.",
+    "Three levels are stated, but the location/size of individual drawn compartments is an interpretation.",
+    "The general two-of-each wording does not erase the additional clean/unclean instructions in Genesis 7.",
+    "A hundred and fifty days of prevailing water is not a hundred and fifty days of rain.",
+    "The olive leaf is brought by the dove, not the raven.",
+    "Mountains of Ararat in the narrative do not confirm any modern wreck or exact archaeological location.",
+    "Any later roof, skylight or wood discussion must follow the actual retrieved wording and acknowledge interpretation."
+  ]
+}

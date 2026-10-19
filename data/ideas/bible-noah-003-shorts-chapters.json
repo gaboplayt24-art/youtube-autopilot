@@ -1,0 +1,24 @@
+{
+  "runId": "bible-noah-003",
+  "selection": "Actual measured sentences after full QA; editorial candidates only, never an automatic consent attestation.",
+  "chapters": [
+    {
+      "id": "A",
+      "sceneId": "chapter-2",
+      "title": "What Genesis Says About the Ark",
+      "source": "Genesis 6:14-16"
+    },
+    {
+      "id": "B",
+      "sceneId": "chapter-3",
+      "title": "Who Was Inside Noah's Ark?",
+      "source": "Genesis 6:18-21 and 7:1-16"
+    },
+    {
+      "id": "C",
+      "sceneId": "chapter-4",
+      "title": "The Waiting Inside Noah's Ark",
+      "source": "Genesis 7-8"
+    }
+  ]
+}

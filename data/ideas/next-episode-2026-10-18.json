@@ -1,14 +1,15 @@
 {
-  "status": "short-run-cancellation-requested-duration-under-review",
+  "status": "long-form-production-prepared",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
-  "existingDraft": "data/scripts/bible-noah-002-editorial-draft.json",
+  "existingDraft": "data/scripts/bible-noah-003-editorial-draft.json",
   "existingDraftStatus": "Unrendered source-grounded draft; previously deferred in favor of the angels episode. Recheck sources and packaging before synthesis.",
-  "recommendedTitle": "Noah's Ark: 3 Details You Probably Missed",
+  "recommendedTitle": "What Did Noah's Ark Actually Look Like?",
   "alternativeTitles": [
-    "What Noah's Ark ACTUALLY Looked Like in Genesis",
-    "Noah's Ark Had Three Floors. What Else Did You Miss?"
+    "Noah's Ark: What Genesis Actually Describes",
+    "Why Noah's Ark Had Three Floors",
+    "Inside Noah's Ark: Beyond the Familiar Picture"
   ],
   "thumbnail": {
     "concept": "Eli beside an illustrated cutaway of the ark showing exactly three levels; one strong focal point",
@@ -73,9 +74,9 @@
     "No competitor scripts, audience geography, impressions, CTR or retention were retrieved."
   ],
   "plannedSocialAngles": [
-    "The rooms inside the ark",
-    "The three levels and side door",
-    "Pitch inside and outside"
+    "What Genesis says about the ark",
+    "Who was inside the ark",
+    "The waiting and bird tests"
   ],
   "productionPolicy": {
     "style": "approved Eli v5",
@@ -88,15 +89,14 @@
     "newVideoGenerated": false,
     "newUploadScheduled": false,
     "targetDurationSeconds": [
-      90,
-      105
-    ]
+      480,
+      720
+    ],
+    "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Preserve checkpoint and quota evidence from 39170301678. Do not schedule the compact draft. The owner questioned the short duration; a ChatGPT session does not constrain the cloud video duration. Prepare a properly sourced long-form outline rather than stretching the 246-word draft.",
-  "runId": "bible-noah-002",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
-  "productionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
+  "nextAction": "Dispatch bible-noah-003 using existing quality_test ten-minute target. Preserve cancelled compact run 39170301678; do not resume or publish it. Generate a genuinely sourced long-form script, not expanded filler.",
+  "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
     "ownerFeedback": "porque tan corto?",
@@ -105,5 +105,7 @@
       12
     ],
     "newLongFormRunDispatched": false
-  }
+  },
+  "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
+  "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1"
 }

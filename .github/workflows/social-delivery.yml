@@ -46,18 +46,18 @@ permissions:
   contents: write
   actions: read
 concurrency:
-  group: social-${{ inputs.run_id || (github.event.workflow_run.display_title == 'production-bible-noah-002' && 'bible-noah-002') || 'bible-angels-001' }}
+  group: social-${{ inputs.run_id || (github.event.workflow_run.display_title == 'production-bible-noah-003' && 'bible-noah-003') || 'bible-angels-001' }}
   cancel-in-progress: false
 jobs:
   delivery:
-    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && (github.event.workflow_run.display_title == 'production-bible-angels-001' || github.event.workflow_run.display_title == 'production-bible-noah-002'))
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && (github.event.workflow_run.display_title == 'production-bible-angels-001' || github.event.workflow_run.display_title == 'production-bible-noah-003'))
     runs-on: ubuntu-latest
     timeout-minutes: 40
     environment: youtube-private
     env:
       GH_TOKEN: ${{ github.token }}
       SOCIAL_ACTION: ${{ inputs.action || 'build' }}
-      RUN_ID: ${{ inputs.run_id || (github.event.workflow_run.display_title == 'production-bible-noah-002' && 'bible-noah-002') || 'bible-angels-001' }}
+      RUN_ID: ${{ inputs.run_id || (github.event.workflow_run.display_title == 'production-bible-noah-003' && 'bible-noah-003') || 'bible-angels-001' }}
       SOURCE_RUN_ID: ${{ inputs.source_run_id || github.event.workflow_run.id }}
       CLIP_BUILD_RUN_ID: ${{ inputs.clip_build_run_id }}
       APPROVED_BUNDLE_SHA256: ${{ inputs.approved_bundle_sha256 }}

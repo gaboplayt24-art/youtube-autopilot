@@ -1,7 +1,27 @@
 import {z} from 'zod';
 import type {Composition} from '../orchestration/schemas';
 export const candidate=z.object({id:z.string().regex(/^[A-Z]$/),title:z.string().min(5).max(80),source:z.string(),narration:z.string().min(20)});
+export const chapterClipSelection=z.object({runId:z.string(),chapters:z.array(candidate.omit({narration:true}).extend({sceneId:z.string().min(1)})).length(3)}).superRefine((value,ctx)=>{
+ if(new Set(value.chapters.map(c=>c.id)).size!==3||new Set(value.chapters.map(c=>c.sceneId)).size!==3)ctx.addIssue({code:'custom',message:'Select three distinct clips and chapters'});
+});
 const normalize=(s:string)=>s.toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
+/** Editorial candidates from the first complete measured sentences of approved chapters; never invented times. */
+export function chapterClipCandidates(selection:z.infer<typeof chapterClipSelection>,composition:Composition){
+ return chapterClipSelection.parse(selection).chapters.map(({id,title,source,sceneId})=>{
+  const words=composition.cues.filter(c=>c.sceneId===sceneId).flatMap(c=>c.words??[]);
+  if(!words.length)throw Error('Measured chapter words missing: '+sceneId);
+  let end=-1,best=Infinity;
+  words.forEach((word,i)=>{
+   const seconds=word.end-words[0].start;
+   if(seconds<20||seconds>40||!/[.!?]["')\]]?$/.test(word.text))return;
+   const distance=Math.abs(seconds-30);if(distance<best){end=i;best=distance;}
+  });
+  if(end<0)throw Error('No complete measured 20-40 second passage: '+sceneId);
+  const result=candidate.parse({id,title,source,narration:words.slice(0,end+1).map(w=>w.text).join(' ')});
+  planClip(result,composition); // Keep the existing uniqueness, timestamp and coverage gates.
+  return result;
+ });
+}
 /** Locate complete measured words in the FINAL frame-rounded timeline, not raw chapter-WAV offsets. */
 export function planClip(input:z.input<typeof candidate>,composition:Composition){
  const c=candidate.parse(input),words=composition.cues.flatMap(c=>c.words??[]),tokens=c.narration.split(/\s+/).map(normalize).filter(Boolean);

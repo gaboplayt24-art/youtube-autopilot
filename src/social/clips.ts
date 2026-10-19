@@ -9,7 +9,7 @@ import {exec,duration,json,read} from '../orchestration/io';
 import {Runner} from '../orchestration/runner';
 import {renderVideo} from '../render';
 import {inspectAudio} from '../audio/qa';
-import {candidate,planClip} from './plan';
+import {candidate,planClip,chapterClipSelection,chapterClipCandidates} from './plan';
 import {sliceEdit} from '../editor/dynamic-edit';
 import {writeSfxTrack} from '../audio/sfx-library';
 import {loadAudioConfig} from '../audio/qa';
@@ -21,7 +21,16 @@ export async function buildClips(runId:string){
  requireQA(await artifact(dir,'qa',qa));const master=await artifact(dir,'render',rendered);if(await fileDigest(master.path)!==master.sha256)throw Error('Master hash mismatch');
  const full=await artifact(dir,'composition',composition),assets=await artifact(dir,'visuals',media),audio=await artifact(dir,'audio-mix',audioMix);
  if(!audio.narrationPath)throw Error('Measured isolated narration stem required; YouTube music is not presumed licensed for TikTok');
- const candidates=z.object({candidates:z.array(candidate).length(3)}).parse(await read(`data/ideas/${runId}-shorts-candidates.json`));
+ let candidateInput:unknown;
+ try{candidateInput=await read(`data/ideas/${runId}-shorts-candidates.json`);}
+ catch(error){
+  if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;
+  const selection=chapterClipSelection.parse(await read(`data/ideas/${runId}-shorts-chapters.json`));
+  if(selection.runId!==runId)throw Error('Clip chapter selection belongs to another episode');
+  candidateInput={candidates:chapterClipCandidates(selection,full)};
+ }
+ const candidates=z.object({candidates:z.array(candidate).length(3)}).parse(candidateInput);
+ await json(join(out,'selected-candidates.json'),candidates);
  const runner=new Runner(out);await runner.lock();const clips=[];
  try{for(const input of candidates.candidates){
   const plan=planClip(input,full),path=join(out,`clip-${plan.id}.mp4`),publicDir=resolve('public',runId);await mkdir(publicDir,{recursive:true});
