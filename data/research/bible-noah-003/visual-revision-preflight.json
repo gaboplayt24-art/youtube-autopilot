@@ -1,0 +1,14 @@
+{
+  "scope": "Offline schema/identity/timing preflight, not new inference or image acceptance",
+  "runId": "bible-noah-003",
+  "totalShots": 77,
+  "changedShotIds": [
+    "chapter-2-shot-10"
+  ],
+  "narrationAndMeasuredTimingUnchanged": true,
+  "other76SourceEvidenceKeysUnchanged": true,
+  "previousEditStage": "illustrated-edit",
+  "revisedEditStage": "illustrated-edit-32aa828cd478",
+  "newSourceEvidenceKey": "chapter-2-shot-10-two-sided-pitch",
+  "pending": "Bounded continuation authorization before any new production dispatch"
+}

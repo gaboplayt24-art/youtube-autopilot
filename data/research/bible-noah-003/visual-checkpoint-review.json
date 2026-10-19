@@ -1,0 +1,104 @@
+{
+  "sourceExecution": "39208900562",
+  "archiveSha256": "b37235af4616e52e19f22421c032586bae7ee9be7daca02474cfaa10dce4bec5",
+  "archiveCrcVerified": true,
+  "acceptedSourceCount": 18,
+  "acceptedSources": [
+    {
+      "stage": "native-chapter-2-shot-9-p3-density-QA-v4.3",
+      "sourceSha256": "d819141028817507a5ef355c1e739b9bdcaf1764fbba69af32a79b8c1756aa53",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-9-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-8-p3-density-QA-v4.3",
+      "sourceSha256": "540d61bd19832bc98f57acd86462de617dcea3f4419a731f804e804d21ea22a3",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-8-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-7-p3-density-QA-v4.3",
+      "sourceSha256": "bb342df556c17b9ff0a6a1c1d63e47386680032d2b9c380a2e94e31fa4909db6",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-7-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-6-p3-density-QA-v4.3",
+      "sourceSha256": "4ee8f3ada7a820f3015efa345373fa911ebe1ab2c3a1042fd34ad15f151a83db",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-6-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-5-p3-density-QA-v4.3",
+      "sourceSha256": "bc5b804090cf9097dae90f3a7df9d9bc0db21e695cdc6b9bd4a170b7696ba332",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-5-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-4-p3-density-QA-v4.3",
+      "sourceSha256": "0e25d4354fecb8d671efba8c08875df8b65409ef3e9b852131ee1ced4e68b385",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-4-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-3-p3-density-QA-v4.3",
+      "sourceSha256": "98c16eead174f41465a040e04aab494fff59aba2d6d8e56b3397ccfd275be9ff",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-3-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-2-p3-density-QA-v4.3",
+      "sourceSha256": "0d46d8404be7cf8718a26dc1eb786476b766f4616d743644b1ec33cde0d0d6dc",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-2-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-1-p3-density-QA-v4.3",
+      "sourceSha256": "5d88414a082813b916bc78aa430492f4fafd1c4462364df1f3bb62c3b78af236",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-1-p3.png"
+    },
+    {
+      "stage": "native-chapter-2-shot-0-p3-density-QA-v4.3",
+      "sourceSha256": "9cbe2b1a759e787ff81251cdc270d15aa8f62c7830be15ae0822802cb0281382",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-2-shot-0-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-7-p3-density-QA-v4.3",
+      "sourceSha256": "29b7b56fe4f1a30e1e054075dbdfb85e48ba7b43bffa74b0e19f0d98c4432375",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-7-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-6-p3-density-QA-v4.3",
+      "sourceSha256": "2291f366b486a347d6673c196e14f5b557fd3bb74d29b7fe9908650ee5dca651",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-6-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-5-p3-density-QA-v4.3",
+      "sourceSha256": "44e8a2092662a45512894373edf7dd171972f31cafc99270acc3943b6556ca9b",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-5-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-4-p3-density-QA-v4.3",
+      "sourceSha256": "cd452389100aaf42f163ed1bc67cfe3ad1167e964a4d1dd6f00583a2d144a1b4",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-4-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-3-p3-density-QA-v4.3",
+      "sourceSha256": "361686915417451c9cea02e48e531872a3cf3b3a32f351bacb43dd38104f7a38",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-3-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-2-p3-density-QA-v4.3",
+      "sourceSha256": "6d998e98a5f73b84d6bf4158dd5f8610d5d51db4c57442001c926dfba7d90ac5",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-2-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-1-p3-density-QA-v4.3",
+      "sourceSha256": "f94301929b8f0f230bc2d3d13c1c9dca7c0810cd069b0c5ef28eef4827eb1528",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-1-p3.png"
+    },
+    {
+      "stage": "native-chapter-1-shot-0-p3-density-QA-v4.3",
+      "sourceSha256": "3ecf676bc7c1deb5641d69286dc04faff91a20a92c490dad93c17967c197a762",
+      "path": "data/runs/bible-noah-003/assets/illustrated-v4.2/chapter-1-shot-0-p3.png"
+    }
+  ],
+  "rejectedShot": "chapter-2-shot-10",
+  "originalRejectedSha256": "72cfb656169baf8a148090b033670ac4ed514e2a03b5a431bafdebca790d082f",
+  "regenerationRejectedSha256": "f361aedf717e5b631979e13f451352dd7d5defa223f6caa32483f7ba5507e4f7",
+  "review": "Manual frame inspection confirms only the interior of the hull is visible. No objective QA waiver.",
+  "preparedCorrection": "data/scripts/bible-noah-003-visual-revisions.json",
+  "nextDispatch": "Await renewed owner authorization: all three attempts in current bounded window used. No fourth attempt dispatched."
+}

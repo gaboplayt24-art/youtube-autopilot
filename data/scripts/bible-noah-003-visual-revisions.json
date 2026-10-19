@@ -1,0 +1,21 @@
+{
+  "runId": "bible-noah-003",
+  "sourceRevisions": [
+    {
+      "sourceId": "chapter-2-shot-10",
+      "replacement": {
+        "overlayAnchor": "pitch within and without",
+        "id": "chapter-2-shot-10-two-sided-pitch",
+        "narration": "The instruction calls for pitch within and without. An explanation that shows only the outside coating misses that second surface.",
+        "historicalContext": "Ancient Near Eastern construction techniques. Pitch, or bitumen, was commonly used for waterproofing wood and reeds in ancient Mesopotamia.",
+        "concept": "Two side-by-side illustrated closeups of the same wooden hull plank: its inward-facing surface on the left and outward-facing surface on the right. Both broad faces visibly coated with thick dark pitch, with exposed wood at the edges. Simple cream background, no people, no lettering.",
+        "overlay": "Pitch within and without",
+        "labelPlacement": "top",
+        "characterRoles": [],
+        "promptFocus": true
+      },
+      "reason": "Actual original and regeneration show only the hull interior. Use two clearly separated views of the same plank to show pitch on both surfaces without an impossible camera view through a solid hull. Preserve narration, original rejections and every other accepted source."
+    }
+  ],
+  "beatReassignments": []
+}

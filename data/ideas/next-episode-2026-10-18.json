@@ -1,5 +1,5 @@
 {
-  "status": "visual-planning-resumed-with-absence-normalization",
+  "status": "targeted-visual-correction-ready-awaiting-bounded-continuation",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor 39208900562, final production attempt in current bounded window. Preserve all completed stages and raw evidence. No completed render/schedule claimed.",
+  "nextAction": "Await renewed bounded continuation authorization. Current three-attempt window exhausted. Proposed resume source39208900562, retry_from=visuals, preserving completed voice, visual plan and18 accepted sources. No fourth run dispatched.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -154,6 +154,10 @@
     {
       "id": 39208398640,
       "result": "Planning reached later batch; explicit null labelPlacement on overlay=null rejected. No artwork generated. Actual raw failing responses replay successfully with absent-label-only normalization; real labels still require valid position."
+    },
+    {
+      "id": 39208900562,
+      "result": "Visual plan completed. 18 source images passed objective review; chapter-2-shot-10 and its bounded regeneration only show inner pitch application, missing outer face. Checkpoint integrity verified. One-source two-view replacement prepared, all narration/timing/other76sourceIDs preserved. No render/upload/schedule."
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
@@ -163,5 +167,7 @@
     "at": "2026-10-19T04:46:44Z",
     "scope": "Exact two ark spellings only; could/can retained; no general voice-QA waiver"
   },
-  "plannedShotCount": 77
+  "plannedShotCount": 77,
+  "acceptedIllustrationCount": 18,
+  "visualCorrection": "data/scripts/bible-noah-003-visual-revisions.json"
 }
