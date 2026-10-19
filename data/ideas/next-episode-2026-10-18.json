@@ -1,5 +1,5 @@
 {
-  "status": "monthly-controller-green-noah-resumed",
+  "status": "visuals-51-of-77-targeted-repair-ready-for-daily-resume",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Daily standing-authorized controller is active; real production39212046350 resumes39208900562 with no per-cycle renewal. Preserve quotas/QA and checkpoints. No completed render/schedule claimed yet.",
+  "nextAction": "Daily controller resumes newest39212046350 checkpoint after UTC cooldown. Existing pitch repair passed and kept; prepared source-only library-page correction for shot51. Narration/checkpoints retained; no additional owner renewal or same-day dispatch bypass. No final video/schedule yet.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -158,6 +158,10 @@
     {
       "id": 39208900562,
       "result": "Visual plan completed. 18 source images passed objective review; chapter-2-shot-10 and its bounded regeneration only show inner pitch application, missing outer face. Checkpoint integrity verified. One-source two-view replacement prepared, all narration/timing/other76sourceIDs preserved. No render/upload/schedule."
+    },
+    {
+      "id": 39212046350,
+      "result": "Visuals reached shot51of77. Previous pitch repair passed. Failed after bounded regeneration because generic modern female visitor was rendered as Eli. Prepared object-only interpretation detail, no narrator/factual/QA change. Next daily dispatch, same budgets."
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",

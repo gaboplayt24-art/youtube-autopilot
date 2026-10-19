@@ -15,6 +15,21 @@
         "promptFocus": true
       },
       "reason": "Actual original and regeneration show only the hull interior. Use two clearly separated views of the same plank to show pitch on both surfaces without an impossible camera view through a solid hull. Preserve narration, original rejections and every other accepted source."
+    },
+    {
+      "sourceId": "chapter-4-shot-7",
+      "replacement": {
+        "overlayAnchor": "they are not a photograph",
+        "id": "chapter-4-shot-7-interpretation-detail",
+        "narration": "they are not a photograph or a recovered object identifying the location of a wreck. Now step back from those flights and look at the",
+        "historicalContext": "Modern-day, simple casual clothing, clean background.",
+        "concept": "A close view of an open illustrated book on a modern library desk. On the page is a clearly hand-drawn ink picture of a wooden vessel, with a magnifying glass beside the page. The drawing is visibly an illustration on paper, not a photograph or a recovered wreck. No people, no lettering.",
+        "overlay": "Not a photograph",
+        "labelPlacement": "bottom",
+        "characterRoles": [],
+        "promptFocus": true
+      },
+      "reason": "Both real attempts copy Eli rather than the arbitrary planned female library visitor. The narration names no visitor or gender; the essential claim is that illustrations are not photographic or archaeological evidence. Show that directly with the illustrated page and magnifying glass, preserving narration and every objective QA gate. Original images and rejected verdicts remain evidence."
     }
   ],
   "beatReassignments": []

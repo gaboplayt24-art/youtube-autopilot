@@ -1,0 +1,18 @@
+{
+  "sourceExecution": "39212046350",
+  "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39212046350",
+  "archiveSha256": "915970ac4492c2aaafe89a036c370bb80ec90a5461289bc6d980cde515f1fcc9",
+  "archiveCrcVerified": true,
+  "blockedShot": "chapter-4-shot-7",
+  "blockedPosition": 51,
+  "plannedShots": 77,
+  "state": "visuals failed; no render/upload/schedule",
+  "originalRejectedSha256": "d95c26c7cf6f8ad33055254ed71a3ae60ff5ade0be77b48fcc1fa9f5a33cf3c9",
+  "regenerationRejectedSha256": "bb2c0f5bc222f6c798ba8b7a6c56cce8054c38056e3d7da89f217eaa1c24f0e5",
+  "manualInspection": "Actual PNG shows bearded Eli in ancient clothing in a library; not the planned adult woman. Narration does not name any human subject. No rejection is waived.",
+  "preparedRepair": "chapter-4-shot-7-interpretation-detail",
+  "nextAutomaticCheckUtc": "2026-10-20T00:35:00Z",
+  "nextAutomaticCheckArgentina": "2026-10-19T21:35:00-03:00",
+  "dailyDispatchLimitUnchanged": true,
+  "ownerApprovalRequired": false
+}

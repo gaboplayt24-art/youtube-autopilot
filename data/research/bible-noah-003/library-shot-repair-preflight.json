@@ -1,0 +1,12 @@
+{
+  "scope": "Offline application of exact real checkpoint; no inference or acceptance claimed",
+  "sourceExecution": "39212046350",
+  "newlyChangedShotIds": [
+    "chapter-4-shot-7"
+  ],
+  "all77NarrationAndTimingRecordsPreserved": true,
+  "previousPitchRepairIdentityUnchanged": true,
+  "other76SourceEvidenceKeysPreserved": true,
+  "oldEditStage": "illustrated-edit-32aa828cd478",
+  "newEditStage": "illustrated-edit-cc1933330333"
+}
