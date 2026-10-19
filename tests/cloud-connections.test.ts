@@ -42,3 +42,13 @@ test('episode progress reads only the approved prefix and reports decisions with
  });
  assert.equal(result.notFullVideoApproval,true);assert.equal(result.records[0].decision,false);assert.doesNotMatch(JSON.stringify(result),/mock-secret/);
 });
+test('Noah progress selects the actual run and rejects wildcard or mismatched prefixes',async()=>{
+ const env={SUPABASE_URL:'https://example.supabase.co',SUPABASE_SERVICE_ROLE_KEY:'mock-secret',EPISODE_RUN_ID:'bible-noah-003'};
+ const report=await inspectEpisodeProgress(env,async input=>{
+  assert.equal(new URL(String(input)).searchParams.get('key'),'like.bible-noah-003-%');
+  return Response.json([{key:'bible-noah-003-facts',updated_at:'2026-10-19T00:00:00Z',decision:true}]);
+ });
+ assert.equal(report.runId,'bible-noah-003');assert.equal(report.records[0].stage,'facts');assert.equal(report.notFullVideoApproval,true);
+ await assert.rejects(()=>inspectEpisodeProgress({...env,EPISODE_RUN_ID:'%'},async()=>{throw Error('must not call');}));
+ await assert.rejects(()=>inspectEpisodeProgress(env,async()=>Response.json([{key:'bible-angels-001-facts',updated_at:'2026-10-19T00:00:00Z',decision:true}])));
+});

@@ -36,13 +36,14 @@ export async function inspectCloudConnections(env:NodeJS.ProcessEnv=process.env,
  return {mode:'read-only',live,publishingReady:false,ready:live&&results.every(r=>['database-readable','channels-readable'].includes(r.status)),results};
 }
 export async function inspectEpisodeProgress(env:NodeJS.ProcessEnv=process.env,request:typeof fetch=fetch){
+ const runId=z.string().regex(/^[A-Za-z0-9-]+$/).parse(env.EPISODE_RUN_ID??'bible-angels-001');
  const url=new URL('/rest/v1/pipeline_artifacts',supabaseProjectUrl(env.SUPABASE_URL??''));
  if(!env.SUPABASE_SERVICE_ROLE_KEY)throw Error('Supabase credential required');
- url.search=new URLSearchParams({select:'key,updated_at,decision:value->passed',key:'like.bible-angels-001-%',order:'updated_at.desc',limit:'8'}).toString();
+ url.search=new URLSearchParams({select:'key,updated_at,decision:value->passed',key:'like.'+runId+'-%',order:'updated_at.desc',limit:'8'}).toString();
  const response=await request(url,{redirect:'error',headers:{apikey:env.SUPABASE_SERVICE_ROLE_KEY,Authorization:'Bearer '+env.SUPABASE_SERVICE_ROLE_KEY},signal:AbortSignal.timeout(20000)});
  if(!response.ok)throw Error('Episode progress HTTP '+response.status);
- const rows=z.array(z.object({key:z.string().startsWith('bible-angels-001-'),updated_at:z.string(),decision:z.boolean().nullable()})).parse(await response.json());
- return {runId:'bible-angels-001',completedStageRecordsOnly:true,notFullVideoApproval:true,records:rows.map(r=>({stage:r.key.slice('bible-angels-001-'.length),updatedAt:r.updated_at,decision:r.decision}))};
+ const rows=z.array(z.object({key:z.string().startsWith(runId+'-'),updated_at:z.string(),decision:z.boolean().nullable()})).parse(await response.json());
+ return {runId,completedStageRecordsOnly:true,notFullVideoApproval:true,records:rows.map(r=>({stage:r.key.slice(runId.length+1),updatedAt:r.updated_at,decision:r.decision}))};
 }
 async function main(){
  const progress=process.env.INSPECT_EPISODE_PROGRESS==='true'?await inspectEpisodeProgress():undefined;

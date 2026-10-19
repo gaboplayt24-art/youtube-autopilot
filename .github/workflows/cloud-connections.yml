@@ -19,9 +19,13 @@ on:
         type: boolean
         default: false
       inspect_episode_progress:
-        description: Read the latest completed checkpoint records for bible-angels-001
+        description: Read the latest completed checkpoint records for the selected episode
         type: boolean
         default: false
+      episode_run_id:
+        description: Episode ID for read-only checkpoint progress
+        type: string
+        default: bible-angels-001
       audit_episode_delivery:
         description: Read actual YouTube and TikTok delivery status; never publishes or reschedules
         type: boolean
@@ -45,6 +49,7 @@ jobs:
           INCLUDE_PUBLIC_HANDLES: ${{ inputs.include_public_handles }}
           VERIFY_LIVE: ${{ inputs.verify_live }}
           INSPECT_EPISODE_PROGRESS: ${{ inputs.inspect_episode_progress }}
+          EPISODE_RUN_ID: ${{ inputs.episode_run_id }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}

@@ -1,5 +1,5 @@
 {
-  "status": "long-form-production-prepared",
+  "status": "long-form-production-dispatched-not-yet-completed",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Dispatch bible-noah-003 using existing quality_test ten-minute target. Preserve cancelled compact run 39170301678; do not resume or publish it. Generate a genuinely sourced long-form script, not expanded filler.",
+  "nextAction": "Monitor long-form run 39179570025. Preserve its checkpoints on failure and resume the same bible-noah-003 run ID; never resume the cancelled short. Verify final QA and scheduling; automatic social build produces candidates without inventing preview consent.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -104,8 +104,10 @@
       8,
       12
     ],
-    "newLongFormRunDispatched": false
+    "newLongFormRunDispatched": true
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
-  "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1"
+  "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
+  "productionCommit": "3902c10ef3c369502840319ba509a4691a49241b"
 }

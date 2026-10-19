@@ -13,3 +13,9 @@ Three original covers are generated. Full QA blocks every upload on objective fa
 The three social chapter selections are in `data/ideas/bible-noah-003-shorts-chapters.json`. After full production succeeds, the existing social workflow builds candidates from complete 20-40-second sentences using actual measured chapter word timestamps, then applies all existing clip checks. No candidate creates consent or claims publication. Any absent/ambiguous words or missing visual coverage block export instead of inventing timing.
 
 Claude integration was checked against the current remote head `424b89dfcbf7abc6724f9af668ac2e4c72a8ed20`, which is fully contained in main. Historical handoff documents are archived under `docs/history`; old still-review branches contain exports rather than missing production implementation. This verification cannot see unpushed work in another local workspace.
+
+## Actual production dispatch
+
+Workflow: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025 . Production source commit: `3902c10ef3c369502840319ba509a4691a49241b`. Dispatch uses `production_kind=quality_test` (600-second planner), `style=v5`, Gemini Free, generated covers, existing QA-gated YouTube scheduling. Startup reached media-tool preparation after storage probing and cache restoration. This is dispatch evidence, not a claim of completed narration/render or public upload.
+
+The read-only `cloud-connections` progress probe accepts `episode_run_id=bible-noah-003`; no credentials or new API bindings are needed in Codex. This avoids reporting stale angels-stage records while the Noah workflow is active.
