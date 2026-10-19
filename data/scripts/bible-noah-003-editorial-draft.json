@@ -13,10 +13,15 @@
   "chapters": [
     {
       "act": "HOOK",
-      "purpose": "Open immediately with an original concrete question about the familiar ark picture versus the description in Genesis. About 70 spoken words; make the hook field the exact first spoken sentence. Promise to inspect the construction, the occupants and the long wait; do not summarize every reveal, claim to reconstruct the exact recovered ark, or reuse the cancelled short narration.",
+      "purpose": "Open immediately with an original concrete question about the familiar ark picture versus the description in Genesis. About 70 spoken words; make the hook field the exact first spoken sentence. Promise to inspect the construction, the occupants and the long wait; do not summarize every reveal, claim to reconstruct the exact recovered ark, or reuse the cancelled short narration. EDITORIAL REPAIR AFTER REAL RUN 39179570025: all three automatic hook revisions exceeded the 70-word target (the last was 83 words). Use the supplied TWO narrationBlocks verbatim for this opening: together they contain exactly 70 whitespace-delimited words, matching the existing approved budget. Keep their text and the opening hook exactly, attach supported claims and scene visuals without adding spoken explanation. Do not change the 70-word plan or its 15% tolerance.",
       "sources": [
         "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV"
-      ]
+      ],
+      "narrationBlocks": [
+        "What did Noah's ark actually look like? You probably picture a familiar wooden ship with a sloping roof and animals crowding the deck. But Genesis describes rooms, three levels, and coating inside and outside.",
+        "The story also includes provisions, birds, and a long wait for dry ground. Let's follow those details through the text with clearly attributed evidence, separating its descriptions from the choices an illustrator still has to make."
+      ],
+      "hookSentence": "What did Noah's ark actually look like?"
     },
     {
       "act": "ACT 1",
@@ -65,6 +70,7 @@
     "A hundred and fifty days of prevailing water is not a hundred and fifty days of rain.",
     "The olive leaf is brought by the dove, not the raven.",
     "Mountains of Ararat in the narrative do not confirm any modern wreck or exact archaeological location.",
-    "Any later roof, skylight or wood discussion must follow the actual retrieved wording and acknowledge interpretation."
+    "Any later roof, skylight or wood discussion must follow the actual retrieved wording and acknowledge interpretation.",
+    "Opening repair is editorial wording only: the supplied hook blocks total exactly 70 words. This does not waive source, voice, critical-term or visual QA."
   ]
 }
