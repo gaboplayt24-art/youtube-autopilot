@@ -20,16 +20,16 @@
       "sourceId": "chapter-4-shot-7",
       "replacement": {
         "overlayAnchor": "they are not a photograph",
-        "id": "chapter-4-shot-7-interpretation-detail",
+        "id": "chapter-4-shot-7-flat-colour-page",
         "narration": "they are not a photograph or a recovered object identifying the location of a wreck. Now step back from those flights and look at the",
         "historicalContext": "Modern-day, simple casual clothing, clean background.",
-        "concept": "A close view of an open illustrated book on a modern library desk. On the page is a clearly hand-drawn ink picture of a wooden vessel, with a magnifying glass beside the page. The drawing is visibly an illustration on paper, not a photograph or a recovered wreck. No people, no lettering.",
+        "concept": "A simple flat-colour cartoon of an open book on a bright cream library desk. On its page is a simplified wooden boat drawing made of broad solid ochre and terracotta colour shapes with thick clean black outlines. A simple magnifying glass rests beside it. Crisp cream background, minimal props, no people, no lettering.",
         "overlay": "Not a photograph",
         "labelPlacement": "bottom",
         "characterRoles": [],
         "promptFocus": true
       },
-      "reason": "Both real attempts copy Eli rather than the arbitrary planned female library visitor. The narration names no visitor or gender; the essential claim is that illustrations are not photographic or archaeological evidence. Show that directly with the illustrated page and magnifying glass, preserving narration and every objective QA gate. Original images and rejected verdicts remain evidence."
+      "reason": "Both real attempts copy Eli rather than the arbitrary planned female library visitor. The narration names no visitor or gender; the essential claim is that illustrations are not photographic or archaeological evidence. Show that directly with the illustrated page and magnifying glass, preserving narration and every objective QA gate. Original images and rejected verdicts remain evidence. Real39306180977 replacement showed a hatched shaded boat and dull tan background. Use explicit broad solid colour fills and bright cream, preserving the page/magnifying-glass message; keep both rejected illustrations and verdicts."
     }
   ],
   "beatReassignments": []

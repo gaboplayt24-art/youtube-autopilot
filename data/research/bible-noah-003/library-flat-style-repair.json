@@ -1,0 +1,33 @@
+{
+  "sourceExecution": "39306180977",
+  "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39306180977",
+  "archiveParts": [
+    {
+      "name": "run-39306180977-attempt-1.zip.part001",
+      "bytes": 95037030,
+      "sha256": "3649f7104c7989ce36807d32d5d92bd33f995eb1d565676b1cbd39ada6710be1"
+    }
+  ],
+  "archiveCrcVerified": true,
+  "stage": "visuals",
+  "blockedShot": "chapter-4-shot-7",
+  "conceptProblemResolved": true,
+  "remainingFailure": "correctStyle",
+  "manualInspection": "Regenerated PNG has a white cartoon book and magnifying glass, a finely shaded/hatched boat drawing and solid tan background. Reject retained; no acceptance override.",
+  "rejectedRegenerationSha256": "b9a9d9909463c700f9f082c63173247f64056e2ea716c085bdf44529a62c2c81",
+  "previousPreparedIdea": {
+    "overlayAnchor": "they are not a photograph",
+    "id": "chapter-4-shot-7-interpretation-detail",
+    "narration": "they are not a photograph or a recovered object identifying the location of a wreck. Now step back from those flights and look at the",
+    "historicalContext": "Modern-day, simple casual clothing, clean background.",
+    "concept": "A close view of an open illustrated book on a modern library desk. On the page is a clearly hand-drawn ink picture of a wooden vessel, with a magnifying glass beside the page. The drawing is visibly an illustration on paper, not a photograph or a recovered wreck. No people, no lettering.",
+    "overlay": "Not a photograph",
+    "labelPlacement": "bottom",
+    "characterRoles": [],
+    "promptFocus": true
+  },
+  "nextSourceId": "chapter-4-shot-7-flat-colour-page",
+  "preparationOnly": true,
+  "dailyAndRepairReservationsRetained": true,
+  "requiresOwnerRenewal": false
+}
