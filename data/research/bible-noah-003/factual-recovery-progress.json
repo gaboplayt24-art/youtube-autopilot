@@ -1,0 +1,50 @@
+{
+  "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39193447048",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39193191490",
+  "scope": "Read-only actual Supabase completed-stage records, not final voice/video or upload QA",
+  "runId": "bible-noah-003",
+  "completedStageRecordsOnly": true,
+  "notFullVideoApproval": true,
+  "records": [
+    {
+      "stage": "voice-selection",
+      "updatedAt": "2026-10-19T03:11:03.035+00:00",
+      "decision": null
+    },
+    {
+      "stage": "plan",
+      "updatedAt": "2026-10-19T03:11:02.953+00:00",
+      "decision": null
+    },
+    {
+      "stage": "critical-terms",
+      "updatedAt": "2026-10-19T03:11:02.895+00:00",
+      "decision": null
+    },
+    {
+      "stage": "facts",
+      "updatedAt": "2026-10-19T03:11:02.719+00:00",
+      "decision": true
+    },
+    {
+      "stage": "pronunciations",
+      "updatedAt": "2026-10-19T03:10:56.463+00:00",
+      "decision": null
+    },
+    {
+      "stage": "script-quality",
+      "updatedAt": "2026-10-19T03:10:56.387+00:00",
+      "decision": true
+    },
+    {
+      "stage": "script",
+      "updatedAt": "2026-10-19T03:10:56.287+00:00",
+      "decision": null
+    },
+    {
+      "stage": "chapter-outline",
+      "updatedAt": "2026-10-19T03:10:56.233+00:00",
+      "decision": null
+    }
+  ]
+}

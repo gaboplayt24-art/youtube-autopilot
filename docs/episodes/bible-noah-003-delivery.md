@@ -69,3 +69,7 @@ Validation: lint, typecheck, 285 TypeScript tests and 9 Python tests pass. Regre
 Indexed factual continuation: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39193191490 , verified source commit `9823d3896f0dda894fa33e8b0d2a5c10d6bb8ee2` in origin/main. Reuses source checkpoint 39192567746, retry_from=facts. Second attempt within the owner-renewed maximum of three; no media or schedule is claimed at dispatch.
 
 CI cache efficiency correction: completed job logs show the rembg environment is reinstalled after a later factual gate fails. Default actions/cache saves only on successful jobs. The workflow now restores those environment caches explicitly and saves them even after later failure, but only if their install/model-validation step succeeded and the job was not cancelled. Existing keys and dependencies are unchanged; failed/partial installations are never cached. This affects later runs, not the currently executing source commit.
+
+## Actual factual recovery verified
+
+Read-only Actions probe 39193447048 confirmed Supabase HTTP 200 and the actual `facts` record passed at 2026-10-19T03:11:02.719Z. Critical terms, scene plan and approved voice selection completed immediately afterward; narration is now executing. Receipt: `data/research/bible-noah-003/factual-recovery-progress.json`. This verifies the original incomplete-evidence/citation blockers are resolved in real inference; it is not voice approval, a completed render or a YouTube scheduling receipt.

@@ -1,5 +1,5 @@
 {
-  "status": "indexed-factual-recovery-in-progress",
+  "status": "facts-passed-voice-in-progress",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Verify actual indexed factual review, then voice/visual/render/final QA and delivery. No claim of completed media or schedule.",
+  "nextAction": "Monitor approved-narrator synthesis and measured voice QA, then actual source images/render/final QA before scheduling.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -133,7 +133,7 @@
     },
     {
       "id": 39193191490,
-      "result": "in_progress at recording; renewed-window attempt two, indexed factual citations, restores 39192567746 from facts"
+      "result": "Actual indexed factual QA passed at 2026-10-19T03:11:02.719Z, plan and approved voice selection completed; voice is in progress, no render or schedule claimed."
     }
   ]
 }
