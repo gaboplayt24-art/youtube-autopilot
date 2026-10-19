@@ -39,3 +39,15 @@ test('later chapters revise a repeated spoken opening rather than disabling full
  }},'Write the next chapter',70,'ACT 1',[],[prior]);
  assert.equal(calls,2);assert.ok(!revised.scenes[0].narration.includes(prior));
 });
+
+test('explicit editorial text stays within its budget despite model verbosity and preserves source metadata',async()=>{
+ const blocks:[string,string]=[0,1].map(i=>Array.from({length:35},(_,j)=>'detail'+(i*35+j)).join(' ')) as [string,string];
+ const verbose={...value,scenes:value.scenes.map(s=>({...s,narration:Array(90).fill('verbose').join(' ')}))};
+ let calls=0;const llm={json:async<T>(prompt:string,schema:import('zod').z.ZodType<T>)=>{calls++;assert.match(prompt,/Fixed editorial narration/);return schema.parse(verbose);}};
+ const result=await writeChapter(llm,'Attach evidence to the supplied text',70,'HOOK',[],[],blocks);
+ assert.equal(calls,1);assert.deepEqual(result.scenes.map(s=>s.narration),blocks);
+ assert.equal(result.hook,blocks[0]);assert.deepEqual(result.scenes.map(s=>s.claims),verbose.scenes.map(s=>s.claims));
+ assert.equal(verbose.scenes[0].narration.split(' ').length,90,'the original generated evidence is not mutated');
+ calls=0;await assert.rejects(()=>writeChapter(llm,'Bad fixed budget',140,'HOOK',[],[],blocks),/existing chapter word budget/);assert.equal(calls,0);
+ calls=0;await assert.rejects(()=>writeChapter(llm,'Repeated fixed text',70,'ACT 1',[],[blocks[0]],blocks),/repeats earlier narration/);assert.equal(calls,3);
+});

@@ -1,0 +1,44 @@
+{
+  "scope": "Local word-budget, scene-count, exact hook and repetition contract only; NOT factual/voice/visual approval",
+  "chapters": [
+    {
+      "act": "HOOK",
+      "target": 70,
+      "actual": 70
+    },
+    {
+      "act": "ACT 1",
+      "target": 327,
+      "actual": 297
+    },
+    {
+      "act": "ACT 2",
+      "target": 327,
+      "actual": 308
+    },
+    {
+      "act": "ACT 3",
+      "target": 327,
+      "actual": 309
+    },
+    {
+      "act": "PAYOFF",
+      "target": 210,
+      "actual": 198
+    },
+    {
+      "act": "ENDING",
+      "target": 140,
+      "actual": 141
+    }
+  ],
+  "totalWords": 1323,
+  "repetition": {
+    "score": 100,
+    "passed": true,
+    "repeatedSentences": 0,
+    "repeatedTwelveWordPhrases": 0,
+    "clicheCount": 0,
+    "limitations": "Heuristic language audit; chapter novelty, rhetorical emptiness and factual value still require editorial review."
+  }
+}
