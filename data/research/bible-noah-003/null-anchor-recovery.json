@@ -1,0 +1,26 @@
+{
+  "scope": "Offline replay of actual immutable model responses through full corrected illustration contract; not new inference or approved artwork",
+  "sourceExecution": "39201840298",
+  "receipts": [
+    {
+      "file": "gemini-responses/8dd89734b271bc92abcaf941e610f78e29595632dcaebd2e0af944eefedda0c2-gemini-3.1-flash-lite-0.json",
+      "passed": true,
+      "absentAnchors": [
+        "chapter-2-shot-4",
+        "chapter-2-shot-7"
+      ]
+    },
+    {
+      "file": "gemini-responses/ae36f9b9eeed2daca46d5b142afe4d7ab3c04d344774bd379cd4f690e756ef3e-gemini-3.1-flash-lite-0.json",
+      "passed": false,
+      "note": "Other defects remain rejected; raw output unchanged."
+    },
+    {
+      "file": "gemini-responses/da48284b73af2b564ea94a917647b8aa596f17e29a0beb7964fdd0c853db2b2a-gemini-3.1-flash-lite-0.json",
+      "passed": true,
+      "absentAnchors": [
+        "chapter-2-shot-1"
+      ]
+    }
+  ]
+}

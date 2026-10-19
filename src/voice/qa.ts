@@ -20,7 +20,9 @@ export function normalizedTokens(text:string,citations:Map<string,Set<string>>=n
  for(const part of value.match(/[a-z]+|\d+(?:\.\d+)?(?:st|nd|rd|th)?/g)??[])pieces.push({text:ordinals[part]??(part==='bc'?'bce':part==='ad'?'ce':part),indices:[i]});});
  const result:Token[]=[];
  for(let i=0;i<pieces.length;i++){
-  const first=pieces[i];if(numberWords[first.text]===undefined){result.push(first);continue;}
+  // "a hundred"/"an hundred" are numeric representations of one hundred,
+  // unlike an ordinary indefinite article such as "a boat".
+  const first=['a','an'].includes(pieces[i].text)&&['hundred','thousand'].includes(pieces[i+1]?.text)?{...pieces[i],text:'one'}:pieces[i];if(numberWords[first.text]===undefined){result.push(first);continue;}
   const group=[first];const take=()=>group.push(pieces[++i]);
   // Read one grammatical number, not arbitrary adjacent number words ("one two").
   const tens=()=>{if(numberWords[group.at(-1)!.text]>=20&&numberWords[pieces[i+1]?.text]>0&&numberWords[pieces[i+1]?.text]<10)take();};

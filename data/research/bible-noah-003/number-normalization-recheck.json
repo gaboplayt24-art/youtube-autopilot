@@ -1,0 +1,33 @@
+{
+  "scope": "Offline recalculation against original measured transcripts and exact owner-reviewed ending, not new synthesis or completed imagery/render QA",
+  "parts": [
+    {
+      "part": 1,
+      "status": "pass",
+      "wordErrorRate": 0.017804154302670624,
+      "criticalTermAccuracy": 1,
+      "quantity150": []
+    },
+    {
+      "part": 2,
+      "status": "pass",
+      "wordErrorRate": 0.00992063492063492,
+      "criticalTermAccuracy": 1,
+      "quantity150": [
+        {
+          "term": "150",
+          "referenceStart": 180,
+          "passed": true,
+          "observed": "150"
+        }
+      ]
+    },
+    {
+      "part": 3,
+      "status": "pass",
+      "wordErrorRate": 0.0070921985815602835,
+      "criticalTermAccuracy": 1,
+      "quantity150": []
+    }
+  ]
+}

@@ -2,6 +2,15 @@ import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {compareTranscripts,evaluateVoice,measuredReferenceAlignment,normalizedTokens,requireVoiceQA,extractCriticalTerms} from '../src/voice/qa';
 const policy={passWer:.02,reviewWer:.05,maxSkippedPhraseWords:3,maxUnexpectedPauseSeconds:2.5,maxPauseSeconds:8,discontinuityThreshold:.45,benchmarkMinSeconds:60,benchmarkMaxSeconds:90,qwenMaxProbeSeconds:300,qwenMaxRealTimeFactor:8,qwenMaxPeakMemoryMb:5500};
+test('indefinite numeric articles preserve the complete quantity and protect it as a critical value',()=>{
+ assert.deepEqual(normalizedTokens('a hundred and fifty').map(t=>t.text),['150']);
+ assert.deepEqual(normalizedTokens('an hundred and fifty').map(t=>t.text),['150']);
+ assert.deepEqual(normalizedTokens('a thousand').map(t=>t.text),['1000']);
+ assert.equal(compareTranscripts('a hundred and fifty days','150 days').wordErrorRate,0);
+ assert.ok(compareTranscripts('a boat','one boat').wordErrorRate>0);
+ const script='Noah waited a hundred and fifty days. '+Array(30).fill('The drawing is interpretive.').join(' ');const terms=extractCriticalTerms(script);assert.ok(terms.includes('150'));assert.ok(!terms.includes('50'));
+ const text=script.replace('a hundred and fifty','fifty');const report=evaluateVoice(script,{text,chunks:[{text,timestamp:[0,50]}]},terms,policy);assert.equal(report.status,'fail');assert.ok(report.criticalChecks.some(c=>c.term==='150'&&!c.passed));
+});
 test('normalization accepts punctuation, case and common number spelling without making lexical errors disappear',()=>{assert.deepEqual(normalizedTokens('On 30 BCE, August 27, 1997.' ).map(x=>x.text),['on','30','bce','august','27','1997']);assert.equal(compareTranscripts('Augustus arrived in 27 BCE','Augustus arrived in twenty seven B.C.E.').wordErrorRate,0);assert.ok(compareTranscripts('sealed the letter','seal the letter').wordErrorRate>0)});
 test('low WER passes while critical term mutation fails',()=>{const good=evaluateVoice('Augustus arrived in Alexandria on 27 BCE',{text:'Augustus arrived in Alexandria on twenty seven B.C.E.',chunks:[{text:'Augustus arrived in Alexandria on twenty seven B.C.E.',timestamp:[0,4]}]},['Augustus','Alexandria','27 BCE'],policy);assert.equal(good.status,'pass');const bad=evaluateVoice('Augustus arrived in Alexandria on 27 BCE',{text:'August arrived in Alexandria on 27 BCE',chunks:[{text:'August arrived in Alexandria on 27 BCE',timestamp:[0,4]}]},['Augustus','Alexandria','27 BCE'],policy);assert.equal(bad.status,'fail');assert.equal(bad.criticalTermAccuracy,2/3)});
 test('repeated words and independent ASR alternatives are classified without disabling QA',()=>{const report=evaluateVoice('The washed cloth was sealed',{text:'The washedwashed cloth was seal',chunks:[{text:'The washedwashed cloth was seal',timestamp:[0,3]}]},[],policy,[{text:'The washed cloth was sealed',chunks:[{text:'The washed cloth was sealed',timestamp:[0,3]}]}]);assert.ok(report.defects.some(d=>d.kind.includes('repeated')));assert.ok(report.classifications.some(d=>d.classification==='likelyASRError'));assert.ok(['fail','review'].includes(report.status))});

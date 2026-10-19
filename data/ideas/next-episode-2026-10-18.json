@@ -1,5 +1,5 @@
 {
-  "status": "numeric-visual-recovery-in-progress",
+  "status": "visual-null-anchor-and-number-repairs-ready",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor visual plan and actual asset generation, then dynamic edit/render/final QA and authorized delivery. Voice/captions/shots/facts retained.",
+  "nextAction": "Resume 39201840298 from visual-thinking-v5 with absence-only anchor transport repair and exact indefinite-number normalization. Preserve all approved voice/captions/shots/facts; third attempt in current owner-reviewed window.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -145,7 +145,7 @@
     },
     {
       "id": 39201840298,
-      "result": "in_progress at recording; owner-reviewed-window second attempt, restore 39201301855 from visual-thinking-v5 after exact numeric-value validator repair"
+      "result": "Failed visual-thinking-v5 transport schema: overlay=null paired with overlayAnchor=null was rejected as non-string. Exact failed responses recover under absence-only normalization; labelled null anchors remain rejected. Spoken 150 normalization also proactively verified against all three actual transcripts."
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",

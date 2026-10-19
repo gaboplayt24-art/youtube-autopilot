@@ -18,6 +18,7 @@ const make=(id:string,narration:string):Shot=>({id,sceneId:'s1',start:0,end:3,na
 test('visual numeric evidence accepts spoken equivalents and refuses changed values, substrings and ordinal changes',()=>{
  assert.deepEqual(unsupportedVisualNumbers('300 × 50','Three hundred cubits long and fifty wide.'),[]);
  assert.deepEqual(unsupportedVisualNumbers('1,000','One thousand people.'),[]);
+ assert.deepEqual(unsupportedVisualNumbers('150','A hundred and fifty days.'),[]);
  assert.deepEqual(unsupportedVisualNumbers('30','Three hundred cubits long.'),['30']);
  assert.deepEqual(unsupportedVisualNumbers('40','Fourteen days.'),['40']);
  assert.deepEqual(unsupportedVisualNumbers('3','The third level.'),['3']);
@@ -28,6 +29,12 @@ test('real illustration contract accepts narrated dimensions in words without by
  const provider=(overlay:string)=>({json:async<T>(_prompt:string,schema:z.ZodType<T>)=>schema.parse({ideas:[{id:shot.id,narration,historicalContext:'Interpretive illustration of the Genesis account; uncertain date.',concept:'Eli points at the long side of an illustrated wooden ark, with space reserved for the editorial dimension label.',overlay,overlayAnchor:'Three hundred cubits',labelPlacement:'top',characterRoles:['Eli']}]})});
  const result=await new VisualThinkingDirector().illustrate([shot],provider('300 × 50'),true);assert.equal(result[0].overlay,'300 × 50');assert.equal(result[0].narration,narration);
  await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],provider('30 × 50'),true));
+});
+test('an explicitly absent label accepts an absent model anchor without inventing timing for a real label',async()=>{
+ const narration='Eli reads the source beside the drawing.';const shot=make('no-label',narration);
+ const provider=(overlay:string|null)=>({json:async<T>(_prompt:string,schema:z.ZodType<T>)=>schema.parse({ideas:[{id:shot.id,narration,historicalContext:'Interpretive biblical source-reading illustration, uncertain date.',concept:'Eli studies a blank manuscript beside a simple illustrated wooden vessel, with no text drawn inside the artwork.',overlay,overlayAnchor:null,labelPlacement:'top',characterRoles:['Eli']}]})});
+ const [result]=await new VisualThinkingDirector().illustrate([shot],provider(null),true);assert.equal(result.overlay,null);assert.equal(result.overlayAnchor,undefined);assert.equal(result.narration,narration);
+ await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],provider('SOURCE'),true));
 });
 test('active v4 identity cancels code clipart; legacy scene graphs remain debug evidence only',async()=>{
  const lock=await loadStyleLock();assert.equal(lock.version,'illustrated-doodle-v4.2');assert.ok(lock.prefix.startsWith('Hand-drawn-looking 2D historical editorial cartoon'));assert.match(lock.lineQuality,/thick/);assert.ok(lock.negativeRules.includes('no geometric stick figures'));
