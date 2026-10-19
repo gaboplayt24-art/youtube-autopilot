@@ -32,5 +32,10 @@
     }
   ],
   "authorization": "Owner: quiero que los videos se hagan solos durante el mes y no necesites de mis autorizaciones y mi precencia en lo posible xfis",
-  "policy": "Standing authorization for this30-day editorial queue, generated covers, QA-gated private YouTube uploads/next-slot scheduling and YouTube Shorts. Daily cooldown and bounded retries replace per-cycle approval. No claim of human TikTok preview; retain existing TikTok review gates. Existing Cloudflare8USD/month cap and free-only other providers remain unchanged. A persistent failure exhausts this episode, not the whole queue. No architecture/style/narrator changes."
+  "policy": "Standing authorization for this30-day editorial queue, generated covers, QA-gated private YouTube uploads/next-slot scheduling and YouTube Shorts. Daily cooldown and bounded retries replace per-cycle approval. No claim of human TikTok preview; retain existing TikTok review gates. Existing Cloudflare8USD/month cap and free-only other providers remain unchanged. A persistent failure exhausts this episode, not the whole queue. No architecture/style/narrator changes. Owner asks to continue now: allow exactly one additional same-day repair dispatch bound to failed39212046350 and the committed visual revision SHA. Preserve original daily reservation, total28 and per-episode7 limits. No uncorrected blind retry.",
+  "sameDayRepair": {
+    "runId": "bible-noah-003",
+    "sourceRunId": "39212046350",
+    "revisionSha256": "c5515d62b76510cd21a87fe038caa5fb0194b0b8699a7dd0b2dbd945eba5c09f"
+  }
 }

@@ -1,5 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
+import {createHash} from 'node:crypto';
 import {mkdtemp,writeFile,readFile,mkdir,rm} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join,resolve} from 'node:path';
@@ -28,6 +29,16 @@ test('active work, daily cooldown, monthly bound and shutdown prevent duplicate 
  assert.equal(monthlyDecision({...policy,enabled:false},[],now).decision,'disabled');
  assert.equal(monthlyDecision(policy,[],new Date(policy.endsAt)).decision,'plan-ended');
 });
+test('prepared same-day repair is tied to the exact failed run and cannot bypass total caps or repeat after a newer run',()=>{
+ const source=run(101,{created_at:'2026-10-30T08:00:00Z'}),c={...policy,sameDayRepair:{runId:'bible-first',sourceRunId:'101',revisionSha256:'a'.repeat(64)}};
+ assert.equal(monthlyDecision(c,[source],now).decision,'ready');assert.equal(monthlyDecision(c,[source],now).repairSourceRunId,'101');
+ assert.equal(monthlyDecision({...c,maxAttempts:1},[source],now).decision,'monthly-attempt-limit');
+ assert.equal(monthlyDecision({...c,maxAttemptsPerEpisode:1},[source],now).decision,'daily-cooldown');
+ assert.equal(monthlyDecision(c,[source,run(102,{created_at:'2026-10-30T10:00:00Z'})],now).decision,'daily-cooldown');
+ assert.equal(monthlyDecision(c,[{...source,conclusion:'success'}],now).decision,'daily-cooldown');
+ assert.equal(monthlyDecision(c,[source,run(100,{conclusion:'success',created_at:'2026-10-01T00:00:00Z'})],now).decision,'daily-cooldown');
+ assert.equal(monthlyDecision({...c,sameDayRepair:{...c.sameDayRepair,sourceRunId:'999'}},[source],now).decision,'daily-cooldown');
+});
 test('exhausted episodes do not block the next due episode; successful episodes never duplicate',()=>{
  const history=Array.from({length:7},(_,i)=>run(i));const decision=monthlyDecision(policy,history,now);
  assert.equal(decision.runId,'bible-second');assert.deepEqual(decision.blockedEpisodes,['bible-first']);
@@ -47,11 +58,20 @@ test('real monthly CLI resumes exact checkpoint and binds one-time repair, with 
   await writeFile(join(dir,'config/monthly-production.json'),JSON.stringify(c));const argsPath=join(dir,'dispatch.json');
   await writeFile(join(dir,'gh'),'#!/usr/bin/env node\n'+
    'const fs=require("node:fs"),args=process.argv.slice(2);if(args[0]==="workflow"){fs.writeFileSync(process.env.MONTHLY_ARGS,JSON.stringify(args));process.exit(0);}'+
-   'if(args[0]!=="api")process.exit(90);process.stdout.write(JSON.stringify(args[1].includes("releases/")?{assets:[{name:"run-777-attempt-1.manifest.json",created_at:"2026-10-19T00:00:00Z",id:1}]}:[{id:777,display_title:"production-bible-first",conclusion:"failure",created_at:"2020-01-01T00:00:00Z",status:"completed"}]));\n',{mode:0o755});
-  const invoke=(dispatch:string)=>exec(process.execPath,['--import',resolve('node_modules/tsx/dist/loader.mjs'),resolve('scripts/monthly-production.ts')],{cwd:dir,env:{...process.env,PATH:dir+':'+process.env.PATH,GITHUB_REPOSITORY:'gaboplayt24-art/youtube-autopilot',GITHUB_STEP_SUMMARY:'',DISPATCH_READY:dispatch,MONTHLY_ARGS:argsPath},timeout:30000});
+   'if(args[0]!=="api")process.exit(90);process.stdout.write(JSON.stringify(args[1].includes("releases/")?{assets:[{name:"run-777-attempt-1.manifest.json",created_at:"2026-10-19T00:00:00Z",id:1}]}:[{id:777,display_title:"production-bible-first",conclusion:"failure",created_at:(process.env.MONTHLY_HISTORY_AT||"2020-01-01T00:00:00Z"),status:"completed"}]));\n',{mode:0o755});
+  let historyAt='';
+  const invoke=(dispatch:string)=>exec(process.execPath,['--import',resolve('node_modules/tsx/dist/loader.mjs'),resolve('scripts/monthly-production.ts')],{cwd:dir,env:{...process.env,PATH:dir+':'+process.env.PATH,GITHUB_REPOSITORY:'gaboplayt24-art/youtube-autopilot',GITHUB_STEP_SUMMARY:'',DISPATCH_READY:dispatch,MONTHLY_ARGS:argsPath,MONTHLY_HISTORY_AT:historyAt},timeout:30000});
   const preview=JSON.parse((await invoke('false')).stdout);assert.equal(preview.decision,'ready');assert.equal(preview.dispatched,false);assert.equal(preview.sourceRunId,'777');
   let args=monthlyDispatchArguments(monthlyProduction.parse(c),'bible-first','777');assert.ok(args.includes('source_run_id=777'));assert.ok(args.includes('retry_from=visuals'));assert.ok(args.includes('publish=true'));assert.ok(args.includes('style=v5'));assert.ok(args.includes('production_kind=quality_test'));
   c.episodes[0].repairSourceRunId='888';args=monthlyDispatchArguments(monthlyProduction.parse(c),'bible-first','777');assert.ok(!args.includes('retry_from=visuals'),'Later checkpoints must not discard their completed render');
+  historyAt=new Date(Date.now()-60000).toISOString();
+  c.sameDayRepair={runId:'bible-first',sourceRunId:'777',revisionSha256:'a'.repeat(64)};
+  await mkdir(join(dir,'data/scripts'),{recursive:true});const revision='exact prepared repair';await writeFile(join(dir,'data/scripts/bible-first-visual-revisions.json'),revision);
+  await writeFile(join(dir,'config/monthly-production.json'),JSON.stringify(c));
+  await assert.rejects(()=>invoke('false'),/Monthly production controller failed/);
+  c.sameDayRepair.revisionSha256=createHash('sha256').update(revision).digest('hex');await writeFile(join(dir,'config/monthly-production.json'),JSON.stringify(c));
+  const corrected=JSON.parse((await invoke('false')).stdout);assert.equal(corrected.decision,'ready');assert.equal(corrected.repairSourceRunId,'777');assert.equal(corrected.dispatched,false);
+
 
  }finally{await rm(dir,{recursive:true,force:true});}
 });
@@ -59,4 +79,14 @@ test('real monthly CLI resumes exact checkpoint and binds one-time repair, with 
 test('durable daily reservation allows only one winner and retains uncertain dispatches until next day',async()=>{
  const dir=await mkdtemp(join(tmpdir(),'monthly-reservation-'));
  try{const store=new LocalStorage(dir),now=new Date('2026-10-30T12:00:00Z');const winners=await Promise.all([reserveMonthlyAttempt(store,'bible-first',now),reserveMonthlyAttempt(store,'bible-second',now)]);assert.equal(winners.filter(Boolean).length,1);assert.equal(await reserveMonthlyAttempt(store,'bible-first',now),false);assert.equal(await reserveMonthlyAttempt(store,'bible-first',new Date('2026-10-31T00:35:00Z')),true);}finally{await rm(dir,{recursive:true,force:true});}
+});
+test('one source-bound repair reservation leaves the original daily reservation intact and cannot be reused',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'monthly-repair-reservation-'));
+ try{const store=new LocalStorage(dir),now=new Date('2026-10-30T12:00:00Z');
+  assert.equal(await reserveMonthlyAttempt(store,'bible-first',now),true);
+  const winners=await Promise.all([reserveMonthlyAttempt(store,'bible-first',now,'101'),reserveMonthlyAttempt(store,'bible-first',now,'101')]);assert.equal(winners.filter(Boolean).length,1);
+  assert.equal(await reserveMonthlyAttempt(store,'bible-first',now),false);
+  assert.equal(await reserveMonthlyAttempt(store,'bible-first',now,'101'),false);
+  await assert.rejects(()=>reserveMonthlyAttempt(store,'bible-first',now,'../bad'));
+ }finally{await rm(dir,{recursive:true,force:true});}
 });

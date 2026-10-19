@@ -1,4 +1,5 @@
-import {appendFile} from 'node:fs/promises';
+import {appendFile,readFile} from 'node:fs/promises';
+import {createHash} from 'node:crypto';
 import {z} from 'zod';
 import {read,exec} from '../src/orchestration/io';
 import {monthlyProduction,monthlyDecision,monthlyDispatchArguments,reserveMonthlyAttempt} from '../src/orchestration/monthly-production';
@@ -22,8 +23,13 @@ async function main(){
    if(!manifests.length)throw Error('Existing production requires its checkpoint; never restart it from zero');
    sourceRunId=manifests[0].name.match(/^run-([0-9]+)-/)[1];
   }
+  if(decision.repairSourceRunId){
+   if(sourceRunId!==decision.repairSourceRunId)throw Error('Prepared repair requires its exact latest checkpoint');
+   const bytes=await readFile(`data/scripts/${episode.runId}-visual-revisions.json`);
+   if(createHash('sha256').update(bytes).digest('hex')!==c.sameDayRepair?.revisionSha256)throw Error('Prepared repair digest mismatch');
+  }
   if(process.env.DISPATCH_READY==='true'){
-   if(!await reserveMonthlyAttempt(new SupabaseStorage(),episode.runId))decision.decision='daily-reservation-exists';
+   if(!await reserveMonthlyAttempt(new SupabaseStorage(),episode.runId,new Date(),decision.repairSourceRunId))decision.decision='dispatch-reservation-exists';
    else {await exec('gh',monthlyDispatchArguments(c,episode.runId,sourceRunId),{timeout:30000});dispatched=true;}
   }
  }
