@@ -1,5 +1,5 @@
 {
-  "status": "owner-ending-confirmed-ready-to-resume",
+  "status": "owner-reviewed-continuation-in-progress",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Owner replied dale avanza to exact listening question. Hash-bound two-word ASR correction verified locally: WER 0.71%, critical accuracy 100%, raw transcript/timings unchanged. Resume 39195273263 from voice; facts and all synthesis retained, other gates enforced.",
+  "nextAction": "Monitor real voice gate, then actual visual generation/edit/render/QA and authorized delivery. No completed video or schedule claimed.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39195273263",
-  "productionCommit": "cf311aabe7b462d4a1cb46331ddf0999c1e80c90",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39201301855",
+  "productionCommit": "824f89813fb885980e571796b3a67c012673570b",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
@@ -138,6 +138,10 @@
     {
       "id": 39195273263,
       "result": "All 1323 script words synthesized: 486.68 seconds across three WAVs. First two parts pass voice QA (WER 1.78%, 0.99%). Final 47.76 seconds requires listening at WER 2.13%, critical accuracy 100%, no acoustic defects: arc/ark twice and can/could once. No images/render/upload; publish skipped. Renewed attempt cap reached."
+    },
+    {
+      "id": 39201301855,
+      "result": "in_progress at recording; first attempt after explicit ending review, restores 39195273263 from voice with exact owner-confirmed ASR spellings"
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
