@@ -24,6 +24,15 @@ test('unknown sources, missing required quotes and HTTP failures cannot silently
 test('a multi-scene factual review retains exact narration/evidence anchors and hard failures',async()=>{
  const enriched=await completePrimaryEvidence(base,requirements,[url],async()=>new Response('<p>'+paragraph+'</p>'));
  const script={title:'A source-grounded title',topic:'Genesis narrative',hook:quote,criticalTerms:[],scenes:[{id:'rain',narration:quote,visual:'An interpretive illustration',claims:[{text:quote,sourceUrl:url,kind:'fact' as const}]},{id:'invented',narration:'The boat travelled at exactly ninety miles per hour.',visual:'An interpretive illustration',claims:[]}]};
- let calls=0;const llm:LLMProvider={json:async<T>(prompt:string,schema:import('zod').ZodType<T>)=>{calls++;assert.ok(prompt.includes(paragraph));return schema.parse(prompt.includes('Review ONLY scene "rain"')?{observations:[],checkedClaims:1,review:'Exact source is present.'}:{observations:[{narrationQuote:script.scenes[1].narration,sourceQuote:null,severity:'major',reason:'This speed is not established in the evidence.'}],checkedClaims:1,review:'Unsupported speed rejected.'});}};
+ let calls=0;const llm:LLMProvider={json:async<T>(prompt:string,schema:import('zod').ZodType<T>)=>{calls++;assert.ok(prompt.includes(paragraph));return schema.parse(prompt.includes('Review ONLY scene "rain"')?{observations:[],checkedClaims:1,review:'Exact source is present.'}:{observations:[{narrationSentence:0,sourceExcerpt:null,severity:'major',reason:'This speed is not established in the evidence.'}],checkedClaims:1,review:'Unsupported speed rejected.'});}};
  const result=await factcheck(script,enriched.research,llm,true);assert.equal(calls,2);assert.equal(result.passed,false);assert.match(result.issues[0],/ninety miles/);
+});
+test('indexed factual evidence preserves literal sentences including short phrases and refuses nonexistent source IDs',async()=>{
+ const narration='No.  The rain lasted forty days and forty nights. Yes.';
+ const script={title:'Reading the rain passage',topic:'Genesis narrative',hook:'No.',criticalTerms:[],scenes:[{id:'rain',narration,visual:'Interpretive rain illustration',claims:[]}]};
+ const source={...base,sources:[{url,title:'Actual passage',excerpt:quote}]};
+ const provider=(sourceExcerpt:number):LLMProvider=>({json:async<T>(prompt:string,schema:import('zod').ZodType<T>)=>{assert.match(prompt,/Use only supplied integer IDs/);return schema.parse({observations:[{narrationSentence:0,sourceExcerpt,severity:'minor',reason:'Clarify that this is the text rather than independently measured weather.'}],checkedClaims:1,review:'Indexed evidence.'});}});
+ const report=await factcheck(script,source,provider(0),true);
+ assert.equal(report.observations?.[0].narrationQuote,narration);assert.equal(report.observations?.[0].sourceQuote,quote);assert.equal(report.passed,true);
+ await assert.rejects(()=>factcheck(script,source,provider(1),true));
 });

@@ -68,11 +68,11 @@ test('production factual review anchors objections and preserves minor advice wi
  const {factcheck}=await import('../src/factcheck');
  const script={title:'Roman Drainage',topic:'Roman drains',hook:'Where did the water go?',criticalTerms:[],scenes:[{id:'drain',narration:'Drainage channels carried water. The sewer guaranteed disease protection.',visual:'Roman drain',claims:[]}]};
  const research={topic:'Roman drains',summary:'Drainage is not modern treatment.',sources:[{url:'https://example.com/source',title:'Source',excerpt:'Drainage channels carried water. Disease persisted despite sanitation infrastructure.'}]};
- const review=async(severity:'major'|'minor')=>factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>schema.parse({observations:[{narrationQuote:severity==='major'?'The sewer guaranteed disease protection.':'Drainage channels carried water.',sourceQuote:'Drainage channels carried water.',severity,reason:severity==='major'?'Unsupported disease protection guarantee':'The supported summary could name the location for editorial specificity'}],checkedClaims:2,review:'Current script assessed against supplied evidence'})},true);
- assert.equal((await review('major')).passed,false);
+ const review=async(severity:'major'|'minor')=>factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>schema.parse({observations:[{narrationSentence:severity==='major'?1:0,sourceExcerpt:0,severity,reason:severity==='major'?'Unsupported disease protection guarantee':'The supported summary could name the location for editorial specificity'}],checkedClaims:2,review:'Current script assessed against supplied evidence'})},true);
+ const failure=await review('major');assert.equal(failure.passed,false);assert.equal(failure.observations?.[0].narrationQuote,'The sewer guaranteed disease protection.');assert.equal(failure.observations?.[0].sourceQuote,research.sources[0].excerpt);
  const advice=await review('minor');assert.equal(advice.passed,true);assert.equal(advice.advisories?.length,1);
  let calls=0;
- await assert.rejects(factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>{calls++;return schema.parse({observations:[{narrationQuote:'The baths were built in 101 CE.',sourceQuote:null,severity:'major',reason:'This allegation is absent from the narration'}],checkedClaims:2,review:'Unanchored assessment'});}},true));
+ await assert.rejects(factcheck(script,research,{json:async<T>(_prompt:string,schema:import('zod').ZodType<T>)=>{calls++;return schema.parse({observations:[{narrationSentence:999,sourceExcerpt:null,severity:'major',reason:'This allegation is absent from the narration'}],checkedClaims:2,review:'Unanchored assessment'});}},true));
  assert.equal(calls,3);
 });
 
