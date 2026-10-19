@@ -1,5 +1,5 @@
 {
-  "status": "voice-pronoun-false-positive-corrected",
+  "status": "voice-recovery-in-progress",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Resume latest checkpoint 39193191490 from voice, preserving approved factual report and both synthesized WAVs. Third and final run in renewed bounded window; do not invent a completed render or schedule.",
+  "nextAction": "Monitor measured voice QA and remaining narration, then actual visual/render/final QA and scheduled delivery. Stop with evidence at renewed attempt cap if this fails.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39193191490",
-  "productionCommit": "9823d3896f0dda894fa33e8b0d2a5c10d6bb8ee2",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39195273263",
+  "productionCommit": "cf311aabe7b462d4a1cb46331ddf0999c1e80c90",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
@@ -134,6 +134,10 @@
     {
       "id": 39193191490,
       "result": "Factual QA passed; first voice chapter passed at WER 1.78%. Second WAV failed solely because inferred critical term Our differed at WER 0.99%; complete WAVs and Whisper evidence retained. Pronoun heuristic repaired and exact second audio re-evaluated locally: PASS, factual critical accuracy 100%, acoustics pass."
+    },
+    {
+      "id": 39195273263,
+      "result": "in_progress at recording; renewed-window third/final attempt; restores 39193191490 from voice, retains script, approved facts and actual WAV synthesis"
     }
   ]
 }
