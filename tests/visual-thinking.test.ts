@@ -36,6 +36,16 @@ test('an explicitly absent label accepts an absent model anchor without inventin
  const [result]=await new VisualThinkingDirector().illustrate([shot],provider(null),true);assert.equal(result.overlay,null);assert.equal(result.overlayAnchor,undefined);assert.equal(result.narration,narration);
  await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],provider('SOURCE'),true));
 });
+test('production may omit rejected optional numeric text only after its exact decision is preserved',async()=>{
+ const narration='The text specifies lower, second, and third stories.';const shot=make('levels',narration);
+ const raw={ideas:[{id:shot.id,narration,historicalContext:'Interpretive Genesis construction illustration, uncertain date.',concept:'Eli points into a wooden ark cutaway to explain the levels described in the text, without lettering inside the artwork.',overlay:'3 LEVELS',overlayAnchor:'lower, second, and third',labelPlacement:'top',characterRoles:['Eli']}]};
+ const llm={json:async<T>(_prompt:string,schema:z.ZodType<T>)=>schema.parse(raw)};const decisions:unknown[]=[];
+ const [result]=await new VisualThinkingDirector().illustrate([shot],llm,true,async d=>{decisions.push(d);});
+ assert.equal(result.overlay,null);assert.equal(result.overlayAnchor,undefined);assert.equal(result.illustrationIdea?.overlay,null);assert.equal(result.narration,narration);assert.equal(raw.ideas[0].overlay,'3 LEVELS');
+ assert.equal(decisions.length,1);assert.deepEqual((decisions[0] as {unsupportedNumbers:string[]}).unsupportedNumbers,['3']);assert.equal((decisions[0] as {originalOverlay:string}).originalOverlay,'3 LEVELS');
+ await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],llm,true,async()=>{throw Error('Evidence disk unavailable');}),/Evidence disk unavailable/);
+ await assert.rejects(()=>new VisualThinkingDirector().illustrate([shot],llm,true),/unsupported number/);
+});
 test('active v4 identity cancels code clipart; legacy scene graphs remain debug evidence only',async()=>{
  const lock=await loadStyleLock();assert.equal(lock.version,'illustrated-doodle-v4.2');assert.ok(lock.prefix.startsWith('Hand-drawn-looking 2D historical editorial cartoon'));assert.match(lock.lineQuality,/thick/);assert.ok(lock.negativeRules.includes('no geometric stick figures'));
  assert.throws(()=>visualIdea.parse({...localVisualIdea('A merchant pays coins'),style:'photorealistic'}));

@@ -1,13 +1,13 @@
 {
   "enabled": true,
   "runId": "bible-noah-003",
-  "notBefore": "2026-10-19T04:46:44Z",
+  "notBefore": "2026-10-19T06:00:50Z",
   "expiresAt": "2026-10-22T23:59:59Z",
   "geminiModel": "gemini-3.1-flash-lite",
   "topic": "What did Noahs ark actually look like? Construction, life inside and the long wait in Genesis 6-9, distinguished from later illustrations",
   "ownerThumbnail": false,
   "publish": true,
-  "note": "Owner replied dale avanza to exact final-voice listening question. New bounded maximum-three continuation window; preserve approvalHistory, no overlap, same expiry/budgets/QA. Restore 39195273263 from voice, retain all WAV synthesis and approved facts, apply only exact owner-confirmed ASR ark spellings. Could/can remains an error; no generic voice review waiver.",
+  "note": "Latest owner ok maintains authorization for structural corrections and delivery. This bounded window starts at creation of first production after that reply (39207499313, counted as attempt one), not an asserted owner-message time. Maximum three unchanged, history/expiry/budgets intact. Unsupported optional editorial labels may be omitted only after an exact rejection audit is saved; no factual/art/audio/voice QA waiver.",
   "maxAttempts": 3,
   "uploadPrivateForOwnerThumbnail": false,
   "llmProvider": "gemini",
@@ -32,6 +32,17 @@
         39195273263
       ],
       "result": "Sources/facts repaired; all narration synthesized. Owner reviewed final listening request and replied dale avanza; only two hash-bound ark spellings may be corrected."
+    },
+    {
+      "notBefore": "2026-10-19T04:46:44Z",
+      "maxAttempts": 3,
+      "attempts": [
+        39201301855,
+        39201840298
+      ],
+      "result": "Voice approved and retained; runtime numeric/null transport repairs. Owner subsequently replied ok during this corrective work. Boundary for that continued authorization is the first production created afterward, 39207499313; no message timestamp is invented."
     }
-  ]
+  ],
+  "reviewRecordedAt": "2026-10-19T06:07:31Z",
+  "reviewReply": "ok"
 }

@@ -1,0 +1,42 @@
+{
+  "scope": "Offline replay of exact failed raw provider response; unsupported text is removed with an audit record, never approved. Not new image inference or full video QA.",
+  "sourceExecution": "39207499313",
+  "receipts": [
+    {
+      "sourceResponse": "gemini-responses/1a047e77916bc17d29ade131a54eae3c97138b416729be46d769311e3fdefb3b-gemini-3.1-flash-lite-0.json",
+      "decisions": [
+        {
+          "shotId": "chapter-2-shot-5",
+          "narration": "Now look through the side of that picture. The text specifies lower, second, and third stories.",
+          "originalOverlay": "Three Levels",
+          "originalAnchor": "three levels",
+          "unsupportedNumbers": [
+            "3"
+          ],
+          "decision": "omit-optional-overlay",
+          "reason": "Optional editorial text lacks exact numeric evidence in this spoken beat; omit text and anchor, never display or silently approve the unsupported claim."
+        }
+      ],
+      "outputOverlay": null,
+      "rawProposalPreserved": "Three Levels"
+    },
+    {
+      "sourceResponse": "gemini-responses/8dd89734b271bc92abcaf941e610f78e29595632dcaebd2e0af944eefedda0c2-gemini-3.1-flash-lite-0.json",
+      "decisions": [
+        {
+          "shotId": "chapter-2-shot-5",
+          "narration": "Now look through the side of that picture. The text specifies lower, second, and third stories.",
+          "originalOverlay": "three stories",
+          "originalAnchor": "three stories",
+          "unsupportedNumbers": [
+            "3"
+          ],
+          "decision": "omit-optional-overlay",
+          "reason": "Optional editorial text lacks exact numeric evidence in this spoken beat; omit text and anchor, never display or silently approve the unsupported claim."
+        }
+      ],
+      "outputOverlay": null,
+      "rawProposalPreserved": "three stories"
+    }
+  ]
+}

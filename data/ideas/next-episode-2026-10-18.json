@@ -1,5 +1,5 @@
 {
-  "status": "visual-contract-recovery-in-progress",
+  "status": "optional-editorial-label-safety-repair-ready",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor actual visual plan/assets/edit/render/QA and authorized delivery. Approved voice/captions/shots/facts retained; 77 planned shots, no generated imagery or schedule claimed yet.",
+  "nextAction": "Continue structural work under latest owner ok: restore 39207499313 from visual-thinking-v5 with audited optional-label omission. Prior facts/voice/captions/shots retained; no QA waiver.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -149,7 +149,7 @@
     },
     {
       "id": 39207499313,
-      "result": "in_progress at recording; owner-reviewed-window third attempt; restores 39201840298 from visual-thinking-v5 with absent-anchor/complete-number fixes"
+      "result": "Failed planning on Three Levels/three stories optional overlay: this beat enumerates ordinal stories, next beat states three levels. Corrective policy preserves raw proposal and omits unsupported optional text rather than accepting it or discarding narration/art. No images/render/upload yet."
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
