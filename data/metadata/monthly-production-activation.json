@@ -1,0 +1,32 @@
+{
+  "configurationCommit": "e178057d1981b8e81693efe6e668fd39a5ed8917",
+  "controllerWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39211993635",
+  "controllerConclusion": "success",
+  "controllerDecision": {
+    "runId": "bible-noah-003",
+    "sourceRunId": "39208900562",
+    "dispatched": true,
+    "requiresOwnerRenewal": false,
+    "qualityGatesUnchanged": true
+  },
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39212046350",
+  "productionStatusAtVerification": "in_progress, restoring prior checkpoints; not yet final video or schedule",
+  "activeProductionRecheck": {
+    "blockedEpisodes": [],
+    "decision": "production-active",
+    "dispatched": false,
+    "startsAt": "2026-10-19T06:40:00Z",
+    "endsAt": "2026-11-19T00:00:00Z",
+    "requiresOwnerRenewal": false,
+    "qualityGatesUnchanged": true
+  },
+  "validation": {
+    "lint": "passed",
+    "typecheck": "passed",
+    "typescriptTests": 299,
+    "pythonTests": 9,
+    "workflowYaml": "parsed",
+    "remoteMainContainsConfigurationCommit": true
+  },
+  "scope": "Four-episode30-day queue with generated covers and QA-gated YouTube/Short scheduling. Existing paid/free quotas unchanged. TikTok human-preview claims not fabricated."
+}
