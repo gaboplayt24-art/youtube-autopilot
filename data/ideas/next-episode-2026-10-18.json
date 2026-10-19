@@ -1,5 +1,5 @@
 {
-  "status": "indexed-factual-review-repair-validated",
+  "status": "indexed-factual-recovery-in-progress",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Resume checkpoint 39192567746 from facts with indexed literal evidence selection. This is corrective attempt two within the renewed maximum-three window.",
+  "nextAction": "Verify actual indexed factual review, then voice/visual/render/final QA and delivery. No claim of completed media or schedule.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39192567746",
-  "productionCommit": "09ab131038b4ca34b4e94fa16e11b4574624bff7",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39193191490",
+  "productionCommit": "9823d3896f0dda894fa33e8b0d2a5c10d6bb8ee2",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
@@ -130,6 +130,10 @@
     {
       "id": 39192567746,
       "result": "Complete primary evidence fetched successfully; facts failed structured quotation validation, not unsupported factual assertions. Last scene returned advisory confirmations with paraphrased/concatenated quotes."
+    },
+    {
+      "id": 39193191490,
+      "result": "in_progress at recording; renewed-window attempt two, indexed factual citations, restores 39192567746 from facts"
     }
   ]
 }
