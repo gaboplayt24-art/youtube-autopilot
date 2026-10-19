@@ -1,5 +1,5 @@
 {
-  "enabled": true,
+  "enabled": false,
   "runId": "bible-noah-003",
   "notBefore": "2026-10-19T06:00:50Z",
   "expiresAt": "2026-10-22T23:59:59Z",
@@ -7,7 +7,7 @@
   "topic": "What did Noahs ark actually look like? Construction, life inside and the long wait in Genesis 6-9, distinguished from later illustrations",
   "ownerThumbnail": false,
   "publish": true,
-  "note": "Latest owner ok maintains authorization for structural corrections and delivery. This bounded window starts at creation of first production after that reply (39207499313, counted as attempt one), not an asserted owner-message time. Maximum three unchanged, history/expiry/budgets intact. Unsupported optional editorial labels may be omitted only after an exact rejection audit is saved; no factual/art/audio/voice QA waiver.",
+  "note": "Latest owner ok maintains authorization for structural corrections and delivery. This bounded window starts at creation of first production after that reply (39207499313, counted as attempt one), not an asserted owner-message time. Maximum three unchanged, history/expiry/budgets intact. Unsupported optional editorial labels may be omitted only after an exact rejection audit is saved; no factual/art/audio/voice QA waiver. Superseded by owner-authorized unattended monthly plan; legacy three-attempt renewal guard disabled to avoid competing controllers.",
   "maxAttempts": 3,
   "uploadPrivateForOwnerThumbnail": false,
   "llmProvider": "gemini",

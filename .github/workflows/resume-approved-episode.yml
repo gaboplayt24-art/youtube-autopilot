@@ -1,11 +1,11 @@
 name: resume-approved-episode
 on:
   schedule:
-    - cron: '15 0 * * *'
+    - cron: '35 0 * * *'
   workflow_dispatch:
     inputs:
       dispatch_ready:
-        description: Dispatch only after configured reset, before expiry and if not already attempted today
+        description: Run the owner-authorized monthly queue, at most one production attempt per UTC day
         type: boolean
         default: false
 permissions:
@@ -18,6 +18,7 @@ jobs:
   guard:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+    environment: youtube-private
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -25,8 +26,10 @@ jobs:
           node-version: '22'
           cache: npm
       - run: npm ci
-      - name: Resume only the approved episode with existing budget and QA gates
+      - name: Continue the monthly queue without per-cycle approval; preserve budget and QA gates
         env:
           GH_TOKEN: ${{ github.token }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           DISPATCH_READY: ${{ github.event_name == 'schedule' && 'true' || inputs.dispatch_ready }}
-        run: npx tsx scripts/resume-approved-episode.ts
+        run: npx tsx scripts/monthly-production.ts

@@ -46,18 +46,18 @@ permissions:
   contents: write
   actions: read
 concurrency:
-  group: social-${{ inputs.run_id || (github.event.workflow_run.display_title == 'production-bible-noah-003' && 'bible-noah-003') || 'bible-angels-001' }}
+  group: social-delivery
   cancel-in-progress: false
 jobs:
   delivery:
-    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && (github.event.workflow_run.display_title == 'production-bible-angels-001' || github.event.workflow_run.display_title == 'production-bible-noah-003'))
+    if: github.event_name == 'workflow_dispatch' || (github.event.workflow_run.conclusion == 'success' && contains(fromJSON('["production-bible-angels-001","production-bible-noah-003","production-bible-jonah-004","production-bible-manna-005","production-bible-daniel-006"]'), github.event.workflow_run.display_title))
     runs-on: ubuntu-latest
     timeout-minutes: 40
     environment: youtube-private
     env:
       GH_TOKEN: ${{ github.token }}
       SOCIAL_ACTION: ${{ inputs.action || 'build' }}
-      RUN_ID: ${{ inputs.run_id || (github.event.workflow_run.display_title == 'production-bible-noah-003' && 'bible-noah-003') || 'bible-angels-001' }}
+      RUN_ID: ${{ inputs.run_id }}
       SOURCE_RUN_ID: ${{ inputs.source_run_id || github.event.workflow_run.id }}
       CLIP_BUILD_RUN_ID: ${{ inputs.clip_build_run_id }}
       APPROVED_BUNDLE_SHA256: ${{ inputs.approved_bundle_sha256 }}
@@ -72,6 +72,20 @@ jobs:
       CHROME_EXECUTABLE: /usr/bin/google-chrome
     steps:
       - uses: actions/checkout@v4
+      - name: Resolve exact planned episode from trusted production event
+        if: github.event_name == 'workflow_run'
+        run: |
+          python3 - <<'PYCODE'
+          import json, os
+          from pathlib import Path
+          event=json.loads(Path(os.environ['GITHUB_EVENT_PATH']).read_text())['workflow_run']
+          assert event['head_branch']=='main' and event['head_repository']['full_name']==os.environ['GITHUB_REPOSITORY']
+          name=event['display_title']; assert name.startswith('production-')
+          run_id=name[len('production-'):]
+          plan=json.loads(Path('config/monthly-production.json').read_text())
+          assert run_id in {'bible-angels-001'} | {e['runId'] for e in plan['episodes']}
+          with open(os.environ['GITHUB_ENV'],'a') as output: output.write('RUN_ID='+run_id+'\n')
+          PYCODE
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
@@ -108,6 +122,16 @@ jobs:
         if: env.SOCIAL_ACTION != 'replace-clips'
         env:
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: npx tsx scripts/social-delivery.ts
+      - name: Automatically schedule QA-passed YouTube Shorts under monthly owner authorization
+        if: github.event_name == 'workflow_run' && env.RUN_ID != 'bible-angels-001'
+        env:
+          SOCIAL_ACTION: auto-youtube
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}

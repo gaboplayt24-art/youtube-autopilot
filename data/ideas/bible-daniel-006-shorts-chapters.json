@@ -1,0 +1,23 @@
+{
+  "runId": "bible-daniel-006",
+  "chapters": [
+    {
+      "id": "A",
+      "sceneId": "chapter-2",
+      "title": "A decree and a prayer",
+      "source": "Daniel 5, Daniel 6"
+    },
+    {
+      "id": "B",
+      "sceneId": "chapter-3",
+      "title": "The night in the den",
+      "source": "Daniel 5, Daniel 6"
+    },
+    {
+      "id": "C",
+      "sceneId": "chapter-4",
+      "title": "The morning and the decree",
+      "source": "Daniel 5, Daniel 6"
+    }
+  ]
+}

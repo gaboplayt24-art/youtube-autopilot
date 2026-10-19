@@ -1,0 +1,36 @@
+{
+  "enabled": true,
+  "startsAt": "2026-10-19T06:40:00Z",
+  "endsAt": "2026-11-19T00:00:00Z",
+  "maxEpisodes": 4,
+  "maxAttemptsPerEpisode": 7,
+  "maxAttempts": 28,
+  "geminiModel": "gemini-3.1-flash-lite",
+  "autoScheduleShorts": true,
+  "episodes": [
+    {
+      "runId": "bible-noah-003",
+      "notBefore": "2026-10-19T06:40:00Z",
+      "topic": "What did Noahs ark actually look like? Construction, life inside and the long wait in Genesis 6-9, distinguished from later illustrations",
+      "retryFrom": "visuals",
+      "repairSourceRunId": "39208900562"
+    },
+    {
+      "runId": "bible-jonah-004",
+      "notBefore": "2026-10-26T00:00:00Z",
+      "topic": "Jonah beyond the great fish: the journey, the city, the plant and the unanswered question in Jonah 1-4"
+    },
+    {
+      "runId": "bible-manna-005",
+      "notBefore": "2026-11-02T00:00:00Z",
+      "topic": "What Exodus actually says about manna: daily gathering, storage, the Sabbath and wilderness provision in Exodus 16-17"
+    },
+    {
+      "runId": "bible-daniel-006",
+      "notBefore": "2026-11-09T00:00:00Z",
+      "topic": "Daniel and the lions: the decree, the night, the rescue and the narrative setting in Daniel 5-6"
+    }
+  ],
+  "authorization": "Owner: quiero que los videos se hagan solos durante el mes y no necesites de mis autorizaciones y mi precencia en lo posible xfis",
+  "policy": "Standing authorization for this30-day editorial queue, generated covers, QA-gated private YouTube uploads/next-slot scheduling and YouTube Shorts. Daily cooldown and bounded retries replace per-cycle approval. No claim of human TikTok preview; retain existing TikTok review gates. Existing Cloudflare8USD/month cap and free-only other providers remain unchanged. A persistent failure exhausts this episode, not the whole queue. No architecture/style/narrator changes."
+}

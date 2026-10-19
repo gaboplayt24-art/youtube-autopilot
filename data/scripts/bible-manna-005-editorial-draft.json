@@ -1,0 +1,38 @@
+{
+  "provenance": "Original editorial brief prepared under the owner-authorized unattended monthly plan. No competitor scripts or artwork.",
+  "sourceUrls": [
+    "https://www.biblegateway.com/passage/?search=Exodus%2016&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Exodus%2017&version=KJV"
+  ],
+  "requiredEvidence": {
+    "urls": [
+      "https://www.biblegateway.com/passage/?search=Exodus%2016&version=KJV",
+      "https://www.biblegateway.com/passage/?search=Exodus%2017&version=KJV"
+    ],
+    "anchors": []
+  },
+  "researchFocus": "Daily provision in the Exodus narrative: hunger, gathering manna, storage, Sabbath exceptions and the next wilderness episode. Do not assert an identified modern substance or medical/nutritional measurements. Label manna as the text describes it, not archaeological proof.",
+  "scriptGuidance": "Use the existing quality_test documentary target, approximately8-12 minutes at natural narrator speed, never pad or stretch audio. Original English, direct curiosity hook, distinct sourced chapters and concise callback. Every spoken factual term/number remains subject to voice QA. Only claim what the actual retrieved passages support; distinguish text, interpretation and debate. Generated thumbnails must accurately complement the final title.",
+  "chapters": [
+    {
+      "act": "HOOK",
+      "purpose": "Direct specific source-grounded curiosity, no intro or welcome; target exactly the existing opening word budget."
+    },
+    {
+      "act": "ACT 1",
+      "purpose": "A daily provision. Introduce distinct evidence from the first source; do not repeat the hook."
+    },
+    {
+      "act": "ACT 2",
+      "purpose": "Gathering and keeping. Explain the textual sequence with new evidence, without inventing physical or chronological detail."
+    },
+    {
+      "act": "ACT 3",
+      "purpose": "The Sabbath exception. Resolve the main question with the later sources, distinguish the text from later imagery."
+    },
+    {
+      "act": "ENDING",
+      "purpose": "Short callback to the opening question; no repeated chapter summary or new factual claims."
+    }
+  ]
+}
