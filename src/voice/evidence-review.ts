@@ -44,7 +44,9 @@ const focusName='narration-chapter-'+focus+'.wav',part=parts.find(p=>p.name===fo
 if(!part)throw new Error('Requested narration part is missing');
 const start=z.coerce.number().nonnegative().parse(process.env.CLIP_START??'132.5');
 const end=z.coerce.number().positive().parse(process.env.CLIP_END??'138.5');
-if(end<=start||end>part.durationSeconds||end-start>30)throw new Error('Invalid listening excerpt bounds');
+// A complete short closing chapter is useful for listening adjudication. This
+// bounds an evidence export only; it never changes any voice approval gate.
+if(end<=start||end>part.durationSeconds||end-start>90)throw new Error('Invalid listening excerpt bounds');
 const stem='voice-evidence-'+runId+'-'+execution;
 const excerpt=join(output,stem+'-excerpt.mp3');
 await exec('ffmpeg',['-y','-v','error','-ss',String(start),'-i',join(assets,focusName),'-t',String(end-start),'-ac','1','-ar','24000','-b:a','64k',excerpt],{timeout:30000});

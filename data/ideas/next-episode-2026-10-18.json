@@ -1,5 +1,5 @@
 {
-  "status": "voice-recovery-in-progress",
+  "status": "full-narration-complete-final-48-seconds-await-listening",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor measured voice QA and remaining narration, then actual visual/render/final QA and scheduled delivery. Stop with evidence at renewed attempt cap if this fails.",
+  "nextAction": "Export actual final voice evidence for owner listening, preserve raw reports. Do not dispatch more production until the required review and continuation are authorized.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -137,7 +137,7 @@
     },
     {
       "id": 39195273263,
-      "result": "in_progress at recording; renewed-window third/final attempt; restores 39193191490 from voice, retains script, approved facts and actual WAV synthesis"
+      "result": "All 1323 script words synthesized: 486.68 seconds across three WAVs. First two parts pass voice QA (WER 1.78%, 0.99%). Final 47.76 seconds requires listening at WER 2.13%, critical accuracy 100%, no acoustic defects: arc/ark twice and can/could once. No images/render/upload; publish skipped. Renewed attempt cap reached."
     }
   ]
 }
