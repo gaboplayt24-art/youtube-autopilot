@@ -1,0 +1,28 @@
+{
+  "scope": "Offline replay of SHA-verified previously retrieved public HTML bytes and literal anchors; NOT fresh HTTP, factual, voice or video QA",
+  "previousExcerpts": 12,
+  "completeExcerpts": 73,
+  "requiredAnchors": 3,
+  "receipts": [
+    {
+      "url": "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV",
+      "responseSha256": "4bf57010dbbf539b103eab2f931a5e40fc0161c002349741b97edb161a04c698",
+      "paragraphs": 14
+    },
+    {
+      "url": "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV",
+      "responseSha256": "6b0df4254d8ec09bd128795d18e970337a73d0fb8f9867e55ad63c0b80101fbf",
+      "paragraphs": 25
+    },
+    {
+      "url": "https://www.biblegateway.com/passage/?search=Genesis%208%3A1-22&version=KJV",
+      "responseSha256": "0e0ebc8173cfe367f910a44edb7b996ff8a6af6b06937f8a8464497992ada53f",
+      "paragraphs": 22
+    },
+    {
+      "url": "https://www.biblegateway.com/passage/?search=Genesis%209%3A8-17&version=KJV",
+      "responseSha256": "92371348b8cd8290369eb1fa1b3f8f0107dc58846e237d0f723c3cea3ee22a2c",
+      "paragraphs": 11
+    }
+  ]
+}

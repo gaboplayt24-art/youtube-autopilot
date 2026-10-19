@@ -43,3 +43,15 @@ The script writer now preserves explicitly supplied editorial narration when ass
 Local text contracts validate 1323 words across the six chapters: 70, 297, 308, 309, 198 and 141. These checks are recorded in `data/research/bible-noah-003/editorial-prose-check.json` and do not claim factual, voice or visual approval. Lint, typecheck, 278 TypeScript tests and 9 Python tests passed.
 
 Third production attempt: https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39187154400 , source commit `3501678f816f9f21e301cb17546e521053774f95`, restores run 39180720903. This exhausts the configured three-total dispatch allowance if it fails; preserve evidence and stop for review rather than silently launching a fourth. At dispatch, the full script still requires independent factual QA and no new voice/images/render are claimed complete.
+
+## Structural recovery after owner review (2026-10-19 UTC)
+
+Run 39187154400 passed the complete 1323-word script and script-quality checks, then rejected three assertions whose actual Genesis 7 verses were missing from the research selector's 12 chosen excerpts. It reached no narration, asset generation or render. This is an incomplete-evidence defect, not a reason to waive factual QA or restart the script.
+
+The repair retrieves the four configured complete primary passages, checks literal anchors against actual HTTP text and records SHA256 receipts. A SHA-verified offline replay of the archived source HTML expands the corpus to 73 excerpts and finds the three required quotations; see `data/research/bible-noah-003/primary-evidence-check.json`. That replay is not fresh HTTP or a factual approval. Actions must independently review the actual current script against the retrieved evidence, scene by scene with verbatim objections. Factual approvals now bind to the script/evidence digest.
+
+Failed factual/script/audio/final gates now fail inside the stage instead of logging success and failing afterward. Explicit retries preserve old reports and integrity files under evidence-history. Completed script chapters have content-addressed checkpoints, preventing a late chapter failure from repeating earlier generation. No voice/style change or lowered factual, visual, audio or cost threshold.
+
+Validation: npm run lint, npm run typecheck, 284 TypeScript tests and 9 Python tests passed. New regressions cover incomplete source recovery, actual-quote rejection, failed-cache status, exact prior evidence preservation, stale factual approvals and chapter reuse after provider failure.
+
+The owner's renewed request authorizes a new bounded continuation window starting 2026-10-19T02:58:54Z; previous attempts are retained in config approvalHistory. The maximum remains three within this window, unchanged expiry and budgets. Resume the completed script from checkpoint 39187154400 with retry_from=facts. Full production and scheduling are not yet verified.

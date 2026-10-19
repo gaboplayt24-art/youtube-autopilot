@@ -1,15 +1,27 @@
 {
   "enabled": true,
   "runId": "bible-noah-003",
-  "notBefore": "2026-10-19T00:10:22Z",
+  "notBefore": "2026-10-19T02:58:54Z",
   "expiresAt": "2026-10-22T23:59:59Z",
   "geminiModel": "gemini-3.1-flash-lite",
   "topic": "What did Noahs ark actually look like? Construction, life inside and the long wait in Genesis 6-9, distinguished from later illustrations",
   "ownerThumbnail": false,
   "publish": true,
-  "note": "Automatic guard: at most one automatic dispatch per UTC day, three total production runs including manual corrective continuations. Initial run 39179570025 failed word-budget validation, not a quota; 39180720903 resumes its checkpoints after an exact 70-word hook repair. Expiry remains 2026-10-22. Stop after success or total cap; do not resume angels or the cancelled short. Same provider budgets and QA-gated delivery.",
+  "note": "Owner renewed continuation after the first three failures and requested structural repairs. New bounded window: maximum three runs, one automatic dispatch per UTC day, no overlap; preserve prior attempts in approvalHistory. First corrective run restores 39187154400 and retries facts with complete primary evidence. Expiry and financial/QA gates unchanged. Stop on success or cap.",
   "maxAttempts": 3,
   "uploadPrivateForOwnerThumbnail": false,
   "llmProvider": "gemini",
-  "groqFreePlanConfirmed": true
+  "groqFreePlanConfirmed": true,
+  "approvalHistory": [
+    {
+      "notBefore": "2026-10-19T00:10:22Z",
+      "maxAttempts": 3,
+      "attempts": [
+        39179570025,
+        39180720903,
+        39187154400
+      ],
+      "result": "Script approved; factual review blocked by incomplete primary excerpts. Owner requested structural repairs and continuation after reviewing failures."
+    }
+  ]
 }

@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {mkdtemp,rm,readFile,writeFile} from 'node:fs/promises';
+import {mkdtemp,rm,readFile,writeFile,readdir} from 'node:fs/promises';
 import {tmpdir} from 'node:os';
 import {join} from 'node:path';
 import {z} from 'zod';
@@ -15,6 +15,32 @@ import {metadata,script} from '../src/orchestration/schemas';
 import {createCaptions} from '../src/captions';
 import {learn} from '../src/analytics';
 test('completed stages resume without rerunning; failed stages retry',async()=>{const dir=await mkdtemp(join(tmpdir(),'autopilot-'));try{const runner=new Runner(dir);let count=0;const schema=z.object({ok:z.boolean()});await runner.stage('a',schema,async()=>{count++;return {ok:true};});await runner.stage('a',schema,async()=>{count++;return {ok:false};});assert.equal(count,1);await assert.rejects(runner.stage('b',schema,async()=>{throw new Error('provider unavailable');}));assert.equal(JSON.parse(await readFile(join(dir,'status.json'),'utf8')).state,'failed');const result=await runner.stage('b',schema,async()=>({ok:true}));assert.equal(result.ok,true);}finally{await rm(dir,{recursive:true});}});
+test('rejected cached gates mark status failed and explicit invalidation archives exact old evidence',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'autopilot-gate-'));try{
+  const runner=new Runner(dir),schema=z.object({passed:z.boolean()}),reject=(v:{passed:boolean})=>{if(!v.passed)throw Error('Rejected factual gate');};
+  await runner.stage('facts',schema,async()=>({passed:false}));const old=await readFile(join(dir,'facts.json'),'utf8');let calls=0;
+  await assert.rejects(()=>runner.stage('facts',schema,async()=>{calls++;return {passed:true};},async v=>reject(v)),/Rejected/);assert.equal(calls,0);
+  assert.equal(JSON.parse(await readFile(join(dir,'status.json'),'utf8')).state,'failed');
+  await runner.invalidate(['facts'],'Correct missing primary evidence');
+  const archive=(await readdir(join(dir,'evidence-history'))).find(n=>n.endsWith('.json')&&!n.endsWith('.revision.json')&&!n.endsWith('.integrity.json'))!;
+  assert.equal(await readFile(join(dir,'evidence-history',archive),'utf8'),old);
+  const result=await runner.stage('facts',schema,async()=>{calls++;return {passed:true};},async v=>reject(v));assert.equal(result.passed,true);assert.equal(calls,1);
+  await assert.rejects(()=>runner.stage('new-gate',schema,async()=>({passed:false}),async v=>reject(v)),/Rejected/);
+  await assert.rejects(()=>readFile(join(dir,'new-gate.json')));
+  assert.equal(JSON.parse(await readFile(join(dir,'status.json'),'utf8')).state,'failed');
+  await assert.rejects(()=>runner.invalidate(['../facts'],'invalid'),/Invalid stage/);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
+test('passed review for old evidence cannot approve changed inputs or trigger blind regeneration',async()=>{
+ const dir=await mkdtemp(join(tmpdir(),'autopilot-input-binding-'));try{
+  const runner=new Runner(dir),schema=z.object({passed:z.boolean(),inputSha256:z.string()}),old=digest({evidence:'old'}),fresh=digest({evidence:'complete primary sources'});
+  await runner.stage('facts',schema,async()=>({passed:true,inputSha256:old}));let calls=0;
+  await assert.rejects(()=>runner.stage('facts',schema,async()=>{calls++;return {passed:true,inputSha256:fresh};},async v=>{if(v.inputSha256!==fresh)throw Error('Factual inputs changed');}),/inputs changed/);
+  assert.equal(calls,0);assert.equal(JSON.parse(await readFile(join(dir,'status.json'),'utf8')).state,'failed');
+  await runner.invalidate(['facts'],'Revalidate changed primary evidence');
+  const result=await runner.stage('facts',schema,async()=>({passed:true,inputSha256:fresh}));assert.equal(result.inputSha256,fresh);
+ }finally{await rm(dir,{recursive:true,force:true});}
+});
 test('corrupted cache is rejected, not silently regenerated',async()=>{const dir=await mkdtemp(join(tmpdir(),'autopilot-'));try{await writeFile(join(dir,'a.json'),'{"ok":"invalid"}');await writeFile(join(dir,'a.integrity.json'),JSON.stringify({sha256:digest({ok:true})}));await assert.rejects(new Runner(dir).stage('a',z.object({ok:z.boolean()}),async()=>({ok:true})));}finally{await rm(dir,{recursive:true});}});
 test('lock prevents concurrent runs',async()=>{const dir=await mkdtemp(join(tmpdir(),'autopilot-'));const a=new Runner(dir);await a.lock();await assert.rejects(new Runner(dir).lock());await a.unlock();await rm(dir,{recursive:true});});
 test('QA failure, empty report, and contradictory checks block upload',()=>{assert.throws(()=>requireQA({passed:false,checks:[]}));assert.throws(()=>requireQA({passed:true,checks:[]}));assert.throws(()=>requireQA({passed:true,checks:Array.from({length:11},()=>({passed:false}))}));assert.throws(()=>requireQA({passed:true,checks:Array.from({length:11},()=>({passed:true}))}));const complete=requiredQAChecks.map(name=>({name,passed:true}));requireQA({passed:true,checks:complete});assert.throws(()=>requireQA({passed:true,checks:complete.slice(1)}));});

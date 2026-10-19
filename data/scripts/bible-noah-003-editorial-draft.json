@@ -95,5 +95,27 @@
     "Real rejected drafts described the hundred and fifty days as ADDITIONAL to the rain period. Remove that claim; do not add those periods as consecutive blocks.",
     "Real rejected drafts called the altar the FIRST structure added to the landscape, inferred that proportions prove a stable rectangular barge, and asserted a triple usable floor area. None of those conclusions is established by the supplied construction description; use the reviewed narration blocks instead.",
     "All six chapter narrationBlocks are original editorial text checked for their existing word ranges. Preserve their text; the ordinary factual QA must still independently verify every assertion."
-  ]
+  ],
+  "requiredEvidence": {
+    "urls": [
+      "https://www.biblegateway.com/passage/?search=Genesis%206%3A9-22&version=KJV",
+      "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV",
+      "https://www.biblegateway.com/passage/?search=Genesis%208%3A1-22&version=KJV",
+      "https://www.biblegateway.com/passage/?search=Genesis%209%3A8-17&version=KJV"
+    ],
+    "anchors": [
+      {
+        "url": "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV",
+        "quote": "12 And the rain was upon the earth forty days and forty nights."
+      },
+      {
+        "url": "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV",
+        "quote": "13 In the selfsame day entered Noah, and Shem, and Ham, and Japheth, the sons of Noah, and Noah's wife, and the three wives of his sons with them, into the ark;"
+      },
+      {
+        "url": "https://www.biblegateway.com/passage/?search=Genesis%207%3A1-24&version=KJV",
+        "quote": "16 And they that went in, went in male and female of all flesh, as God had commanded him: and the Lord shut him in."
+      }
+    ]
+  }
 }

@@ -1,10 +1,10 @@
 {
-  "status": "third-corrective-continuation-in-progress-not-yet-script-approved",
+  "status": "structural-repair-validated-awaiting-factual-resume",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
   "existingDraft": "data/scripts/bible-noah-003-editorial-draft.json",
-  "existingDraftStatus": "Unrendered source-grounded draft; previously deferred in favor of the angels episode. Recheck sources and packaging before synthesis.",
+  "existingDraftStatus": "1323-word complete script passed script and script-quality stages in run 39187154400. Independent factual review is pending after repair of missing primary excerpts.",
   "recommendedTitle": "What Did Noah's Ark Actually Look Like?",
   "alternativeTitles": [
     "Noah's Ark: What Genesis Actually Describes",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Monitor third and final allowed production attempt 39187154400. Independent factual QA, voice, images and render are still pending; local prose contracts are not full-video approval. On failure preserve evidence and stop at the existing three-total cap, never silently dispatch a fourth.",
+  "nextAction": "Resume checkpoint 39187154400 from facts after primary-evidence repair, preserving completed script and all prior rejection evidence. Owner renewed bounded continuation; no factual or financial gate waived.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -125,7 +125,7 @@
     },
     {
       "id": 39187154400,
-      "result": "in_progress at recording; fixed editorial prose assembly and restored checkpoint 39180720903"
+      "result": "failed factual review: selected source excerpts omitted required Genesis 7 verses; script passed"
     }
   ]
 }

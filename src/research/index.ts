@@ -2,6 +2,28 @@ import {z} from 'zod';
 import {validatedJSON} from '../providers/validated-json';
 import {research} from '../orchestration/schemas';
 import type {LLMProvider} from '../providers/interfaces';
+import {createHash} from 'node:crypto';
+export const evidenceRequirements=z.object({urls:z.array(z.string().url()).min(1).max(12),anchors:z.array(z.object({url:z.string().url(),quote:z.string().min(20)})).max(32)});
+function decodedText(text:string){
+ const named:Record<string,string>={nbsp:' ',amp:'&',quot:'"',apos:"'",lt:'<',gt:'>'};
+ return text.replace(/&#(x[\da-f]+|\d+);/gi,(raw,code:string)=>{const n=code[0].toLowerCase()==='x'?parseInt(code.slice(1),16):Number(code);return n>=0&&n<=0x10ffff?String.fromCodePoint(n):raw;}).replace(/&(nbsp|amp|quot|apos|lt|gt);/g,(_,name:string)=>named[name]).replace(/\s+/g,' ').trim();
+}
+/** Retain complete primary passages when excerpt selection would omit required evidence. No LLM quotations. */
+export async function completePrimaryEvidence(base:ReturnType<typeof research.parse>,requirements:z.infer<typeof evidenceRequirements>,allowedUrls:string[],request:typeof fetch=fetch){
+ const wanted=evidenceRequirements.parse(requirements);
+ if(new Set(wanted.urls).size!==wanted.urls.length||wanted.urls.some(url=>!allowedUrls.includes(url))||wanted.anchors.some(a=>!wanted.urls.includes(a.url)))throw Error('Evidence requirements must reference distinct configured sources');
+ const sources=[...base.sources],receipts=[];
+ for(const url of wanted.urls){
+  const response=await request(url,{signal:AbortSignal.timeout(30000)});if(!response.ok)throw Error('Required primary evidence HTTP '+response.status);
+  const html=await response.text(),paragraphs=retrievedParagraphs(html).map(decodedText);
+  const title=decodedText(html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)?.[1].replace(/<[^>]+>/g,'')??url);
+  for(const anchor of wanted.anchors.filter(a=>a.url===url))if(!paragraphs.some(p=>p.includes(decodedText(anchor.quote))))throw Error('Required quotation absent from retrieved evidence: '+url);
+  if(!paragraphs.length)throw Error('Required source contains no usable paragraphs: '+url);
+  for(const excerpt of paragraphs)if(!sources.some(s=>s.url===url&&decodedText(s.excerpt)===excerpt))sources.push({url,title,excerpt});
+  receipts.push({url,responseSha256:createHash('sha256').update(html).digest('hex'),paragraphs:paragraphs.length});
+ }
+ return {research:research.parse({...base,sources}),receipts};
+}
 export const demoResearch={topic:'A visual metaphor for attention',sources:[{url:'https://github.com/gaboplayt24-art/youtube-autopilot',title:'Original demonstration narrative',excerpt:'An original fictional spotlight/city/library metaphor. No measured psychological claims or medical advice.'}],summary:'An original illustrated story about choosing where to direct attention. Charts are explicitly illustrative, not measured evidence.'};
 export function retrievedParagraphs(html:string){
  const clean=(value:string)=>value.replace(/<script[\s\S]*?<\/script>/g,'').replace(/<style[\s\S]*?<\/style>/g,'').replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim();
