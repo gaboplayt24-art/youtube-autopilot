@@ -1,0 +1,48 @@
+{
+  "version": 1,
+  "runId": "bible-noah-003",
+  "scope": "Owner-confirmed ark homophone ASR spelling only; preserve could/can and all original evidence, factual, lexical and acoustic gates.",
+  "reviews": [
+    {
+      "audioFile": "narration-chapter-3.wav",
+      "wavSha256": "26042ce60093f76b086af4ae0319de939ddba6c8e01196c796887db2e531a87b",
+      "transcriptSha256": "8511f2a99e8c9855fea71c29cc6f17cf265ad65a3dee8b3675eecca48a8ffdb6",
+      "scriptSha256": "28f20492d9f7c46a4d114b2cd7b69e02da60fcb94a3e6d62a91f0c7848d13ab7",
+      "listeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-noah-003/voice-evidence-bible-noah-003-39196444828-attempt-1-excerpt.mp3",
+      "sourceExecution": "39195273263",
+      "confirmation": "dale avanza",
+      "confirmationQuestion": "\u00bfConfirm\u00e1s que se entiende \u00abark\u00bb en 0:03 y 0:41 y seguimos con esa voz?",
+      "confirmationSource": "Owner reply in this conversation after the linked 48-second ending and listening question; contextual confirmation and authorization to continue, recorded verbatim.",
+      "corrections": [
+        {
+          "referenceTokenIndex": 8,
+          "firstChunk": 8,
+          "observedChunks": [
+            {
+              "text": " arc",
+              "timestamp": [
+                2.56,
+                2.66
+              ]
+            }
+          ],
+          "heardWord": "ark"
+        },
+        {
+          "referenceTokenIndex": 122,
+          "firstChunk": 122,
+          "observedChunks": [
+            {
+              "text": " arc,",
+              "timestamp": [
+                40.98,
+                41.3
+              ]
+            }
+          ],
+          "heardWord": "ark"
+        }
+      ]
+    }
+  ]
+}

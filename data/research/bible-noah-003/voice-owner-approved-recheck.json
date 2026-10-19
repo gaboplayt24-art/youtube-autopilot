@@ -1,0 +1,55 @@
+{
+  "scope": "Local exact owner-review application and acoustic recheck of checkpointed audio; not a full video approval",
+  "confirmation": "dale avanza",
+  "sourceExecution": "39195273263",
+  "wavSha256": "26042ce60093f76b086af4ae0319de939ddba6c8e01196c796887db2e531a87b",
+  "rawTranscriptSha256": "8511f2a99e8c9855fea71c29cc6f17cf265ad65a3dee8b3675eecca48a8ffdb6",
+  "rawTranscriptPreserved": true,
+  "timestampsUnchanged": true,
+  "corrections": [
+    {
+      "referenceTokenIndex": 8,
+      "heardWord": "ark",
+      "observed": [
+        {
+          "text": " arc",
+          "timestamp": [
+            2.56,
+            2.66
+          ]
+        }
+      ],
+      "start": 2.56,
+      "end": 2.66
+    },
+    {
+      "referenceTokenIndex": 122,
+      "heardWord": "ark",
+      "observed": [
+        {
+          "text": " arc,",
+          "timestamp": [
+            40.98,
+            41.3
+          ]
+        }
+      ],
+      "start": 40.98,
+      "end": 41.3
+    }
+  ],
+  "status": "pass",
+  "wordErrorRate": 0.0070921985815602835,
+  "criticalTermAccuracy": 1,
+  "remainingDifferences": [
+    {
+      "type": "substitution",
+      "referenceIndex": 43,
+      "observedIndex": 43,
+      "reference": "could",
+      "observed": "can"
+    }
+  ],
+  "pauseQuality": "pass",
+  "speechContinuity": true
+}

@@ -1,5 +1,5 @@
 {
-  "status": "pending-owner-listening-not-approved",
+  "status": "owner-confirmed-in-context",
   "runId": "bible-noah-003",
   "sourceExecution": "39195273263",
   "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39195273263",
@@ -68,7 +68,7 @@
       "expectedWord": "ark"
     }
   ],
-  "attemptWindow": "Three attempts reached after owner renewal; no further production run dispatched. Human review required before continuation.",
+  "attemptWindow": "Owner reviewed the requested ending and authorized continuation; prior three attempts preserved, new bounded window configured.",
   "notFullVideoApproval": true,
   "videoRendered": false,
   "scheduled": false,
@@ -76,5 +76,8 @@
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
   "artifactUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-noah-003/voice-evidence-bible-noah-003-39196444828-attempt-1.zip",
   "artifactSha256": "cad42e2426435bd0e73b8cdb866399c4af189e4960aaa0c50548c78d9b610b98",
-  "listeningSha256": "a5d7e71af0d2eced196d4d68ba904cdba3d8379e9953cfa2587e8a3c6d7d6726"
+  "listeningSha256": "a5d7e71af0d2eced196d4d68ba904cdba3d8379e9953cfa2587e8a3c6d7d6726",
+  "confirmation": "dale avanza",
+  "confirmationAt": "2026-10-19T04:46:44Z",
+  "interpretation": "Contextual affirmative response to the linked ending and ark listening question; not a blanket QA waiver."
 }

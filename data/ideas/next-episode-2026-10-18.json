@@ -1,5 +1,5 @@
 {
-  "status": "full-narration-complete-final-48-seconds-await-listening",
+  "status": "owner-ending-confirmed-ready-to-resume",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Await actual owner listening confirmation for final 48-second chapter, then record only explicit hash-bound ASR corrections and authorize bounded continuation. No fourth production run is dispatched while approval is pending.",
+  "nextAction": "Owner replied dale avanza to exact listening question. Hash-bound two-word ASR correction verified locally: WER 0.71%, critical accuracy 100%, raw transcript/timings unchanged. Resume 39195273263 from voice; facts and all synthesis retained, other gates enforced.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -141,5 +141,10 @@
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
-  "voiceListeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-noah-003/voice-evidence-bible-noah-003-39196444828-attempt-1-excerpt.mp3"
+  "voiceListeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-noah-003/voice-evidence-bible-noah-003-39196444828-attempt-1-excerpt.mp3",
+  "voiceOwnerConfirmation": {
+    "reply": "dale avanza",
+    "at": "2026-10-19T04:46:44Z",
+    "scope": "Exact two ark spellings only; could/can retained; no general voice-QA waiver"
+  }
 }
