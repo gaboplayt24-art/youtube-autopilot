@@ -1,0 +1,58 @@
+{
+  "narrationCoverage": {
+    "complete": true,
+    "prefixMatches": true,
+    "generatedScriptWords": 1323,
+    "totalScriptWords": 1323
+  },
+  "kind": "voice-evidence-review-only",
+  "runId": "bible-noah-003",
+  "sourceRunId": "39195273263",
+  "execution": "39196444828-attempt-1",
+  "videoApproved": false,
+  "narratorChanged": false,
+  "videoGenerated": false,
+  "factsPassed": true,
+  "checkedClaims": 25,
+  "voiceStatus": "needs-listening-review",
+  "parts": [
+    {
+      "name": "narration-chapter-1.wav",
+      "sha256": "7178bea631fe8a1e33bd6f6698532c4b80cea5718ab69eecb1b02f710e720c1c",
+      "durationSeconds": 253.74,
+      "humanReviewApplied": false,
+      "status": "pass",
+      "wordErrorRate": 0.017804154302670624,
+      "criticalTermAccuracy": 1,
+      "failedCriticalTerms": []
+    },
+    {
+      "name": "narration-chapter-2.wav",
+      "sha256": "766c358f314c78611b3cd54fc9b59d8e0f968f08b3694904e861a7975c9b0620",
+      "durationSeconds": 185.18,
+      "humanReviewApplied": false,
+      "status": "pass",
+      "wordErrorRate": 0.009861932938856016,
+      "criticalTermAccuracy": 1,
+      "failedCriticalTerms": []
+    },
+    {
+      "name": "narration-chapter-3.wav",
+      "sha256": "26042ce60093f76b086af4ae0319de939ddba6c8e01196c796887db2e531a87b",
+      "durationSeconds": 47.76,
+      "humanReviewApplied": false,
+      "status": "review",
+      "wordErrorRate": 0.02127659574468085,
+      "criticalTermAccuracy": 1,
+      "failedCriticalTerms": []
+    }
+  ],
+  "excerpt": {
+    "file": "voice-evidence-bible-noah-003-39196444828-attempt-1-excerpt.mp3",
+    "source": "narration-chapter-3.wav",
+    "startSeconds": 0,
+    "endSeconds": 47.76,
+    "note": "Listening cut bounds, not synthetic word timestamps"
+  },
+  "paidApiCalls": 0
+}

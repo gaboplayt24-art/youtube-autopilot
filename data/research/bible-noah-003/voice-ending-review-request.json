@@ -3,7 +3,7 @@
   "runId": "bible-noah-003",
   "sourceExecution": "39195273263",
   "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39195273263",
-  "listeningArtifact": null,
+  "listeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-noah-003/voice-evidence-bible-noah-003-39196444828-attempt-1-excerpt.mp3",
   "audioFile": "narration-chapter-3.wav",
   "wavSha256": "26042ce60093f76b086af4ae0319de939ddba6c8e01196c796887db2e531a87b",
   "transcriptSha256": "8511f2a99e8c9855fea71c29cc6f17cf265ad65a3dee8b3675eecca48a8ffdb6",
@@ -72,5 +72,9 @@
   "notFullVideoApproval": true,
   "videoRendered": false,
   "scheduled": false,
-  "listeningArtifactStatus": "Pending evidence-only Actions export; local direct upload endpoint denied. No credential request or production retry."
+  "listeningArtifactStatus": "Uploaded by successful evidence-only Actions workflow; downloaded and verified against artifact manifest",
+  "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
+  "artifactUrl": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-noah-003/voice-evidence-bible-noah-003-39196444828-attempt-1.zip",
+  "artifactSha256": "cad42e2426435bd0e73b8cdb866399c4af189e4960aaa0c50548c78d9b610b98",
+  "listeningSha256": "a5d7e71af0d2eced196d4d68ba904cdba3d8379e9953cfa2587e8a3c6d7d6726"
 }

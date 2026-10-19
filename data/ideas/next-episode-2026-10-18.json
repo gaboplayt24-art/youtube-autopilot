@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Export actual final voice evidence for owner listening, preserve raw reports. Do not dispatch more production until the required review and continuation are authorized.",
+  "nextAction": "Await actual owner listening confirmation for final 48-second chapter, then record only explicit hash-bound ASR corrections and authorize bounded continuation. No fourth production run is dispatched while approval is pending.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -139,5 +139,7 @@
       "id": 39195273263,
       "result": "All 1323 script words synthesized: 486.68 seconds across three WAVs. First two parts pass voice QA (WER 1.78%, 0.99%). Final 47.76 seconds requires listening at WER 2.13%, critical accuracy 100%, no acoustic defects: arc/ark twice and can/could once. No images/render/upload; publish skipped. Renewed attempt cap reached."
     }
-  ]
+  ],
+  "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
+  "voiceListeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/releases/download/pipeline-checkpoint-bible-noah-003/voice-evidence-bible-noah-003-39196444828-attempt-1-excerpt.mp3"
 }
