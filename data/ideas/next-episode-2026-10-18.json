@@ -1,10 +1,10 @@
 {
-  "status": "optional-editorial-label-safety-repair-ready",
+  "status": "visual-planning-resumed-with-audited-label-omission",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
   "existingDraft": "data/scripts/bible-noah-003-editorial-draft.json",
-  "existingDraftStatus": "1323-word complete script passed script and script-quality stages in run 39187154400. Independent factual review is pending after repair of missing primary excerpts.",
+  "existingDraftStatus": "1323 words; script, factual QA, full 486.68-second voice, captions and 77 timed shots passed. Visual plan resumed; no final media or schedule yet.",
   "recommendedTitle": "What Did Noah's Ark Actually Look Like?",
   "alternativeTitles": [
     "Noah's Ark: What Genesis Actually Describes",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Continue structural work under latest owner ok: restore 39207499313 from visual-thinking-v5 with audited optional-label omission. Prior facts/voice/captions/shots retained; no QA waiver.",
+  "nextAction": "Monitor 39208398640 from visual-thinking-v5, preserving completed narration and all QA; continue imagery, render and authorized scheduling after success.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39207499313",
-  "productionCommit": "7616ce7eafee73faa0a6c8d7e7f5b3968532cd2d",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39208398640",
+  "productionCommit": "375a01fe51e7c13b69b915f98537c7e7737cb3ed",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
