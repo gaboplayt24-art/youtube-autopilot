@@ -1,5 +1,5 @@
 {
-  "status": "visual-null-anchor-and-number-repairs-ready",
+  "status": "visual-contract-recovery-in-progress",
   "preparedAt": "2026-10-18T21:03:26.868Z",
   "researchWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39166077681",
   "topic": "What Genesis actually says about Noah\u2019s ark: materials, levels and coating",
@@ -95,7 +95,7 @@
     "plannerTargetSeconds": 600
   },
   "singleSessionMeaning": "A ChatGPT session can inspect the repo, prepare and dispatch a cloud workflow. GitHub continues after the session ends. Completion inside that session cannot be guaranteed under free-provider quotas; ChatGPT subscription fees do not include API credits.",
-  "nextAction": "Resume 39201840298 from visual-thinking-v5 with absence-only anchor transport repair and exact indefinite-number normalization. Preserve all approved voice/captions/shots/facts; third attempt in current owner-reviewed window.",
+  "nextAction": "Monitor actual visual plan/assets/edit/render/QA and authorized delivery. Approved voice/captions/shots/facts retained; 77 planned shots, no generated imagery or schedule claimed yet.",
   "runId": "bible-noah-003",
   "durationDecision": {
     "selectedBy": "Codex, not an explicit owner duration instruction",
@@ -108,8 +108,8 @@
   },
   "cancelledShortProductionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39170301678",
   "cancelledShortProductionCommit": "72a382a3e16ed8862db0c8609450acfaf213c6d1",
-  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39201840298",
-  "productionCommit": "060ec2c152650900784fadbe232f1756147ee2fa",
+  "productionWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39207499313",
+  "productionCommit": "7616ce7eafee73faa0a6c8d7e7f5b3968532cd2d",
   "previousLongFormAttempt": {
     "workflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39179570025",
     "result": "failed script word budget; checkpoints retained"
@@ -146,6 +146,10 @@
     {
       "id": 39201840298,
       "result": "Failed visual-thinking-v5 transport schema: overlay=null paired with overlayAnchor=null was rejected as non-string. Exact failed responses recover under absence-only normalization; labelled null anchors remain rejected. Spoken 150 normalization also proactively verified against all three actual transcripts."
+    },
+    {
+      "id": 39207499313,
+      "result": "in_progress at recording; owner-reviewed-window third attempt; restores 39201840298 from visual-thinking-v5 with absent-anchor/complete-number fixes"
     }
   ],
   "evidenceWorkflow": "https://github.com/gaboplayt24-art/youtube-autopilot/actions/runs/39196444828",
@@ -154,5 +158,6 @@
     "reply": "dale avanza",
     "at": "2026-10-19T04:46:44Z",
     "scope": "Exact two ark spellings only; could/can retained; no general voice-QA waiver"
-  }
+  },
+  "plannedShotCount": 77
 }
