@@ -1,11 +1,11 @@
 name: resume-approved-episode
 on:
   schedule:
-    - cron: '35 0 * * *'
+    - cron: '*/15 * * * *'
   workflow_dispatch:
     inputs:
       dispatch_ready:
-        description: Run the owner-authorized monthly queue, at most one production attempt per UTC day
+        description: Resume the owner-authorized queue without daily or attempt-count limits
         type: boolean
         default: false
 permissions:

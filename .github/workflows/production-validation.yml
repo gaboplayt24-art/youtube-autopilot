@@ -9,6 +9,10 @@ on:
       source_run_id:
         description: Resume this same run ID from a preceding Actions artifact
         type: string
+      autonomous_visual_repairs:
+        description: Correct rejected image concepts against actual evidence, keeping all QA and provider budgets
+        type: boolean
+        default: false
       retry_from:
         description: Optional existing stage to revise; archives previous script before invalidation
         type: string
@@ -261,6 +265,7 @@ jobs:
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
         timeout-minutes: 120
         env:
+          AUTONOMOUS_VISUAL_REPAIR: ${{ inputs.autonomous_visual_repairs && 'true' || 'false' }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: |

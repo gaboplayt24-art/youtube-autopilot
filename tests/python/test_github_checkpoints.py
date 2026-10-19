@@ -34,6 +34,20 @@ class CheckpointTests(unittest.TestCase):
             with self.assertRaisesRegex(ValueError, 'checksum'):
                 store.unpack(manifest, parts, target, 'episode', '123')
 
+    def test_continuation_reports_only_actual_provider_reset_without_error_text(self):
+        with tempfile.TemporaryDirectory() as directory:
+            root = Path(directory)
+            (root / 'status.json').write_text(json.dumps({'state': 'failed', 'stage': 'visuals', 'error': 'Gemini HTTP429 quota: private error evidence'}))
+            (root / 'logs.jsonl').write_text('\n'.join([
+                json.dumps({'event': 'gemini_model_quota_unavailable', 'resumeAfter': '2026-01-01T00:00:00Z'}),
+                json.dumps({'event': 'stage_started', 'stage': 'visuals'}),
+                json.dumps({'event': 'gemini_model_quota_unavailable', 'resumeAfter': '2026-10-20T00:00:00Z'})]))
+            hint = store.continuation_hint(root)
+            self.assertEqual(hint['resumeAfter'], '2026-10-20T00:00:00Z')
+            self.assertNotIn('private error', json.dumps(hint))
+            (root / 'logs.jsonl').write_text(json.dumps({'event': 'stage_started', 'stage': 'visuals'}))
+            self.assertNotIn('resumeAfter', store.continuation_hint(root))
+
     def test_zip_traversal_is_rejected_before_extraction(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / 'part.zip'

@@ -120,10 +120,49 @@ def pack(root, directory, run_id, source_run_id, attempt, chunk_bytes=CHUNK_BYTE
     archive.unlink()
     manifest = {'version': 1, 'runId': run_id, 'sourceRunId': source_run_id, 'attempt': attempt,
                 'commit': os.environ.get('GITHUB_SHA'), 'files': count, 'parts': parts,
-                'recordOnly': record_only, 'baseSourceRunId': os.environ.get('SOURCE_RUN_ID') if record_only else None, 'createdAt': datetime.now(timezone.utc).isoformat()}
+                'continuation': continuation_hint(root), 'recordOnly': record_only, 'baseSourceRunId': os.environ.get('SOURCE_RUN_ID') if record_only else None, 'createdAt': datetime.now(timezone.utc).isoformat()}
     path = directory / (stem + '.manifest.json')
     path.write_text(json.dumps(manifest, indent=2))
     return path, manifest
+
+
+def continuation_hint(root):
+    """Publish only actual provider reset timestamps, never credentials or error text."""
+    root = Path(root)
+    try:
+        status = json.loads((root / 'status.json').read_text())
+    except (FileNotFoundError, json.JSONDecodeError):
+        return {}
+    hint = {'state': status.get('state'), 'stage': status.get('stage')}
+    if not re.search(r'quota|429|rate.?limit|resource.?exhausted', str(status.get('error', '')), re.I):
+        return hint
+    reset = None
+    try:
+        with (root / 'logs.jsonl').open() as logs:
+            for line in logs:
+                try:
+                    item = json.loads(line)
+                except json.JSONDecodeError:
+                    continue
+                if item.get('event') == 'stage_started' and item.get('stage') == status.get('stage'):
+                    reset = None
+                if item.get('event') == 'gemini_model_quota_unavailable' and item.get('resumeAfter'):
+                    reset = item['resumeAfter']
+    except FileNotFoundError:
+        pass
+    quota = root / 'quota-checkpoint.json'
+    try:
+        if quota.exists():
+            value = json.loads(quota.read_text())
+            updated = status.get('updatedAt')
+            if updated and quota.stat().st_mtime >= datetime.fromisoformat(updated.replace('Z', '+00:00')).timestamp() - 120:
+                reset = value.get('resumeAfter', reset)
+        if reset:
+            datetime.fromisoformat(reset.replace('Z', '+00:00'))
+            hint['resumeAfter'] = reset
+    except (ValueError, TypeError, OSError):
+        pass  # Optional hints must never prevent preservation of the raw checkpoint.
+    return hint
 
 
 def unpack(manifest, directory, destination, run_id, source_run_id):
