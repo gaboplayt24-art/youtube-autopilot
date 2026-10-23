@@ -130,8 +130,8 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: npx tsx scripts/social-delivery.ts
       - name: Automatically schedule QA-passed YouTube Shorts under monthly owner authorization
-        # A production dispatched by the controller's GITHUB_TOKEN cannot raise workflow_run, so it dispatches action=auto instead.
-        if: (github.event_name == 'workflow_run' || env.SOCIAL_ACTION == 'auto') && env.RUN_ID != 'bible-angels-001'
+        # A production dispatched by the controller's GITHUB_TOKEN cannot raise workflow_run, so it dispatches action=auto instead (inputs, because this step's own env overrides SOCIAL_ACTION).
+        if: (github.event_name == 'workflow_run' || inputs.action == 'auto') && env.RUN_ID != 'bible-angels-001'
         env:
           SOCIAL_ACTION: auto-youtube
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
