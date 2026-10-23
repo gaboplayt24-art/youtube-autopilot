@@ -8,11 +8,11 @@ import {requireQA} from '../qa';
 import {exec,duration,json,read} from '../orchestration/io';
 import {Runner} from '../orchestration/runner';
 import {renderVideo} from '../render';
-import {inspectAudio} from '../audio/qa';
-import {candidate,planClip,chapterClipSelection,chapterClipCandidates} from './plan';
+import {inspectAudio,loadAudioConfig} from '../audio/qa';
+import {candidate,planClip,chapterClipSelection,chapterClipCandidates,automaticChapterSelection,type ScriptScenes} from './plan';
+import {chapterTitles} from '../editor/dynamic-edit-stage';
 import {sliceEdit} from '../editor/dynamic-edit';
 import {writeSfxTrack} from '../audio/sfx-library';
-import {loadAudioConfig} from '../audio/qa';
 export const clipRecord=z.object({id:z.string(),title:z.string(),source:z.string(),path:z.string(),sha256:z.string().length(64),duration:z.number(),qa:qa,sourceRenderSha256:z.string(),narration:z.string()});
 export const clipBundle=z.object({runId:z.string(),clips:z.array(clipRecord).length(3)});
 export async function buildClips(runId:string){
@@ -25,7 +25,7 @@ export async function buildClips(runId:string){
  try{candidateInput=await read(`data/ideas/${runId}-shorts-candidates.json`);}
  catch(error){
   if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;
-  const selection=chapterClipSelection.parse(await read(`data/ideas/${runId}-shorts-chapters.json`));
+  const selection=chapterClipSelection.parse(await read(`data/ideas/${runId}-shorts-chapters.json`).catch(async(missing:NodeJS.ErrnoException)=>{if(missing.code!=='ENOENT')throw missing;return automaticChapterSelection(runId,full,await read(join(dir,'final-script.json')) as ScriptScenes,await chapterTitles(runId));}));
   if(selection.runId!==runId)throw Error('Clip chapter selection belongs to another episode');
   candidateInput={candidates:chapterClipCandidates(selection,full)};
  }

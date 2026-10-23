@@ -4,7 +4,7 @@ on:
     inputs:
       action:
         type: choice
-        options: [preflight, layout-preview, build, youtube, tiktok, replace-clips]
+        options: [preflight, layout-preview, build, youtube, tiktok, replace-clips, auto]
         default: preflight
       run_id:
         type: string
@@ -95,10 +95,10 @@ jobs:
         if: env.SOCIAL_ACTION != 'preflight'
         run: python3 scripts/github_checkpoints.py restore
       - name: Media tools
-        if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview'
+        if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview' || env.SOCIAL_ACTION == 'auto'
         run: bash scripts/ensure-media-ci.sh
       - name: Fetch the Anton display font (SIL OFL) for clip titles and captions
-        if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview'
+        if: env.SOCIAL_ACTION == 'build' || env.SOCIAL_ACTION == 'layout-preview' || env.SOCIAL_ACTION == 'auto'
         run: mkdir -p public/fonts && curl -fsSL --retry 3 -o public/fonts/Anton-Regular.ttf https://raw.githubusercontent.com/google/fonts/main/ofl/anton/Anton-Regular.ttf && test -s public/fonts/Anton-Regular.ttf
       - name: Restore reviewed clip package for scheduling
         if: env.SOCIAL_ACTION == 'youtube' || env.SOCIAL_ACTION == 'tiktok' || env.SOCIAL_ACTION == 'replace-clips'
@@ -121,6 +121,7 @@ jobs:
       - name: Inspect, render or schedule through official APIs
         if: env.SOCIAL_ACTION != 'replace-clips'
         env:
+          SOCIAL_ACTION: ${{ env.SOCIAL_ACTION == 'auto' && 'build' || env.SOCIAL_ACTION }}
           ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
@@ -129,7 +130,8 @@ jobs:
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: npx tsx scripts/social-delivery.ts
       - name: Automatically schedule QA-passed YouTube Shorts under monthly owner authorization
-        if: github.event_name == 'workflow_run' && env.RUN_ID != 'bible-angels-001'
+        # A production dispatched by the controller's GITHUB_TOKEN cannot raise workflow_run, so it dispatches action=auto instead.
+        if: (github.event_name == 'workflow_run' || env.SOCIAL_ACTION == 'auto') && env.RUN_ID != 'bible-angels-001'
         env:
           SOCIAL_ACTION: auto-youtube
           SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}

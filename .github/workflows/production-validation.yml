@@ -341,6 +341,26 @@ jobs:
       llm_provider: ${{ inputs.llm_provider || 'gemini' }}
       groq_free_plan_confirmed: ${{ inputs.groq_free_plan_confirmed }}
     secrets: inherit
+  # Shorts for a QA-passed, scheduled monthly episode. workflow_run never fires for runs the controller dispatched
+  # with GITHUB_TOKEN, so the clip build is dispatched explicitly; its own QA and scheduling gates are unchanged.
+  social-auto:
+    needs: publish
+    if: success() && inputs.task == 'video' && inputs.publish && !inputs.owner_thumbnail
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      actions: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dispatch the vertical clip build and Shorts scheduling for a monthly episode
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ inputs.run_id }}
+        run: |
+          if jq -e --arg r "$RUN_ID" '.episodes[]|select(.runId==$r)' config/monthly-production.json >/dev/null; then
+            gh workflow run social-delivery.yml --ref main -f action=auto -f run_id="$RUN_ID" -f source_run_id="${{ github.run_id }}"
+          else echo "Not a monthly episode; Shorts stay manual."; fi
   tiktok-repost:
     if: inputs.task == 'tiktok-repost'
     runs-on: ubuntu-latest
