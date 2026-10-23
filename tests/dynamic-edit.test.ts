@@ -92,3 +92,12 @@ test('without an editorial Shorts selection, chapters 2-4 are chosen and cited f
  const sel=automaticChapterSelection('bible-x',{fps:30,width:1920,height:1080,durationInFrames:1500,scenes,cues,shots:[],assets:[]} as never,{title:'Jonah Beyond the Fish',scenes:[{id:'c2',claims:[{text:'Jonah 1:3 says he fled to Tarshish.'}]}]},{c3:'The Great City'});
  assert.deepEqual(sel.chapters.map(c=>[c.id,c.sceneId,c.title,c.source]),[['A','c2','Jonah Beyond the Fish (1/3)','Jonah 1:3'],['B','c3','The Great City','The biblical text'],['C','c4','Jonah Beyond the Fish (3/3)','The biblical text']]);
 });
+
+test('a clip passage is found even when one measured word holds several spoken tokens',async()=>{
+ const {planClip}=await import('../src/social/plan');
+ const texts=['Noah','built','an','ark','three hundred','cubits','long.','Then','the','rain','came.'];
+ const words=texts.map((text,i)=>({text,start:i*2,end:i*2+1.9}));
+ const comp={fps:30,width:1920,height:1080,durationInFrames:660,scenes:[],cues:[{sceneId:'c1',start:0,end:22,text:texts.join(' '),words}],shots:[shot('s0','c1',0,30)],assets:[]} as never;
+ const clip=planClip({id:'A',title:'The Ark Size',source:'Genesis 6:15',narration:'Noah built an ark three hundred cubits long. Then the rain came.'},comp);
+ assert.equal(clip.start,0);assert.equal(clip.end,21.9);assert.equal(clip.cues.flatMap(c=>c.words??[]).length,11);
+});
