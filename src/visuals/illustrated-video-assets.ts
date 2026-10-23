@@ -50,7 +50,7 @@ export async function createIllustratedVideoAssets(shots:Shot[],style:Illustrate
   if(!plannedReuse&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork))result=await engine.generate(await cachedRegeneration(runner.dir,{...shot.illustrationIdea,id:key},style),style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);}
   catch(e){await log(runner.dir,'illustration_rejected',{shotId:shot.id,key,failure:(e as Error).message});throw e;}
   if(autonomousRepairs&&!plannedReuse&&(!result.review.passed||!result.artwork))result=await repairUntilReviewed(result,
-   last=>planVisualCorrection({...shot.illustrationIdea!,id:key},last,style,reference,runner,vision),
+   (last,promptIssues)=>planVisualCorrection({...shot.illustrationIdea!,id:key},last,style,reference,runner,vision,promptIssues),
    idea=>engine.generate(idea,style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height));
   if(!result.review.passed||!result.artwork){const failure='Native production illustration QA failed: '+key+' '+JSON.stringify(result.review.objectiveFailures)+' evidence '+JSON.stringify({issues:result.review.issues,seriousAnatomyDefects:result.review.seriousAnatomyDefects??[],densityRationale:result.review.densityRationale});
    // A bounded regeneration is already exhausted: stop spending instead of drawing the remaining video.

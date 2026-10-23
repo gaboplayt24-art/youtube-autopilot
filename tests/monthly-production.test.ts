@@ -103,3 +103,12 @@ test('one source-bound repair reservation leaves the original daily reservation 
   await assert.rejects(()=>reserveMonthlyAttempt(store,'bible-first',now,'../bad'));
  }finally{await rm(dir,{recursive:true,force:true});}
 });
+test('three fast identical failures step an episode aside for a day unless a correction was committed since',async()=>{
+ const {stalledEpisode}=await import('../src/orchestration/monthly-production');
+ const run=(id:number,at:string,minutes=4)=>({id,display_title:'production-bible-noah-003',created_at:at,updated_at:new Date(Date.parse(at)+minutes*60000).toISOString(),status:'completed',conclusion:'failure'});
+ const history=[run(1,'2026-10-22T16:00:00Z'),run(2,'2026-10-22T20:00:00Z'),run(3,'2026-10-23T01:48:00Z')],now=new Date('2026-10-23T03:00:00Z');
+ assert.equal(stalledEpisode(history,'2026-10-19T00:00:00Z',now),true);
+ assert.equal(stalledEpisode(history,'2026-10-23T02:00:00Z',now),false,'a newer correction ends the stall');
+ assert.equal(stalledEpisode(history,undefined,new Date('2026-10-24T03:00:00Z')),false,'retries again after a day');
+ assert.equal(stalledEpisode([run(1,'2026-10-22T16:00:00Z',90),...history.slice(1)],undefined,now),false,'a long run is real progress, not a repeat');
+});

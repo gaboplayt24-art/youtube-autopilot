@@ -28,3 +28,15 @@ test('continuation identities ignore reports but change with source, runtime or 
  assert.notEqual(await continuationIdentity('bible-noah','124',root),b);await writeFile(join(root,'src/renderer.ts'),'fixed');assert.notEqual(await continuationIdentity('bible-noah','123',root),b);
  }finally{await rm(root,{recursive:true,force:true});}
 });
+test('a correction refused by prompt QA before drawing is re-planned with those issues, not retried blindly',async()=>{
+ const seen:(string[]|undefined)[]=[];let draws=0;
+ const accepted={...rejected,review:{passed:true,objectiveFailures:[],issues:[]},artwork:{referenceQAPassed:true}};
+ const result=await repairUntilReviewed(rejected,async(_last,issues)=>{seen.push(issues);return {...idea,concept:idea.concept+' Plan '+seen.length};},async()=>{draws++;if(draws===1)throw Error('Native prompt QA failed before asset spending: example-auto-1 ["Modern setting conflicts with ancient dress"]');return accepted;});
+ assert.equal(result,accepted);assert.deepEqual(seen,[undefined,['Modern setting conflicts with ancient dress']]);
+});
+test('only an unnamed, planner-invented cast may be dropped from a correction',async()=>{
+ const {peopleOptional}=await import('../src/visuals/adaptive-repair');
+ assert.equal(peopleOptional({...idea,narration:'That is the story\'s own conclusion.',characterRoles:['Modern Reader']}),true);
+ assert.equal(peopleOptional({...idea,narration:'Noah builds the ark with his sons.',characterRoles:['Noah']}),false);
+ assert.equal(peopleOptional({...idea,characterRoles:[]}),false);
+});

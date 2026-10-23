@@ -13,10 +13,12 @@ async function main(){
  const api=async(path:string,filter:string)=>JSON.parse((await exec('gh',['api',`repos/${repo}/${path}`,'--jq',filter],{timeout:30000})).stdout);
  // Read the full plan window, not an attempt-count-limited history slice.
  const runs=[];for(let page=1;;page++){
-  const result=await api(`actions/workflows/production-validation.yml/runs?per_page=100&page=${page}`,'[.workflow_runs[]|{id,display_title,conclusion,created_at,status}]');
-  runs.push(...z.array(z.object({id:z.number(),display_title:z.string(),conclusion:z.string().nullable(),created_at:z.string(),status:z.string()})).parse(result));if(result.length<100||result.every((r:{created_at:string})=>Date.parse(r.created_at)<Date.parse(c.startsAt)))break;
+  const result=await api(`actions/workflows/production-validation.yml/runs?per_page=100&page=${page}`,'[.workflow_runs[]|{id,display_title,conclusion,created_at,updated_at,status}]');
+  runs.push(...z.array(z.object({id:z.number(),display_title:z.string(),conclusion:z.string().nullable(),created_at:z.string(),updated_at:z.string().optional(),status:z.string()})).parse(result));if(result.length<100||result.every((r:{created_at:string})=>Date.parse(r.created_at)<Date.parse(c.startsAt)))break;
  }
- const decision=monthlyDecision(c,runs);let sourceRunId:string|undefined,dispatched=false,resumeAfter:string|undefined;
+ // When each episode's own editorial inputs (or the plan) last changed: a new correction ends a stall at once.
+ const inputsChangedAt:Record<string,string>={};for(const e of c.episodes){const out=(await exec('git',['log','-1','--format=%cI','--','config/monthly-production.json',`data/scripts/${e.runId}-visual-revisions.json`,`data/scripts/${e.runId}-editorial-draft.json`,'src','remotion'],{timeout:30000}).catch(()=>({stdout:''}))).stdout.trim();if(out)inputsChangedAt[e.runId]=out;}
+ const decision=monthlyDecision(c,runs,new Date(),inputsChangedAt);let sourceRunId:string|undefined,dispatched=false,resumeAfter:string|undefined;
  if(decision.decision==='ready'){
   const episode=c.episodes.find(e=>e.runId===decision.runId)!;
   const history=runs.filter(r=>r.display_title==='production-'+episode.runId);
@@ -44,6 +46,9 @@ async function main(){
    else {await exec('gh',monthlyDispatchArguments(c,episode.runId,sourceRunId),{timeout:30000});dispatched=true;}
   }
  }
+ // Tell the owner once per stalled episode through a GitHub issue (an e-mail notification), never by publishing anything.
+ for(const runId of decision.blockedEpisodes){const title='Episode stalled: '+runId;const open=JSON.parse((await exec('gh',['issue','list','--repo',repo,'--state','open','--search',title+' in:title','--json','title'],{timeout:30000})).stdout) as {title:string}[];
+  if(!open.some(i=>i.title===title))await exec('gh',['issue','create','--repo',repo,'--title',title,'--body',`The autonomous queue stopped retrying ${runId}: its last three productions failed quickly at the same point with no correction committed since. It will retry automatically after 24 hours, or immediately after a correction is committed; other due episodes continue meanwhile. Nothing was published and every QA gate is unchanged. Latest checkpoint and failure: pipeline-checkpoint-${runId} release.`],{timeout:30000}).catch(()=>undefined);}
  const report={...decision,sourceRunId,resumeAfter,dispatched,startsAt:c.startsAt,endsAt:c.endsAt,requiresOwnerRenewal:false,qualityGatesUnchanged:true};console.log(JSON.stringify(report));
  if(process.env.GITHUB_STEP_SUMMARY)await appendFile(process.env.GITHUB_STEP_SUMMARY,'## Monthly autonomous production\n\n```json\n'+JSON.stringify(report,null,2)+'\n```\nBlocked episodes are retained, never published or treated as approval. Financial quota ledger is unchanged.\n');
 }

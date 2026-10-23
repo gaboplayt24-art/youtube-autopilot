@@ -18,7 +18,15 @@ export type MonthlyProduction=z.infer<typeof monthlyProduction>;
 export function monthlyShortsAuthorized(c:MonthlyProduction,runId:string,now=new Date()){
  return c.enabled&&c.autoScheduleShorts&&now.getTime()>=Date.parse(c.startsAt)&&now.getTime()<Date.parse(c.endsAt)&&c.episodes.some(e=>e.runId===runId);
 }
-export type ProductionRun={id:number;display_title:string;created_at:string;status:string;conclusion:string|null};
+export type ProductionRun={id:number;display_title:string;created_at:string;updated_at?:string;status:string;conclusion:string|null};
+/** Three fast failures in a row with no editorial input changed since: the same deterministic defect repeats.
+ * The episode steps aside for 24 h so the queue can move on; it never deletes evidence or reservations. */
+export function stalledEpisode(history:ProductionRun[],inputsChangedAt:string|undefined,now=new Date()){
+ const recent=[...history].sort((a,b)=>b.created_at.localeCompare(a.created_at)).slice(0,3);
+ if(recent.length<3||recent.some(r=>r.conclusion!=='failure'||!r.updated_at||Date.parse(r.updated_at)-Date.parse(r.created_at)>20*60000))return false;
+ if(inputsChangedAt&&Date.parse(inputsChangedAt)>Date.parse(recent[2].created_at))return false;
+ return now.getTime()-Date.parse(recent[0].updated_at!)<24*3600000;
+}
 export async function reserveMonthlyAttempt(store:Pick<StorageProvider,'create'>,runId:string,now=new Date(),repairSourceRunId?:string,continuationIdentity?:string){
  if(repairSourceRunId)z.string().regex(/^\d+$/).parse(repairSourceRunId);
  if(continuationIdentity)z.string().regex(/^[a-f0-9]{64}$/).parse(continuationIdentity);
@@ -35,7 +43,7 @@ export function monthlyDispatchArguments(c:MonthlyProduction,runId:string,source
 }
 const active=(r:ProductionRun)=>r.status!=='completed';
 /** Fail closed on active jobs, completed episodes and spending/attempt limits. Never grants QA approval. */
-export function monthlyDecision(c:MonthlyProduction,runs:ProductionRun[],now=new Date()){
+export function monthlyDecision(c:MonthlyProduction,runs:ProductionRun[],now=new Date(),inputsChangedAt:Record<string,string>={}){
  const base={runId:undefined as string|undefined,blockedEpisodes:[] as string[],repairSourceRunId:undefined as string|undefined};
  if(!c.enabled)return {...base,decision:'disabled'};
  if(now.getTime()<Date.parse(c.startsAt))return {...base,decision:'not-started'};
@@ -55,6 +63,7 @@ export function monthlyDecision(c:MonthlyProduction,runs:ProductionRun[],now=new
   const history=runs.filter(r=>r.display_title==='production-'+episode.runId);
   if(history.some(r=>r.conclusion==='success'))continue;
   if(c.maxAttemptsPerEpisode!==null&&attempts.filter(r=>r.display_title==='production-'+episode.runId).length>=c.maxAttemptsPerEpisode){base.blockedEpisodes.push(episode.runId);continue;}
+  if(c.retryPolicy==='continuous'&&stalledEpisode(history,inputsChangedAt[episode.runId],now)){base.blockedEpisodes.push(episode.runId);continue;}
   if(Date.parse(episode.notBefore)<=now.getTime())return {...base,decision:'ready',runId:episode.runId};
  }
  return {...base,decision:'waiting-next-slot-or-complete'};

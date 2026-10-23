@@ -1,36 +1,51 @@
 {
-  "runId": "bible-noah-003",
-  "sourceRevisions": [
-    {
-      "sourceId": "chapter-2-shot-10",
-      "replacement": {
-        "overlayAnchor": "pitch within and without",
-        "id": "chapter-2-shot-10-two-sided-pitch",
-        "narration": "The instruction calls for pitch within and without. An explanation that shows only the outside coating misses that second surface.",
-        "historicalContext": "Ancient Near Eastern construction techniques. Pitch, or bitumen, was commonly used for waterproofing wood and reeds in ancient Mesopotamia.",
-        "concept": "Two side-by-side illustrated closeups of the same wooden hull plank: its inward-facing surface on the left and outward-facing surface on the right. Both broad faces visibly coated with thick dark pitch, with exposed wood at the edges. Simple cream background, no people, no lettering.",
-        "overlay": "Pitch within and without",
-        "labelPlacement": "top",
-        "characterRoles": [],
-        "promptFocus": true
-      },
-      "reason": "Actual original and regeneration show only the hull interior. Use two clearly separated views of the same plank to show pitch on both surfaces without an impossible camera view through a solid hull. Preserve narration, original rejections and every other accepted source."
-    },
-    {
-      "sourceId": "chapter-4-shot-7",
-      "replacement": {
-        "overlayAnchor": "they are not a photograph",
-        "id": "chapter-4-shot-7-flat-colour-page",
-        "narration": "they are not a photograph or a recovered object identifying the location of a wreck. Now step back from those flights and look at the",
-        "historicalContext": "Modern-day, simple casual clothing, clean background.",
-        "concept": "A simple flat-colour cartoon of an open book on a bright cream library desk. On its page is a simplified wooden boat drawing made of broad solid ochre and terracotta colour shapes with thick clean black outlines. A simple magnifying glass rests beside it. Crisp cream background, minimal props, no people, no lettering.",
-        "overlay": "Not a photograph",
-        "labelPlacement": "bottom",
-        "characterRoles": [],
-        "promptFocus": true
-      },
-      "reason": "Both real attempts copy Eli rather than the arbitrary planned female library visitor. The narration names no visitor or gender; the essential claim is that illustrations are not photographic or archaeological evidence. Show that directly with the illustrated page and magnifying glass, preserving narration and every objective QA gate. Original images and rejected verdicts remain evidence. Real39306180977 replacement showed a hatched shaded boat and dull tan background. Use explicit broad solid colour fills and bright cream, preserving the page/magnifying-glass message; keep both rejected illustrations and verdicts."
-    }
-  ],
-  "beatReassignments": []
+ "runId": "bible-noah-003",
+ "sourceRevisions": [
+  {
+   "sourceId": "chapter-2-shot-10",
+   "replacement": {
+    "overlayAnchor": "pitch within and without",
+    "id": "chapter-2-shot-10-two-sided-pitch",
+    "narration": "The instruction calls for pitch within and without. An explanation that shows only the outside coating misses that second surface.",
+    "historicalContext": "Ancient Near Eastern construction techniques. Pitch, or bitumen, was commonly used for waterproofing wood and reeds in ancient Mesopotamia.",
+    "concept": "Two side-by-side illustrated closeups of the same wooden hull plank: its inward-facing surface on the left and outward-facing surface on the right. Both broad faces visibly coated with thick dark pitch, with exposed wood at the edges. Simple cream background, no people, no lettering.",
+    "overlay": "Pitch within and without",
+    "labelPlacement": "top",
+    "characterRoles": [],
+    "promptFocus": true
+   },
+   "reason": "Actual original and regeneration show only the hull interior. Use two clearly separated views of the same plank to show pitch on both surfaces without an impossible camera view through a solid hull. Preserve narration, original rejections and every other accepted source."
+  },
+  {
+   "sourceId": "chapter-4-shot-7",
+   "replacement": {
+    "overlayAnchor": "they are not a photograph",
+    "id": "chapter-4-shot-7-flat-colour-page",
+    "narration": "they are not a photograph or a recovered object identifying the location of a wreck. Now step back from those flights and look at the",
+    "historicalContext": "Modern-day, simple casual clothing, clean background.",
+    "concept": "A simple flat-colour cartoon of an open book on a bright cream library desk. On its page is a simplified wooden boat drawing made of broad solid ochre and terracotta colour shapes with thick clean black outlines. A simple magnifying glass rests beside it. Crisp cream background, minimal props, no people, no lettering.",
+    "overlay": "Not a photograph",
+    "labelPlacement": "bottom",
+    "characterRoles": [],
+    "promptFocus": true
+   },
+   "reason": "Both real attempts copy Eli rather than the arbitrary planned female library visitor. The narration names no visitor or gender; the essential claim is that illustrations are not photographic or archaeological evidence. Show that directly with the illustrated page and magnifying glass, preserving narration and every objective QA gate. Original images and rejected verdicts remain evidence. Real39306180977 replacement showed a hatched shaded boat and dull tan background. Use explicit broad solid colour fills and bright cream, preserving the page/magnifying-glass message; keep both rejected illustrations and verdicts."
+  },
+  {
+   "sourceId": "chapter-5-shot-4",
+   "replacement": {
+    "overlayAnchor": "story's own conclusion",
+    "id": "chapter-5-shot-4-closed-reading",
+    "narration": "That is the story's own conclusion, which we can explain respectfully without presenting an illustration as evidence",
+    "historicalContext": "Modern-day study desk, clean bright background, no people.",
+    "concept": "A simple flat-colour cartoon of an open book lying on a warm wooden desk. Both pages are plain cream with no lines, letters or symbols. A bright ochre ribbon bookmark lies across the right page and a small rolled scroll rests beside the book. Broad solid colour fills, thick clean black outlines, bright cream background, minimal props, no people, no lettering.",
+    "overlay": "Narrative Conclusion",
+    "labelPlacement": "top",
+    "characterRoles": [],
+    "promptFocus": true
+   },
+   "reason": "Real attempts failed objectively: the first drew readable-looking text on the book pages (noBakedText), the second drew a modern reader that broke Eli's established design (correctStyle), and the adaptive correction then asked for Eli in ancient dress inside the fixed 'modern attire' setting, which prompt QA rejected before spending in every continuation since 21 October (latest 39886071906). The narration names no person; as with chapter-4-shot-7, show the message directly with a blank open book and bookmark. Narration, overlay, timing and every objective QA gate are unchanged; all rejected images and verdicts remain evidence."
+  }
+ ],
+ "beatReassignments": []
 }
