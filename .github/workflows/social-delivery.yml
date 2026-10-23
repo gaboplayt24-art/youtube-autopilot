@@ -140,6 +140,17 @@ jobs:
           YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
           YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
         run: npx tsx scripts/social-delivery.ts
+      - name: Automatically schedule the same QA-passed clips on TikTok under the owner's standing rule
+        if: (github.event_name == 'workflow_run' || inputs.action == 'auto') && env.RUN_ID != 'bible-angels-001'
+        env:
+          SOCIAL_ACTION: auto-tiktok
+          ZERNIO_API_KEY: ${{ secrets.ZERNIO_API_KEY }}
+          SUPABASE_URL: ${{ vars.SUPABASE_URL || secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+        run: npx tsx scripts/social-delivery.ts
       # Owner-requested 2026-10-17: the dynamic-edit clips take over the already scheduled Shorts and TikToks.
       - name: Replace the scheduled clips at the same release times
         if: env.SOCIAL_ACTION == 'replace-clips'
