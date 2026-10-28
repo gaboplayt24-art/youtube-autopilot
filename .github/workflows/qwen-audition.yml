@@ -13,6 +13,10 @@ on:
       vision_model:
         type: string
         default: 'Qwen/Qwen3-VL-235B-A22B-Instruct'
+      base_url:
+        description: ModelScope API base (international site accounts may use api-inference.modelscope.ai)
+        type: string
+        default: 'https://api-inference.modelscope.cn/v1'
 permissions:
   contents: write
 concurrency:
@@ -36,6 +40,7 @@ jobs:
           QWEN_EDIT_MODEL: ${{ inputs.edit_model }}
           QWEN_LAYERED_MODEL: ${{ inputs.layered_model }}
           QWEN_VISION_MODEL: ${{ inputs.vision_model }}
+          MODELSCOPE_BASE_URL: ${{ inputs.base_url }}
       - name: Preserve audition evidence in a release
         if: always()
         env:
