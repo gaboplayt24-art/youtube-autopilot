@@ -53,15 +53,18 @@ export async function writeChapter(llm:LLMProvider,instruction:string,targetWord
   if(Math.abs(count-targetWords)>targetWords*.15)throw Error('Editorial narration exceeds the existing chapter word budget; revise the source text before inference');
  }
  const contract=chapterScriptContract(targetWords,act,covered,priorNarration);let correction='';
- for(let attempt=0;attempt<3;attempt++){
+ // Six bounded revisions: a verbose model converges on the budget over several passes (bible-jonah-004 went
+ // 137→110→97 of 70 words), and the first three prompts stay byte-identical so their cached evidence is reused.
+ for(let attempt=0;attempt<6;attempt++){
   const generated=await validatedJSON(llm,instruction+(narrationBlocks?'\nFixed editorial narration: '+JSON.stringify(narrationBlocks)+'. Generate supported claims and visual metadata for THESE exact words; do not add factual assertions from alternative prose.':'')+correction,script);
   // Keep generated metadata evidence untouched in the provider cache. Assemble the final script from its
   // explicit editorial text when supplied; factual/novelty/repetition QA still evaluates that actual script.
   const candidate=narrationBlocks&&generated.scenes.length===2?script.parse({...generated,hook:act==='HOOK'?narrationBlocks[0].split(/(?<=[.!?])\s+/)[0]:generated.hook,scenes:generated.scenes.map((s,i)=>({...s,narration:narrationBlocks[i]}))}):generated;
   const checked=contract.safeParse(candidate);if(checked.success)return checked.data;
-  if(attempt===2)throw checked.error;
-  const count=candidate.scenes.reduce((n,s)=>n+s.narration.trim().split(/\s+/).length,0);
-  correction='\nREVISE THIS ACTUAL REJECTED CHAPTER: '+JSON.stringify(candidate)+'\nValidation errors: '+JSON.stringify(checked.error.issues)+(narrationBlocks?' Keep the supplied editorial narration unchanged. Correct the evidence/claim/visual metadata for its actual text; do not invent a claim merely to satisfy validation. Return exactly two blocks.':` Spoken narration currently totals ${count} words. Rewrite the TWO narration blocks to approximately ${targetWords} words TOTAL, not per block. Count only narration. Shorten redundant explanation when over budget; retain supported facts, citations and the exact spoken opening hook. Do not alter the approved budget or add facts to satisfy length.`)+' Return the complete corrected object.';
+  if(attempt===5||narrationBlocks&&attempt===2)throw checked.error;
+  const blockWords=candidate.scenes.map(s=>s.narration.trim().split(/\s+/).length),count=blockWords.reduce((a,b)=>a+b,0);
+  const exact=attempt>=2&&!narrationBlocks&&Math.abs(count-targetWords)>targetWords*.15?` Previous revisions still missed the budget. Blocks now hold ${blockWords.join(' and ')} words; write each block in about ${Math.round(targetWords/2)} words. ${count>targetWords?`Delete about ${count-targetWords} words`:`Add about ${targetWords-count} words of already cited detail`}, sentence by sentence, keeping the opening hook.`:'';
+  correction='\nREVISE THIS ACTUAL REJECTED CHAPTER: '+JSON.stringify(candidate)+'\nValidation errors: '+JSON.stringify(checked.error.issues)+(narrationBlocks?' Keep the supplied editorial narration unchanged. Correct the evidence/claim/visual metadata for its actual text; do not invent a claim merely to satisfy validation. Return exactly two blocks.':` Spoken narration currently totals ${count} words. Rewrite the TWO narration blocks to approximately ${targetWords} words TOTAL, not per block. Count only narration. Shorten redundant explanation when over budget; retain supported facts, citations and the exact spoken opening hook. Do not alter the approved budget or add facts to satisfy length.`)+exact+' Return the complete corrected object.';
  }
  throw new Error('Chapter revision exhausted');
 }

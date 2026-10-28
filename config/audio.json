@@ -9,9 +9,9 @@
   "presenceDb": 1,
   "deEssIntensity": 0.15,
   "compressorRatio": 1.6,
-  "musicUnderSpeechDb": -29,
-  "musicBetweenSpeechDb": -23,
-  "sfxDb": -22,
+  "musicUnderSpeechDb": -22,
+  "musicBetweenSpeechDb": -18,
+  "sfxDb": -16,
   "ambienceDb": -34,
   "crossfadeSeconds": 2,
   "maxSilencePercentage": 18,
@@ -20,5 +20,6 @@
   "musicProvider": "local",
   "allowProceduralFallback": true,
   "sfxProvider": "local",
-  "note": "LRA 4-9 is an editorial target; short clips may have lower LRA. Never expand dynamics artificially. Prosody and voice identity require human approval."
+  "note": "LRA 4-9 is an editorial target; short clips may have lower LRA. Never expand dynamics artificially. Prosody and voice identity require human approval.",
+  "levelsNote": "2026-10-28 owner: music and effects sounded too quiet. Raised music 7 dB under speech / 5 dB between phrases and effects 6 dB; simulated on Noah's narration the ducked bed stays 15+ LU under the voice, above the unchanged 12 LU voice/music gate. Every audio gate still blocks."
 }

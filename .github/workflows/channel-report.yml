@@ -1,0 +1,43 @@
+name: channel-report
+# Read-only channel snapshot (owner request 2026-10-28): statistics, retention, traffic sources and search terms
+# feed topic selection and free SEO work. Nothing on YouTube is modified.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '17 6 * * 1'
+permissions:
+  contents: write
+concurrency:
+  group: channel-report
+  cancel-in-progress: false
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx tsx scripts/channel-report.ts
+        env:
+          YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+          YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+          YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      - name: Preserve report in a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PYREPORT'
+          import datetime, os, runpy, shutil
+          from pathlib import Path
+          store=runpy.run_path('scripts/github_checkpoints.py')
+          repo=os.environ['GITHUB_REPOSITORY']; store['require_private'](repo)
+          tag='channel-research-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m')
+          store['release'](repo,tag)
+          dest=Path('.cache/channel-report'); dest.mkdir(parents=True,exist_ok=True)
+          target=dest/(os.environ['GITHUB_RUN_ID']+'-attempt-'+os.environ['GITHUB_RUN_ATTEMPT']+'-channel-report.json')
+          shutil.copyfile('data/research/channel-report/channel-report.json',target); store['upload'](repo,tag,target)
+          PYREPORT

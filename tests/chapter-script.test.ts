@@ -25,7 +25,13 @@ test('chapter revision includes the actual overlong narration and enforces the o
   return schema.parse(calls===1?overlong:value);
  }},'Write a sourced hook',70,'HOOK');
  assert.equal(calls,2);assert.equal(result.scenes.length,2);
- calls=0;await assert.rejects(writeChapter({json:async<T>(_p:string,s:import('zod').z.ZodType<T>)=>{calls++;return s.parse(overlong);}},'Write',70,'HOOK'),/approved target 70/);assert.equal(calls,3);
+ calls=0;await assert.rejects(writeChapter({json:async<T>(_p:string,s:import('zod').z.ZodType<T>)=>{calls++;return s.parse(overlong);}},'Write',70,'HOOK'),/approved target 70/);assert.equal(calls,6);
+ const prompts:string[]=[];calls=0;const converging=await writeChapter({json:async<T>(prompt:string,schema:import('zod').z.ZodType<T>)=>{
+  prompts.push(prompt);calls++;return schema.parse(calls<4?{...value,scenes:value.scenes.map(s=>({...s,narration:Array(60-calls*5).fill('word').join(' ')}))}:value);
+ }},'Write a sourced hook',70,'HOOK');
+ assert.equal(calls,4);assert.equal(converging.scenes.length,2);
+ assert.ok(prompts.slice(0,3).every(p=>!/Previous revisions still missed/.test(p)),'the first three prompts stay unchanged for the provider cache');
+ assert.match(prompts[3],/Blocks now hold 45 and 45 words; write each block in about 35 words\. Delete about 20 words/);
 });
 
 test('later chapters revise a repeated spoken opening rather than disabling full-script repetition QA',async()=>{
