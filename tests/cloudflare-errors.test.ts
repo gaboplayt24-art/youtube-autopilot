@@ -30,3 +30,10 @@ test('403/5035 fails once as paid-plan-required under FREE_ONLY and never enable
 test('Retry-After seconds/date take priority; reported consumption is retained even on 3040',()=>isolated(async(_dir,q)=>{
  assert.equal(cloudflareRetryDelay(5000,'90',instant().getTime(),()=>0),90000);assert.equal(cloudflareRetryDelay(5000,'Thu, 08 Oct 2026 12:01:00 GMT',instant().getTime(),()=>0),60000);let calls=0;await withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>++calls===1?Response.json({errors:[{code:3040,message:'capacity'}],usage:{neurons:7}},{status:429}):Response.json({success:true}),{random:()=>0,wait:async()=>{}}));assert.equal(q.events[0].confirmedConsumedNeurons,7);assert.equal(q.events[0].releasedNeurons,0);assert.equal(q.events[0].uncertainNeurons,57);assert.equal(q.usedToday(),128);
 }));
+test('a timeout or 5xx is retried twice with every attempt reserved, then fails without a paid fallback',()=>isolated(async(_dir,q)=>{
+ let calls=0;const waits:number[]=[];
+ await assert.rejects(()=>withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>{calls++;if(calls===1)throw new DOMException('The operation was aborted due to timeout','TimeoutError');return Response.json({errors:[]},{status:503});},{now:instant,wait:async ms=>{waits.push(ms);}})),/HTTP 503/);
+ assert.equal(calls,3);assert.deepEqual(waits,[15000,45000]);assert.equal(q.usedToday(),192,'each attempt keeps its conservative reservation');
+ calls=0;const ok=await withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>++calls===1?Promise.reject(new Error('socket hang up')):Response.json({success:true}),{now:instant,wait:async()=>{}}));
+ assert.equal(ok.attempt,2);
+}));

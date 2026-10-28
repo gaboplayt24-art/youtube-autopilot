@@ -12,11 +12,13 @@ export async function cloudflareRun(model:string,input:unknown,neurons:number,re
  if(process.env.CLOUDFLARE_FREE_PLAN_CONFIRMED!=='true'&&!cloudflarePaidOverflow())throw new Error('Confirm Workers FREE plan with CLOUDFLARE_FREE_PLAN_CONFIRMED=true. Paid accounts are refused to prevent overflow from concurrent external usage.');
  if(process.env.FREE_ONLY==='false'||process.env.PAID_FALLBACK_ENABLED==='true'||Number(process.env.MAX_PAID_COST_USD??0)!==0)throw new Error('Cloudflare requires FREE_ONLY with zero paid budget and no paid fallback');
  const quota=requireQuota(),wait=options.wait??(ms=>new Promise(resolve=>setTimeout(resolve,ms))),random=options.random??Math.random,now=options.now??(()=>new Date());
- let capacityRetries=0,unknownRetries=0;
+ // A timeout or 5xx is retried twice: a lost response must not end a long production. Every attempt reserves
+ // its own neurons in the shared ledger, so the monthly cap still bounds the spend.
+ let capacityRetries=0,unknownRetries=0,transientRetries=0;const TRANSIENT=[15000,45000];
  const multipart=input instanceof FormData,body=multipart?input:JSON.stringify(input);
  for(let attempt=1;;attempt++){
   const id=await quota.reserve('cloudflare',model,neurons);let response:Response;
-  try{response=await request(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID!)}/ai/run/${model}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,...(multipart?{}:{'Content-Type':'application/json'})},body,signal:AbortSignal.timeout(120000)});}catch(error){await quota.finish(id,{},true);await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:null,message:sanitize(error)});throw new Error(sanitize(error));}
+  try{response=await request(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID!)}/ai/run/${model}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,...(multipart?{}:{'Content-Type':'application/json'})},body,signal:AbortSignal.timeout(120000)});}catch(error){await quota.finish(id,{},true);await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:null,message:sanitize(error)});if(transientRetries<TRANSIENT.length){await wait(TRANSIENT[transientRetries++]);continue;}throw new Error(sanitize(error));}
   if(response.ok){await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:response.status,internalCodes:[]});return {response,id,quota,attempt};}
   const data:unknown=await response.json().catch(()=>null);const parsed=data&&typeof data==='object'?data as Record<string,unknown>:{};
   const errors=Array.isArray(parsed.errors)?parsed.errors.slice(0,10):[];
@@ -42,6 +44,7 @@ export async function cloudflareRun(model:string,input:unknown,neurons:number,re
    const reset=new Date(now().getTime()+Math.max(20*60000,retryInMs??0)),state=capacity?'cloudflare_out_of_capacity':'cloudflare_429_unknown';
    await json(join(quota.dir,'quota-checkpoint.json'),{state,classification,httpStatus:429,internalCodes,model,resumeAfter:reset.toISOString(),automaticResumeAttempt:Number(process.env.CLOUDFLARE_AUTOMATIC_RESUME_ATTEMPT??0),paidFallback:false});throw new CloudflareRetryPause(reset.toISOString(),state);
   }
+  if(response.status>=500&&transientRetries<TRANSIENT.length){await log(quota.dir,'cloudflare_retry',{...diagnostic,retryInMs:TRANSIENT[transientRetries]});await wait(TRANSIENT[transientRetries++]);continue;}
   throw new Error(`Cloudflare HTTP ${response.status} for ${model}: ${internalCodes.map((code,i)=>`${code} ${messages[i]??''}`).join('; ')||messages.join('; ')}${classification==='PAID_PLAN_REQUIRED'?'; model requires paid plan and is refused under FREE_ONLY':''}`);
  }
 }
