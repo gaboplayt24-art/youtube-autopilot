@@ -3,7 +3,7 @@ import {requireQuota,QuotaPause,cloudflarePaidOverflow} from '../quota';
 import {json,log} from '../orchestration/io';
 export type CloudflareRetryOptions={wait?:(ms:number)=>Promise<void>;random?:()=>number;now?:()=>Date};
 export class CloudflareRetryPause extends QuotaPause{
- constructor(reset:string,public state:'cloudflare_out_of_capacity'|'cloudflare_429_unknown'){super(reset);this.message=`${state}; checkpoint saved. Retry after ${reset}`;}
+ constructor(reset:string,public state:'cloudflare_out_of_capacity'|'cloudflare_429_unknown'|'cloudflare_unreachable'){super(reset);this.message=`${state}; checkpoint saved. Retry after ${reset}`;}
 }
 export function cloudflareRetryDelay(base:number,retryAfter:string|null,now:number,random:()=>number){const header=retryAfter===null?0:/^\d+(?:\.\d+)?$/.test(retryAfter)?Number(retryAfter)*1000:Math.max(0,Date.parse(retryAfter)-now);return Math.max(base*(1+random()*.2),Number.isFinite(header)?header:0);}
 function sanitize(value:unknown){let text=String(value??'');for(const secret of [process.env.CLOUDFLARE_API_TOKEN,process.env.CLOUDFLARE_ACCOUNT_ID])if(secret){text=text.replaceAll(secret,'[redacted]').replaceAll(encodeURIComponent(secret),'[redacted]');}return text.replace(/[\u0000-\u001f\u007f]/g,' ').slice(0,700);}
@@ -18,7 +18,9 @@ export async function cloudflareRun(model:string,input:unknown,neurons:number,re
  const multipart=input instanceof FormData,body=multipart?input:JSON.stringify(input);
  for(let attempt=1;;attempt++){
   const id=await quota.reserve('cloudflare',model,neurons);let response:Response;
-  try{response=await request(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID!)}/ai/run/${model}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,...(multipart?{}:{'Content-Type':'application/json'})},body,signal:AbortSignal.timeout(120000)});}catch(error){await quota.finish(id,{},true);await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:null,message:sanitize(error)});if(transientRetries<TRANSIENT.length){await wait(TRANSIENT[transientRetries++]);continue;}throw new Error(sanitize(error));}
+  try{response=await request(`https://api.cloudflare.com/client/v4/accounts/${encodeURIComponent(process.env.CLOUDFLARE_ACCOUNT_ID!)}/ai/run/${model}`,{method:'POST',headers:{Authorization:`Bearer ${process.env.CLOUDFLARE_API_TOKEN}`,...(multipart?{}:{'Content-Type':'application/json'})},body,signal:AbortSignal.timeout(120000)});}catch(error){await quota.finish(id,{},true);await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:null,message:sanitize(error)});if(transientRetries<TRANSIENT.length){await wait(TRANSIENT[transientRetries++]);continue;}
+   // Repeated timeouts mean the provider is not answering: checkpoint and wait instead of redispatching every cycle.
+   const reset=new Date(now().getTime()+30*60000);await json(join(quota.dir,'quota-checkpoint.json'),{state:'cloudflare_unreachable',model,message:sanitize(error),attempts:attempt,resumeAfter:reset.toISOString(),paidFallback:false});throw new CloudflareRetryPause(reset.toISOString(),'cloudflare_unreachable');}
   if(response.ok){await log(quota.dir,'cloudflare_attempt',{model,attempt,httpStatus:response.status,internalCodes:[]});return {response,id,quota,attempt};}
   const data:unknown=await response.json().catch(()=>null);const parsed=data&&typeof data==='object'?data as Record<string,unknown>:{};
   const errors=Array.isArray(parsed.errors)?parsed.errors.slice(0,10):[];

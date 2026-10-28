@@ -36,4 +36,6 @@ test('a timeout or 5xx is retried twice with every attempt reserved, then fails 
  assert.equal(calls,3);assert.deepEqual(waits,[15000,45000]);assert.equal(q.usedToday(),192,'each attempt keeps its conservative reservation');
  calls=0;const ok=await withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>++calls===1?Promise.reject(new Error('socket hang up')):Response.json({success:true}),{now:instant,wait:async()=>{}}));
  assert.equal(ok.attempt,2);
+ calls=0;await assert.rejects(()=>withQuota(q,()=>cloudflareRun(FLUX_MODEL,{},64,async()=>{calls++;throw new DOMException('The operation was aborted due to timeout','TimeoutError');},{now:instant,wait:async()=>{}})),(e:unknown)=>e instanceof CloudflareRetryPause&&e.state==='cloudflare_unreachable'&&e.resetAt==='2026-10-08T12:30:00.000Z');
+ assert.equal(calls,3,'an unreachable provider pauses for 30 minutes after three attempts');
 }));
