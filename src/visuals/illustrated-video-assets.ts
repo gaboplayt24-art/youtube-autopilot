@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {repairUntilReviewed,planVisualCorrection} from './adaptive-repair';
+import {repairUntilReviewed,planVisualCorrection,PROVIDER_FLAG,flaggedAttempt} from './adaptive-repair';
 import {KLEIN_PRODUCTION_SIZE} from '../providers/cloudflare';
 import {join} from 'node:path';
 import type {Shot} from '../editor/schemas';
@@ -48,7 +48,9 @@ export async function createIllustratedVideoAssets(shots:Shot[],style:Illustrate
   try{result=await engine.generate({...shot.illustrationIdea,id:key},style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
   // One-image-per-beat mode: the style lock's single regeneration retries a rejected beat under a fresh evidence ID; the rejection stays recorded and every gate still applies.
   if(!plannedReuse&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork))result=await engine.generate(await cachedRegeneration(runner.dir,{...shot.illustrationIdea,id:key},style),style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);}
-  catch(e){await log(runner.dir,'illustration_rejected',{shotId:shot.id,key,failure:(e as Error).message});throw e;}
+  catch(e){await log(runner.dir,'illustration_rejected',{shotId:shot.id,key,failure:(e as Error).message});
+   // A provider safety refusal becomes an ordinary rejection for the adaptive planner, never an acceptance.
+   if(!autonomousRepairs||plannedReuse||!PROVIDER_FLAG.test((e as Error).message))throw e;result??=flaggedAttempt({id:key,concept:shot.illustrationIdea.concept},(e as Error).message) as unknown as NonNullable<typeof result>;}
   if(autonomousRepairs&&!plannedReuse&&(!result.review.passed||!result.artwork))result=await repairUntilReviewed(result,
    (last,promptIssues)=>planVisualCorrection({...shot.illustrationIdea!,id:key},last,style,reference,runner,vision,promptIssues),
    idea=>engine.generate(idea,style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height));

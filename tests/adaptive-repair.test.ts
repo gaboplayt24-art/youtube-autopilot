@@ -40,3 +40,11 @@ test('only an unnamed, planner-invented cast may be dropped from a correction',a
  assert.equal(peopleOptional({...idea,narration:'Noah builds the ark with his sons.',characterRoles:['Noah']}),false);
  assert.equal(peopleOptional({...idea,characterRoles:[]}),false);
 });
+test('a provider safety refusal is re-planned as a calmer concept, never accepted',async()=>{
+ const {flaggedAttempt,FLAG_GUIDANCE}=await import('../src/visuals/adaptive-repair');
+ const refused=flaggedAttempt(idea,'Cloudflare HTTP 400 for flux: 3030 AiError: Your output has been flagged.');
+ assert.equal(refused.source.path,'');assert.equal(refused.review.passed,false);assert.deepEqual(refused.review.objectiveFailures,['providerSafetyFlag']);
+ const issuesSeen:(string[]|undefined)[]=[];let n=0;
+ const result=await repairUntilReviewed(refused as typeof rejected,async(_last,issues)=>{issuesSeen.push(issues);return {...idea,concept:idea.concept+' calmer '+(++n)};},async()=>{if(n===1)throw Error('Cloudflare HTTP 400: 3030 AiError: Your output has been flagged');return {...rejected,review:{passed:true,objectiveFailures:[],issues:[]},artwork:{referenceQAPassed:true}};});
+ assert.equal(result.review.passed,true);assert.deepEqual(issuesSeen,[undefined,[FLAG_GUIDANCE]]);
+});
