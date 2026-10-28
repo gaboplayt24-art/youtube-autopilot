@@ -1,0 +1,65 @@
+{
+ "note": "Audition inputs: actual Klein outputs and prompts from bible-noah-003, downscaled for comparison only. Gemini verdicts copied verbatim from the run evidence.",
+ "items": [
+  {
+   "id": "chapter-1-shot-1",
+   "role": "accepted",
+   "prompt": "Original 2D history explainer cartoon in the exact drawing style of input_image_0: simple adult round-head people (white circle head, dot eyes, bold brows), clean black outlines, flat bright colours, almost no shading, simple backgrounds. Recurring character ELI: short dark beard, striped ochre head cloth, sand tunic, terracotta sash, sandals. One clear idea per image, full-bleed 16:9. input_image_0: our approved character Eli and drawing style; draw ONE new scene, never repeat its pose, rows or layout; people other than Eli are new round-head characters: A low-angle view of a simplified wooden ark with a prominent pitched roof. Eli stands on a wooden dock nearby, pointing at the structure, observing how common art depicts the exterior with various animal silhouettes visible on the deck.. Historical context: Traditional artistic interpretations of ark iconography, often featuring stylized gabled roofs and generic maritime structures.. Only these necessary roles: Eli. No unrequested crowds.  Composition: quiet wide composition with space above. Adult round-head cartoon people with two arms and two legs each. NO lettering; Remotion adds labels. no photorealism; no CGI; no 3D; no stock-photo aesthetic; no realistic faces; no anime; no sterile SVG icon style; no glossy vector art; no chibi or babies; no character sheet or repeated poses; no frame, border, panel or margin; no text baked into image; no watermark; no logo; no modern clothing or technology in ancient scenes.",
+   "kleinSourceSha256": "f94301929b8f0f230bc2d3d13c1c9dca7c0810cd069b0c5ef28eef4827eb1528",
+   "image": "assets/auditions/qwen-v1/klein-chapter-1-shot-1.jpg",
+   "geminiVerdict": "passed"
+  },
+  {
+   "id": "chapter-1-shot-3",
+   "role": "accepted",
+   "prompt": "Original 2D history explainer cartoon in the exact drawing style of input_image_0: simple adult round-head people (white circle head, dot eyes, bold brows), clean black outlines, flat bright colours, almost no shading, simple backgrounds. Recurring character ELI: short dark beard, striped ochre head cloth, sand tunic, terracotta sash, sandals. One clear idea per image, full-bleed 16:9. input_image_0: our approved character Eli and drawing style; draw ONE new scene, never repeat its pose, rows or layout; people other than Eli are new round-head characters: Close-up of a wooden plank being worked on. Eli holds a brush coated in thick, dark pitch, applying it to both the interior and exterior sides of the timber to show the dual-surface application mentioned in the text.. Historical context: Ancient methods of waterproofing, such as using bitumen or resin; materials unspecified in the text.. Only these necessary roles: Eli. No unrequested crowds.  Composition: subject left, negative space right. Adult round-head cartoon people with two arms and two legs each. NO lettering; Remotion adds labels. no photorealism; no CGI; no 3D; no stock-photo aesthetic; no realistic faces; no anime; no sterile SVG icon style; no glossy vector art; no chibi or babies; no character sheet or repeated poses; no frame, border, panel or margin; no text baked into image; no watermark; no logo; no modern clothing or technology in ancient scenes.",
+   "kleinSourceSha256": "361686915417451c9cea02e48e531872a3cf3b3a32f351bacb43dd38104f7a38",
+   "image": "assets/auditions/qwen-v1/klein-chapter-1-shot-3.jpg",
+   "geminiVerdict": "passed"
+  },
+  {
+   "id": "chapter-2-shot-1",
+   "role": "accepted",
+   "prompt": "Original 2D history explainer cartoon in the exact drawing style of input_image_0: simple adult round-head people (white circle head, dot eyes, bold brows), clean black outlines, flat bright colours, almost no shading, simple backgrounds. Recurring character ELI: short dark beard, striped ochre head cloth, sand tunic, terracotta sash, sandals. One clear idea per image, full-bleed 16:9. input_image_0: our approved character Eli and drawing style; draw ONE new scene, never repeat its pose, rows or layout; people other than Eli are new round-head characters: Eli stands in a field holding a measuring rod marked with notches, observing a group of simple, round-headed figures laying out a large rectangular foundation of timber on the ground based on specific proportions.. Historical context: Ancient Near Eastern environment using cubit rods made of cedar for measurement, consistent with early measurement standards of the period.. Only these necessary roles: Eli, Builders. No unrequested crowds.  Ancient setting: stone, mud brick, timber, clay and bronze or iron hand tools. Only requested figures; empty background. Ancient Near East dress: plain wool or linen tunics, simple mantles and head cloths, sandals; no modern shirts, watches, boots or trousers. Composition: subject left, negative space right. Adult round-head cartoon people with two arms and two legs each. NO lettering; Remotion adds labels. no photorealism; no CGI; no 3D; no stock-photo aesthetic; no realistic faces; no anime; no sterile SVG icon style; no glossy vector art; no chibi or babies; no character sheet or repeated poses; no frame, border, panel or margin; no text baked into image; no watermark; no logo; no modern clothing or technology in ancient scenes.",
+   "kleinSourceSha256": "5d88414a082813b916bc78aa430492f4fafd1c4462364df1f3bb62c3b78af236",
+   "image": "assets/auditions/qwen-v1/klein-chapter-2-shot-1.jpg",
+   "geminiVerdict": "passed"
+  },
+  {
+   "id": "chapter-3-shot-11",
+   "role": "accepted",
+   "prompt": "Original 2D history explainer cartoon in the exact drawing style of input_image_0: simple adult round-head people (white circle head, dot eyes, bold brows), clean black outlines, flat bright colours, almost no shading, simple backgrounds. Recurring character ELI: short dark beard, striped ochre head cloth, sand tunic, terracotta sash, sandals. One clear idea per image, full-bleed 16:9. input_image_0: our approved character Eli and drawing style; draw ONE new scene, never repeat its pose, rows or layout; people other than Eli are new round-head characters: Eli standing near a pen containing a pair of goats, gesturing clearly to indicate the binary grouping as described in the text.. Historical context: Ancient Near Eastern pastoral setting, simple woven fabrics, rough terrain; historical accuracy is uncertain.. Only these necessary roles: Eli. No unrequested crowds.  Ancient setting: stone, mud brick, timber, clay and bronze or iron hand tools. Only requested figures; empty background. Ancient Near East dress: plain wool or linen tunics, simple mantles and head cloths, sandals; no modern shirts, watches, boots or trousers. Composition: quiet wide composition with space above. Adult round-head cartoon people with two arms and two legs each. NO lettering; Remotion adds labels. no photorealism; no CGI; no 3D; no stock-photo aesthetic; no realistic faces; no anime; no sterile SVG icon style; no glossy vector art; no chibi or babies; no character sheet or repeated poses; no frame, border, panel or margin; no text baked into image; no watermark; no logo; no modern clothing or technology in ancient scenes.",
+   "kleinSourceSha256": "3d4cb706f653f1ae97cb460a8849d0ba2b517efd7e703908d25cb2a539ea8145",
+   "image": "assets/auditions/qwen-v1/klein-chapter-3-shot-11.jpg",
+   "geminiVerdict": "passed"
+  },
+  {
+   "id": "chapter-4-shot-15",
+   "role": "rejected",
+   "prompt": "Original 2D history explainer cartoon in the exact drawing style of input_image_0: simple adult round-head people (white circle head, dot eyes, bold brows), clean black outlines, flat bright colours, almost no shading, simple backgrounds. Recurring character ELI: short dark beard, striped ochre head cloth, sand tunic, terracotta sash, sandals. One clear idea per image, full-bleed 16:9. input_image_0: our approved character Eli and drawing style; draw ONE new scene, never repeat its pose, rows or layout; people other than Eli are new round-head characters: A modern person stands on a snowy mountain, looking through binoculars at a jagged rock formation that vaguely resembles a ship shape. The person looks skeptical, highlighting the distinction between text and modern photography.. Historical context: Modern-day comparison; contemporary clothing (casual shirt/trousers) on a person with a camera.. Only these necessary roles: Modern Researcher. No unrequested crowds.  Composition: quiet wide composition with space above. Adult round-head cartoon people with two arms and two legs each. NO lettering; Remotion adds labels. no photorealism; no CGI; no 3D; no stock-photo aesthetic; no realistic faces; no anime; no sterile SVG icon style; no glossy vector art; no chibi or babies; no character sheet or repeated poses; no frame, border, panel or margin; no text baked into image; no watermark; no logo; no modern clothing or technology in ancient scenes.",
+   "kleinSourceSha256": "2efa86075e8b49bb7ccd840d95774acae5615e8cb4e02e284406a668baf753a5",
+   "image": "assets/auditions/qwen-v1/rejected-chapter-4-shot-15.jpg",
+   "geminiVerdict": "rejected",
+   "geminiObjectiveFailures": [
+    "historicalAccuracy"
+   ],
+   "geminiIssues": [
+    "The image uses a modern researcher wearing a contemporary collared shirt and jeans, which constitutes a major historical error relative to the required ancient period style for the accompanying character Eli."
+   ]
+  },
+  {
+   "id": "chapter-2-shot-10",
+   "role": "rejected",
+   "prompt": "Original 2D history explainer cartoon in the exact drawing style of input_image_0: simple adult round-head people (white circle head, dot eyes, bold brows), clean black outlines, flat bright colours, almost no shading, simple backgrounds. Recurring character ELI: short dark beard, striped ochre head cloth, sand tunic, terracotta sash, sandals. One clear idea per image, full-bleed 16:9. input_image_0: our approved character Eli and drawing style; draw ONE new scene, never repeat its pose, rows or layout; people other than Eli are new round-head characters: Eli standing inside the hull of a large wooden vessel, applying a dark, thick resinous substance (pitch) to the interior wooden planks with a brush. The outside of the same plank is also coated in the same dark substance. The scene focuses on the physical application of the waterproof layer to both sides of the wood.. Historical context: Ancient Near Eastern construction techniques. Pitch, or bitumen, was commonly used for waterproofing wood and reeds in ancient Mesopotamia.. Only these necessary roles: Eli. No unrequested crowds.  Ancient setting: stone, mud brick, timber, clay and bronze or iron hand tools. Only requested figures; empty background. Ancient Near East dress: plain wool or linen tunics, simple mantles and head cloths, sandals; no modern shirts, watches, boots or trousers. Composition: quiet wide composition with space above. Adult round-head cartoon people with two arms and two legs each. NO lettering; Remotion adds labels. no photorealism; no CGI; no 3D; no stock-photo aesthetic; no realistic faces; no anime; no sterile SVG icon style; no glossy vector art; no chibi or babies; no character sheet or repeated poses; no frame, border, panel or margin; no text baked into image; no watermark; no logo; no modern clothing or technology in ancient scenes.",
+   "kleinSourceSha256": "72cfb656169baf8a148090b033670ac4ed514e2a03b5a431bafdebca790d082f",
+   "image": "assets/auditions/qwen-v1/rejected-chapter-2-shot-10.jpg",
+   "geminiVerdict": "rejected",
+   "geminiObjectiveFailures": [
+    "requiredConcept"
+   ],
+   "geminiIssues": [
+    "The concept requires showing pitch both within and without, but the image only shows the interior of the hull, failing the 'within and without' narrative requirement."
+   ]
+  }
+ ]
+}

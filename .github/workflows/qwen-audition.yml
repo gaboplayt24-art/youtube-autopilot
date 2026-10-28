@@ -1,0 +1,55 @@
+name: qwen-audition
+# Owner-requested 2026-10-28 isolated audition of free ModelScope (Qwen) models: generation with the Eli
+# reference, RGBA layer decomposition and a stricter reviewer. No production, QA, upload or style change.
+on:
+  workflow_dispatch:
+    inputs:
+      edit_model:
+        type: string
+        default: 'Qwen/Qwen-Image-Edit-2509'
+      layered_model:
+        type: string
+        default: 'Qwen/Qwen-Image-Layered'
+      vision_model:
+        type: string
+        default: 'Qwen/Qwen3-VL-235B-A22B-Instruct'
+permissions:
+  contents: write
+concurrency:
+  group: qwen-audition
+  cancel-in-progress: false
+jobs:
+  audition:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - run: npx tsx scripts/qwen-audition.ts
+        env:
+          MODELSCOPE_API_KEY: ${{ secrets.MODELSCOPE_API_KEY }}
+          QWEN_EDIT_MODEL: ${{ inputs.edit_model }}
+          QWEN_LAYERED_MODEL: ${{ inputs.layered_model }}
+          QWEN_VISION_MODEL: ${{ inputs.vision_model }}
+      - name: Preserve audition evidence in a release
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PYAUDITION'
+          import os, runpy, shutil
+          from pathlib import Path
+          store=runpy.run_path('scripts/github_checkpoints.py')
+          repo=os.environ['GITHUB_REPOSITORY']; store['require_private'](repo)
+          files=[p for p in Path('data/research/qwen-audition').glob('*') if p.is_file()]
+          if not files: raise SystemExit(0)
+          tag='audition-qwen-v1'; store['release'](repo,tag)
+          dest=Path('.cache/qwen-audition'); dest.mkdir(parents=True,exist_ok=True)
+          for path in files:
+              target=dest/(os.environ['GITHUB_RUN_ID']+'-'+path.name); shutil.copyfile(path,target); store['upload'](repo,tag,target)
+          PYAUDITION
