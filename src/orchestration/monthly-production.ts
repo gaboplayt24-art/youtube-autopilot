@@ -35,7 +35,7 @@ export async function reserveMonthlyAttempt(store:Pick<StorageProvider,'create'>
 }
 export function monthlyDispatchArguments(c:MonthlyProduction,runId:string,sourceRunId?:string){
  const episode=c.episodes.find(e=>e.runId===runId);if(!episode)throw Error('Episode outside monthly queue');
- const args=['workflow','run','production-validation.yml','--ref','main','-f','run_id='+episode.runId,'-f','style=v5','-f','production_kind=quality_test','-f','task=video','-f','gemini_model='+c.geminiModel,'-f','llm_provider=gemini','-f','owner_thumbnail=false','-f','publish=true','-f','topic='+episode.topic];
+ const args=['workflow','run','production-validation.yml','--ref','main','-f','run_id='+episode.runId,'-f','style=v5','-f','production_kind=quality_test','-f','task=video','-f','gemini_model='+c.geminiModel,'-f','llm_provider=gemini','-f','owner_thumbnail=false','-f','publish=true','-f','topic='+episode.topic,'-f','groq_free_plan_confirmed=true'];
  if(c.retryPolicy==='continuous')args.push('-f','autonomous_visual_repairs=true');
  if(sourceRunId){z.string().regex(/^\d+$/).parse(sourceRunId);args.push('-f','source_run_id='+sourceRunId);}
  if(sourceRunId===episode.repairSourceRunId&&episode.retryFrom)args.push('-f','retry_from='+episode.retryFrom);

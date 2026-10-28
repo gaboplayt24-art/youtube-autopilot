@@ -154,6 +154,8 @@ jobs:
       LLM_PROVIDER: ${{ inputs.llm_provider || 'gemini' }}
       GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       GROQ_FREE_PLAN_CONFIRMED: ${{ inputs.groq_free_plan_confirmed }}
+      # Owner-approved 2026-10-28: Qwen on Groq re-checks accepted images for extra people, missing objects and fused bodies.
+      SECOND_REVIEW: groq
       GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
       GEMINI_MODEL: ${{ inputs.gemini_model || vars.GEMINI_MODEL || 'gemini-3.8-flash' }}
       GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}

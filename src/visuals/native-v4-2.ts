@@ -6,11 +6,13 @@ import {join} from 'node:path';
 import {CloudflareReferenceImageProvider,FLUX_REFERENCE_MODEL,KLEIN_PRODUCTION_SIZE,validateKleinNativeSize} from '../providers/cloudflare';
 import type {LLMProvider,VisionProvider} from '../providers/interfaces';
 import {Runner} from '../orchestration/runner';
-import {exec,read} from '../orchestration/io';
+import {exec,read,log} from '../orchestration/io';
 import {fileDigest,artifact} from '../orchestration/integrity';
 import {inspectWingStudy,wingCountStage,wingCountEvidence,applyWingCount,requiresWingCount} from './wing-count';
 import {currentCosts} from '../cost';
 import {validatedJSON} from '../providers/validated-json';
+import {GroqProvider} from '../providers/groq';
+import {secondReview,runSecondReview,applySecondReview} from './second-review';
 import {visionImage,deriveStyleLock} from './style-reference-v4';
 import {referenceObservations,referenceAnalysis,primaryArtwork,sourceBoundVision,type IllustratedStyleLock,type ArtworkIdea} from './illustration-schema';
 export const nativeSource=z.object({layoutReferenceSha256:z.string().length(64).optional(),path:z.string(),sha256:z.string().length(64),model:z.literal(FLUX_REFERENCE_MODEL),width:z.number().int().positive(),height:z.number().int().positive(),aspectRatio:z.literal('16:9'),prompt:z.string(),referenceSha256:z.string().length(64)}).refine(s=>Math.abs(s.width*9-s.height*16)<=9,'Native 16:9 required');
@@ -69,6 +71,12 @@ export class VisualStyleEngine{
    review=(await runner.stage(effectiveGeminiReviewStage(stageId,source.sha256),effectiveGeminiReview,async()=>({policy:'gemini-free-owner-minor-v1' as const,provider:'gemini' as const,model:process.env.GEMINI_MODEL??'gemini',sourceSha256:source.sha256,referenceSha256:source.referenceSha256,review:result,originalReview,minorStagingStage:stage}))).review;
   }
   if(groqUsed){const result=review;review=(await runner.stage(effectiveGroqReviewStage(stageId,source.sha256),effectiveGroqReview,async()=>({policy:'groq-free-owner-minor-v1' as const,provider:'groq' as const,model:'qwen/qwen3.8-27b' as const,sourceSha256:source.sha256,referenceSha256:source.referenceSha256,review:result,originalReview,minorStagingStage:minorStage}))).review;}
+  // Second free reviewer on accepted images only; unavailable Groq keeps the Gemini verdict and is logged.
+  if(review.passed&&process.env.LLM_PROVIDER!=='groq'&&process.env.SECOND_REVIEW==='groq'&&process.env.GROQ_API_KEY){
+   const name='native-'+stageId+'-second-review-qwen-v1-'+source.sha256.slice(0,12);
+   try{const second=await runner.stage(name,secondReview,()=>runSecondReview(source.path,idea,new GroqProvider()));review=applySecondReview(review,second);}
+   catch(e){await log(runner.dir,'second_review_unavailable',{stage:name,message:String((e as Error).message).slice(0,300)});}
+  }
   if(requiresWingCount(idea)&&review.passed){
    const measured=await runner.stage(wingCountStage(stageId,source.sha256),wingCountEvidence,async()=>({sourceSha256:source.sha256,measurement:await inspectWingStudy(source.path)}));
    if(measured.sourceSha256!==source.sha256)throw Error('Wing count source mismatch');
