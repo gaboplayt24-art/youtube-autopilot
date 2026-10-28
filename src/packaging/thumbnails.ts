@@ -24,7 +24,12 @@ async function thumbnailRevisions(runId:string){try{const r=thumbnailRevision.pa
 // v5: each variant gets its own saturated backdrop so Test & Compare compares genuinely different thumbnails, and dark-mode feeds never swallow a black frame.
 const V5_BACKDROPS=['warm amber-orange rock','deep teal-blue night','rich crimson-red'] as const;
 export function thumbnailConcept(c:{focalSubject:string;expressionOrSituation:string;background:string},v5=false,index=0){
- if(v5){const tail=`Big close-up: Eli's head and shoulders fill the right half of the frame with an EXAGGERATED shocked expression (eyes very wide, eyebrows raised high, mouth wide open), looking toward the large bright glowing curiosity object on the lower left. Plain ${V5_BACKDROPS[index%3]} background with soft light behind his head; upper left kept plain. No lettering.`;const full=`${c.focalSubject}: ${c.expressionOrSituation}. ${tail}`;return full.length<=420?full:tail;}
+ // The curiosity object is always named: an over-long concept is shortened, never dropped (bible-noah-003's
+ // generated covers lost the ark when the whole concept fell back to the face-only tail).
+ if(v5){const tail=` Eli's head and shoulders fill the right half with an EXAGGERATED shocked expression (eyes very wide, brows high, mouth open), looking toward the object. Plain ${V5_BACKDROPS[index%3]} background, soft light behind his head; upper left plain. No lettering.`;
+  const room=420-tail.length-60,clip=(t:string,n:number)=>t.length<=n?t:t.slice(0,n).replace(/\s+\S*$/,'');
+  const object=clip(c.focalSubject,room),situation=clip(c.expressionOrSituation,Math.max(0,room-object.length-2));
+  return `Large bright glowing ${object}${situation?', '+situation:''}, filling the lower-left third.${tail}`;}
  const tail='Close-up: one large expressive adult face and torso fills half the frame on one side, strong mature emotion; small story scene behind; brighter saturated colours; simple top quarter; no lettering.';
  const full=`One focal ${c.focalSubject}. ${c.expressionOrSituation}. Background: ${c.background}. ${tail}`;
  return full.length<=420?full:`One focal ${c.focalSubject}. ${c.expressionOrSituation}. ${tail}`.slice(0,420);

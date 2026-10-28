@@ -69,6 +69,8 @@ test('v5 thumbnail concepts give each variant its own backdrop, an exaggerated f
  const a=thumbnailConcept(c,true,0),b=thumbnailConcept(c,true,1),d=thumbnailConcept(c,true,2);
  for(const x of [a,b,d]){assert.ok(x.length<=420);assert.match(x,/EXAGGERATED/);assert.match(x,/looking toward/);assert.match(x,/No lettering/);}
  assert.notEqual(a,b);assert.notEqual(b,d);
+ const long=thumbnailConcept({focalSubject:'massive wooden ark with three decks, a side door and a window near the roof, resting on a mountain slope as the floodwater drains away below',expressionOrSituation:'a raven and a dove circling '.repeat(8),background:'mountains'},true,1);
+ assert.ok(long.length<=420);assert.match(long,/^Large bright glowing massive wooden ark/,'an over-long concept keeps its curiosity object');
 });
 test('title candidates never frame archaeology as proving or disproving the Bible',async()=>{
  const {faithProofTitle}=await import('../src/orchestration/production-summary');
