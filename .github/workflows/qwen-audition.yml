@@ -13,6 +13,10 @@ on:
       vision_model:
         type: string
         default: 'Qwen/Qwen3-VL-235B-A22B-Instruct'
+      reviewer_only_groq:
+        description: Run only the stricter reviewer on Groq's free Qwen vision model
+        type: boolean
+        default: false
       base_url:
         description: ModelScope API base (international site accounts may use api-inference.modelscope.ai)
         type: string
@@ -41,6 +45,8 @@ jobs:
           QWEN_LAYERED_MODEL: ${{ inputs.layered_model }}
           QWEN_VISION_MODEL: ${{ inputs.vision_model }}
           MODELSCOPE_BASE_URL: ${{ inputs.base_url }}
+          REVIEWER_ONLY: ${{ inputs.reviewer_only_groq && 'groq' || '' }}
+          GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
       - name: Preserve audition evidence in a release
         if: always()
         env:

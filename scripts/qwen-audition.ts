@@ -9,9 +9,10 @@ import {join} from 'node:path';
 import {z} from 'zod';
 import {exec} from '../src/orchestration/io';
 
-const key=process.env.MODELSCOPE_API_KEY;if(!key)throw Error('MODELSCOPE_API_KEY secret is required for this audition');
-const base=process.env.MODELSCOPE_BASE_URL??'https://api-inference.modelscope.cn/v1';
-const models={edit:process.env.QWEN_EDIT_MODEL||'Qwen/Qwen-Image-Edit-2509',layered:process.env.QWEN_LAYERED_MODEL||'Qwen/Qwen-Image-Layered',vision:process.env.QWEN_VISION_MODEL||'Qwen/Qwen3-VL-235B-A22B-Instruct'};
+// REVIEWER_ONLY=groq runs just the stricter reviewer on Groq's free Qwen vision model (already used by production).
+const groq=process.env.REVIEWER_ONLY==='groq',key=groq?process.env.GROQ_API_KEY:process.env.MODELSCOPE_API_KEY;if(!key)throw Error((groq?'GROQ_API_KEY':'MODELSCOPE_API_KEY')+' secret is required for this audition');
+const base=groq?'https://api.groq.com/openai/v1':process.env.MODELSCOPE_BASE_URL||'https://api-inference.modelscope.cn/v1';
+const models={edit:process.env.QWEN_EDIT_MODEL||'Qwen/Qwen-Image-Edit-2509',layered:process.env.QWEN_LAYERED_MODEL||'Qwen/Qwen-Image-Layered',vision:groq?'qwen/qwen3.8-27b':process.env.QWEN_VISION_MODEL||'Qwen/Qwen3-VL-235B-A22B-Instruct'};
 const raw='https://raw.githubusercontent.com/gaboplayt24-art/youtube-autopilot/'+(process.env.GITHUB_SHA??'main')+'/';
 const dir='assets/auditions/qwen-v1',out='data/research/qwen-audition';await mkdir(out,{recursive:true});
 const inputs=z.object({items:z.array(z.object({id:z.string(),role:z.enum(['accepted','rejected']),prompt:z.string(),image:z.string(),geminiIssues:z.array(z.string()).optional()}))}).parse(JSON.parse(await readFile(join(dir,'inputs.json'),'utf8'))).items;
@@ -35,13 +36,13 @@ async function imageTask(model:string,body:Record<string,unknown>){
 async function download(url:string,path:string){const r=await fetch(url,{signal:AbortSignal.timeout(60000)});if(!r.ok)throw Error('download '+r.status);await writeFile(path,Buffer.from(await r.arrayBuffer()));return path;}
 
 // 1. Generation with the approved Eli sheet as the reference image.
-for(const item of inputs.filter(i=>i.role==='accepted')){
+for(const item of groq?[]:inputs.filter(i=>i.role==='accepted')){
  const r=await imageTask(models.edit,{prompt:item.prompt.replaceAll('input_image_0','the reference image'),image_url:[raw+'assets/references/style-v5-eli.png']}).catch(e=>({ok:false,response:clean(String(e))}));
  const files=[];if(r.ok&&'images' in r)for(const [k,url] of r.images.entries())files.push(await download(url,join(out,`qwen-${item.id}-${k}.png`)).catch(e=>'failed: '+e));
  (results.generation as unknown[]).push({id:item.id,...r,files});await save();
 }
 // 2. Layer decomposition of the actual accepted Klein art.
-for(const item of inputs.filter(i=>i.role==='accepted').slice(0,2)){
+for(const item of groq?[]:inputs.filter(i=>i.role==='accepted').slice(0,2)){
  const r=await imageTask(models.layered,{prompt:'Decompose this illustration into separate RGBA layers: background, each character, each foreground object.',image_url:[raw+item.image],n:4}).catch(e=>({ok:false,response:clean(String(e))}));
  const files=[];if(r.ok&&'images' in r)for(const [k,url] of r.images.entries())files.push(await download(url,join(out,`layers-${item.id}-${k}.png`)).catch(e=>'failed: '+e));
  (results.layers as unknown[]).push({id:item.id,...r,files});await save();
@@ -50,7 +51,7 @@ for(const item of inputs.filter(i=>i.role==='accepted').slice(0,2)){
 const rubric=`You are a strict art director for an illustrated Bible-history channel (ancient Near East setting; recurring character Eli: round white head, dot eyes, short dark beard, striped ochre head cloth, sand tunic, terracotta sash). Review the image against its prompt. First list EVERY concrete defect you can see, each as {category, detail}: categories anatomy (wrong limb/finger count, merged bodies, broken joints), historical (modern clothing, glass, plastic, zippers, collars, jeans, modern tools), concept (something the prompt requires is missing or wrong), style (photoreal, 3D, anime, chibi, inconsistent Eli), text (letters or numbers drawn), composition (cropped heads, clutter). Then give scores 0-10 for anatomy, historical, concept, style, composition. A 10 is only for flawless work; typical good work is 7-8. verdict "reject" if any anatomy, historical or concept defect exists. Return JSON only: {"defects":[...],"scores":{...},"verdict":"accept"|"reject","reason":"..."}`;
 for(const item of inputs){
  const t0=Date.now(),b64=(await readFile(item.image)).toString('base64');
- const r=await fetch(base+'/chat/completions',{method:'POST',headers,signal:AbortSignal.timeout(180000),body:JSON.stringify({model:models.vision,temperature:0,messages:[{role:'user',content:[{type:'text',text:rubric+'\n\nPrompt: '+item.prompt}, {type:'image_url',image_url:{url:'data:image/jpeg;base64,'+b64}}]}]})}).then(async x=>({status:x.status,text:clean(await x.text())})).catch(e=>({status:0,text:clean(String(e))}));
+ const r=await fetch(base+'/chat/completions',{method:'POST',headers,signal:AbortSignal.timeout(180000),body:JSON.stringify({model:models.vision,temperature:0,...(groq?{reasoning_format:'hidden'}:{}),messages:[{role:'user',content:[{type:'text',text:rubric+'\n\nPrompt: '+item.prompt}, {type:'image_url',image_url:{url:'data:image/jpeg;base64,'+b64}}]}]})}).then(async x=>({status:x.status,text:clean(await x.text())})).catch(e=>({status:0,text:clean(String(e))}));
  let verdict:unknown=null;try{const content=(JSON.parse(r.text) as {choices:{message:{content:string}}[]}).choices[0].message.content;verdict=JSON.parse(content.replace(/^[^{]*/,'').replace(/[^}]*$/,''));}catch{/* raw kept */}
  (results.reviewer as unknown[]).push({id:item.id,expected:item.role,geminiIssues:item.geminiIssues??[],status:r.status,verdict,raw:verdict?undefined:r.text,seconds:(Date.now()-t0)/1000});await save();
 }
