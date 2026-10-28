@@ -1,0 +1,9 @@
+{
+  "note": "Owner-requested 2026-10-28 free SEO for already published long videos. Chapters come from each run's measured composition (scene frames) and its chapter-titles file; tags are search phrases. Titles, thumbnails, privacy, schedules, sources and existing description text are kept; only chapters, hashtags and tags are added.",
+  "videos": [
+    {"videoId": "fZkGQDZcmig", "runId": "bible-angels-001", "chapters": ["0:00 The question", "0:24 Guests at the Gate", "2:25 Angels With Names", "4:41 Six Wings, Four Faces", "7:11 Check the Source", "8:47 No Single Picture"], "tags": ["what do angels look like in the bible", "biblically accurate angels", "seraphim and cherubim", "angels in the bible explained", "ezekiel wheels with eyes", "six winged angels"]},
+    {"videoId": "RVSdYXEnjuk", "runId": "bible-noah-003", "chapters": ["0:00 The question", "0:28 The Ark in the Text", "2:20 Life Inside", "4:13 Waiting for Land", "6:01 Reading the Details", "7:19 Look Again"], "tags": ["what did noah's ark look like", "how big was noah's ark", "noah's ark dimensions", "noah's ark explained", "genesis 6 noah's ark", "life inside noah's ark"]},
+    {"videoId": "5V7vCGSViFM", "runId": "bible-long-001", "chapters": [], "tags": ["who wrote the dead sea scrolls", "dead sea scrolls explained", "qumran caves", "dead sea scrolls discovery", "isaiah scroll"]},
+    {"videoId": "3ejDYtI6dFU", "runId": "bible-test-002", "chapters": [], "tags": ["hezekiah's tunnel", "siloam tunnel", "siloam inscription", "hezekiah tunnel explained", "ancient jerusalem water system"]}
+  ]
+}
