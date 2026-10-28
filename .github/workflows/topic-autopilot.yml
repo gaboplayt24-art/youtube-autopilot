@@ -1,0 +1,52 @@
+name: topic-autopilot
+# Owner-authorized 2026-10-28: keep the monthly queue rolling and pick the next topics from measured public demand.
+# Briefs come from config/topic-catalog.json; production still runs through the unchanged controller and QA gates.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '23 7 * * 1,4'
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  roll:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      AUTO_PUBLISH: 'false'
+      FREE_ONLY: 'true'
+      MAX_PAID_COST_USD: '0'
+      FREE_QUOTA_LEDGER_PATH: .cache/quota/free-quota-ledger.json
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: python3 scripts/restore-free-quota.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: npx tsx scripts/topic-autopilot.ts
+        env:
+          GH_TOKEN: ${{ github.token }}
+          YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
+      - name: Validate the rolled queue before committing it
+        run: npx tsx --test tests/topic-autopilot.test.ts tests/monthly-production.test.ts
+      - name: Commit the queue and new briefs to main
+        run: |
+          git add config/monthly-production.json data/scripts
+          git add data/research/topic-autopilot/20*.json 2>/dev/null || true
+          if git diff --cached --quiet; then echo 'Queue unchanged'; exit 0; fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' commit -m 'Roll the monthly queue and add automatically chosen topics'
+          git push origin HEAD:main
+      - name: Persist shared quota
+        if: always()
+        run: python3 scripts/github_checkpoints.py save-quota
+        env:
+          GH_TOKEN: ${{ github.token }}
