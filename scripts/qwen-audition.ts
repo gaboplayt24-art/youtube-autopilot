@@ -19,7 +19,7 @@ const inputs=z.object({items:z.array(z.object({id:z.string(),role:z.enum(['accep
 const results:Record<string,unknown>={startedAt:new Date().toISOString(),models,generation:[],layers:[],reviewer:[]};
 const save=()=>writeFile(join(out,'results.json'),JSON.stringify(results,null,1));
 const headers={Authorization:'Bearer '+key,'Content-Type':'application/json'};
-const clean=(t:string)=>t.replaceAll(key,'[redacted]').slice(0,1500);
+const clean=(t:string)=>t.replaceAll(key,'[redacted]').slice(0,6000);
 
 async function imageTask(model:string,body:Record<string,unknown>){
  const t0=Date.now(),submit=await fetch(base+'/images/generations',{method:'POST',headers:{...headers,'X-ModelScope-Async-Mode':'true'},body:JSON.stringify({model,...body}),signal:AbortSignal.timeout(60000)});
@@ -51,8 +51,10 @@ for(const item of groq?[]:inputs.filter(i=>i.role==='accepted').slice(0,2)){
 const rubric=`You are a strict art director for an illustrated Bible-history channel (ancient Near East setting; recurring character Eli: round white head, dot eyes, short dark beard, striped ochre head cloth, sand tunic, terracotta sash). Review the image against its prompt. First list EVERY concrete defect you can see, each as {category, detail}: categories anatomy (wrong limb/finger count, merged bodies, broken joints), historical (modern clothing, glass, plastic, zippers, collars, jeans, modern tools), concept (something the prompt requires is missing or wrong), style (photoreal, 3D, anime, chibi, inconsistent Eli), text (letters or numbers drawn), composition (cropped heads, clutter). Then give scores 0-10 for anatomy, historical, concept, style, composition. A 10 is only for flawless work; typical good work is 7-8. verdict "reject" if any anatomy, historical or concept defect exists. Return JSON only: {"defects":[...],"scores":{...},"verdict":"accept"|"reject","reason":"..."}`;
 for(const item of inputs){
  const t0=Date.now(),b64=(await readFile(item.image)).toString('base64');
- const r=await fetch(base+'/chat/completions',{method:'POST',headers,signal:AbortSignal.timeout(180000),body:JSON.stringify({model:models.vision,temperature:0,...(groq?{reasoning_format:'hidden'}:{}),messages:[{role:'user',content:[{type:'text',text:rubric+'\n\nPrompt: '+item.prompt}, {type:'image_url',image_url:{url:'data:image/jpeg;base64,'+b64}}]}]})}).then(async x=>({status:x.status,text:clean(await x.text())})).catch(e=>({status:0,text:clean(String(e))}));
- let verdict:unknown=null;try{const content=(JSON.parse(r.text) as {choices:{message:{content:string}}[]}).choices[0].message.content;verdict=JSON.parse(content.replace(/^[^{]*/,'').replace(/[^}]*$/,''));}catch{/* raw kept */}
+ // Groq's free tier allows about 7000 input tokens a minute: space the calls and honour its retry hint.
+ let r={status:0,text:''};for(let attempt=0;attempt<4;attempt++){if(groq&&(attempt||inputs.indexOf(item)))await new Promise(x=>setTimeout(x,attempt?(Number(r.text.match(/try again in ([\d.]+)s/)?.[1]??20)+3)*1000:25000));
+ r=await fetch(base+'/chat/completions',{method:'POST',headers,signal:AbortSignal.timeout(180000),body:JSON.stringify({model:models.vision,temperature:0,...(groq?{reasoning_format:'hidden'}:{}),messages:[{role:'user',content:[{type:'text',text:rubric+'\n\nPrompt: '+item.prompt}, {type:'image_url',image_url:{url:'data:image/jpeg;base64,'+b64}}]}]})}).then(async x=>({status:x.status,text:clean(await x.text())})).catch(e=>({status:0,text:clean(String(e))}));if(r.status!==429)break;}
+ let verdict:unknown=null;try{const content=(JSON.parse(r.text) as {choices:{message:{content:string}}[]}).choices[0].message.content;verdict=JSON.parse(content.slice(content.indexOf('{'),content.lastIndexOf('}')+1));}catch{/* raw kept */}
  (results.reviewer as unknown[]).push({id:item.id,expected:item.role,geminiIssues:item.geminiIssues??[],status:r.status,verdict,raw:verdict?undefined:r.text,seconds:(Date.now()-t0)/1000});await save();
 }
 // Side-by-side sheet: Klein (current) left, Qwen right, one row per prompt.
