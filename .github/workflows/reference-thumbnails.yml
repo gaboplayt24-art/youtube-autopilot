@@ -1,0 +1,41 @@
+name: reference-thumbnails
+# Contact sheet of a public reference channel's most viewed thumbnails, for abstract packaging principles only
+# (never copied artwork, characters, layouts or branding).
+on:
+  workflow_dispatch:
+    inputs:
+      video_ids:
+        description: Comma-separated public video ids
+        type: string
+        required: true
+permissions:
+  contents: write
+jobs:
+  sheet:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg
+      - name: Build the contact sheet
+        env:
+          IDS: ${{ inputs.video_ids }}
+        run: |
+          mkdir -p data/research/reference-thumbnails && cd data/research/reference-thumbnails
+          i=0; args=(); for id in ${IDS//,/ }; do [[ "$id" =~ ^[A-Za-z0-9_-]{11}$ ]] || exit 1; curl -sSf -o t$i.jpg "https://i.ytimg.com/vi/$id/maxresdefault.jpg" || curl -sSf -o t$i.jpg "https://i.ytimg.com/vi/$id/hqdefault.jpg"; args+=(-i t$i.jpg); i=$((i+1)); done
+          f=""; for n in $(seq 0 $((i-1))); do f="$f[$n]scale=640:360,setsar=1[a$n];"; done
+          row=""; for n in $(seq 0 $((i-1))); do row="$row[a$n]"; done
+          ffmpeg -y -v error "${args[@]}" -filter_complex "${f}${row}xstack=inputs=$i:layout=$(python3 -c "n=$i;print('|'.join(f'{(k%4)*640}_{(k//4)*360}' for k in range(n)))")" -frames:v 1 -q:v 3 sheet.jpg
+      - name: Preserve in a release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          python3 - <<'PYSHEET'
+          import os, runpy, shutil
+          from pathlib import Path
+          store=runpy.run_path('scripts/github_checkpoints.py')
+          repo=os.environ['GITHUB_REPOSITORY']; store['require_private'](repo)
+          tag='channel-research-2026-10'; store['release'](repo,tag)
+          target=Path('.cache')/(os.environ['GITHUB_RUN_ID']+'-reference-thumbnails.jpg'); target.parent.mkdir(exist_ok=True)
+          shutil.copyfile('data/research/reference-thumbnails/sheet.jpg',target); store['upload'](repo,tag,target)
+          PYSHEET
