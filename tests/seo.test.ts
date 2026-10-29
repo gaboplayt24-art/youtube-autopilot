@@ -4,7 +4,7 @@ import {chapterLines,seoDescription,seoTags,HASHTAGS} from '../src/packaging/seo
 
 const scenes=[{id:'chapter-1',from:0,frames:900},{id:'chapter-2',from:900,frames:3600},{id:'chapter-3',from:4500,frames:3600},{id:'chapter-4',from:8100,frames:9000}];
 test('chapters start at 0:00 from measured scene frames and use the run chapter titles',()=>{
- assert.deepEqual(chapterLines(scenes,30,{'chapter-2':'Flight to Tarshish'}),['0:00 The question','0:30 Flight to Tarshish','2:30 Part 2','4:30 The answer']);
+ assert.deepEqual(chapterLines(scenes,30,{'chapter-2':'Flight to Tarshish'}),['0:00 The question','0:30 Flight to Tarshish','4:30 The answer']);
  assert.deepEqual(chapterLines(scenes.slice(0,2),30,{}),[],'fewer than three chapters show none');
  assert.deepEqual(chapterLines([...scenes,{id:'x',from:17100,frames:200}],30,{}),[],'a chapter under 10 s disables them all');
 });

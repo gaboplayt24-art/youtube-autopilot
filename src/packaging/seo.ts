@@ -7,7 +7,9 @@ const stamp=(seconds:number)=>{const s=Math.floor(seconds),h=Math.floor(s/3600),
 /** YouTube shows chapters only when the first starts at 0:00, there are at least three and each lasts 10 s or more. */
 export function chapterLines(scenes:{id:string;from:number;frames:number}[],fps:number,titles:Record<string,string>){
  if(scenes.length<3||scenes.some(s=>s.frames/fps<10))return [];
- return scenes.map((s,i)=>`${stamp(s.from/fps)} ${titles[s.id]??(i===0?'The question':i===scenes.length-1?'The answer':`Part ${i}`)}`);
+ // An untitled middle chapter joins the previous one rather than showing a generic "Part N".
+ const lines=scenes.flatMap((s,i)=>{const title=titles[s.id]??(i===0?'The question':i===scenes.length-1?'The answer':null);return title?[`${stamp(s.from/fps)} ${title}`]:[];});
+ return lines.length>=3?lines:[];
 }
 export function seoDescription(description:string,chapters:string[]){
  const body=description.replace(/\n*#\w+(?:\s+#\w+)*\s*$/,'');

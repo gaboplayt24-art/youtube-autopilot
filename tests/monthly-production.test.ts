@@ -54,9 +54,10 @@ test('exhausted episodes do not block the next due episode; successful episodes 
  assert.equal(monthlyDecision(policy,[run(1,{conclusion:'success'})],new Date('2026-10-20T12:00:00Z')).decision,'waiting-next-slot-or-complete');
  assert.throws(()=>monthlyProduction.parse({...policy,episodes:[policy.episodes[0],policy.episodes[0]]}));
 });
-test('all queued future episodes have validated primary-source briefs and real chapter clip selections',async()=>{
+test('all queued future episodes have validated primary-source briefs and valid optional clip selections',async()=>{
  const c=monthlyProduction.parse(JSON.parse(await readFile('config/monthly-production.json','utf8')));
- for(const e of c.episodes){const draft=editorialDraftSchema.parse(JSON.parse(await readFile(`data/scripts/${e.runId}-editorial-draft.json`,'utf8')));assert.ok(draft.requiredEvidence?.urls.length);assert.ok(draft.sourceUrls.every(url=>url.startsWith('https://www.biblegateway.com/')||e.runId==='bible-noah-003'));const clips=JSON.parse(await readFile(`data/ideas/${e.runId}-shorts-chapters.json`,'utf8'));assert.equal(clips.runId,e.runId);assert.equal(clips.chapters.length,3);}
+ for(const e of c.episodes){const draft=editorialDraftSchema.parse(JSON.parse(await readFile(`data/scripts/${e.runId}-editorial-draft.json`,'utf8')));assert.ok(draft.requiredEvidence?.urls.length);assert.ok(draft.sourceUrls.every(url=>url.startsWith('https://www.biblegateway.com/')||e.runId==='bible-noah-003'));// An editorial Shorts selection is optional (automatic: up to five chapters); when present it must be valid.
+  const clips=await readFile(`data/ideas/${e.runId}-shorts-chapters.json`,'utf8').then(JSON.parse,()=>null);if(clips){const {chapterClipSelection}=await import('../src/social/plan');assert.equal(chapterClipSelection.parse(clips).runId,e.runId);}}
 });
 test('real monthly CLI resumes exact checkpoint and binds one-time repair, with no new credentials',async()=>{
  const dir=await mkdtemp(join(tmpdir(),'monthly-cli-'));
