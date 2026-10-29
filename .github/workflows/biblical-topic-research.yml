@@ -6,6 +6,10 @@ on:
         description: Optional public handle to inspect all uploads instead of the topic sample
         type: string
         default: ''
+      topic_queries:
+        description: Optional JSON list of {topic,query} to measure instead of the default sample
+        type: string
+        default: ''
       validate_storage_only:
         description: Check artifact storage without any external API calls
         type: boolean
@@ -40,6 +44,7 @@ jobs:
         env:
           YOUTUBE_DATA_API_KEY: ${{ secrets.YOUTUBE_DATA_API_KEY }}
           REFERENCE_CHANNEL: ${{ inputs.reference_channel }}
+          TOPIC_QUERIES: ${{ inputs.topic_queries }}
       - name: Prepare tiny storage probe
         if: inputs.validate_storage_only == true
         run: mkdir -p data/research/biblical-demand && printf 'storage check\n' > data/research/biblical-demand/storage-check.txt
