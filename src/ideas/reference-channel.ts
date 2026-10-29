@@ -1,13 +1,14 @@
 import {z} from 'zod';
 import {PublicYouTubeClient} from '../packaging/engine';
 import {parseDuration} from '../benchmarks';
-const handleSchema=z.string().regex(/^@[A-Za-z0-9._-]{3,100}$/);
+// A public @handle or, when the handle is unknown, the channel id (UC…) from public search results.
+const handleSchema=z.string().regex(/^(?:@[A-Za-z0-9._-]{3,100}|UC[A-Za-z0-9_-]{22})$/);
 const video=z.object({id:z.string(),snippet:z.object({title:z.string(),description:z.string(),publishedAt:z.string().datetime(),thumbnails:z.record(z.object({url:z.string().url()})),liveBroadcastContent:z.string().optional()}),statistics:z.object({viewCount:z.string().regex(/^\d+$/).optional(),likeCount:z.string().optional(),commentCount:z.string().optional()}),contentDetails:z.object({duration:z.string()})});
 /** Enumerate the public uploads playlist, rather than calling the newest page the channel winner. */
 export async function analyzeReferenceChannel(handle:string,client=new PublicYouTubeClient(),now=new Date(),maximumUploads=5000){
  handle=handleSchema.parse(handle);
  const channelSchema=z.object({id:z.string(),snippet:z.object({title:z.string(),description:z.string()}),statistics:z.object({subscriberCount:z.string().optional(),videoCount:z.string().optional()}),contentDetails:z.object({relatedPlaylists:z.object({uploads:z.string()})})});
- const channel=channelSchema.parse((await client.get('channels',{part:'snippet,statistics,contentDetails',forHandle:handle})).items[0]);
+ const channel=channelSchema.parse((await client.get('channels',{part:'snippet,statistics,contentDetails',...(handle.startsWith('@')?{forHandle:handle}:{id:handle})})).items[0]);
  const uploads:string[]=[],raw:unknown[]=[];let token='';const seenTokens=new Set<string>();
  do{
   const page=await client.get('playlistItems',{part:'contentDetails',playlistId:channel.contentDetails.relatedPlaylists.uploads,maxResults:'50',...(token?{pageToken:token}:{})});
