@@ -1,7 +1,7 @@
 {
   "enabled": true,
-  "startsAt": "2026-10-28T00:00:00.000Z",
-  "endsAt": "2026-11-28T00:00:00.000Z",
+  "startsAt": "2026-10-29T00:00:00.000Z",
+  "endsAt": "2026-11-29T00:00:00.000Z",
   "maxEpisodes": 4,
   "maxAttemptsPerEpisode": null,
   "maxAttempts": null,
@@ -10,7 +10,7 @@
   "episodes": [
     {
       "runId": "bible-jonah-004",
-      "notBefore": "2026-10-28T00:00:00.000Z",
+      "notBefore": "2026-10-29T00:00:00.000Z",
       "topic": "Jonah beyond the great fish: the journey, the city, the plant and the unanswered question in Jonah 1-4"
     },
     {
