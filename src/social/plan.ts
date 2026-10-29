@@ -1,21 +1,21 @@
 import {z} from 'zod';
 import type {Composition} from '../orchestration/schemas';
 export const candidate=z.object({id:z.string().regex(/^[A-Z]$/),title:z.string().min(5).max(80),source:z.string(),narration:z.string().min(20)});
-export const chapterClipSelection=z.object({runId:z.string(),chapters:z.array(candidate.omit({narration:true}).extend({sceneId:z.string().min(1)})).length(3)}).superRefine((value,ctx)=>{
- if(new Set(value.chapters.map(c=>c.id)).size!==3||new Set(value.chapters.map(c=>c.sceneId)).size!==3)ctx.addIssue({code:'custom',message:'Select three distinct clips and chapters'});
+export const chapterClipSelection=z.object({runId:z.string(),chapters:z.array(candidate.omit({narration:true}).extend({sceneId:z.string().min(1)})).min(3).max(5)}).superRefine((value,ctx)=>{
+ const n=value.chapters.length;if(new Set(value.chapters.map(c=>c.id)).size!==n||new Set(value.chapters.map(c=>c.sceneId)).size!==n)ctx.addIssue({code:'custom',message:'Select distinct clips and chapters'});
 });
 const normalize=(s:string)=>s.toLowerCase().replace(/[^\p{L}\p{N}]/gu,'');
 export type ScriptScenes={title:string;scenes:{id:string;claims?:{text:string}[]}[]};
 const REFERENCE=/\b((?:[1-3] )?[A-Z][a-z]+ \d{1,3}(?::\d{1,3}(?:[-–]\d{1,3})?)?)/;
-/** Without an editorial selection: chapters 2-4 (after the hook), titled by their chapter card or the episode title,
+/** Without an editorial selection: up to five chapters after the hook (owner 2026-10-29: Shorts bring most views), titled by their chapter card or the episode title,
  * each cited to the passage its own approved claims reference. Times still come only from measured words. */
 export function automaticChapterSelection(runId:string,composition:Composition,script:ScriptScenes,titles:Record<string,string>):z.infer<typeof chapterClipSelection>{
- const scenes=composition.scenes.map(s=>s.id).filter(id=>composition.cues.some(c=>c.sceneId===id)).slice(1,4);
+ const scenes=composition.scenes.map(s=>s.id).filter(id=>composition.cues.some(c=>c.sceneId===id)).slice(1,6);
  if(scenes.length<3)throw Error('Automatic Shorts need three narrated chapters after the hook');
  return {runId,chapters:scenes.map((sceneId,i)=>{
   const claims=script.scenes.find(s=>s.id===sceneId)?.claims??[];const source=claims.map(c=>c.text.match(REFERENCE)?.[1]).find(Boolean)??'The biblical text';
-  const card=titles[sceneId];const title=(card??`${script.title} (${i+1}/3)`).slice(0,80);
-  return {id:'ABC'[i],sceneId,title:title.length>=5?title:script.title.slice(0,80),source};
+  const card=titles[sceneId];const title=(card??`${script.title} (${i+1}/${scenes.length})`).slice(0,80);
+  return {id:'ABCDE'[i],sceneId,title:title.length>=5?title:script.title.slice(0,80),source};
  })};
 }
 /** Editorial candidates from the first complete measured sentences of approved chapters; never invented times. */
@@ -54,5 +54,5 @@ export function planClip(input:z.input<typeof candidate>,composition:Composition
 }
 export function releaseSlots(mainPublishAt:string,now=new Date()){
  const at=Date.parse(mainPublishAt);if(!Number.isFinite(at)||at+3600000<now.getTime()+3*3600000)throw Error('Main release must leave at least three hours to process the first clip');
- return [0,1,2].map(day=>({youtube:new Date(at+day*86400000+3600000).toISOString(),tiktok:new Date(at+day*86400000+5400000).toISOString()}));
+ return [0,1,2,3,4].map(day=>({youtube:new Date(at+day*86400000+3600000).toISOString(),tiktok:new Date(at+day*86400000+5400000).toISOString()}));
 }

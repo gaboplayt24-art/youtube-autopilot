@@ -14,7 +14,7 @@ import {chapterTitles} from '../editor/dynamic-edit-stage';
 import {sliceEdit} from '../editor/dynamic-edit';
 import {writeSfxTrack} from '../audio/sfx-library';
 export const clipRecord=z.object({id:z.string(),title:z.string(),source:z.string(),path:z.string(),sha256:z.string().length(64),duration:z.number(),qa:qa,sourceRenderSha256:z.string(),narration:z.string()});
-export const clipBundle=z.object({runId:z.string(),clips:z.array(clipRecord).length(3)});
+export const clipBundle=z.object({runId:z.string(),clips:z.array(clipRecord).min(3).max(5)});
 export async function buildClips(runId:string){
  if(!/^[A-Za-z0-9_-]+$/.test(runId))throw Error('Invalid episode ID');
  const dir=join('data/runs',runId),out=join(dir,'social');await mkdir(out,{recursive:true});
@@ -29,7 +29,7 @@ export async function buildClips(runId:string){
   if(selection.runId!==runId)throw Error('Clip chapter selection belongs to another episode');
   candidateInput={candidates:chapterClipCandidates(selection,full)};
  }
- const candidates=z.object({candidates:z.array(candidate).length(3)}).parse(candidateInput);
+ const candidates=z.object({candidates:z.array(candidate).min(3).max(5)}).parse(candidateInput);
  await json(join(out,'selected-candidates.json'),candidates);
  const runner=new Runner(out);await runner.lock();const clips=[];
  try{for(const input of candidates.candidates){

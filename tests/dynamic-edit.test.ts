@@ -85,12 +85,12 @@ test('a clip slice re-times the full edit, keeps only its own shots and never ca
  assert.deepEqual(clip.layers.map(l=>l.shotId),['b']);assert.deepEqual(clip.sfx,[{time:1,type:'pop'}]);assert.deepEqual(clip.presenter,[]);
 });
 
-test('without an editorial Shorts selection, chapters 2-4 are chosen and cited from their own claims',async()=>{
+test('without an editorial Shorts selection, every chapter after the hook (up to five) is chosen and cited from their own claims',async()=>{
  const {automaticChapterSelection}=await import('../src/social/plan');
  const scenes=['c1','c2','c3','c4','c5'].map((id,i)=>({id,text:'x',audio:'a.wav',image:'i.png',from:i*300,frames:300}));
  const cues=scenes.map(s=>({sceneId:s.id,start:s.from/30,end:s.from/30+1,text:'word',words:[{start:s.from/30,end:s.from/30+1,text:'word'}]}));
  const sel=automaticChapterSelection('bible-x',{fps:30,width:1920,height:1080,durationInFrames:1500,scenes,cues,shots:[],assets:[]} as never,{title:'Jonah Beyond the Fish',scenes:[{id:'c2',claims:[{text:'Jonah 1:3 says he fled to Tarshish.'}]}]},{c3:'The Great City'});
- assert.deepEqual(sel.chapters.map(c=>[c.id,c.sceneId,c.title,c.source]),[['A','c2','Jonah Beyond the Fish (1/3)','Jonah 1:3'],['B','c3','The Great City','The biblical text'],['C','c4','Jonah Beyond the Fish (3/3)','The biblical text']]);
+ assert.deepEqual(sel.chapters.map(c=>[c.id,c.sceneId,c.title,c.source]),[['A','c2','Jonah Beyond the Fish (1/4)','Jonah 1:3'],['B','c3','The Great City','The biblical text'],['C','c4','Jonah Beyond the Fish (3/4)','The biblical text'],['D','c5','Jonah Beyond the Fish (4/4)','The biblical text']]);
 });
 
 test('a clip passage is found even when one measured word holds several spoken tokens',async()=>{
