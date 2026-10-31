@@ -1,0 +1,38 @@
+{
+  "provenance": "Original editorial brief from config/topic-catalog.json, chosen by the owner on 2026-10-31 after the measured demand comparison. No competitor scripts or artwork.",
+  "sourceUrls": [
+    "https://www.biblegateway.com/passage/?search=Genesis%206&version=KJV",
+    "https://www.biblegateway.com/passage/?search=Numbers%2013&version=KJV"
+  ],
+  "requiredEvidence": {
+    "urls": [
+      "https://www.biblegateway.com/passage/?search=Genesis%206&version=KJV",
+      "https://www.biblegateway.com/passage/?search=Numbers%2013&version=KJV"
+    ],
+    "anchors": []
+  },
+  "researchFocus": "The few verses that mention the Nephilim and the sons of God, and the spies' report in Numbers 13. Present interpretations (including later writings) as interpretations with their sources, and label speculation clearly; never present giants as historical fact.",
+  "scriptGuidance": "Use the existing quality_test documentary target, approximately 8-12 minutes at natural narrator speed, never pad or stretch audio. Original English, direct curiosity hook, distinct sourced chapters and concise callback. Every spoken factual term/number remains subject to voice QA. Only claim what the actual retrieved passages support; distinguish text, interpretation and debate. Generated thumbnails must accurately complement the final title. RETENTION (measured on this channel: long videos lose half their viewers in the first 30 seconds when the opening talks about method): the first chapter opens with the single most surprising concrete detail of the passage, then promises in one sentence what the viewer will see by the end. No talk about evidence, illustrators, interpretation or what the video will separate in the first chapter; place each caveat beside the claim it qualifies, later. Every chapter ends on a question the next chapter answers.",
+  "chapters": [
+    {
+      "act": "HOOK",
+      "purpose": "Direct specific source-grounded curiosity, no intro or welcome; target exactly the existing opening word budget."
+    },
+    {
+      "act": "ACT 1",
+      "purpose": "Four verses in Genesis. Introduce distinct evidence from the first source; do not repeat the hook."
+    },
+    {
+      "act": "ACT 2",
+      "purpose": "The spies' report. Explain the textual sequence with new evidence, without inventing physical or chronological detail."
+    },
+    {
+      "act": "ACT 3",
+      "purpose": "What the text does not say. Resolve the main question with the later sources, distinguish the text from later imagery."
+    },
+    {
+      "act": "ENDING",
+      "purpose": "Short callback to the opening question; no repeated chapter summary or new factual claims."
+    }
+  ]
+}

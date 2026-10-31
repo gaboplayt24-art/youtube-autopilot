@@ -19,9 +19,14 @@
       "topic": "Daniel and the lions: the decree, the night, the rescue and the narrative setting in Daniel 5-6"
     },
     {
-      "runId": "bible-manna-005",
-      "notBefore": "2026-11-09T00:00:00.000Z",
-      "topic": "What Exodus actually says about manna: daily gathering, storage, the Sabbath and wilderness provision in Exodus 16-17"
+      "runId": "bible-nephilim-007",
+      "notBefore": "2026-11-07T00:00:00.000Z",
+      "topic": "Who were the Nephilim? What Genesis 6 and Numbers 13 actually say"
+    },
+    {
+      "runId": "bible-nativity-008",
+      "notBefore": "2026-11-28T00:00:00.000Z",
+      "topic": "The first Christmas in the Gospels: the census, the manger, the shepherds and the magi in Luke 2 and Matthew 2"
     }
   ],
   "authorization": "Owner: quiero que los videos se hagan solos durante el mes y no necesites de mis autorizaciones y mi precencia en lo posible xfis",
@@ -44,5 +49,14 @@
       "leftQueueAt": "2026-10-28T06:34:37.885Z"
     }
   ],
-  "reorderNote": "2026-10-31: Daniel moved ahead of manna on measured demand (median 1,317 views/day across 10 channels vs 102 for manna, whose sample was mostly one devotional series)."
+  "reorderNote": "2026-10-31: Daniel moved ahead of manna on measured demand (median 1,317 views/day across 10 channels vs 102 for manna, whose sample was mostly one devotional series). 2026-10-31: owner replaced manna with the Nephilim (7 Nov) and the Nativity (28 Nov, for December).",
+  "deferredEpisodes": [
+    {
+      "runId": "bible-manna-005",
+      "notBefore": "2026-11-09T00:00:00.000Z",
+      "topic": "What Exodus actually says about manna: daily gathering, storage, the Sabbath and wilderness provision in Exodus 16-17",
+      "deferredAt": "2026-10-31T18:16:03.624Z",
+      "reason": "Owner chose Nephilim and then the Nativity over manna on measured demand (2026-10-31)."
+    }
+  ]
 }
