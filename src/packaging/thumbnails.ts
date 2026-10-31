@@ -7,6 +7,7 @@ import {fileDigest} from '../orchestration/integrity';
 import {renderThumbnail} from '../render';
 import {inspectThumbnail} from '../thumbnail';
 import {VisualStyleEngine,fitNativeConcept} from '../visuals/native-v4-2';
+import {repairUntilReviewed,planVisualCorrection} from '../visuals/adaptive-repair';
 import {artworkIdea,type IllustratedStyleLock} from '../visuals/illustration-schema';
 import {packagingPlan,thumbnailPackagingScore} from './schemas';
 import {z} from 'zod';
@@ -67,6 +68,10 @@ export async function generatePackagedThumbnails(plan:z.infer<typeof packagingPl
   let result=await engine.generate(idea,thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
   // v5 thumbnails get the style lock's single regeneration under a fresh evidence ID, like v5 beats; the rejected review stays recorded.
   if(style.version==='round-head-v5'&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork))result=await engine.generate({...idea,id:idea.id+'-regen1'},thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
+  // Owner-authorized autonomous visual correction (same as beats): the actual rejected thumbnail and its review re-plan the concept; the full review still decides.
+  if(process.env.AUTONOMOUS_VISUAL_REPAIR==='true'&&style.version==='round-head-v5'&&(!result.review.passed||!result.artwork))result=await repairUntilReviewed(result,
+   (last,promptIssues)=>planVisualCorrection(idea,last,thumbStyle,thumbReference,runner,vision,promptIssues),
+   next=>engine.generate(next,thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height));
   if(!result.review.passed||!result.artwork)throw new Error('Native thumbnail artwork QA failed: '+idea.id+' evidence '+JSON.stringify({concept:idea.concept,objectiveFailures:result.review.objectiveFailures,issues:result.review.issues,seriousAnatomyDefects:result.review.seriousAnatomyDefects??[]}));const file=basename(result.source.path);await copyFile(result.source.path,join(publicDir,file));
   const variant=['A','B','C'][index] as 'A'|'B'|'C',path=join(dir,`thumbnail-${variant}.png`);await renderThumbnail({...composition,thumbnailTitle:(idea.overlay??concept.overlay),thumbnailVariant:variant,assets:[{shotId:idea.id,kind:'image',path:runId+'/'+file,provider:'cloudflare-flux-free',sha256:result.source.sha256,sourceSha256:result.source.sha256,artwork:result.artwork,license:'Original AI artwork, Klein 4B Apache-2.0 and provider terms',sourceUrl:null,intent:idea.concept,fallbacks:[],estimatedCost:0}]},path);const scores=await inspectThumbnail(path,(idea.overlay??concept.overlay),plan.titles[index],false,true);variants.push({variant,path,sha256:await fileDigest(path),scores:{...scores,PackagingScore:thumbnailPackagingScore(concept.scores)}});
   // Owner-approved 2026-10-11: the same artwork with translated labels, for YouTube Studio's per-language thumbnails (not settable through the API).
