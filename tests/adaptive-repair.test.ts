@@ -48,3 +48,10 @@ test('a provider safety refusal is re-planned as a calmer concept, never accepte
  const result=await repairUntilReviewed(refused as typeof rejected,async(_last,issues)=>{issuesSeen.push(issues);return {...idea,concept:idea.concept+' calmer '+(++n)};},async()=>{if(n===1)throw Error('Cloudflare HTTP 400: 3030 AiError: Your output has been flagged');return {...rejected,review:{passed:true,objectiveFailures:[],issues:[]},artwork:{referenceQAPassed:true}};});
  assert.equal(result.review.passed,true);assert.deepEqual(issuesSeen,[undefined,[FLAG_GUIDANCE]]);
 });
+test('a regeneration counts the people a role names instead of one per role',async()=>{
+ const {castPhrase}=await import('../src/visuals/illustrated-video-assets');
+ assert.equal(castPhrase(['Eli']),'Exactly 1 adult character');
+ assert.equal(castPhrase(['Three princes']),'Exactly 3 adult characters');
+ assert.equal(castPhrase(['Eli','2 guards']),'Exactly 3 adult characters');
+ assert.equal(castPhrase(['Noah','his sons']),'Only these adult characters','a plural group is never forced to a wrong exact count');
+});

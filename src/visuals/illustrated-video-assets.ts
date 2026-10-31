@@ -22,11 +22,19 @@ export function validatePlannedReuse(shots:Shot[]){
  for(const key of new Set(keys)){const group=shots.filter(s=>(s.assetKey??s.id)===key);if(group.length>4||group.some(s=>s.illustrationIdea?.concept!==group[0].illustrationIdea?.concept))throw new Error('Source reuse must have one consistent scene and at most four meaningful uses');if(group.length>1&&group.some(s=>!s.visualIntent||(!s.overlay&&!s.overlayArrow)))throw new Error('Reused source needs a meaningful editorial reveal, label or arrow');}
  return keys;
 }
+const NUMBERS:Record<string,number>={one:1,two:2,three:3,four:4,five:5,six:6,seven:7,eight:8,nine:9,ten:10,twelve:12};
+/** How many people the roles name: "Three princes" is three, a plural with no number is a group (no exact count). */
+export function castPhrase(roles:string[]){
+ let total=0;
+ for(const role of roles){const first=role.trim().toLowerCase().split(/\s+/)[0],n=/^\d+$/.test(first)?Number(first):NUMBERS[first];
+  if(n)total+=n;else if(/(?<!s)s$|men$|people$|crowd|group|sons$|wives$/i.test(role.trim().split(/\s+/).at(-1)??''))return 'Only these adult characters';else total+=1;}
+ return 'Exactly '+total+' adult character'+(total>1?'s':'');
+}
 /** Corrective concept for the single allowed regeneration, phrased positively (naming a defect makes FLUX draw it); the rejected review stays as evidence. */
 // legacy reproduces the wording of regenerations already drawn (run 38062820153) so their cached evidence still verifies.
 export function regenerationIdea(idea:ArtworkIdea,style:IllustratedStyleLock,legacy=false):ArtworkIdea{
  const roles=idea.characterRoles.filter(r=>!/^none$/i.test(r));const eli=roles.some(r=>/eli/i.test(r));
- const anatomy=sourceBoundVision(idea);const fix=idea.depictionScope==='text-source'?(roles.length?'Only these requested reading roles: '+roles.join(', ')+'. Preserve the manuscript; no visionary beings.':'Only the requested manuscripts and source-reading props; no people or visionary beings.'):anatomy?(roles.length?'Human cast only: '+roles.join(', ')+'. Preserve the source-described visionary anatomy.':'Only the source-described visionary subject; no ordinary humans.') :roles.length?'Exactly '+roles.length+' adult character'+(roles.length>1?'s':'')+' ('+roles.join(', ')+(legacy?'), each with two simple clear cartoon hands drawn like input_image_0'+(eli?'; Eli wears his striped ochre head cloth':''):'), nobody else'+(eli?', Eli drawn exactly as in input_image_0':''))+'.':'An empty scene with no people at all.';
+ const anatomy=sourceBoundVision(idea);const fix=idea.depictionScope==='text-source'?(roles.length?'Only these requested reading roles: '+roles.join(', ')+'. Preserve the manuscript; no visionary beings.':'Only the requested manuscripts and source-reading props; no people or visionary beings.'):anatomy?(roles.length?'Human cast only: '+roles.join(', ')+'. Preserve the source-described visionary anatomy.':'Only the source-described visionary subject; no ordinary humans.') :roles.length?(legacy?'Exactly '+roles.length+' adult character'+(roles.length>1?'s':''):castPhrase(roles))+' ('+roles.join(', ')+(legacy?'), each with two simple clear cartoon hands drawn like input_image_0'+(eli?'; Eli wears his striped ochre head cloth':''):'), nobody else'+(eli?', Eli drawn exactly as in input_image_0':''))+'.':'An empty scene with no people at all.';
  const base=idea.concept.length+fix.length+1>420?idea.concept.slice(0,420-fix.length-1).replace(/\s+\S*$/,''):idea.concept;
  return fitNativeConcept(style,{...idea,id:idea.id+'-regen1',concept:base+' '+fix});
 }
@@ -47,7 +55,10 @@ export async function createIllustratedVideoAssets(shots:Shot[],style:Illustrate
   // Production stops at the first blocked beat; accepted per-source checkpoints remain reusable.
   try{result=await engine.generate({...shot.illustrationIdea,id:key},style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
   // One-image-per-beat mode: the style lock's single regeneration retries a rejected beat under a fresh evidence ID; the rejection stays recorded and every gate still applies.
-  if(!plannedReuse&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork))result=await engine.generate(await cachedRegeneration(runner.dir,{...shot.illustrationIdea,id:key},style),style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);}
+  if(!plannedReuse&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork)){const first=result;
+   // A regeneration refused by prompt QA before drawing leaves the drawn rejection for the adaptive planner.
+   try{result=await engine.generate(await cachedRegeneration(runner.dir,{...shot.illustrationIdea,id:key},style),style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);}
+   catch(error){if(!autonomousRepairs||!/^Native prompt QA failed before asset spending/.test((error as Error).message))throw error;await log(runner.dir,'regeneration_prompt_refused',{shotId:shot.id,key,failure:(error as Error).message});result=first;}}}
   catch(e){await log(runner.dir,'illustration_rejected',{shotId:shot.id,key,failure:(e as Error).message});
    // A provider safety refusal becomes an ordinary rejection for the adaptive planner, never an acceptance.
    if(!autonomousRepairs||plannedReuse||!PROVIDER_FLAG.test((e as Error).message))throw e;result??=flaggedAttempt({id:key,concept:shot.illustrationIdea.concept},(e as Error).message) as unknown as NonNullable<typeof result>;}
