@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Canal en piloto automático</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+ /* Ink-and-ochre: Eli's ochre head cloth as the accent, teal for "automatic", plum for "the owner decides". Slides stack vertically and also step with the arrow keys. */
+ --bg:#f3f4f1;--surface:#ffffff;--ink:#1d2430;--muted:#5d6675;--line:#d9ddd6;
+ --accent:#c07a1c;--auto:#1f7a78;--owner:#7a3f6e;--soft:#fbf3e4;
+ --display:"Archivo",system-ui,sans-serif;--body:"Source Sans 3",system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181f;--surface:#1c222b;--ink:#e9ecef;--muted:#a3abb7;--line:#2e3641;--accent:#e2a24b;--auto:#4fb7b3;--owner:#c98abb;--soft:#2a2418;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#14181f;--surface:#1c222b;--ink:#e9ecef;--muted:#a3abb7;--line:#2e3641;--accent:#e2a24b;--auto:#4fb7b3;--owner:#c98abb;--soft:#2a2418;color-scheme:dark}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--ink);font:400 18px/1.55 var(--body)}
+.deck{display:flex;flex-direction:column;gap:28px;padding:28px 16px 80px;max-width:1080px;margin:0 auto}
+.slide{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(22px,4vw,48px);scroll-margin-top:16px;position:relative}
+.slide:focus{outline:3px solid var(--accent);outline-offset:3px}
+.num{position:absolute;top:18px;right:22px;font:700 13px var(--display);color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.08em}
+.kicker{font:700 13px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
+h1{font-size:clamp(34px,6vw,60px);line-height:1.05;font-weight:800}
+h2{font-size:clamp(26px,4vw,38px);line-height:1.12;font-weight:800;margin-bottom:18px}
+h3{font-size:19px;font-weight:700;margin-bottom:6px}
+p{margin:0 0 12px;max-width:65ch}
+.lead{font-size:clamp(19px,2.4vw,23px);color:var(--muted);max-width:52ch}
+.grid{display:grid;gap:16px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.card{border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:var(--bg)}
+.card p{font-size:16px;margin:0}
+.stat{font:800 clamp(30px,5vw,44px)/1 var(--display);font-variant-numeric:tabular-nums}
+.stat small{display:block;font:600 14px/1.3 var(--body);color:var(--muted);margin-top:6px}
+.auto{color:var(--auto)}.owner{color:var(--owner)}.acc{color:var(--accent)}
+.tag{display:inline-block;font:700 12px var(--display);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px;border:1px solid currentColor}
+ul,ol{margin:0;padding-left:22px}li{margin:4px 0;max-width:65ch}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
+.step{font:600 15px var(--body);padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg)}
+.step.a{border-color:var(--auto)}.step.o{border-color:var(--owner)}
+.arrow{color:var(--muted);font-weight:700}
+.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:15px;color:var(--muted)}
+.dot{display:inline-block;width:11px;height:11px;border-radius:3px;border:2px solid;vertical-align:-1px;margin-right:6px}
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.box-a{border-left:4px solid var(--auto);padding-left:16px}.box-o{border-left:4px solid var(--owner);padding-left:16px}
+.lesson{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:12px 0;border-top:1px solid var(--line)}
+.lesson:first-of-type{border-top:0}
+.lesson b{font:800 22px/1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums;grid-row:span 2}
+.lesson span{color:var(--muted);font-size:16px}
+.table-wrap{overflow-x:auto;margin-top:8px}
+table{border-collapse:collapse;width:100%;min-width:640px;font-size:16px}
+th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
+th{font:700 13px var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+td input[type=text]{width:100%;min-width:140px;font:600 16px var(--body);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+td select{font:600 16px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 6px}
+.total{font:800 20px var(--display);font-variant-numeric:tabular-nums}
+.hi{color:var(--auto)}
+button{font:700 15px var(--display);color:var(--surface);background:var(--ink);border:0;border-radius:8px;padding:9px 14px;cursor:pointer}
+button.ghost{color:var(--ink);background:transparent;border:1px solid var(--line)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.note{font-size:15px;color:var(--muted)}
+.cost{display:grid;grid-template-columns:1fr auto;gap:6px 16px;max-width:560px}
+.cost div:nth-child(even){font:700 17px var(--display);font-variant-numeric:tabular-nums;text-align:right}
+.nav{position:fixed;right:16px;bottom:16px;display:flex;gap:8px}
+.nav button{box-shadow:0 2px 8px rgba(0,0,0,.18)}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+@media (max-width:420px){body{font-size:17px}.num{top:12px;right:14px}}
+</style>
+</head>
+<body>
+<main class="deck" id="deck">
+
+<section class="slide" tabindex="-1">
+ <div class="num">01</div>
+ <p class="kicker">Para Ana · cómo funciona Bible Unearthed</p>
+ <h1>Un canal de YouTube que se produce solo</h1>
+ <p class="lead" style="margin-top:16px">Cómo armamos un canal que investiga, escribe, ilustra, narra, edita, revisa y programa sus propios videos, y cómo elegir el nicho ideal para hacer otro igual.</p>
+ <div class="legend"><span><span class="dot" style="border-color:var(--auto)"></span>Lo hace el sistema</span><span><span class="dot" style="border-color:var(--owner)"></span>Lo decide el dueño</span></div>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">02</div>
+ <p class="kicker">La idea en una frase</p>
+ <h2>La IA crea, el código controla y el dueño decide lo importante</h2>
+ <div class="grid g3">
+  <div class="card"><h3 class="auto">La IA crea</h3><p>Escribe el guion desde fuentes reales, dibuja cada escena con el personaje del canal y narra con una voz aprobada.</p></div>
+  <div class="card"><h3 class="auto">El código controla</h3><p>Ningún video se sube si falla un control: hechos, imágenes, voz, volumen, duración. Si algo falla, corrige y reintenta solo.</p></div>
+  <div class="card"><h3 class="owner">El dueño decide</h3><p>Aprueba una sola vez el estilo y la voz, define el presupuesto y revisa el video privado antes de que salga público.</p></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">03</div>
+ <p class="kicker">Resultados reales al 29 de octubre de 2026</p>
+ <h2>Lo que muestran los números del canal</h2>
+ <div class="grid g3">
+  <div class="card"><div class="stat">177<small>suscriptores en 3 semanas</small></div></div>
+  <div class="card"><div class="stat">79%<small>de las vistas llegan por los Shorts</small></div></div>
+  <div class="card"><div class="stat">73%<small>de cada Short se mira en promedio</small></div></div>
+  <div class="card"><div class="stat">12–17%<small>de cada video largo se mira: el punto a mejorar</small></div></div>
+  <div class="card"><div class="stat">81<small>ilustraciones nuevas en el video de Jonás, ninguna repetida</small></div></div>
+  <div class="card"><div class="stat">8 USD<small>tope mensual de gasto; todo lo demás es gratis</small></div></div>
+ </div>
+ <p class="note" style="margin-top:14px">Fuente: API de YouTube Analytics del canal. Videos largos publicados: Ezequías, Rollos del Mar Muerto, Ángeles, Noé y Jonás.</p>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">04</div>
+ <p class="kicker">La cadena de producción</p>
+ <h2>De un tema a un video programado, sin intervención</h2>
+ <div class="flow">
+  <span class="step a">Elige el tema por demanda</span><span class="arrow">→</span>
+  <span class="step a">Investiga fuentes</span><span class="arrow">→</span>
+  <span class="step a">Escribe el guion</span><span class="arrow">→</span>
+  <span class="step a">Verifica los hechos</span><span class="arrow">→</span>
+  <span class="step a">Narra con la voz aprobada</span><span class="arrow">→</span>
+  <span class="step a">Dibuja cada escena</span><span class="arrow">→</span>
+  <span class="step a">Doble revisión de imágenes</span><span class="arrow">→</span>
+  <span class="step a">Edita, música y efectos</span><span class="arrow">→</span>
+  <span class="step a">Control final</span><span class="arrow">→</span>
+  <span class="step a">Sube en privado y programa</span><span class="arrow">→</span>
+  <span class="step a">Shorts y TikToks</span><span class="arrow">→</span>
+  <span class="step o">Dueño: portadas y revisión</span>
+ </div>
+ <p style="margin-top:16px">Si un paso falla (un proveedor gratis no responde, una imagen sale mal), el sistema guarda todo lo hecho, espera o corrige, y retoma desde ahí cada 15 minutos. No empieza de cero.</p>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">05</div>
+ <p class="kicker">Las herramientas</p>
+ <h2>Qué hace cada pieza y cuánto cuesta</h2>
+ <div class="grid g2">
+  <div class="card"><h3>GitHub Actions</h3><p>El motor que corre todo en la nube. Gratis con el repositorio público.</p></div>
+  <div class="card"><h3>Gemini (Google)</h3><p>Guion, verificación de hechos y primera revisión de imágenes. Plan gratis.</p></div>
+  <div class="card"><h3>Qwen en Groq</h3><p>Segundo revisor de imágenes: detecta personajes de más, objetos faltantes y cuerpos deformes. Gratis.</p></div>
+  <div class="card"><h3>Cloudflare (FLUX Klein)</h3><p>Dibuja cada escena copiando el estilo del personaje Eli. Plan de 5 USD con tope de 8 USD al mes.</p></div>
+  <div class="card"><h3>Voz clonada</h3><p>Narrador aprobado una sola vez; el sistema controla pronunciación y volumen.</p></div>
+  <div class="card"><h3>Remotion</h3><p>Edición: cámara en movimiento, cortes en cada frase, carteles, capítulos y subtítulos.</p></div>
+  <div class="card"><h3>YouTube API</h3><p>Sube en privado, programa la fecha, pone título, capítulos, tags, traducciones y playlist.</p></div>
+  <div class="card"><h3>Zernio y Supabase</h3><p>Zernio publica en TikTok; Supabase lleva el registro que evita subir algo dos veces.</p></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">06</div>
+ <p class="kicker">Quién hace qué</p>
+ <h2>Automático contra decisión del dueño</h2>
+ <div class="cols">
+  <div class="box-a"><h3 class="auto">El sistema, solo</h3>
+   <ul><li>Elegir el próximo tema según la demanda medida</li><li>Producir, revisar y corregir cada video</li><li>Subir en privado con fecha programada</li><li>SEO: capítulos, tags, hashtags y traducciones</li><li>Hasta 5 Shorts y sus TikToks por episodio</li><li>Reporte semanal de estadísticas</li></ul></div>
+  <div class="box-o"><h3 class="owner">El dueño</h3>
+   <ul><li>Aprobar el estilo, el personaje y la voz (una vez)</li><li>Definir presupuesto y reglas</li><li>Portadas y prueba A/B (Test &amp; Compare)</li><li>Cambiar el título si quiere</li><li>Mirar el video privado y cancelarlo si algo no le gusta</li></ul></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">07</div>
+ <p class="kicker">Reglas que lo mantienen sano</p>
+ <h2>Lo que el sistema nunca hace</h2>
+ <div class="grid g2">
+  <div class="card"><h3>Nunca sube si falla un control</h3><p>Un error de hechos, una imagen deforme o un audio fuera de rango frena la subida.</p></div>
+  <div class="card"><h3>Nunca publica sin margen</h3><p>Todo sale en privado con fecha futura: siempre hay tiempo para revisar.</p></div>
+  <div class="card"><h3>Nunca copia a la competencia</h3><p>De otros canales aprende principios (formatos, tipo de título); nunca dibujos, guiones ni marcas.</p></div>
+  <div class="card"><h3>Nunca pasa el presupuesto</h3><p>Cada llamada paga se reserva antes en un registro; si se llega al tope, se pausa.</p></div>
+  <div class="card"><h3>Siempre cita las fuentes</h3><p>Cada dato tiene su fuente y lo que es debate o especulación se dice como tal.</p></div>
+  <div class="card"><h3>Nunca inventa aprobaciones</h3><p>Si algo necesita una persona, lo registra como pendiente.</p></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">08</div>
+ <p class="kicker">Lo que aprendimos con datos</p>
+ <h2>Seis lecciones que ya están aplicadas</h2>
+ <div>
+  <div class="lesson"><b>1</b><h3>Los primeros 30 segundos deciden todo</h3><span>Los videos largos perdían la mitad del público explicando el método. Ahora arrancan con el dato más sorprendente.</span></div>
+  <div class="lesson"><b>2</b><h3>Los Shorts traen a la gente</h3><span>Por eso cada episodio da hasta 5 Shorts, uno por capítulo, que llevan al video completo.</span></div>
+  <div class="lesson"><b>3</b><h3>Portada: algo gigante y una figura chica</h3><span>El canal de referencia (809 mil suscriptores) muestra un objeto enorme, un solo color fuerte, 2 o 3 palabras y una flecha.</span></div>
+  <div class="lesson"><b>4</b><h3>El título necesita tensión</h3><span>Paradoja, verdad incómoda o una palabra en mayúsculas: "Jonah Was ANGRY…" rinde más que una pregunta plana.</span></div>
+  <div class="lesson"><b>5</b><h3>Un revisor de IA no alcanza</h3><span>Gemini aprobaba con 100 imágenes con errores; un segundo revisor distinto los detecta.</span></div>
+  <div class="lesson"><b>6</b><h3>Lo gratis falla: hay que diseñar para eso</h3><span>Reintentos, pausas hasta que el proveedor vuelve y checkpoints para no perder trabajo.</span></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">09</div>
+ <p class="kicker">Buscar un canal ideal</p>
+ <h2>Seis preguntas para cada nicho</h2>
+ <div class="grid g2">
+  <div class="card"><h3>1. ¿Hay demanda real?</h3><p>Vistas por día en varios canales distintos, no un solo video viral. El sistema ya mide esto con la API de YouTube.</p></div>
+  <div class="card"><h3>2. ¿Hay un hueco?</h3><p>Canales grandes con un formato que se pueda hacer distinto o mejor (más corto, mejor ilustrado, otro idioma).</p></div>
+  <div class="card"><h3>3. ¿La IA lo puede hacer bien?</h3><p>Ilustración y narración, sin caras reales ni grabaciones en vivo, con fuentes públicas para verificar.</p></div>
+  <div class="card"><h3>4. ¿Paga bien?</h3><p>Historia, educación, finanzas o tecnología pagan más por mil vistas que el entretenimiento infantil.</p></div>
+  <div class="card"><h3>5. ¿Es de largo plazo?</h3><p>Temas que se siguen buscando dentro de 5 años, no noticias del día.</p></div>
+  <div class="card"><h3>6. ¿Cuánto riesgo tiene?</h3><p>Salud, finanzas, política o religión piden mucho cuidado con los datos y las políticas de YouTube.</p></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1" id="puntaje">
+ <div class="num">10</div>
+ <p class="kicker">Tabla de puntaje</p>
+ <h2>Comparar nichos en 10 minutos</h2>
+ <p>Puntuá cada nicho del 1 al 5 (en riesgo, 5 es el más seguro). Las filas de ejemplo son orientativas: cambialas por los nichos que quieran probar. Lo que escribas queda guardado solo en este navegador.</p>
+ <div class="table-wrap">
+  <table id="score">
+   <thead><tr><th>Nicho</th><th>Demanda</th><th>Hueco</th><th>IA lo hace</th><th>Paga</th><th>Largo plazo</th><th>Riesgo</th><th>Total</th></tr></thead>
+   <tbody></tbody>
+  </table>
+ </div>
+ <div class="flow" style="margin-top:12px"><button type="button" id="add">Agregar nicho</button><button type="button" class="ghost" id="reset">Volver a los ejemplos</button></div>
+ <p class="note" style="margin-top:10px">Antes de decidir, conviene medir la demanda real de los dos mejores con el investigador de temas del sistema.</p>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">11</div>
+ <p class="kicker">Replicarlo en un canal nuevo</p>
+ <h2>Nueve pasos, de cero a piloto automático</h2>
+ <ol>
+  <li><b>Elegir el nicho</b> con la tabla de puntaje y la medición de demanda.</li>
+  <li><b>Diseñar el estilo y el personaje</b>: una audición de imágenes y aprobación del dueño.</li>
+  <li><b>Aprobar la voz</b> del narrador, una sola vez.</li>
+  <li><b>Crear las cuentas</b>: canal de YouTube, Google Cloud (APIs de YouTube y Analytics), Gemini, Groq, Cloudflare y GitHub.</li>
+  <li><b>Copiar el sistema</b> y cargar las claves como secretos de GitHub (nunca en el código).</li>
+  <li><b>Armar el catálogo de temas</b> con fuentes reales para cada uno.</li>
+  <li><b>Hacer un video de prueba</b> y revisarlo a mano antes de seguir.</li>
+  <li><b>Encender el piloto automático</b>: cola mensual, Shorts y TikTok.</li>
+  <li><b>Mirar el reporte de cada lunes</b> y ajustar portadas, títulos y temas.</li>
+ </ol>
+</section>
+
+<section class="slide" tabindex="-1">
+ <div class="num">12</div>
+ <p class="kicker">Costos y tiempos reales</p>
+ <h2>Cuánto cuesta un canal así</h2>
+ <div class="cost">
+  <div>Cloudflare (imágenes), plan base</div><div>5 USD/mes</div>
+  <div>Cloudflare, uso extra con tope</div><div>hasta 3 USD/mes</div>
+  <div>Gemini, Groq, GitHub, YouTube API, Supabase</div><div>0 USD</div>
+  <div><b>Total máximo</b></div><div class="acc">8 USD/mes</div>
+ </div>
+ <p style="margin-top:16px">Un episodio de 8 a 10 minutos lleva entre unas horas y un par de días, según cuántas veces fallen los proveedores gratuitos. El sistema lo retoma solo; el dueño solo mira el resultado.</p>
+ <p class="note">En octubre el uso extra estimado de Cloudflare llegó a 2,24 de los 3 USD con los episodios del mes.</p>
+</section>
+
+</main>
+<nav class="nav" aria-label="Diapositivas"><button type="button" id="prev" aria-label="Diapositiva anterior">↑</button><button type="button" id="next" aria-label="Diapositiva siguiente">↓</button></nav>
+<script>
+(function(){
+ const slides=[...document.querySelectorAll('.slide')];
+ const current=()=>{let best=0,dist=Infinity;slides.forEach((s,i)=>{const d=Math.abs(s.getBoundingClientRect().top);if(d<dist){dist=d;best=i;}});return best;};
+ const go=i=>{const s=slides[Math.max(0,Math.min(slides.length-1,i))];s.scrollIntoView({block:'start'});s.focus({preventScroll:true});};
+ document.getElementById('next').onclick=()=>go(current()+1);
+ document.getElementById('prev').onclick=()=>go(current()-1);
+ document.addEventListener('keydown',e=>{if(e.target.closest('input,select'))return;if(['ArrowRight','PageDown',' '].includes(e.key)){e.preventDefault();go(current()+1);}if(['ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();go(current()-1);}});
+
+ const KEY='canal-puntaje-v1',cols=['demanda','hueco','ia','paga','plazo','riesgo'];
+ const examples=[
+  ['Historia bíblica ilustrada (el nuestro)',4,3,5,4,5,3],
+  ['Historia antigua y civilizaciones',5,3,5,4,5,4],
+  ['Misterios de la ciencia y el espacio',4,3,4,4,4,4],
+  ['Finanzas personales explicadas',5,2,4,5,4,2],
+  ['Cuentos para dormir',4,3,5,2,5,4]];
+ let rows;try{rows=JSON.parse(localStorage.getItem(KEY))||examples;}catch{rows=examples;}
+ const tbody=document.querySelector('#score tbody');
+ const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(rows));}catch{}};
+ function render(){
+  tbody.innerHTML='';const totals=rows.map(r=>r.slice(1).reduce((a,b)=>a+Number(b),0)),max=Math.max(...totals);
+  rows.forEach((r,i)=>{const tr=document.createElement('tr');
+   const name=document.createElement('td'),inp=document.createElement('input');inp.type='text';inp.id='nicho-'+i;inp.value=r[0];inp.setAttribute('aria-label','Nicho '+(i+1));inp.oninput=()=>{r[0]=inp.value;save();};name.append(inp);tr.append(name);
+   cols.forEach((c,k)=>{const td=document.createElement('td'),sel=document.createElement('select');sel.id='p-'+i+'-'+c;sel.setAttribute('aria-label',c+' de '+r[0]);for(let v=1;v<=5;v++){const o=document.createElement('option');o.value=v;o.textContent=v;if(v==r[k+1])o.selected=true;sel.append(o);}sel.onchange=()=>{r[k+1]=Number(sel.value);save();render();};td.append(sel);tr.append(td);});
+   const t=document.createElement('td');t.className='total'+(totals[i]===max?' hi':'');t.textContent=totals[i]+' / 30';tr.append(t);tbody.append(tr);});
+ }
+ document.getElementById('add').onclick=()=>{rows.push(['Nuevo nicho',3,3,3,3,3,3]);save();render();};
+ document.getElementById('reset').onclick=()=>{rows=examples.map(r=>[...r]);save();render();};
+ render();
+})();
+</script>
+</body>
+</html>
