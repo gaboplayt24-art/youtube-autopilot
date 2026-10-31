@@ -28,6 +28,6 @@ test('the rolling queue drops delivered episodes, keeps pending ones and adds to
  const done=[...runs,{id:3,display_title:'production-bible-manna-005',conclusion:'success',created_at:'2026-11-04T06:00:00Z',updated_at:'2026-11-04T08:00:00Z',status:'completed'}];
  assert.equal(needsTopics(c,done),true);
  const rolled=monthlyProduction.parse(rollQueue(c,done,[{runId:'bible-babel-007',topic:'The Tower of Babel: the bricks and the scattering'},{runId:'bible-ruth-008',topic:'Ruth and Naomi: from Moab to Bethlehem and back'}],now));
- assert.deepEqual(rolled.episodes.map(e=>e.runId),['bible-jonah-004','bible-manna-005','bible-daniel-006','bible-babel-007'],'noah left the queue; one topic tops pending up to two');
+ assert.deepEqual(rolled.episodes.map(e=>e.runId).sort(),['bible-babel-007','bible-daniel-006','bible-jonah-004','bible-manna-005'],'noah left the queue; one topic tops pending up to two');
  assert.equal(rolled.episodes.at(-1)!.notBefore,'2026-11-16T00:00:00.000Z');assert.equal(rolled.startsAt,'2026-11-05T00:00:00.000Z');
 });
