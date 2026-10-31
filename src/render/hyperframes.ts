@@ -188,7 +188,7 @@ export async function renderHyperframes(c:Composition&{edit:DynamicEdit},publicD
  const built=await buildHyperframesProject(c,publicDir,work,win,false);
  const cli=join(dirname(createRequire(import.meta.url).resolve('hyperframes/package.json')),'bin','hyperframes.mjs');
  await exec(process.execPath,[cli,'telemetry','disable'],{cwd:work,timeout:60000}).catch(()=>undefined);
- await exec(process.execPath,[cli,'render','-o',silent,'-q','delivery','--quiet'],{cwd:work,timeout:Math.max(20*60000,built.duration*8*1000),maxBuffer:64*1024*1024});
+ await exec(process.execPath,[cli,'render','-o',silent,'-q','delivery','--quiet'],{cwd:work,timeout:Math.ceil(Math.max(20*60000,built.duration*8*1000)),maxBuffer:64*1024*1024});
  if(c.audioMixPath)await exec('ffmpeg',['-y','-v','error','-i',silent,'-ss',String(win?.from??0),'-t',String(built.duration),'-i',join(publicDir,c.audioMixPath),'-map','0:v:0','-map','1:a:0','-c:v','copy','-c:a','aac','-b:a','192k','-shortest',path],{timeout:10*60000});
  else await copyFile(silent,path);
  await rm(silent,{force:true});await rm(work,{recursive:true,force:true});
