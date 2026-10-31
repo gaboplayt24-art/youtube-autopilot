@@ -1,5 +1,5 @@
 import {z} from 'zod';
-import {repairUntilReviewed,planVisualCorrection,PROVIDER_FLAG,flaggedAttempt} from './adaptive-repair';
+import {repairUntilReviewed,planVisualCorrection,PROVIDER_FLAG,flaggedAttempt,promptRefusedAttempt} from './adaptive-repair';
 import {KLEIN_PRODUCTION_SIZE} from '../providers/cloudflare';
 import {join} from 'node:path';
 import type {Shot} from '../editor/schemas';
@@ -61,7 +61,9 @@ export async function createIllustratedVideoAssets(shots:Shot[],style:Illustrate
    catch(error){if(!autonomousRepairs||!/^Native prompt QA failed before asset spending/.test((error as Error).message))throw error;await log(runner.dir,'regeneration_prompt_refused',{shotId:shot.id,key,failure:(error as Error).message});result=first;}}}
   catch(e){await log(runner.dir,'illustration_rejected',{shotId:shot.id,key,failure:(e as Error).message});
    // A provider safety refusal becomes an ordinary rejection for the adaptive planner, never an acceptance.
-   if(!autonomousRepairs||plannedReuse||!PROVIDER_FLAG.test((e as Error).message))throw e;result??=flaggedAttempt({id:key,concept:shot.illustrationIdea.concept},(e as Error).message) as unknown as NonNullable<typeof result>;}
+   const refused=autonomousRepairs&&!plannedReuse&&!result?promptRefusedAttempt({id:key,concept:shot.illustrationIdea.concept},(e as Error).message):null;
+   if(refused)result=refused as unknown as NonNullable<typeof result>;
+   else{if(!autonomousRepairs||plannedReuse||!PROVIDER_FLAG.test((e as Error).message))throw e;result??=flaggedAttempt({id:key,concept:shot.illustrationIdea.concept},(e as Error).message) as unknown as NonNullable<typeof result>;}}
   if(autonomousRepairs&&!plannedReuse&&(!result.review.passed||!result.artwork))result=await repairUntilReviewed(result,
    (last,promptIssues)=>planVisualCorrection({...shot.illustrationIdea!,id:key},last,style,reference,runner,vision,promptIssues),
    idea=>engine.generate(idea,style,reference,join(dir,'illustrated-v4.2'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height));

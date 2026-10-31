@@ -55,3 +55,11 @@ test('a regeneration counts the people a role names instead of one per role',asy
  assert.equal(castPhrase(['Eli','2 guards']),'Exactly 3 adult characters');
  assert.equal(castPhrase(['Noah','his sons']),'Only these adult characters','a plural group is never forced to a wrong exact count');
 });
+
+test('a first concept refused by prompt QA becomes an imageless rejection carrying the exact issues', async()=>{
+ const {promptRefusedAttempt}=await import('../src/visuals/adaptive-repair');
+ const r=promptRefusedAttempt({id:'chapter-2-shot-12',concept:'Daniel at a stone window'},'Native prompt QA failed before asset spending: chapter-2-shot-12 ["Mudbrick, not stone","Conflicting costume"]');
+ assert.ok(r);assert.equal(r!.review.passed,false);assert.equal(r!.artwork,null);assert.equal(r!.source.path,'');
+ assert.deepEqual(r!.review.issues,['Mudbrick, not stone','Conflicting costume']);assert.deepEqual(r!.review.objectiveFailures,['promptQA']);
+ assert.equal(promptRefusedAttempt({id:'x',concept:'y'},'Some other failure'),null);
+});
