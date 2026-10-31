@@ -6,307 +6,484 @@
 <title>Canal en piloto automático</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
- /* Ink-and-ochre: Eli's ochre head cloth as the accent, teal for "automatic", plum for "the owner decides". Slides stack vertically and also step with the arrow keys. */
- --bg:#f3f4f1;--surface:#ffffff;--ink:#1d2430;--muted:#5d6675;--line:#d9ddd6;
- --accent:#c07a1c;--auto:#1f7a78;--owner:#7a3f6e;--soft:#fbf3e4;
- --display:"Archivo",system-ui,sans-serif;--body:"Source Sans 3",system-ui,sans-serif;
+ /* One visual world: a night studio. Deep navy stage, parchment type, gold = money/attention, teal = automatic, rose = Ana decides. Full-screen slides, one at a time. */
+ --bg:#0c111c;--cardsolid:#172133;--line:#26324a;
+ --text:#f2ecdf;--soft:#c9d0dc;--muted:#9aa6bb;--gold:#f0b44c;--teal:#3fd0c0;--rose:#f08aa0;--violet:#9d8cff;
+ --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;--body:"Instrument Sans",ui-sans-serif,system-ui,sans-serif;
+ color-scheme:dark;
 }
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14181f;--surface:#1c222b;--ink:#e9ecef;--muted:#a3abb7;--line:#2e3641;--accent:#e2a24b;--auto:#4fb7b3;--owner:#c98abb;--soft:#2a2418;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#14181f;--surface:#1c222b;--ink:#e9ecef;--muted:#a3abb7;--line:#2e3641;--accent:#e2a24b;--auto:#4fb7b3;--owner:#c98abb;--soft:#2a2418;color-scheme:dark}
 *{box-sizing:border-box}
-html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:400 18px/1.55 var(--body)}
-.deck{display:flex;flex-direction:column;gap:28px;padding:28px 16px 80px;max-width:1080px;margin:0 auto}
-.slide{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:clamp(22px,4vw,48px);scroll-margin-top:16px;position:relative}
-.slide:focus{outline:3px solid var(--accent);outline-offset:3px}
-.num{position:absolute;top:18px;right:22px;font:700 13px var(--display);color:var(--muted);font-variant-numeric:tabular-nums;letter-spacing:.08em}
-.kicker{font:700 13px var(--display);letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin:0 0 8px}
-h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0}
-h1{font-size:clamp(34px,6vw,60px);line-height:1.05;font-weight:800}
-h2{font-size:clamp(26px,4vw,38px);line-height:1.12;font-weight:800;margin-bottom:18px}
-h3{font-size:19px;font-weight:700;margin-bottom:6px}
-p{margin:0 0 12px;max-width:65ch}
-.lead{font-size:clamp(19px,2.4vw,23px);color:var(--muted);max-width:52ch}
-.grid{display:grid;gap:16px}
-.g2{grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
-.g3{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
-.card{border:1px solid var(--line);border-radius:10px;padding:16px 18px;background:var(--bg)}
-.card p{font-size:16px;margin:0}
-.stat{font:800 clamp(30px,5vw,44px)/1 var(--display);font-variant-numeric:tabular-nums}
-.stat small{display:block;font:600 14px/1.3 var(--body);color:var(--muted);margin-top:6px}
-.auto{color:var(--auto)}.owner{color:var(--owner)}.acc{color:var(--accent)}
-.tag{display:inline-block;font:700 12px var(--display);letter-spacing:.06em;text-transform:uppercase;padding:3px 9px;border-radius:99px;border:1px solid currentColor}
-ul,ol{margin:0;padding-left:22px}li{margin:4px 0;max-width:65ch}
-.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-top:8px}
-.step{font:600 15px var(--body);padding:8px 12px;border-radius:8px;border:1px solid var(--line);background:var(--bg)}
-.step.a{border-color:var(--auto)}.step.o{border-color:var(--owner)}
-.arrow{color:var(--muted);font-weight:700}
-.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;font-size:15px;color:var(--muted)}
-.dot{display:inline-block;width:11px;height:11px;border-radius:3px;border:2px solid;vertical-align:-1px;margin-right:6px}
-.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
-.box-a{border-left:4px solid var(--auto);padding-left:16px}.box-o{border-left:4px solid var(--owner);padding-left:16px}
-.lesson{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;padding:12px 0;border-top:1px solid var(--line)}
-.lesson:first-of-type{border-top:0}
-.lesson b{font:800 22px/1 var(--display);color:var(--accent);font-variant-numeric:tabular-nums;grid-row:span 2}
-.lesson span{color:var(--muted);font-size:16px}
-.table-wrap{overflow-x:auto;margin-top:8px}
-table{border-collapse:collapse;width:100%;min-width:640px;font-size:16px}
-th,td{padding:9px 10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:middle}
-th{font:700 13px var(--display);letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-td input[type=text]{width:100%;min-width:140px;font:600 16px var(--body);color:var(--ink);background:transparent;border:1px solid var(--line);border-radius:6px;padding:6px 8px}
-td select{font:600 16px var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:5px 6px}
-.total{font:800 20px var(--display);font-variant-numeric:tabular-nums}
-.hi{color:var(--auto)}
-button{font:700 15px var(--display);color:var(--surface);background:var(--ink);border:0;border-radius:8px;padding:9px 14px;cursor:pointer}
-button.ghost{color:var(--ink);background:transparent;border:1px solid var(--line)}
-button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.note{font-size:15px;color:var(--muted)}
-.cost{display:grid;grid-template-columns:1fr auto;gap:6px 16px;max-width:560px}
-.cost div:nth-child(even){font:700 17px var(--display);font-variant-numeric:tabular-nums;text-align:right}
-.nav{position:fixed;right:16px;bottom:16px;display:flex;gap:8px}
-.nav button{box-shadow:0 2px 8px rgba(0,0,0,.18)}
-@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
-@media (max-width:420px){body{font-size:17px}.num{top:12px;right:14px}}
-
-/* Animated presentation: one full-screen slide at a time, staggered entrances, progress bar. */
-html,body{height:100%;overflow:hidden}
-body{background:radial-gradient(1200px 700px at 85% -10%,color-mix(in srgb,var(--accent) 16%,transparent),transparent 60%),radial-gradient(900px 600px at -10% 110%,color-mix(in srgb,var(--auto) 16%,transparent),transparent 60%),var(--bg)}
-.deck{position:fixed;inset:0;max-width:none;padding:0;display:block;z-index:1}
+html,body{margin:0;height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font:400 18px/1.55 var(--body);-webkit-font-smoothing:antialiased}
+canvas#sky{position:fixed;inset:0;z-index:0;width:100%;height:100%}
+.deck{position:fixed;inset:0;z-index:1}
+.slide{position:absolute;inset:clamp(10px,2.4vw,32px) clamp(10px,3.5vw,56px) 70px;max-width:1180px;margin:0 auto;overflow-y:auto;overflow-x:hidden;
+ background:linear-gradient(160deg,#162036f0,#101828f2);border:1px solid var(--line);border-radius:22px;padding:clamp(22px,4vw,56px);
+ opacity:0;visibility:hidden;transform:translateY(30px) scale(.985);transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1),visibility 0s .7s;
+ box-shadow:0 40px 120px -40px #000,inset 0 1px 0 #ffffff10;scrollbar-width:thin}
+.slide.prev{transform:translateY(-30px) scale(.985)}
+.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .6s ease,transform .7s cubic-bezier(.2,.8,.2,1),visibility 0s}
 .slide:focus{outline:none}
-.slide{position:absolute;inset:clamp(10px,3vw,40px) clamp(10px,4vw,64px) 64px;max-width:1080px;margin:0 auto;overflow-y:auto;opacity:0;visibility:hidden;transform:translateX(60px) scale(.97);transition:opacity .55s ease,transform .65s cubic-bezier(.2,.8,.2,1),visibility 0s .65s;box-shadow:0 20px 60px rgba(0,0,0,.12)}
-.slide.prev{transform:translateX(-60px) scale(.97)}
-.slide.active{opacity:1;visibility:visible;transform:none;transition:opacity .55s ease,transform .65s cubic-bezier(.2,.8,.2,1),visibility 0s}
-.slide.active .rise{animation:rise .7s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*90ms + 150ms)}
-@keyframes rise{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:none}}
-.slide.active .step{animation:light .5s ease both;animation-delay:calc(var(--i,0)*260ms + 300ms)}
-@keyframes light{0%{opacity:.25;transform:scale(.92)}60%{box-shadow:0 0 0 6px color-mix(in srgb,var(--auto) 25%,transparent)}100%{opacity:1;transform:none;box-shadow:none}}
-.slide.active .arrow{animation:rise .4s ease both;animation-delay:calc(var(--i,0)*260ms + 420ms)}
-h1 .acc{background:linear-gradient(90deg,var(--accent),var(--auto));-webkit-background-clip:text;background-clip:text;color:transparent}
-.orb{position:fixed;z-index:0;border-radius:50%;filter:blur(40px);opacity:.35;pointer-events:none;animation:float 14s ease-in-out infinite alternate}
-@keyframes float{to{transform:translate(40px,-30px) scale(1.15)}}
-.progress{position:fixed;left:0;bottom:0;height:5px;background:linear-gradient(90deg,var(--accent),var(--auto));transition:width .6s cubic-bezier(.2,.8,.2,1);z-index:5}
-.counter{position:fixed;left:16px;bottom:16px;font:700 14px var(--display);color:var(--muted);font-variant-numeric:tabular-nums;z-index:5}
-.nav{z-index:5}
-.hint{position:fixed;left:50%;bottom:16px;transform:translateX(-50%);font-size:13px;color:var(--muted);z-index:5;transition:opacity 1s}
-@media (max-width:600px){.hint{display:none}.slide{inset:8px 8px 58px}}
-@media (prefers-reduced-motion:reduce){.slide,.slide.active,.slide.prev{transition:none;transform:none}.slide.active .rise,.slide.active .step,.slide.active .arrow{animation:none}.orb{animation:none}}
-@media print{html,body{overflow:visible;height:auto}.deck{position:static}.slide{position:relative;inset:auto;opacity:1;visibility:visible;transform:none;margin:0 auto 20px;page-break-after:always}.nav,.progress,.counter,.hint,.orb{display:none}}
+.slide.active .rise{animation:rise .75s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i,0)*80ms + 120ms)}
+@keyframes rise{from{opacity:0;transform:translateY(24px);filter:blur(4px)}to{opacity:1;transform:none;filter:none}}
+.chapter{font:700 13px var(--display);letter-spacing:.18em;text-transform:uppercase;color:var(--gold);display:flex;align-items:center;gap:10px;margin:0 0 14px}
+.chapter::before{content:"";width:28px;height:2px;background:currentColor}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(40px,7.4vw,92px);line-height:.98;font-weight:800}
+h2{font-size:clamp(28px,4.4vw,52px);line-height:1.04;font-weight:800;margin-bottom:22px}
+h3{font-size:19px;font-weight:700;margin-bottom:6px}
+p{margin:0 0 12px;max-width:62ch}
+.lead{font-size:clamp(18px,2.2vw,23px);color:var(--muted);max-width:50ch}
+.grad{background:linear-gradient(90deg,var(--gold),var(--rose) 55%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.t{color:var(--teal)}.g{color:var(--gold)}.r{color:var(--rose)}.v{color:var(--violet)}.m{color:var(--muted)}
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}
+.card{background:#ffffff08;border:1px solid var(--line);border-radius:14px;padding:16px 18px;transition:transform .25s,border-color .25s}
+.card:hover{transform:translateY(-3px);border-color:#3a4a6a}
+.card p{font-size:15.5px;margin:0;color:var(--soft)}
+.pill{display:inline-flex;align-items:center;gap:6px;font:700 12px var(--display);letter-spacing:.04em;padding:4px 10px;border-radius:99px;white-space:nowrap}
+.free{background:#3fd0c022;color:var(--teal)}.paid{background:#f0b44c22;color:var(--gold)}.opt{background:#9d8cff22;color:var(--violet)}.you{background:#f08aa022;color:var(--rose)}
+.ico{width:42px;height:42px;border-radius:12px;display:grid;place-items:center;flex:none;font:800 15px var(--display);color:#0c111c}
+.row{display:flex;gap:12px;align-items:flex-start}
+.card .pill{margin-top:12px;white-space:normal;max-width:100%}
+.stat{font:800 clamp(40px,6vw,68px)/1 var(--display);font-variant-numeric:tabular-nums;letter-spacing:-.02em;margin-bottom:8px}
+.hero{display:grid;grid-template-columns:1.25fr .9fr;gap:40px;align-items:center;min-height:100%}
+.hero-art{position:relative;aspect-ratio:1;max-width:420px;justify-self:end;width:100%}
+@media (max-width:860px){.hero{grid-template-columns:1fr}.hero-art{max-width:240px;justify-self:start}}
+.ring{position:absolute;inset:0;border-radius:50%;border:1px dashed #ffffff22;animation:spin 40s linear infinite}
+.ring.two{inset:14%;animation-duration:28s;animation-direction:reverse;border-color:#f0b44c44}
+.ring.three{inset:30%;border-style:solid;border-color:#3fd0c055;animation-duration:18s}
+.core{position:absolute;inset:40%;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ffe2a8,var(--gold) 45%,#b4721b);box-shadow:0 0 80px #f0b44c88;display:grid;place-items:center;font:800 clamp(18px,3vw,28px) var(--display);color:#3a2408}
+.orbit{position:absolute;inset:0;animation:spin 24s linear infinite}
+.sat{position:absolute;width:44px;height:44px;margin:-22px;border-radius:12px;display:grid;place-items:center;font:800 15px var(--display);color:#0c111c;box-shadow:0 8px 24px #0008;animation:spin 24s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:900px){.phases{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.phases{grid-template-columns:1fr}}
+.phase{border-radius:16px;padding:16px;background:#ffffff07;border:1px solid var(--line)}
+.phase h3{display:flex;justify-content:space-between;align-items:center}
+.phase ol{margin:8px 0 0;padding-left:18px;font-size:15px;color:var(--soft)}
+.phase li{margin:5px 0}
+.slide.active .phase{animation:pulse 1s ease both;animation-delay:calc(var(--i,0)*350ms + 400ms)}
+@keyframes pulse{0%{opacity:.15;transform:translateY(16px)}60%{box-shadow:0 0 0 1px var(--teal),0 0 40px -6px var(--teal)}100%{opacity:1;transform:none;box-shadow:none}}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:760px){.split{grid-template-columns:1fr}}
+.lane{border-radius:16px;padding:18px;border:1px solid var(--line)}
+.lane.auto{background:linear-gradient(160deg,#3fd0c014,transparent)}
+.lane.ana{background:linear-gradient(160deg,#f08aa014,transparent)}
+.lane ul{margin:10px 0 0;padding:0;list-style:none}
+.lane li{padding:9px 0;border-top:1px solid #ffffff10;display:flex;gap:12px;font-size:16px}
+.lane li:first-child{border-top:0}
+.lane li b{min-width:92px;font:700 12.5px var(--display);letter-spacing:.06em;text-transform:uppercase;padding-top:3px}
+.check{list-style:none;margin:0;padding:0;display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(320px,1fr))}
+.check li{display:flex;gap:12px;align-items:flex-start;padding:11px 13px;border-radius:12px;background:#ffffff06;border:1px solid var(--line);transition:border-color .3s,background .3s}
+.check input{appearance:none;width:22px;height:22px;border-radius:7px;border:2px solid var(--muted);flex:none;margin:2px 0 0;cursor:pointer;display:grid;place-items:center;transition:.2s}
+.check input:checked{background:var(--teal);border-color:var(--teal)}
+.check input:checked::after{content:"";width:6px;height:11px;border:solid #0c111c;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+.check label{cursor:pointer;font-size:15px;color:var(--muted)}
+.check label b{display:block;font-size:16.5px;color:var(--text);margin-bottom:2px}
+.check li.done{border-color:#3fd0c066;background:#3fd0c00d}
+.meterrow{display:flex;align-items:center;gap:12px;margin:0 0 14px}
+.meter{flex:1;height:8px;border-radius:99px;background:#ffffff10;overflow:hidden}
+.meter i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--gold));width:0;transition:width .5s}
+.meterrow span{font:700 14px var(--display);color:var(--muted);font-variant-numeric:tabular-nums}
+.calc{display:grid;grid-template-columns:1.4fr 1fr;gap:24px;align-items:start}
+@media (max-width:860px){.calc{grid-template-columns:1fr}}
+.items{display:grid;gap:8px}
+.item{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 12px;border-radius:12px;background:#ffffff06;border:1px solid var(--line);cursor:pointer}
+.item input{appearance:none;width:40px;height:22px;border-radius:99px;background:#ffffff1a;position:relative;cursor:pointer;transition:.25s;margin:0}
+.item input::after{content:"";position:absolute;top:3px;left:3px;width:16px;height:16px;border-radius:50%;background:var(--muted);transition:.25s}
+.item input:checked{background:#f0b44c55}.item input:checked::after{left:21px;background:var(--gold)}
+.item input:disabled{opacity:.75;cursor:default}
+.item b{font-size:16px}.item span{display:block;font-size:14px;color:var(--muted)}
+.price{font:700 16px var(--display);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right}
+.total{border-radius:18px;padding:22px;background:radial-gradient(400px 240px at 80% 0,#f0b44c33,transparent),#ffffff08;border:1px solid #f0b44c55}
+.total .big{font:800 clamp(52px,7vw,84px)/1 var(--display);font-variant-numeric:tabular-nums;color:var(--gold)}
+.total .yr{color:var(--soft);margin-top:6px}
+.bar{display:flex;height:12px;border-radius:99px;overflow:hidden;margin:16px 0 8px;background:#ffffff10}
+.bar i{display:block;height:100%;transition:width .5s}
+.tiers{display:grid;gap:6px;margin-top:14px;font-size:14.5px;color:var(--soft)}
+.tiers div{display:flex;justify-content:space-between;gap:10px;padding-top:6px;border-top:1px solid #ffffff10}
+.tiers b{font-family:var(--display);font-variant-numeric:tabular-nums;color:var(--text)}
+.timeline{position:relative;display:grid;gap:14px;padding-left:30px}
+.timeline::before{content:"";position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--gold),var(--teal),var(--rose))}
+.tl{position:relative}
+.tl::before{content:"";position:absolute;left:-27px;top:7px;width:12px;height:12px;border-radius:50%;background:var(--bg);border:3px solid var(--gold)}
+.tl h3 span{font:700 12px var(--display);letter-spacing:.1em;text-transform:uppercase;color:var(--gold);margin-right:8px}
+.tl p{font-size:15.5px;color:var(--soft);margin:0}
+.roadmap{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:860px){.roadmap{grid-template-columns:1fr}}
+.col{border-radius:16px;padding:16px;background:#ffffff06;border:1px solid var(--line)}
+.col h3{display:flex;gap:10px;align-items:center;margin-bottom:10px}
+.col ul{margin:0;padding:0;list-style:none;display:grid;gap:8px}
+.col li{font-size:15px;padding:9px 11px;border-radius:10px;background:#ffffff07;border-left:3px solid var(--c,var(--gold))}
+.col li b{display:block;font-size:15.5px}
+.col li span{color:var(--muted)}
+.table-wrap{overflow-x:auto;border-radius:14px;border:1px solid var(--line)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:15.5px}
+th,td{padding:10px 12px;border-bottom:1px solid #ffffff10;text-align:left}
+th{font:700 12px var(--display);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:#ffffff06}
+td input[type=text]{width:100%;min-width:170px;font:600 15.5px var(--body);color:var(--text);background:transparent;border:1px solid var(--line);border-radius:8px;padding:6px 9px}
+td select{font:600 15px var(--body);color:var(--text);background:var(--cardsolid);border:1px solid var(--line);border-radius:8px;padding:5px 7px}
+.sum{font:800 19px var(--display);font-variant-numeric:tabular-nums;white-space:nowrap}
+.sum.best{color:var(--teal)}
+button{font:700 14px var(--display);color:#0c111c;background:var(--gold);border:0;border-radius:10px;padding:10px 16px;cursor:pointer;transition:transform .15s}
+button:hover{transform:translateY(-1px)}
+button.ghost{color:var(--text);background:transparent;border:1px solid var(--line)}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+.note{font-size:14px;color:var(--muted)}
+.quote{font:600 clamp(20px,2.6vw,28px)/1.3 var(--display);border-left:4px solid var(--gold);padding-left:18px;max-width:40ch;margin-top:26px}
+.lesson{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:start}
+.lesson .n{font:800 34px/1 var(--display);color:var(--gold);font-variant-numeric:tabular-nums}
+.progress{left:0;bottom:0;height:4px;width:0;background:linear-gradient(90deg,var(--gold),var(--rose),var(--violet));transition:width .6s cubic-bezier(.2,.8,.2,1);position:fixed;z-index:5}
+.chrome{position:fixed;z-index:5}
+.counter{left:20px;bottom:20px;font:700 14px var(--display);color:var(--muted);font-variant-numeric:tabular-nums}
+.counter b{color:var(--text)}
+.nav{right:16px;bottom:14px;display:flex;gap:8px}
+.nav button{width:46px;height:42px;padding:0;font-size:18px;background:#ffffff12;color:var(--text);border:1px solid var(--line);backdrop-filter:blur(8px)}
+.dots{left:50%;bottom:26px;transform:translateX(-50%);display:flex;gap:6px}
+.dots button{width:8px;height:8px;padding:0;border-radius:99px;background:#ffffff30;transition:width .3s,background .3s}
+.dots button.on{width:26px;background:var(--gold)}
+@media (max-width:640px){.slide{inset:8px 8px 62px;border-radius:16px}.dots{display:none}.check{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){.slide,.slide.active,.slide.prev{transition:none;transform:none}.slide.active .rise,.slide.active .phase{animation:none}.ring,.orbit,.sat{animation:none}}
+@media print{html,body{overflow:visible;height:auto}.deck{position:static}.slide{position:relative;inset:auto;opacity:1;visibility:visible;transform:none;margin:0 auto 20px;page-break-after:always}.chrome,.progress,canvas{display:none}}
 </style>
 </head>
 <body>
+<canvas id="sky" aria-hidden="true"></canvas>
 <main class="deck" id="deck">
 
-<section class="slide" tabindex="-1">
- <div class="num">01</div>
- <p class="rise kicker" style="--i:1">Para Ana · cómo funciona Bible Unearthed</p>
- <h1 class="rise" style="--i:2">Un canal de YouTube que <span class="acc">se produce solo</span></h1>
- <p class="rise lead" style="--i:3;margin-top:16px">Cómo armamos un canal que investiga, escribe, ilustra, narra, edita, revisa y programa sus propios videos, y cómo elegir el nicho ideal para hacer otro igual.</p>
- <div class="rise legend" style="--i:4"><span><span class="dot" style="border-color:var(--auto)"></span>Lo hace el sistema</span><span><span class="dot" style="border-color:var(--owner)"></span>Lo decide el dueño</span></div>
+<section class="slide" tabindex="-1" aria-label="Portada">
+ <div class="hero">
+  <div>
+   <p class="chapter rise" style="--i:1">Guía para Ana · Bible Unearthed</p>
+   <h1 class="rise" style="--i:2">Tu canal de YouTube <span class="grad">en piloto automático</span></h1>
+   <p class="lead rise" style="--i:3;margin-top:20px">Qué es, cómo funciona, qué necesitás tener, cuánto cuesta, qué plataformas usa y cómo elegir el nicho ideal para arrancar el tuyo.</p>
+   <div class="row rise" style="--i:4;margin-top:18px;flex-wrap:wrap;gap:8px"><span class="pill free">● Lo hace el sistema</span><span class="pill you">● Lo decidís vos</span><span class="pill paid">● Cuesta dinero</span></div>
+  </div>
+  <div class="hero-art rise" style="--i:3" aria-hidden="true">
+   <div class="ring"></div><div class="ring two"></div><div class="ring three"></div>
+   <div class="core">IA</div>
+   <div class="orbit"><div class="sat" style="left:50%;top:0;background:var(--teal)">✎</div><div class="sat" style="left:100%;top:50%;background:var(--gold)">▶</div><div class="sat" style="left:50%;top:100%;background:var(--rose)">♪</div><div class="sat" style="left:0;top:50%;background:var(--violet)">✓</div></div>
+  </div>
+ </div>
 </section>
 
-<section class="slide" tabindex="-1">
- <div class="num">02</div>
- <p class="rise kicker" style="--i:1">La idea en una frase</p>
- <h2 class="rise" style="--i:2">La IA crea, el código controla y el dueño decide lo importante</h2>
+<section class="slide" tabindex="-1" aria-label="El resultado">
+ <p class="chapter rise" style="--i:1">01 · El resultado</p>
+ <h2 class="rise" style="--i:2">Qué vas a tener funcionando</h2>
+ <div class="grid g4">
+  <div class="card rise" style="--i:3"><div class="stat t">1</div><p><b>video largo por semana</b>, de 8 a 10 minutos, ilustrado, narrado y editado.</p></div>
+  <div class="card rise" style="--i:4"><div class="stat g">5</div><p><b>Shorts por video</b>, uno por día, cada uno llevando al video completo.</p></div>
+  <div class="card rise" style="--i:5"><div class="stat r">5</div><p><b>TikToks</b> con los mismos clips, publicados solos.</p></div>
+  <div class="card rise" style="--i:6"><div class="stat v">2–3 h</div><p><b>de tu tiempo por semana</b>: portadas, revisar y decidir.</p></div>
+ </div>
+ <p class="quote rise" style="--i:7">Vos ponés el criterio. El sistema pone las horas de trabajo.</p>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="La prueba">
+ <p class="chapter rise" style="--i:1">02 · La prueba</p>
+ <h2 class="rise" style="--i:2">Lo que ya logró nuestro canal en 3 semanas</h2>
  <div class="grid g3">
-  <div class="rise card" style="--i:3"><h3 class="auto">La IA crea</h3><p class="rise" style="--i:4">Escribe el guion desde fuentes reales, dibuja cada escena con el personaje del canal y narra con una voz aprobada.</p></div>
-  <div class="rise card" style="--i:5"><h3 class="auto">El código controla</h3><p class="rise" style="--i:6">Ningún video se sube si falla un control: hechos, imágenes, voz, volumen, duración. Si algo falla, corrige y reintenta solo.</p></div>
-  <div class="rise card" style="--i:7"><h3 class="owner">El dueño decide</h3><p class="rise" style="--i:8">Aprueba una sola vez el estilo y la voz, define el presupuesto y revisa el video privado antes de que salga público.</p></div>
+  <div class="card rise" style="--i:3"><div class="stat"><span class="count" data-to="177">177</span></div><p>suscriptores, empezando de cero</p></div>
+  <div class="card rise" style="--i:4"><div class="stat g"><span class="count" data-to="79">79</span>%</div><p>de las vistas llegan por los Shorts</p></div>
+  <div class="card rise" style="--i:5"><div class="stat t"><span class="count" data-to="73">73</span>%</div><p>de cada Short se mira en promedio</p></div>
+  <div class="card rise" style="--i:6"><div class="stat r">12–17%</div><p>de cada video largo se mira: el gran punto a mejorar</p></div>
+  <div class="card rise" style="--i:7"><div class="stat"><span class="count" data-to="81">81</span></div><p>ilustraciones nuevas en un solo video (Jonás)</p></div>
+  <div class="card rise" style="--i:8"><div class="stat g"><span class="count" data-to="8">8</span> USD</div><p>tope de gasto mensual; el resto es gratis</p></div>
  </div>
+ <p class="note rise" style="--i:9;margin-top:14px">Fuente: YouTube Analytics del canal al 29/10/2026. Videos largos: Ezequías, Rollos del Mar Muerto, Ángeles, Noé y Jonás.</p>
 </section>
 
-<section class="slide" tabindex="-1">
- <div class="num">03</div>
- <p class="rise kicker" style="--i:1">Resultados reales al 29 de octubre de 2026</p>
- <h2 class="rise" style="--i:2">Lo que muestran los números del canal</h2>
+<section class="slide" tabindex="-1" aria-label="Cómo funciona">
+ <p class="chapter rise" style="--i:1">03 · Cómo funciona</p>
+ <h2 class="rise" style="--i:2">Cuatro fases, de un tema a un video publicado</h2>
+ <div class="phases">
+  <div class="phase" style="--i:0"><h3><span class="t">Planificar</span><span class="pill free">auto</span></h3><ol><li>Mide qué temas busca la gente</li><li>Elige el tema con más demanda</li><li>Junta fuentes reales</li></ol></div>
+  <div class="phase" style="--i:1"><h3><span class="g">Crear</span><span class="pill free">auto</span></h3><ol><li>Escribe el guion</li><li>Narra con la voz aprobada</li><li>Dibuja cada escena</li><li>Edita con música y efectos</li></ol></div>
+  <div class="phase" style="--i:2"><h3><span class="r">Controlar</span><span class="pill free">auto</span></h3><ol><li>Verifica los hechos</li><li>Dos IAs revisan cada imagen</li><li>Mide voz, volumen y video</li><li>Si algo falla, corrige y reintenta</li></ol></div>
+  <div class="phase" style="--i:3"><h3><span class="v">Publicar</span><span class="pill free">auto</span></h3><ol><li>Sube en privado con fecha</li><li>Pone SEO, capítulos y traducciones</li><li>Programa Shorts y TikToks</li><li>Manda el reporte semanal</li></ol></div>
+ </div>
+ <p class="rise" style="--i:6;margin-top:18px;color:var(--soft)">Si un proveedor gratis se cae, el sistema guarda todo lo hecho y retoma solo cada 15 minutos. Nunca vuelve a empezar de cero.</p>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Las plataformas">
+ <p class="chapter rise" style="--i:1">04 · Las plataformas</p>
+ <h2 class="rise" style="--i:2">Qué usa el sistema y para qué sirve cada una</h2>
  <div class="grid g3">
-  <div class="rise card" style="--i:3"><div class="stat"><span class="count" data-to="177">177</span><small>suscriptores en 3 semanas</small></div></div>
-  <div class="rise card" style="--i:4"><div class="stat"><span class="count" data-to="79">79</span>%<small>de las vistas llegan por los Shorts</small></div></div>
-  <div class="rise card" style="--i:5"><div class="stat"><span class="count" data-to="73">73</span>%<small>de cada Short se mira en promedio</small></div></div>
-  <div class="rise card" style="--i:6"><div class="stat">12–17%<small>de cada video largo se mira: el punto a mejorar</small></div></div>
-  <div class="rise card" style="--i:7"><div class="stat"><span class="count" data-to="81">81</span><small>ilustraciones nuevas en el video de Jonás, ninguna repetida</small></div></div>
-  <div class="rise card" style="--i:8"><div class="stat"><span class="count" data-to="8">8</span> USD<small>tope mensual de gasto; todo lo demás es gratis</small></div></div>
+  <div class="card rise" style="--i:3"><div class="row"><div class="ico" style="background:#c9d1e0">GH</div><div><h3>GitHub + Actions</h3><p>Guarda el sistema y lo ejecuta en la nube todos los días. Es el motor.</p></div></div><span class="pill free">Gratis</span></div>
+  <div class="card rise" style="--i:4"><div class="row"><div class="ico" style="background:#8ab4ff">Ge</div><div><h3>Gemini</h3><p>Escribe guiones, verifica hechos y hace la primera revisión de imágenes.</p></div></div><span class="pill free">Gratis</span></div>
+  <div class="card rise" style="--i:5"><div class="row"><div class="ico" style="background:#f5a07a">Gq</div><div><h3>Groq (modelo Qwen)</h3><p>Segundo revisor: personajes de más, objetos faltantes, cuerpos deformes.</p></div></div><span class="pill free">Gratis</span></div>
+  <div class="card rise" style="--i:6"><div class="row"><div class="ico" style="background:var(--gold)">CF</div><div><h3>Cloudflare Workers AI</h3><p>Dibuja cada escena con el modelo FLUX, copiando el estilo del personaje.</p></div></div><span class="pill paid">5 a 8 USD/mes</span></div>
+  <div class="card rise" style="--i:7"><div class="row"><div class="ico" style="background:var(--rose)">Vz</div><div><h3>Chatterbox + Whisper</h3><p>Chatterbox narra con la voz clonada; Whisper escucha y verifica cada palabra.</p></div></div><span class="pill free">Gratis · código abierto</span></div>
+  <div class="card rise" style="--i:8"><div class="row"><div class="ico" style="background:var(--teal)">Rm</div><div><h3>Remotion + FFmpeg</h3><p>Arman el video: cámara, cortes, carteles, subtítulos, música y mezcla.</p></div></div><span class="pill free">Gratis para personas y equipos chicos</span></div>
+  <div class="card rise" style="--i:9"><div class="row"><div class="ico" style="background:#ff6b6b">YT</div><div><h3>YouTube Data + Analytics API</h3><p>Sube, programa, pone SEO y traducciones, y trae las estadísticas.</p></div></div><span class="pill free">Gratis</span></div>
+  <div class="card rise" style="--i:10"><div class="row"><div class="ico" style="background:#ff9e9e">St</div><div><h3>YouTube Studio</h3><p>Donde ponés portadas, probás 3 versiones (Test &amp; Compare) y revisás antes de publicar.</p></div></div><span class="pill free">Gratis</span></div>
+  <div class="card rise" style="--i:11"><div class="row"><div class="ico" style="background:#b4f0e0">Zn</div><div><h3>Zernio</h3><p>Publica los clips en TikTok solo, con la etiqueta de contenido hecho con IA.</p></div></div><span class="pill opt">Opcional · según plan</span></div>
+  <div class="card rise" style="--i:12"><div class="row"><div class="ico" style="background:#7ee08a">Sb</div><div><h3>Supabase</h3><p>Registro que evita subir dos veces lo mismo.</p></div></div><span class="pill free">Gratis</span></div>
+  <div class="card rise" style="--i:13"><div class="row"><div class="ico" style="background:var(--violet)">Cl</div><div><h3>Claude</h3><p>Programa, arregla y mejora el sistema cuando hace falta. Es tu desarrollador.</p></div></div><span class="pill paid">Desde 20 USD/mes</span></div>
+  <div class="card rise" style="--i:14"><div class="row"><div class="ico" style="background:#ffd27a">Pt</div><div><h3>ChatGPT, Gemini o Canva</h3><p>Para hacer las portadas con los prompts que prepara el sistema.</p></div></div><span class="pill opt">Gratis o hasta 20 USD/mes</span></div>
  </div>
- <p class="rise note" style="--i:9;margin-top:14px">Fuente: API de YouTube Analytics del canal. Videos largos publicados: Ezequías, Rollos del Mar Muerto, Ángeles, Noé y Jonás.</p>
 </section>
 
-<section class="slide" tabindex="-1">
- <div class="num">04</div>
- <p class="rise kicker" style="--i:1">La cadena de producción</p>
- <h2 class="rise" style="--i:2">De un tema a un video programado, sin intervención</h2>
- <div class="flow">
-  <span class="step a" style="--i:1">Elige el tema por demanda</span><span class="arrow" style="--i:1">→</span>
-  <span class="step a" style="--i:3">Investiga fuentes</span><span class="arrow" style="--i:3">→</span>
-  <span class="step a" style="--i:5">Escribe el guion</span><span class="arrow" style="--i:5">→</span>
-  <span class="step a" style="--i:7">Verifica los hechos</span><span class="arrow" style="--i:7">→</span>
-  <span class="step a" style="--i:9">Narra con la voz aprobada</span><span class="arrow" style="--i:9">→</span>
-  <span class="step a" style="--i:11">Dibuja cada escena</span><span class="arrow" style="--i:11">→</span>
-  <span class="step a" style="--i:13">Doble revisión de imágenes</span><span class="arrow" style="--i:13">→</span>
-  <span class="step a" style="--i:15">Edita, música y efectos</span><span class="arrow" style="--i:15">→</span>
-  <span class="step a" style="--i:17">Control final</span><span class="arrow" style="--i:17">→</span>
-  <span class="step a" style="--i:19">Sube en privado y programa</span><span class="arrow" style="--i:19">→</span>
-  <span class="step a" style="--i:21">Shorts y TikToks</span><span class="arrow" style="--i:21">→</span>
-  <span class="step o" style="--i:23">Dueño: portadas y revisión</span>
+<section class="slide" tabindex="-1" aria-label="Quién hace qué">
+ <p class="chapter rise" style="--i:1">05 · Quién hace qué</p>
+ <h2 class="rise" style="--i:2">Tu semana con el canal funcionando</h2>
+ <div class="split">
+  <div class="lane auto rise" style="--i:3"><h3 class="t">El sistema, solo</h3><ul>
+   <li><b class="t">Siempre</b>Produce, revisa y corrige el próximo episodio</li>
+   <li><b class="t">Cada 15 min</b>Retoma lo que haya quedado frenado</li>
+   <li><b class="t">Lun y jue</b>Elige temas nuevos si quedan menos de dos</li>
+   <li><b class="t">Al terminar</b>Sube en privado, programa Shorts y TikToks</li>
+   <li><b class="t">Cada lunes</b>Reporte con vistas, retención y búsquedas</li></ul></div>
+  <div class="lane ana rise" style="--i:4"><h3 class="r">Vos, 2 a 3 horas por semana</h3><ul>
+   <li><b class="r">30 min</b>Mirar el video privado antes de que salga</li>
+   <li><b class="r">1 hora</b>Hacer 3 portadas y cargarlas al test A/B</li>
+   <li><b class="r">15 min</b>Elegir o ajustar el título</li>
+   <li><b class="r">30 min</b>Leer el reporte del lunes y responder comentarios</li>
+   <li><b class="r">Una vez</b>Aprobar estilo, personaje, voz y presupuesto</li></ul></div>
  </div>
- <p style="--i:3;margin-top:16px" class="rise">Si un paso falla (un proveedor gratis no responde, una imagen sale mal), el sistema guarda todo lo hecho, espera o corrige, y retoma desde ahí cada 15 minutos. No empieza de cero.</p>
 </section>
 
-<section class="slide" tabindex="-1">
- <div class="num">05</div>
- <p class="rise kicker" style="--i:1">Las herramientas</p>
- <h2 class="rise" style="--i:2">Qué hace cada pieza y cuánto cuesta</h2>
+<section class="slide" tabindex="-1" aria-label="Las cuentas">
+ <p class="chapter rise" style="--i:1">06 · Lo que necesitás tener</p>
+ <h2 class="rise" style="--i:2">Las cuentas, una por una</h2>
+ <div class="meterrow rise" style="--i:3"><div class="meter"><i id="m-accounts"></i></div><span id="n-accounts"></span></div>
+ <ul class="check rise" style="--i:4" data-list="accounts">
+  <li><input type="checkbox" id="a1"><label for="a1"><b>Cuenta de Google (Gmail)</b>La base de todo: YouTube, Gemini y Google Cloud cuelgan de acá.</label></li>
+  <li><input type="checkbox" id="a2"><label for="a2"><b>Canal de YouTube verificado por teléfono</b>Sin verificar no se suben videos de más de 15 minutos ni portadas propias.</label></li>
+  <li><input type="checkbox" id="a3"><label for="a3"><b>Proyecto en Google Cloud</b>Con YouTube Data API v3 y YouTube Analytics API activadas y un acceso OAuth.</label></li>
+  <li><input type="checkbox" id="a4"><label for="a4"><b>Clave de Gemini (Google AI Studio)</b>Gratis, se crea en un minuto.</label></li>
+  <li><input type="checkbox" id="a5"><label for="a5"><b>Cuenta de Groq</b>Plan gratis, para el segundo revisor.</label></li>
+  <li><input type="checkbox" id="a6"><label for="a6"><b>Cloudflare con Workers Paid</b>5 USD/mes con tarjeta, con tope para no pasar los 8 USD.</label></li>
+  <li><input type="checkbox" id="a7"><label for="a7"><b>GitHub</b>Donde vive y corre el sistema. Las claves van como secretos, nunca en el código.</label></li>
+  <li><input type="checkbox" id="a8"><label for="a8"><b>Supabase</b>Plan gratis.</label></li>
+  <li><input type="checkbox" id="a9"><label for="a9"><b>TikTok + Zernio</b>Opcional, para publicar los clips también en TikTok.</label></li>
+ </ul>
+ <p class="note rise" style="--i:5;margin-top:12px">Marcá cada una cuando la tengas: queda guardado en este navegador.</p>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Decisiones y materiales">
+ <p class="chapter rise" style="--i:1">06 · Lo que necesitás tener</p>
+ <h2 class="rise" style="--i:2">Decisiones, materiales y equipo</h2>
+ <div class="meterrow rise" style="--i:3"><div class="meter"><i id="m-decisions"></i></div><span id="n-decisions"></span></div>
+ <ul class="check rise" style="--i:4" data-list="decisions">
+  <li><input type="checkbox" id="d1"><label for="d1"><b>El nicho</b>De qué trata el canal. Se elige con la tabla de puntaje de esta guía.</label></li>
+  <li><input type="checkbox" id="d2"><label for="d2"><b>El idioma</b>Inglés paga más por vista; español tiene menos competencia en muchos temas.</label></li>
+  <li><input type="checkbox" id="d3"><label for="d3"><b>Personaje y estilo de dibujo</b>Se hace una prueba de imágenes, elegís la que más te gusta y queda fija.</label></li>
+  <li><input type="checkbox" id="d4"><label for="d4"><b>La voz del narrador</b>Una grabación limpia de unos segundos de tu voz, o de una voz con permiso de uso.</label></li>
+  <li><input type="checkbox" id="d5"><label for="d5"><b>Nombre, logo y banner</b>El sistema puede generar propuestas en el estilo elegido.</label></li>
+  <li><input type="checkbox" id="d6"><label for="d6"><b>Tarjeta para Cloudflare</b>Débito o crédito que acepte pagos internacionales.</label></li>
+  <li><input type="checkbox" id="d7"><label for="d7"><b>Una compu o celular con navegador</b>No hace falta una computadora potente: todo se procesa en la nube.</label></li>
+  <li><input type="checkbox" id="d8"><label for="d8"><b>2 a 3 horas por semana</b>Para portadas, revisión y lectura del reporte.</label></li>
+ </ul>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Costos">
+ <p class="chapter rise" style="--i:1">07 · Cuánto cuesta</p>
+ <h2 class="rise" style="--i:2">Calculá tu costo mensual</h2>
+ <div class="calc">
+  <div class="items rise" style="--i:3" id="items"></div>
+  <div class="total rise" style="--i:4" aria-live="polite">
+   <div class="note">Total aproximado por mes</div>
+   <div class="big" id="tot">0 USD</div>
+   <div class="yr" id="yr"></div>
+   <div class="bar" id="bar"></div>
+   <div class="note" id="legend"></div>
+   <div class="tiers"><div><span>Mínimo para funcionar</span><b>5–8 USD</b></div><div><span>Recomendado, con Claude</span><b>≈ 28 USD</b></div><div><span>Con todo lo opcional</span><b>≈ 50 USD</b></div></div>
+   <p class="note" style="margin-top:12px">Precios aproximados en dólares a octubre de 2026. Pueden cambiar: revisalos al contratar.</p>
+  </div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Puesta en marcha">
+ <p class="chapter rise" style="--i:1">08 · Puesta en marcha</p>
+ <h2 class="rise" style="--i:2">De cero a piloto automático en 4 semanas</h2>
+ <div class="timeline">
+  <div class="tl rise" style="--i:3"><h3><span>Semana 1</span>Elegir y medir</h3><p>Completar la tabla de nichos, medir la demanda real de los 2 mejores y decidir el idioma.</p></div>
+  <div class="tl rise" style="--i:4"><h3><span>Semana 1</span>Crear las cuentas</h3><p>Las nueve cuentas de la lista, con sus claves guardadas como secretos en GitHub.</p></div>
+  <div class="tl rise" style="--i:5"><h3><span>Semana 2</span>Estilo, personaje y voz</h3><p>Prueba de imágenes y de voz. Elegís, y queda fijo como identidad del canal.</p></div>
+  <div class="tl rise" style="--i:6"><h3><span>Semana 2</span>Catálogo de temas</h3><p>Entre 15 y 20 temas con sus fuentes, que el sistema ordena según la demanda.</p></div>
+  <div class="tl rise" style="--i:7"><h3><span>Semana 3</span>Primer video de prueba</h3><p>Lo mirás completo, se ajusta lo que no te guste y se aprueba.</p></div>
+  <div class="tl rise" style="--i:8"><h3><span>Semana 4</span>Encender el piloto</h3><p>Cola automática, Shorts y TikTok. Desde acá: portadas, revisión y reporte.</p></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Seguridad">
+ <p class="chapter rise" style="--i:1">09 · Seguridad</p>
+ <h2 class="rise" style="--i:2">Reglas que protegen el canal</h2>
+ <div class="grid g3">
+  <div class="card rise" style="--i:3"><h3 class="t">Ningún error se publica</h3><p>Si falla un dato, una imagen, la voz o el volumen, el video no sube.</p></div>
+  <div class="card rise" style="--i:4"><h3 class="t">Siempre hay margen</h3><p>Todo sube en privado con fecha futura: podés frenarlo antes de que salga.</p></div>
+  <div class="card rise" style="--i:5"><h3 class="g">El presupuesto no se pasa</h3><p>Cada gasto se reserva antes; al llegar al tope, el sistema espera al mes siguiente.</p></div>
+  <div class="card rise" style="--i:6"><h3 class="g">Las claves no se exponen</h3><p>Viven como secretos de GitHub; jamás en el código ni en un chat.</p></div>
+  <div class="card rise" style="--i:7"><h3 class="r">No se copia a nadie</h3><p>De la competencia se aprenden principios, nunca dibujos, guiones, títulos ni marcas.</p></div>
+  <div class="card rise" style="--i:8"><h3 class="r">Fuentes siempre citadas</h3><p>Cada dato tiene su fuente, y el uso de IA se declara en YouTube y TikTok.</p></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Lecciones">
+ <p class="chapter rise" style="--i:1">10 · Lo que aprendimos</p>
+ <h2 class="rise" style="--i:2">Seis lecciones que te ahorran meses</h2>
  <div class="grid g2">
-  <div class="rise card" style="--i:3"><h3>GitHub Actions</h3><p class="rise" style="--i:4">El motor que corre todo en la nube. Gratis con el repositorio público.</p></div>
-  <div class="rise card" style="--i:5"><h3>Gemini (Google)</h3><p class="rise" style="--i:6">Guion, verificación de hechos y primera revisión de imágenes. Plan gratis.</p></div>
-  <div class="rise card" style="--i:7"><h3>Qwen en Groq</h3><p class="rise" style="--i:8">Segundo revisor de imágenes: detecta personajes de más, objetos faltantes y cuerpos deformes. Gratis.</p></div>
-  <div class="rise card" style="--i:9"><h3>Cloudflare (FLUX Klein)</h3><p class="rise" style="--i:10">Dibuja cada escena copiando el estilo del personaje Eli. Plan de 5 USD con tope de 8 USD al mes.</p></div>
-  <div class="rise card" style="--i:11"><h3>Voz clonada</h3><p class="rise" style="--i:12">Narrador aprobado una sola vez; el sistema controla pronunciación y volumen.</p></div>
-  <div class="rise card" style="--i:13"><h3>Remotion</h3><p class="rise" style="--i:14">Edición: cámara en movimiento, cortes en cada frase, carteles, capítulos y subtítulos.</p></div>
-  <div class="rise card" style="--i:15"><h3>YouTube API</h3><p class="rise" style="--i:16">Sube en privado, programa la fecha, pone título, capítulos, tags, traducciones y playlist.</p></div>
-  <div class="rise card" style="--i:17"><h3>Zernio y Supabase</h3><p class="rise" style="--i:18">Zernio publica en TikTok; Supabase lleva el registro que evita subir algo dos veces.</p></div>
+  <div class="card lesson rise" style="--i:3"><div class="n">1</div><div><h3>Los primeros 30 segundos lo deciden todo</h3><p>Perdíamos la mitad del público explicando el método. Ahora se abre con el dato más sorprendente.</p></div></div>
+  <div class="card lesson rise" style="--i:4"><div class="n">2</div><div><h3>Los Shorts traen a la gente</h3><p>Casi 8 de cada 10 vistas. Por eso cada video da hasta 5 Shorts.</p></div></div>
+  <div class="card lesson rise" style="--i:5"><div class="n">3</div><div><h3>Portada: algo gigante y una figura chica</h3><p>Un objeto enorme, un solo color fuerte, 2 o 3 palabras y una flecha.</p></div></div>
+  <div class="card lesson rise" style="--i:6"><div class="n">4</div><div><h3>El título necesita tensión</h3><p>Una paradoja o una palabra en MAYÚSCULAS rinde más que una pregunta plana.</p></div></div>
+  <div class="card lesson rise" style="--i:7"><div class="n">5</div><div><h3>Una sola IA revisando no alcanza</h3><p>Una aprobaba imágenes con errores; una segunda, distinta, los encuentra.</p></div></div>
+  <div class="card lesson rise" style="--i:8"><div class="n">6</div><div><h3>Lo gratis falla: hay que planearlo</h3><p>Reintentos, pausas y puntos de guardado para no perder nunca el trabajo hecho.</p></div></div>
  </div>
 </section>
 
-<section class="slide" tabindex="-1">
- <div class="num">06</div>
- <p class="rise kicker" style="--i:1">Quién hace qué</p>
- <h2 class="rise" style="--i:2">Automático contra decisión del dueño</h2>
- <div class="rise cols" style="--i:3">
-  <div class="box-a"><h3 class="auto">El sistema, solo</h3>
-   <ul><li class="rise" style="--i:4">Elegir el próximo tema según la demanda medida</li><li class="rise" style="--i:5">Producir, revisar y corregir cada video</li><li class="rise" style="--i:6">Subir en privado con fecha programada</li><li class="rise" style="--i:7">SEO: capítulos, tags, hashtags y traducciones</li><li class="rise" style="--i:8">Hasta 5 Shorts y sus TikToks por episodio</li><li class="rise" style="--i:9">Reporte semanal de estadísticas</li></ul></div>
-  <div class="box-o"><h3 class="owner">El dueño</h3>
-   <ul><li class="rise" style="--i:10">Aprobar el estilo, el personaje y la voz (una vez)</li><li class="rise" style="--i:11">Definir presupuesto y reglas</li><li class="rise" style="--i:12">Portadas y prueba A/B (Test &amp; Compare)</li><li class="rise" style="--i:13">Cambiar el título si quiere</li><li class="rise" style="--i:14">Mirar el video privado y cancelarlo si algo no le gusta</li></ul></div>
- </div>
-</section>
-
-<section class="slide" tabindex="-1">
- <div class="num">07</div>
- <p class="rise kicker" style="--i:1">Reglas que lo mantienen sano</p>
- <h2 class="rise" style="--i:2">Lo que el sistema nunca hace</h2>
- <div class="grid g2">
-  <div class="rise card" style="--i:3"><h3>Nunca sube si falla un control</h3><p class="rise" style="--i:4">Un error de hechos, una imagen deforme o un audio fuera de rango frena la subida.</p></div>
-  <div class="rise card" style="--i:5"><h3>Nunca publica sin margen</h3><p class="rise" style="--i:6">Todo sale en privado con fecha futura: siempre hay tiempo para revisar.</p></div>
-  <div class="rise card" style="--i:7"><h3>Nunca copia a la competencia</h3><p class="rise" style="--i:8">De otros canales aprende principios (formatos, tipo de título); nunca dibujos, guiones ni marcas.</p></div>
-  <div class="rise card" style="--i:9"><h3>Nunca pasa el presupuesto</h3><p class="rise" style="--i:10">Cada llamada paga se reserva antes en un registro; si se llega al tope, se pausa.</p></div>
-  <div class="rise card" style="--i:11"><h3>Siempre cita las fuentes</h3><p class="rise" style="--i:12">Cada dato tiene su fuente y lo que es debate o especulación se dice como tal.</p></div>
-  <div class="rise card" style="--i:13"><h3>Nunca inventa aprobaciones</h3><p class="rise" style="--i:14">Si algo necesita una persona, lo registra como pendiente.</p></div>
- </div>
-</section>
-
-<section class="slide" tabindex="-1">
- <div class="num">08</div>
- <p class="rise kicker" style="--i:1">Lo que aprendimos con datos</p>
- <h2 class="rise" style="--i:2">Seis lecciones que ya están aplicadas</h2>
- <div>
-  <div class="rise lesson" style="--i:3"><b>1</b><h3>Los primeros 30 segundos deciden todo</h3><span>Los videos largos perdían la mitad del público explicando el método. Ahora arrancan con el dato más sorprendente.</span></div>
-  <div class="rise lesson" style="--i:4"><b>2</b><h3>Los Shorts traen a la gente</h3><span>Por eso cada episodio da hasta 5 Shorts, uno por capítulo, que llevan al video completo.</span></div>
-  <div class="rise lesson" style="--i:5"><b>3</b><h3>Portada: algo gigante y una figura chica</h3><span>El canal de referencia (809 mil suscriptores) muestra un objeto enorme, un solo color fuerte, 2 o 3 palabras y una flecha.</span></div>
-  <div class="rise lesson" style="--i:6"><b>4</b><h3>El título necesita tensión</h3><span>Paradoja, verdad incómoda o una palabra en mayúsculas: "Jonah Was ANGRY…" rinde más que una pregunta plana.</span></div>
-  <div class="rise lesson" style="--i:7"><b>5</b><h3>Un revisor de IA no alcanza</h3><span>Gemini aprobaba con 100 imágenes con errores; un segundo revisor distinto los detecta.</span></div>
-  <div class="rise lesson" style="--i:8"><b>6</b><h3>Lo gratis falla: hay que diseñar para eso</h3><span>Reintentos, pausas hasta que el proveedor vuelve y checkpoints para no perder trabajo.</span></div>
- </div>
-</section>
-
-<section class="slide" tabindex="-1">
- <div class="num">09</div>
- <p class="rise kicker" style="--i:1">Buscar un canal ideal</p>
+<section class="slide" tabindex="-1" aria-label="Elegir nicho">
+ <p class="chapter rise" style="--i:1">11 · Tu canal ideal</p>
  <h2 class="rise" style="--i:2">Seis preguntas para cada nicho</h2>
+ <div class="grid g3">
+  <div class="card rise" style="--i:3"><h3><span class="g">1</span> ¿Hay demanda real?</h3><p>Muchas vistas por día en varios canales distintos, no un único video viral.</p></div>
+  <div class="card rise" style="--i:4"><h3><span class="g">2</span> ¿Hay un hueco?</h3><p>Canales grandes con un formato que se pueda hacer distinto: mejor dibujado, más corto, otro idioma.</p></div>
+  <div class="card rise" style="--i:5"><h3><span class="g">3</span> ¿La IA lo hace bien?</h3><p>Dibujos y narración sin caras reales, con fuentes públicas para verificar.</p></div>
+  <div class="card rise" style="--i:6"><h3><span class="g">4</span> ¿Paga bien?</h3><p>Historia, educación, ciencia y finanzas pagan más por mil vistas que el entretenimiento infantil.</p></div>
+  <div class="card rise" style="--i:7"><h3><span class="g">5</span> ¿Dura en el tiempo?</h3><p>Temas que se van a seguir buscando dentro de 5 años, no noticias del día.</p></div>
+  <div class="card rise" style="--i:8"><h3><span class="g">6</span> ¿Cuánto riesgo tiene?</h3><p>Salud, finanzas, política o religión piden mucho cuidado con los datos y las políticas de YouTube.</p></div>
+ </div>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Tabla de puntaje">
+ <p class="chapter rise" style="--i:1">11 · Tu canal ideal</p>
+ <h2 class="rise" style="--i:2">Tabla de puntaje de nichos</h2>
+ <p class="rise m" style="--i:3">Del 1 al 5 en cada pregunta (en riesgo, 5 es el más seguro). Los ejemplos son orientativos: cambialos por los tuyos. Se guarda en este navegador.</p>
+ <div class="table-wrap rise" style="--i:4">
+  <table id="score"><thead><tr><th>Nicho</th><th>Demanda</th><th>Hueco</th><th>IA</th><th>Paga</th><th>Dura</th><th>Riesgo</th><th>Total</th></tr></thead><tbody></tbody></table>
+ </div>
+ <div class="row rise" style="--i:5;margin-top:12px;flex-wrap:wrap"><button type="button" id="add">Agregar nicho</button><button type="button" class="ghost" id="reset">Volver a los ejemplos</button></div>
+ <p class="note rise" style="--i:6;margin-top:10px">Con los 2 mejores, el investigador del sistema mide las vistas por día reales en YouTube antes de decidir.</p>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Ganar dinero">
+ <p class="chapter rise" style="--i:1">12 · Ganar dinero</p>
+ <h2 class="rise" style="--i:2">Cómo y cuándo empieza a pagar</h2>
  <div class="grid g2">
-  <div class="rise card" style="--i:3"><h3>1. ¿Hay demanda real?</h3><p class="rise" style="--i:4">Vistas por día en varios canales distintos, no un solo video viral. El sistema ya mide esto con la API de YouTube.</p></div>
-  <div class="rise card" style="--i:5"><h3>2. ¿Hay un hueco?</h3><p class="rise" style="--i:6">Canales grandes con un formato que se pueda hacer distinto o mejor (más corto, mejor ilustrado, otro idioma).</p></div>
-  <div class="rise card" style="--i:7"><h3>3. ¿La IA lo puede hacer bien?</h3><p class="rise" style="--i:8">Ilustración y narración, sin caras reales ni grabaciones en vivo, con fuentes públicas para verificar.</p></div>
-  <div class="rise card" style="--i:9"><h3>4. ¿Paga bien?</h3><p class="rise" style="--i:10">Historia, educación, finanzas o tecnología pagan más por mil vistas que el entretenimiento infantil.</p></div>
-  <div class="rise card" style="--i:11"><h3>5. ¿Es de largo plazo?</h3><p class="rise" style="--i:12">Temas que se siguen buscando dentro de 5 años, no noticias del día.</p></div>
-  <div class="rise card" style="--i:13"><h3>6. ¿Cuánto riesgo tiene?</h3><p class="rise" style="--i:14">Salud, finanzas, política o religión piden mucho cuidado con los datos y las políticas de YouTube.</p></div>
+  <div class="card rise" style="--i:3"><h3 class="g">Programa de socios de YouTube</h3><p>Para cobrar anuncios: 1.000 suscriptores y 4.000 horas vistas en 12 meses, o 1.000 suscriptores y 10 millones de vistas de Shorts en 90 días. Hay un nivel previo con menos requisitos para membresías y Super Thanks.</p></div>
+  <div class="card rise" style="--i:4"><h3 class="t">Por qué importan los videos largos</h3><p>Los Shorts traen gente, pero los largos suman las horas de visualización y pagan más por vista. Ahí está la retención a mejorar.</p></div>
+  <div class="card rise" style="--i:5"><h3 class="r">Aportes de la audiencia</h3><p>Un enlace de apoyo voluntario (como Ko-fi) en cada descripción, desde el primer día.</p></div>
+  <div class="card rise" style="--i:6"><h3 class="v">Más adelante</h3><p>Afiliados de libros o cursos del tema, patrocinios y un segundo canal en otro idioma con el mismo sistema.</p></div>
+ </div>
+ <p class="note rise" style="--i:7;margin-top:12px">Requisitos según las reglas públicas de YouTube; confirmalos en YouTube Studio → Ingresos, porque cambian.</p>
+</section>
+
+<section class="slide" tabindex="-1" aria-label="Mejoras a futuro">
+ <p class="chapter rise" style="--i:1">13 · Hacia dónde va</p>
+ <h2 class="rise" style="--i:2">Mejoras a futuro</h2>
+ <div class="roadmap">
+  <div class="col rise" style="--i:3"><h3><span class="pill free">Ahora</span>Más alcance</h3><ul>
+   <li style="--c:var(--teal)"><b>Retención automática</b><span>Que el guion se ajuste solo según en qué segundo se va la gente.</span></li>
+   <li style="--c:var(--teal)"><b>Portadas automáticas</b><span>Con la fórmula ganadora: figura chica, objeto gigante, un color.</span></li>
+   <li style="--c:var(--teal)"><b>Títulos que se prueban solos</b><span>Elegir el título según el CTR medido.</span></li></ul></div>
+  <div class="col rise" style="--i:4"><h3><span class="pill paid">Próximo</span>Más plataformas</h3><ul>
+   <li style="--c:var(--gold)"><b>Instagram Reels y Facebook</b><span>Los mismos clips, publicados solos.</span></li>
+   <li style="--c:var(--gold)"><b>Videos más largos</b><span>De 15 a 25 minutos, que en la competencia rinden mucho más.</span></li>
+   <li style="--c:var(--gold)"><b>Series y pantallas finales</b><span>Que un video lleve al siguiente.</span></li></ul></div>
+  <div class="col rise" style="--i:5"><h3><span class="pill opt">Después</span>Más canales</h3><ul>
+   <li style="--c:var(--violet)"><b>Canal en español</b><span>Mismo sistema, con un narrador en español aprobado.</span></li>
+   <li style="--c:var(--violet)"><b>Un segundo nicho</b><span>El que gane en la tabla de puntaje.</span></li>
+   <li style="--c:var(--violet)"><b>Panel de control</b><span>Una página con el estado de todos los canales en tiempo real.</span></li></ul></div>
  </div>
 </section>
 
-<section class="slide" tabindex="-1" id="puntaje">
- <div class="num">10</div>
- <p class="rise kicker" style="--i:1">Tabla de puntaje</p>
- <h2 class="rise" style="--i:2">Comparar nichos en 10 minutos</h2>
- <p class="rise" style="--i:3">Puntuá cada nicho del 1 al 5 (en riesgo, 5 es el más seguro). Las filas de ejemplo son orientativas: cambialas por los nichos que quieran probar. Lo que escribas queda guardado solo en este navegador.</p>
- <div class="rise table-wrap" style="--i:4">
-  <table id="score">
-   <thead><tr><th>Nicho</th><th>Demanda</th><th>Hueco</th><th>IA lo hace</th><th>Paga</th><th>Largo plazo</th><th>Riesgo</th><th>Total</th></tr></thead>
-   <tbody></tbody>
-  </table>
+<section class="slide" tabindex="-1" aria-label="Próximos pasos">
+ <div class="hero">
+  <div>
+   <p class="chapter rise" style="--i:1">14 · Esta semana</p>
+   <h2 class="rise" style="--i:2;font-size:clamp(34px,5.6vw,68px)">Tres cosas para <span class="grad">arrancar hoy</span></h2>
+   <div class="grid rise" style="--i:3;margin-top:8px">
+    <div class="card"><h3><span class="g">1.</span> Completá la tabla de nichos</h3><p>Con 5 ideas propias y sus puntajes.</p></div>
+    <div class="card"><h3><span class="g">2.</span> Creá la cuenta de Google y el canal</h3><p>Y verificalo por teléfono.</p></div>
+    <div class="card"><h3><span class="g">3.</span> Mandá los 2 mejores nichos</h3><p>Medimos la demanda real y armamos el plan.</p></div>
+   </div>
+  </div>
+  <div class="hero-art rise" style="--i:4" aria-hidden="true">
+   <div class="ring"></div><div class="ring two"></div><div class="ring three"></div>
+   <div class="core">GO</div>
+  </div>
  </div>
- <div class="flow" style="margin-top:12px"><button type="button" id="add">Agregar nicho</button><button type="button" class="ghost" id="reset">Volver a los ejemplos</button></div>
- <p class="rise note" style="--i:5;margin-top:10px">Antes de decidir, conviene medir la demanda real de los dos mejores con el investigador de temas del sistema.</p>
-</section>
-
-<section class="slide" tabindex="-1">
- <div class="num">11</div>
- <p class="rise kicker" style="--i:1">Replicarlo en un canal nuevo</p>
- <h2 class="rise" style="--i:2">Nueve pasos, de cero a piloto automático</h2>
- <ol>
-  <li class="rise" style="--i:3"><b>Elegir el nicho</b> con la tabla de puntaje y la medición de demanda.</li>
-  <li class="rise" style="--i:4"><b>Diseñar el estilo y el personaje</b>: una audición de imágenes y aprobación del dueño.</li>
-  <li class="rise" style="--i:5"><b>Aprobar la voz</b> del narrador, una sola vez.</li>
-  <li class="rise" style="--i:6"><b>Crear las cuentas</b>: canal de YouTube, Google Cloud (APIs de YouTube y Analytics), Gemini, Groq, Cloudflare y GitHub.</li>
-  <li class="rise" style="--i:7"><b>Copiar el sistema</b> y cargar las claves como secretos de GitHub (nunca en el código).</li>
-  <li class="rise" style="--i:8"><b>Armar el catálogo de temas</b> con fuentes reales para cada uno.</li>
-  <li class="rise" style="--i:9"><b>Hacer un video de prueba</b> y revisarlo a mano antes de seguir.</li>
-  <li class="rise" style="--i:10"><b>Encender el piloto automático</b>: cola mensual, Shorts y TikTok.</li>
-  <li class="rise" style="--i:11"><b>Mirar el reporte de cada lunes</b> y ajustar portadas, títulos y temas.</li>
- </ol>
-</section>
-
-<section class="slide" tabindex="-1">
- <div class="num">12</div>
- <p class="rise kicker" style="--i:1">Costos y tiempos reales</p>
- <h2 class="rise" style="--i:2">Cuánto cuesta un canal así</h2>
- <div class="rise cost" style="--i:3">
-  <div>Cloudflare (imágenes), plan base</div><div>5 USD/mes</div>
-  <div>Cloudflare, uso extra con tope</div><div>hasta 3 USD/mes</div>
-  <div>Gemini, Groq, GitHub, YouTube API, Supabase</div><div>0 USD</div>
-  <div><b>Total máximo</b></div><div class="acc">8 USD/mes</div>
- </div>
- <p style="--i:4;margin-top:16px" class="rise">Un episodio de 8 a 10 minutos lleva entre unas horas y un par de días, según cuántas veces fallen los proveedores gratuitos. El sistema lo retoma solo; el dueño solo mira el resultado.</p>
- <p class="rise note" style="--i:5">En octubre el uso extra estimado de Cloudflare llegó a 2,24 de los 3 USD con los episodios del mes.</p>
 </section>
 
 </main>
-<div class="orb" style="width:340px;height:340px;background:var(--accent);top:-80px;right:-60px"></div><div class="orb" style="width:300px;height:300px;background:var(--auto);bottom:-90px;left:-70px;animation-delay:-6s"></div><div class="progress" id="progress"></div><div class="counter" id="counter"></div><div class="hint" id="hint">Flechas, clic en los botones o deslizá para avanzar</div>
-<nav class="nav" aria-label="Diapositivas"><button type="button" id="prev" aria-label="Diapositiva anterior">←</button><button type="button" id="next" aria-label="Diapositiva siguiente">→</button></nav>
+<div class="progress" id="progress"></div>
+<div class="chrome counter" id="counter"></div>
+<div class="chrome dots" id="dots" aria-label="Ir a la diapositiva"></div>
+<nav class="chrome nav" aria-label="Diapositivas"><button type="button" id="prev" aria-label="Diapositiva anterior">←</button><button type="button" id="next" aria-label="Diapositiva siguiente">→</button></nav>
 <script>
 (function(){
- const slides=[...document.querySelectorAll('.slide')];let at=0;
  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
- function countUp(slide){slide.querySelectorAll('.count').forEach(el=>{const raw=el.dataset.to,target=parseFloat(raw);if(isNaN(target))return;const dec=raw.includes('.')?0:0;if(reduce){el.textContent=el.dataset.orig||el.textContent;return;}el.dataset.orig=el.dataset.orig||el.textContent;const t0=performance.now(),dur=1100;const tick=t=>{const k=Math.min(1,(t-t0)/dur),v=target*(1-Math.pow(1-k,3));el.textContent=k<1?Math.round(v):el.dataset.orig;if(k<1)requestAnimationFrame(tick);};requestAnimationFrame(tick);});}
+ const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch{}}};
+
+ /* Night sky: twinkling stars and two slow glows */
+ const c=document.getElementById('sky'),x=c.getContext('2d');let W,H,stars=[];
+ function size(){const d=Math.min(devicePixelRatio||1,2);W=c.width=innerWidth*d;H=c.height=innerHeight*d;stars=Array.from({length:Math.round(W*H/9000)},()=>({x:Math.random()*W,y:Math.random()*H,r:(Math.random()*1.3+.3)*d,a:Math.random()*6,s:Math.random()*.02+.004}));}
+ function draw(t){x.clearRect(0,0,W,H);
+  const g1=x.createRadialGradient(W*(.85+Math.sin(t/7000)*.04),H*.05,0,W*.85,H*.05,W*.55);g1.addColorStop(0,'rgba(240,180,76,.20)');g1.addColorStop(1,'rgba(240,180,76,0)');x.fillStyle=g1;x.fillRect(0,0,W,H);
+  const g2=x.createRadialGradient(W*.08,H*(.95+Math.cos(t/9000)*.04),0,W*.08,H*.95,W*.5);g2.addColorStop(0,'rgba(63,208,192,.15)');g2.addColorStop(1,'rgba(63,208,192,0)');x.fillStyle=g2;x.fillRect(0,0,W,H);
+  for(const s of stars){s.a+=s.s;x.fillStyle='rgba(242,236,223,'+(.2+.5*Math.abs(Math.sin(s.a)))+')';x.beginPath();x.arc(s.x,s.y,s.r,0,6.283);x.fill();}
+  if(!reduce)requestAnimationFrame(draw);}
+ addEventListener('resize',size);size();requestAnimationFrame(draw);
+
+ /* Slides */
+ const slides=[...document.querySelectorAll('.slide')],dots=document.getElementById('dots');let at=0;
+ slides.forEach((s,i)=>{const b=document.createElement('button');b.type='button';b.setAttribute('aria-label','Diapositiva '+(i+1));b.onclick=()=>show(i);dots.append(b);});
+ function countUp(slide){slide.querySelectorAll('.count').forEach(el=>{const target=parseFloat(el.dataset.to);if(isNaN(target)||reduce){el.textContent=el.dataset.to;return;}const t0=performance.now();const tick=t=>{const k=Math.min(1,(t-t0)/1300);el.textContent=Math.round(target*(1-Math.pow(1-k,3)));if(k<1)requestAnimationFrame(tick);};requestAnimationFrame(tick);});}
  function show(i){i=Math.max(0,Math.min(slides.length-1,i));slides.forEach((s,j)=>{s.classList.toggle('active',j===i);s.classList.toggle('prev',j<i);});at=i;const s=slides[i];s.scrollTop=0;s.focus({preventScroll:true});countUp(s);
-  document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';document.getElementById('counter').textContent=String(i+1).padStart(2,'0')+' / '+String(slides.length).padStart(2,'0');try{history.replaceState(null,'','#d'+(i+1));}catch{}}
- document.getElementById('next').onclick=()=>show(at+1);
- document.getElementById('prev').onclick=()=>show(at-1);
- document.addEventListener('keydown',e=>{if(e.target.closest('input,select'))return;if(['ArrowRight','ArrowDown','PageDown',' ','Enter'].includes(e.key)){e.preventDefault();show(at+1);}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(at-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
+  document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
+  document.getElementById('counter').innerHTML='<b>'+String(i+1).padStart(2,'0')+'</b> / '+String(slides.length).padStart(2,'0');
+  [...dots.children].forEach((d,j)=>d.classList.toggle('on',j===i));try{history.replaceState(null,'','#d'+(i+1));}catch{}}
+ document.getElementById('next').onclick=()=>show(at+1);document.getElementById('prev').onclick=()=>show(at-1);
+ document.addEventListener('keydown',e=>{const tgt=e.target;if(tgt.closest('input[type=text],select'))return;if(tgt.closest('button,input')&&(e.key===' '||e.key==='Enter'))return;
+  if(['ArrowRight','ArrowDown','PageDown',' '].includes(e.key)){e.preventDefault();show(at+1);}if(['ArrowLeft','ArrowUp','PageUp'].includes(e.key)){e.preventDefault();show(at-1);}if(e.key==='Home')show(0);if(e.key==='End')show(slides.length-1);});
  let x0=null,y0=null;document.addEventListener('touchstart',e=>{if(e.target.closest('input,select,.table-wrap'))return;x0=e.touches[0].clientX;y0=e.touches[0].clientY;},{passive:true});
- document.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy))show(at+(dx<0?1:-1));x0=null;});
+ document.addEventListener('touchend',e=>{if(x0===null)return;const dx=e.changedTouches[0].clientX-x0,dy=e.changedTouches[0].clientY-y0;if(Math.abs(dx)>50&&Math.abs(dx)>Math.abs(dy)*1.2)show(at+(dx<0?1:-1));x0=null;});
+
+ /* Checklists */
+ document.querySelectorAll('.check').forEach(list=>{const name=list.dataset.list,key='ana-check-'+name,state=store.get(key,{});
+  const update=()=>{const boxes=[...list.querySelectorAll('input')],n=boxes.filter(b=>b.checked).length;boxes.forEach(b=>b.closest('li').classList.toggle('done',b.checked));document.getElementById('m-'+name).style.width=(n/boxes.length*100)+'%';document.getElementById('n-'+name).textContent=n+' de '+boxes.length;};
+  list.querySelectorAll('input').forEach(b=>{b.checked=!!state[b.id];b.onchange=()=>{state[b.id]=b.checked;store.set(key,state);update();};});update();});
+
+ /* Cost calculator */
+ const items=[
+  {id:'cf',name:'Cloudflare Workers Paid',desc:'Dibujos de cada escena. Obligatorio.',price:5,fixed:true,color:'#f0b44c'},
+  {id:'cfx',name:'Cloudflare, uso extra',desc:'Con tope; en octubre se usaron unos 2,2 USD.',price:3,on:true,color:'#d98f2a'},
+  {id:'free',name:'Gemini, Groq, GitHub, YouTube, Supabase',desc:'Planes gratuitos.',price:0,fixed:true,color:'#3fd0c0'},
+  {id:'claude',name:'Claude Pro',desc:'Para mantener y mejorar el sistema.',price:20,on:true,color:'#9d8cff'},
+  {id:'img',name:'ChatGPT Plus para portadas',desc:'Opcional: también hay opciones gratis.',price:20,on:false,color:'#f08aa0'},
+  {id:'zn',name:'Zernio para TikTok',desc:'Opcional; el precio depende del plan.',price:0,on:false,color:'#b4f0e0',tbd:true},
+  {id:'dom',name:'Dominio web del canal',desc:'Opcional, unos 12 USD al año.',price:1,on:false,color:'#c9d1e0'}];
+ const saved=store.get('ana-costs',{}),box=document.getElementById('items');
+ items.forEach(it=>{if(!it.fixed&&it.id in saved)it.on=saved[it.id];const l=document.createElement('label');l.className='item';l.htmlFor='c-'+it.id;
+  l.innerHTML='<input type="checkbox" id="c-'+it.id+'"'+(it.fixed||it.on?' checked':'')+(it.fixed?' disabled':'')+'><div><b>'+it.name+'</b><span>'+it.desc+'</span></div><div class="price">'+(it.tbd?'a confirmar':it.price===0?'gratis':it.price+' USD')+'</div>';
+  box.append(l);l.querySelector('input').onchange=e=>{it.on=e.target.checked;saved[it.id]=it.on;store.set('ana-costs',saved);calc();};});
+ let shown=0;function calc(){const on=items.filter(i=>i.fixed||i.on),tot=on.reduce((a,i)=>a+i.price,0);
+  const el=document.getElementById('tot'),from=shown;shown=tot;const t0=performance.now();const tick=t=>{const k=reduce?1:Math.min(1,(t-t0)/500);el.textContent=Math.round(from+(tot-from)*k)+' USD';if(k<1)requestAnimationFrame(tick);};requestAnimationFrame(tick);
+  document.getElementById('yr').textContent='≈ '+tot*12+' USD por año'+(items.find(i=>i.id==='zn').on?', más Zernio':'');
+  const bar=document.getElementById('bar');bar.innerHTML='';const paid=on.filter(i=>i.price>0);paid.forEach(i=>{const s=document.createElement('i');s.style.width=(i.price/Math.max(tot,1)*100)+'%';s.style.background=i.color;bar.append(s);});
+  document.getElementById('legend').innerHTML=paid.map(i=>'<span style="color:'+i.color+'">■</span> '+i.name).join(' · ');}
+ calc();
+
+ /* Niche scorecard */
+ const KEY='canal-puntaje-v2',cols=['demanda','hueco','IA','paga','dura','riesgo'];
+ const examples=[['Historia bíblica ilustrada (el nuestro)',4,3,5,4,5,3],['Historia antigua y civilizaciones',5,3,5,4,5,4],['Misterios de la ciencia y el espacio',4,3,4,4,4,4],['Finanzas personales explicadas',5,2,4,5,4,2],['Cuentos para dormir',4,3,5,2,5,4]];
+ let rows=store.get(KEY,examples.map(r=>[...r]));const tbody=document.querySelector('#score tbody');
+ function render(){tbody.innerHTML='';const totals=rows.map(r=>r.slice(1).reduce((a,b)=>a+Number(b),0)),max=Math.max(...totals);
+  rows.forEach((r,i)=>{const tr=document.createElement('tr');const name=document.createElement('td'),inp=document.createElement('input');inp.type='text';inp.id='nicho-'+i;inp.value=r[0];inp.setAttribute('aria-label','Nicho '+(i+1));inp.oninput=()=>{r[0]=inp.value;store.set(KEY,rows);};name.append(inp);tr.append(name);
+   cols.forEach((c,k)=>{const td=document.createElement('td'),sel=document.createElement('select');sel.id='p-'+i+'-'+k;sel.setAttribute('aria-label',c+' de '+r[0]);for(let v=1;v<=5;v++){const o=document.createElement('option');o.value=v;o.textContent=v;if(v==r[k+1])o.selected=true;sel.append(o);}sel.onchange=()=>{r[k+1]=Number(sel.value);store.set(KEY,rows);render();};td.append(sel);tr.append(td);});
+   const t=document.createElement('td');t.className='sum'+(totals[i]===max?' best':'');t.textContent=totals[i]+' / 30'+(totals[i]===max?' ★':'');tr.append(t);tbody.append(tr);});}
+ document.getElementById('add').onclick=()=>{rows.push(['Nuevo nicho',3,3,3,3,3,3]);store.set(KEY,rows);render();};
+ document.getElementById('reset').onclick=()=>{rows=examples.map(r=>[...r]);store.set(KEY,rows);render();};render();
+
  const start=parseInt((location.hash.match(/^#d(\d+)$/)||[])[1]||'1',10)-1;show(isNaN(start)?0:start);
- setTimeout(()=>{const h=document.getElementById('hint');if(h)h.style.opacity=0;},5000);
- const KEY='canal-puntaje-v1',cols=['demanda','hueco','ia','paga','plazo','riesgo'];
- const examples=[
-  ['Historia bíblica ilustrada (el nuestro)',4,3,5,4,5,3],
-  ['Historia antigua y civilizaciones',5,3,5,4,5,4],
-  ['Misterios de la ciencia y el espacio',4,3,4,4,4,4],
-  ['Finanzas personales explicadas',5,2,4,5,4,2],
-  ['Cuentos para dormir',4,3,5,2,5,4]];
- let rows;try{rows=JSON.parse(localStorage.getItem(KEY))||examples;}catch{rows=examples;}
- const tbody=document.querySelector('#score tbody');
- const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(rows));}catch{}};
- function render(){
-  tbody.innerHTML='';const totals=rows.map(r=>r.slice(1).reduce((a,b)=>a+Number(b),0)),max=Math.max(...totals);
-  rows.forEach((r,i)=>{const tr=document.createElement('tr');
-   const name=document.createElement('td'),inp=document.createElement('input');inp.type='text';inp.id='nicho-'+i;inp.value=r[0];inp.setAttribute('aria-label','Nicho '+(i+1));inp.oninput=()=>{r[0]=inp.value;save();};name.append(inp);tr.append(name);
-   cols.forEach((c,k)=>{const td=document.createElement('td'),sel=document.createElement('select');sel.id='p-'+i+'-'+c;sel.setAttribute('aria-label',c+' de '+r[0]);for(let v=1;v<=5;v++){const o=document.createElement('option');o.value=v;o.textContent=v;if(v==r[k+1])o.selected=true;sel.append(o);}sel.onchange=()=>{r[k+1]=Number(sel.value);save();render();};td.append(sel);tr.append(td);});
-   const t=document.createElement('td');t.className='total'+(totals[i]===max?' hi':'');t.textContent=totals[i]+' / 30';tr.append(t);tbody.append(tr);});
- }
- document.getElementById('add').onclick=()=>{rows.push(['Nuevo nicho',3,3,3,3,3,3]);save();render();};
- document.getElementById('reset').onclick=()=>{rows=examples.map(r=>[...r]);save();render();};
- render();
 })();
 </script>
 </body>
