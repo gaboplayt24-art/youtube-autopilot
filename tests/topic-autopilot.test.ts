@@ -21,7 +21,13 @@ test('used ids and run numbers come from the drafts on disk',()=>{
  assert.deepEqual([...usedTopicIds(files)].sort(),['angels','daniel','noah']);assert.equal(nextRunId(files,'babel'),'bible-babel-007');
 });
 test('the rolling queue drops delivered episodes, keeps pending ones and adds topics a week apart inside the limits',async()=>{
- const c=monthlyProduction.parse(JSON.parse(await readFile('config/monthly-production.json','utf8')));
+ // A fixed queue, so the test does not change whenever the owner reorders the live one.
+ const live=JSON.parse(await readFile('config/monthly-production.json','utf8'));
+ const c=monthlyProduction.parse({...live,startsAt:'2026-10-19T06:40:00Z',endsAt:'2026-11-19T00:00:00Z',episodes:[
+  {runId:'bible-noah-003',notBefore:'2026-10-19T06:40:00Z',topic:'What did Noahs ark actually look like? Construction in Genesis 6-9'},
+  {runId:'bible-jonah-004',notBefore:'2026-10-26T00:00:00Z',topic:'Jonah beyond the great fish: the journey and the city in Jonah 1-4'},
+  {runId:'bible-manna-005',notBefore:'2026-11-02T00:00:00Z',topic:'What Exodus actually says about manna in Exodus 16-17'},
+  {runId:'bible-daniel-006',notBefore:'2026-11-09T00:00:00Z',topic:'Daniel and the lions: the decree and the rescue in Daniel 5-6'}]});
  const now=new Date('2026-11-05T12:00:00Z');
  const runs=[{id:1,display_title:'production-bible-noah-003',conclusion:'success',created_at:'2026-10-23T03:12:45Z',updated_at:'2026-10-23T04:50:00Z',status:'completed'},{id:2,display_title:'production-bible-jonah-004',conclusion:'success',created_at:'2026-11-04T03:00:00Z',updated_at:'2026-11-04T05:00:00Z',status:'completed'}];
  assert.equal(needsTopics(c,runs),false,'manna and daniel still pending');
