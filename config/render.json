@@ -1,0 +1,4 @@
+{
+  "renderer": "hyperframes",
+  "note": "Owner-requested 2026-10-31: long videos with the dynamic edit render with HyperFrames (Apache-2.0); set to \"remotion\" to roll back. Shorts and thumbnails stay on Remotion. The mastered mix is muxed unchanged after the picture render, so audio QA is unaffected."
+}
