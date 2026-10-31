@@ -4,7 +4,7 @@
 // transitions with a cause, per-word title entrances, grouped captions with hard kills, drawn arrows.
 import {copyFile,mkdir,rm,writeFile} from 'node:fs/promises';
 import {exec} from '../orchestration/io';
-import {dirname,join} from 'node:path';
+import {dirname,join,resolve} from 'node:path';
 import {createRequire} from 'node:module';
 import type {Composition} from '../orchestration/schemas';
 import type {DynamicEdit} from '../editor/schemas';
@@ -184,7 +184,8 @@ window.__timelines['main']=tl;
 /** Renders the picture with HyperFrames, then adds the approved mastered mix unchanged: the HyperFrames mixer
  * re-levels audio (measured −11.9 LUFS against the −15 LUFS master), which would fail the unchanged audio QA. */
 export async function renderHyperframes(c:Composition&{edit:DynamicEdit},publicDir:string,path:string,win?:Window){
- const work=path+'.hyperframes',silent=path+'.picture.mp4';await rm(work,{recursive:true,force:true});
+ // The CLI runs inside the project folder, so the picture path must be absolute.
+ const work=path+'.hyperframes',silent=resolve(path+'.picture.mp4');await rm(work,{recursive:true,force:true});
  const built=await buildHyperframesProject(c,publicDir,work,win,false);
  const cli=join(dirname(createRequire(import.meta.url).resolve('hyperframes/package.json')),'bin','hyperframes.mjs');
  await exec(process.execPath,[cli,'telemetry','disable'],{cwd:work,timeout:60000}).catch(()=>undefined);
