@@ -7,7 +7,7 @@ import {fileDigest} from '../orchestration/integrity';
 import {renderThumbnail} from '../render';
 import {inspectThumbnail} from '../thumbnail';
 import {VisualStyleEngine,fitNativeConcept} from '../visuals/native-v4-2';
-import {repairUntilReviewed,planVisualCorrection} from '../visuals/adaptive-repair';
+import {repairUntilReviewed,planVisualCorrection,promptRefusedAttempt} from '../visuals/adaptive-repair';
 import {artworkIdea,type IllustratedStyleLock} from '../visuals/illustration-schema';
 import {packagingPlan,thumbnailPackagingScore} from './schemas';
 import {z} from 'zod';
@@ -65,11 +65,15 @@ export async function generatePackagedThumbnails(plan:z.infer<typeof packagingPl
   if(thumbnailPackagingScore(concept.scores)<82)throw new Error('Thumbnail concept is below PackagingScore 82');
   const revision=revisions.find(r=>r.variant===['A','B','C'][index]);
   const idea=fitNativeConcept(style,artworkIdea.parse({id:revision?.id??'thumbnail-'+['A','B','C'][index]+'-hq',narration:plan.topic,historicalContext:revision?.historicalContext??historicalContext,concept:revision?.concept??thumbnailConcept(concept,style.version==='round-head-v5',index),overlay:revision?.overlay??(concept.overlay||null),labelPlacement:concept.composition==='left-subject'?(style.version==='round-head-v5'?'left':'right'):concept.composition==='right-subject'?'left':'top',characterRoles:revision?.characterRoles??[]}));
-  let result=await engine.generate(idea,thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
+  const autonomous=process.env.AUTONOMOUS_VISUAL_REPAIR==='true'&&style.version==='round-head-v5';
+  // A first concept refused by prompt QA before drawing becomes an imageless rejection for the adaptive correction.
+  let result:Awaited<ReturnType<VisualStyleEngine['generate']>>,refused=false;
+  try{result=await engine.generate(idea,thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);}
+  catch(e){const r=autonomous?promptRefusedAttempt({id:idea.id,concept:idea.concept},(e as Error).message):null;if(!r)throw e;result=r as unknown as typeof result;refused=true;}
   // v5 thumbnails get the style lock's single regeneration under a fresh evidence ID, like v5 beats; the rejected review stays recorded.
-  if(style.version==='round-head-v5'&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork))result=await engine.generate({...idea,id:idea.id+'-regen1'},thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
+  if(!refused&&style.version==='round-head-v5'&&style.maxRegenerationsPerScene>=1&&(!result.review.passed||!result.artwork))result=await engine.generate({...idea,id:idea.id+'-regen1'},thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height);
   // Owner-authorized autonomous visual correction (same as beats): the actual rejected thumbnail and its review re-plan the concept; the full review still decides.
-  if(process.env.AUTONOMOUS_VISUAL_REPAIR==='true'&&style.version==='round-head-v5'&&(!result.review.passed||!result.artwork))result=await repairUntilReviewed(result,
+  if(autonomous&&(!result.review.passed||!result.artwork))result=await repairUntilReviewed(result,
    (last,promptIssues)=>planVisualCorrection(idea,last,thumbStyle,thumbReference,runner,vision,promptIssues),
    next=>engine.generate(next,thumbStyle,thumbReference,join(dir,'thumbnail-sources'),runner,vision,KLEIN_PRODUCTION_SIZE.width,KLEIN_PRODUCTION_SIZE.height));
   if(!result.review.passed||!result.artwork)throw new Error('Native thumbnail artwork QA failed: '+idea.id+' evidence '+JSON.stringify({concept:idea.concept,objectiveFailures:result.review.objectiveFailures,issues:result.review.issues,seriousAnatomyDefects:result.review.seriousAnatomyDefects??[]}));const file=basename(result.source.path);await copyFile(result.source.path,join(publicDir,file));
