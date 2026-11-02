@@ -1,7 +1,7 @@
 {
   "enabled": true,
-  "startsAt": "2026-10-29T00:00:00.000Z",
-  "endsAt": "2026-11-29T00:00:00.000Z",
+  "startsAt": "2026-11-02T00:00:00.000Z",
+  "endsAt": "2026-12-03T00:00:00.000Z",
   "maxEpisodes": 4,
   "maxAttemptsPerEpisode": null,
   "maxAttempts": null,
@@ -9,13 +9,8 @@
   "autoScheduleShorts": true,
   "episodes": [
     {
-      "runId": "bible-jonah-004",
-      "notBefore": "2026-10-29T00:00:00.000Z",
-      "topic": "Jonah beyond the great fish: the journey, the city, the plant and the unanswered question in Jonah 1-4"
-    },
-    {
       "runId": "bible-daniel-006",
-      "notBefore": "2026-10-31T17:00:00.000Z",
+      "notBefore": "2026-11-02T00:00:00.000Z",
       "topic": "Daniel and the lions: the decree, the night, the rescue and the narrative setting in Daniel 5-6"
     },
     {
@@ -47,6 +42,11 @@
       "runId": "bible-noah-003",
       "topic": "What did Noahs ark actually look like? Construction, life inside and the long wait in Genesis 6-9, distinguished from later illustrations",
       "leftQueueAt": "2026-10-28T06:34:37.885Z"
+    },
+    {
+      "runId": "bible-jonah-004",
+      "topic": "Jonah beyond the great fish: the journey, the city, the plant and the unanswered question in Jonah 1-4",
+      "leftQueueAt": "2026-11-02T17:15:32.913Z"
     }
   ],
   "reorderNote": "2026-10-31: Daniel moved ahead of manna on measured demand (median 1,317 views/day across 10 channels vs 102 for manna, whose sample was mostly one devotional series). 2026-10-31: owner replaced manna with the Nephilim (7 Nov) and the Nativity (28 Nov, for December).",
