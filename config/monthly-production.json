@@ -1,7 +1,7 @@
 {
   "enabled": true,
-  "startsAt": "2026-11-05T00:00:00.000Z",
-  "endsAt": "2026-12-06T00:00:00.000Z",
+  "startsAt": "2026-11-09T00:00:00.000Z",
+  "endsAt": "2026-12-10T00:00:00.000Z",
   "maxEpisodes": 4,
   "maxAttemptsPerEpisode": null,
   "maxAttempts": null,
@@ -10,7 +10,7 @@
   "episodes": [
     {
       "runId": "bible-nephilim-007",
-      "notBefore": "2026-11-07T00:00:00.000Z",
+      "notBefore": "2026-11-09T00:00:00.000Z",
       "topic": "Who were the Nephilim? What Genesis 6 and Numbers 13 actually say"
     },
     {
