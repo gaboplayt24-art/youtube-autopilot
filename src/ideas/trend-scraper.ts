@@ -23,19 +23,19 @@ export async function scrapeGlobalTrends(regionCode = 'US', hl = 'en-US') {
   const trends: { topic: string; query: string }[] = [];
 
   for (const q of queries) {
-    const url = new URL('https://www.googleapis.com/youtube/v3/search');
-    url.searchParams.set('part', 'snippet');
-    url.searchParams.set('q', q);
-    url.searchParams.set('type', 'video');
-    url.searchParams.set('maxResults', '5');
-    url.searchParams.set('order', 'viewCount');
-    url.searchParams.set('regionCode', regionCode);
-    url.searchParams.set('relevanceLanguage', hl.split('-')[0]);
-    url.searchParams.set('publishedAfter', new Date(Date.now() - 7 * 86400000).toISOString());
-    url.searchParams.set('key', apiKey);
+    const url = 'https://www.googleapis.com/youtube/v3/search' +
+      '?part=snippet' +
+      '&q=' + encodeURIComponent(q) +
+      '&type=video' +
+      '&maxResults=5' +
+      '&order=viewCount' +
+      '&regionCode=' + encodeURIComponent(regionCode) +
+      '&relevanceLanguage=' + encodeURIComponent(hl.split('-')[0]) +
+      '&publishedAfter=' + encodeURIComponent(new Date(Date.now() - 7 * 86400000).toISOString()) +
+      '&key=' + encodeURIComponent(apiKey);
 
     try {
-      const res = await fetch(url.toString(), {timeout: 30000});
+      const res = await fetch(url);
       if (!res.ok) throw Error('YouTube API HTTP ' + res.status);
       const data = await res.json() as any;
       for (const item of data.items ?? []) {
