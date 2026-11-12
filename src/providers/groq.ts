@@ -6,7 +6,7 @@ import type {LLMProvider,VisionProvider} from './interfaces';
 import {requireQuota} from '../quota';
 import {json,read,log} from '../orchestration/io';
 
-export const GROQ_MODEL='llama-3.3-70b-versatile';
+export const GROQ_MODEL='qwen/qwen3.8-27b';
 /** Owner-approved Free-plan provider. No paid model, Gemini or other fallback. */
 export class GroqProvider implements LLMProvider,VisionProvider {
  private queue=Promise.resolve();
