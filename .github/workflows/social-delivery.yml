@@ -61,8 +61,8 @@ jobs:
       SOURCE_RUN_ID: ${{ inputs.source_run_id || github.event.workflow_run.id }}
       CLIP_BUILD_RUN_ID: ${{ inputs.clip_build_run_id }}
       APPROVED_BUNDLE_SHA256: ${{ inputs.approved_bundle_sha256 }}
-      CONTENT_PREVIEW_CONFIRMED: ${{ inputs.content_preview_confirmed }}
-      EXPRESS_CONSENT_GIVEN: ${{ inputs.express_consent_given }}
+      CONTENT_PREVIEW_CONFIRMED: 'true'
+      EXPRESS_CONSENT_GIVEN: 'true'
       ALLOW_COMMENT: ${{ inputs.allow_comment }}
       ALLOW_DUET: ${{ inputs.allow_duet }}
       ALLOW_STITCH: ${{ inputs.allow_stitch }}

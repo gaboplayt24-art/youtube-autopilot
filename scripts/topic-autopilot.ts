@@ -7,6 +7,7 @@ import {read,exec,json} from '../src/orchestration/io';
 import {monthlyProduction} from '../src/orchestration/monthly-production';
 import {topicCatalog,rankTopics,usedTopicIds,nextRunId,episodeFiles,rollQueue,needsTopics} from '../src/ideas/topic-autopilot';
 import {researchBiblicalDemand} from '../src/ideas/biblical-demand';
+import {scrapeGlobalTrends} from '../src/ideas/trend-scraper';
 import {FreeQuotaLedger,withQuota} from '../src/quota';
 
 const repo=process.env.GITHUB_REPOSITORY;if(repo!=='gaboplayt24-art/youtube-autopilot')throw Error('Approved repository only');
@@ -15,8 +16,11 @@ const runs=z.array(z.object({id:z.number(),display_title:z.string(),conclusion:z
 const files=await readdir('data/scripts'),now=new Date();
 const picks:({runId:string;topic:string}&ReturnType<typeof episodeFiles>)[]=[];let evidence:unknown=null;
 if(needsTopics(c,runs)){
- const unused=catalog.topics.filter(t=>!usedTopicIds(files).has(t.id)),quota=new FreeQuotaLedger('data/research/topic-autopilot');await quota.restore();
- try{const report=await withQuota(quota,()=>researchBiblicalDemand(undefined,now,unused.map(t=>({topic:t.id,query:t.query}))));
+ const unused=catalog.topics.filter(t=>!usedTopicIds(files).has(t.id));
+ try{
+  const globalTrends = await scrapeGlobalTrends();
+  const allQueries = [...unused.map(t=>({topic:t.id,query:t.query})), ...globalTrends.map(t => ({ topic: t.topic, query: t.query }))];
+  const report=await withQuota(quota,()=>researchBiblicalDemand(undefined,now,allQueries));
   const ranked=rankTopics(unused,report.topics,usedTopicIds(files),now);
   evidence={generatedAt:report.generatedAt,limitations:report.limitations,ranking:ranked.map(r=>({id:r.topic.id,score:Math.round(r.score),demand:report.topics.find(d=>d.topic===r.topic.id)&&{sampleSize:report.topics.find(d=>d.topic===r.topic.id)!.sampleSize,distinctChannels:report.topics.find(d=>d.topic===r.topic.id)!.distinctChannels,medianViewsPerDay:report.topics.find(d=>d.topic===r.topic.id)!.medianViewsPerDay}}))};
   const taken=[...files];
