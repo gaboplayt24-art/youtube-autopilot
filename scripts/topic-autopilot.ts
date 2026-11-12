@@ -16,7 +16,7 @@ const runs=z.array(z.object({id:z.number(),display_title:z.string(),conclusion:z
 const files=await readdir('data/scripts'),now=new Date();
 const picks:({runId:string;topic:string}&ReturnType<typeof episodeFiles>)[]=[];let evidence:unknown=null;
 if(needsTopics(c,runs)){
- const unused=catalog.topics.filter(t=>!usedTopicIds(files).has(t.id));
+ const unused=catalog.topics.filter(t=>!usedTopicIds(files).has(t.id)),quota=new FreeQuotaLedger("data/research/topic-autopilot");await quota.restore();
  try{
   const globalTrends = await scrapeGlobalTrends();
   const allQueries = [...unused.map(t=>({topic:t.id,query:t.query})), ...globalTrends.map(t => ({ topic: t.topic, query: t.query }))];
