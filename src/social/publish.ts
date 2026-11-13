@@ -4,7 +4,7 @@ import {join} from 'node:path';
 import {createHash} from 'node:crypto';
 import {google} from 'googleapis';
 import {z} from 'zod';
-import {auth,videoStatus,scheduleVideo} from '../youtube';
+import {auth,videoStatus,scheduleVideo,findUploadByTag} from '../youtube';
 import {SupabaseStorage} from '../database/storage';
 import {artifact,fileDigest,digest} from '../orchestration/integrity';
 import {qa,rendered} from '../orchestration/schemas';
@@ -35,6 +35,12 @@ export function requireTikTokConsent(env:NodeJS.ProcessEnv){
  const toggle=(name:string)=>z.enum(['allow','disable']).parse(env[name])==='allow';
  return {content_preview_confirmed:true,express_consent_given:true,privacy_level:'PUBLIC_TO_EVERYONE',allow_comment:toggle('ALLOW_COMMENT'),allow_duet:toggle('ALLOW_DUET'),allow_stitch:toggle('ALLOW_STITCH'),video_made_with_ai:true};
 }
+/** A leftover reservation is reused only when it is provably safe: the same release slot with a remote id, or (YouTube) no upload carrying the clip's hidden tag. Anything else stays blocked. */
+export async function reconcileReservation(existing:{state:string;fingerprint:string;remoteId?:string;at?:string},current:{fingerprint:string;at:string;platform:'youtube'|'tiktok';tag:string},find:(tag:string)=>Promise<string|null|undefined>=findUploadByTag):Promise<string>{
+ if(existing.state!=='pending'&&existing.remoteId&&(existing.fingerprint===current.fingerprint||existing.at===current.at))return existing.remoteId;
+ if(current.platform==='youtube'&&existing.state==='pending'){const found=await find(current.tag);if(found)return found;return 'reclaim';}
+ throw Error('Uncertain or conflicting social reservation; reconcile remotely before retry');
+}
 export async function publishClips(runId:string,bundlePath:string,approvedDigest:string,platform:'youtube'|'tiktok'){
  const bytes=await readFile(bundlePath);if(!/^[a-f0-9]{64}$/.test(approvedDigest)||createHash('sha256').update(bytes).digest('hex')!==approvedDigest)throw Error('Exact reviewed bundle SHA256 required');
  const bundle=clipBundle.parse(JSON.parse(bytes.toString()));if(bundle.runId!==runId)throw Error('Episode mismatch');
@@ -52,12 +58,16 @@ export async function publishClips(runId:string,bundlePath:string,approvedDigest
   if(!clip.qa.passed||clip.qa.checks.length<10||clip.qa.checks.some(c=>!c.passed)||clip.sourceRenderSha256!==master.sha256||await fileDigest(clip.path)!==clip.sha256)throw Error('Unapproved or changed clip');
   if(creator&&clip.duration>creator.postingLimits.maxVideoDurationSec)throw Error('Clip exceeds creator duration limit');
   const at=slots[index][platform],key=`social-${runId}-${clip.id}-${platform}`,fingerprint=digest({sha256:clip.sha256,title:clip.title,at,mainVideoId:main.videoId,accountId:account?._id,settings});
-  const claimed=await ledger.create(key,{state:'pending',fingerprint,at});let remoteId:string;
-  if(!claimed){const existing=z.object({state:z.enum(['pending','uploaded','scheduled']),fingerprint:z.string(),remoteId:z.string().optional()}).parse(await ledger.get(key));if(existing.fingerprint!==fingerprint||existing.state==='pending'||!existing.remoteId)throw Error('Uncertain or conflicting social reservation; reconcile remotely before retry');remoteId=existing.remoteId;}
-  else if(platform==='youtube'){
-   const metadata=shortMetadata(clip,main.videoId,runId,translations),youtube=google.youtube({version:'v3',auth:auth()}),response=await youtube.videos.insert({part:['snippet','status','localizations'],requestBody:{localizations:metadata.localizations,snippet:{title:metadata.title,description:metadata.description,defaultLanguage:'en',defaultAudioLanguage:'en',categoryId:'27',tags:['Bible history','Shorts',runId+'-'+clip.id]},status:{privacyStatus:'private',selfDeclaredMadeForKids:false,containsSyntheticMedia:true}},media:{body:createReadStream(clip.path)}});
+  // Metadata is built before any reservation, so a local error never leaves a pending record behind.
+  const metadata=platform==='youtube'?shortMetadata(clip,main.videoId,runId,translations):null;
+  let claimed=await ledger.create(key,{state:'pending',fingerprint,at}),remoteId='';
+  if(!claimed){const existing=z.object({state:z.enum(['pending','uploaded','scheduled']),fingerprint:z.string(),remoteId:z.string().optional(),at:z.string().optional()}).parse(await ledger.get(key));
+   const resolved=await reconcileReservation(existing,{fingerprint,at,platform,tag:runId+'-'+clip.id});
+   if(resolved==='reclaim'){await ledger.put(key,{state:'pending',fingerprint,at});claimed=true;}else remoteId=resolved;}
+  if(claimed&&platform==='youtube'){
+   const youtube=google.youtube({version:'v3',auth:auth()}),response=await youtube.videos.insert({part:['snippet','status','localizations'],requestBody:{localizations:metadata!.localizations,snippet:{title:metadata!.title,description:metadata!.description,defaultLanguage:'en',defaultAudioLanguage:'en',categoryId:'27',tags:['Bible history','Shorts',runId+'-'+clip.id]},status:{privacyStatus:'private',selfDeclaredMadeForKids:false,containsSyntheticMedia:true}},media:{body:createReadStream(clip.path)}});
    if(!response.data.id)throw Error('YouTube upload outcome uncertain');remoteId=response.data.id;await ledger.put(key,{state:'uploaded',fingerprint,remoteId,at});
-  }else{
+  }else if(claimed){
    const url=await zernio!.upload(clip.path),response=z.object({post:z.object({_id:z.string()})}).parse(await zernio!.api('/posts',{content:`${clip.title}\nFull episode on YouTube: @bibleunearthedhq\n#BibleHistory #BiblicalHistory`,mediaItems:[{type:'video',url}],platforms:[{platform:'tiktok',accountId:account!._id}],tiktokSettings:settings,scheduledFor:at,timezone:'UTC'},key));remoteId=response.post._id;await ledger.put(key,{state:'scheduled',fingerprint,remoteId,at});
   }
   if(platform==='youtube'){const status=await videoStatus(remoteId);if(status.privacyStatus==='private'&&!status.publishAt)await scheduleVideo(remoteId,at);else if(status.publishAt!==at)throw Error('Existing Short schedule differs; do not silently overwrite');await ledger.put(key,{state:'scheduled',fingerprint,remoteId,at});}
