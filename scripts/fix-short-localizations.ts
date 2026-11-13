@@ -30,8 +30,10 @@ async function main(){
   if(p.title!==s.title)throw Error('English title would change; refusing for '+p.videoId);
   await youtube.videos.update({part:['snippet','localizations'],requestBody:{id:p.videoId,snippet:{title:s.title,description:p.description,tags:s.tags,categoryId:s.categoryId,defaultLanguage:s.defaultLanguage??'en',defaultAudioLanguage:s.defaultAudioLanguage??'en'},localizations:{...(v.localizations??{}),...p.localizations}}});
   const after=(await youtube.videos.list({part:['snippet','localizations','status'],id:[p.videoId]})).data.items?.[0];
-  const ok=after?.snippet?.title===s.title&&after?.localizations?.es?.title===p.localizations.es.title&&after?.localizations?.['pt-BR']?.title===p.localizations['pt-BR'].title&&after?.status?.privacyStatus===v.status?.privacyStatus&&after?.status?.publishAt===v.status?.publishAt;
-  if(!ok)throw Error('Verification failed for '+p.videoId);
+  const same=(a?:string|null,b?:string|null)=>(a??null)===(b??null)||(!!a&&!!b&&Date.parse(a)===Date.parse(b));
+  const checks={title:after?.snippet?.title===s.title,es:after?.localizations?.es?.title===p.localizations.es.title,ptBR:after?.localizations?.['pt-BR']?.title===p.localizations['pt-BR'].title,privacy:after?.status?.privacyStatus===v.status?.privacyStatus,schedule:same(after?.status?.publishAt,v.status?.publishAt)};
+  const failed=Object.entries(checks).filter(([,ok])=>!ok).map(([k])=>k);
+  if(failed.length)throw Error(`Verification failed for ${p.videoId}: ${failed.join(',')} (privacy ${v.status?.privacyStatus}→${after?.status?.privacyStatus}, publishAt ${v.status?.publishAt}→${after?.status?.publishAt})`);
   receipts.push({videoId:p.videoId,title:s.title,es:p.localizations.es.title,ptBR:p.localizations['pt-BR'].title,url:'https://youtube.com/shorts/'+p.videoId});
  }
  await json(root+'/after.json',{receipts});console.log(JSON.stringify({mode:'applied',receipts}));
