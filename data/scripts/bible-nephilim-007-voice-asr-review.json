@@ -1,7 +1,7 @@
 {
   "version": 1,
   "runId": "bible-nephilim-007",
-  "scope": "Owner-confirmed ASR spelling of the four names Paran, Sheshai, Eshcol and Anak (token 264) in chapter 1 only; raw transcripts, all other words and every lexical, critical, acoustic and factual gate stay unchanged.",
+  "scope": "Owner-confirmed ASR spelling of names only: chapter 1 Paran, Sheshai, Eshcol and Anak (token 264); chapter 2 Eshcol (token 104) and Anakim (token 498). Raw transcripts, all other words and every lexical, critical, acoustic and factual gate stay unchanged.",
   "reviews": [
     {
       "audioFile": "narration-chapter-1.wav",
@@ -69,6 +69,47 @@
             }
           ],
           "heardWord": "Eshcol"
+        }
+      ]
+    },
+    {
+      "audioFile": "narration-chapter-2.wav",
+      "wavSha256": "4e7e69bf6f606f49ff5f67144b0e3c5928bf415c4c0d9965179cc7e72193c9f4",
+      "transcriptSha256": "deeda203f1538eef9ef9f32d23f8880894d111771f65686e9261e549d1c6d29d",
+      "scriptSha256": "5082bd33c7d1a63e79a4963631ea2a4ccb444f400999fa4f5705040b66752d3c",
+      "listeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/raw/main/data/voice-reviews/bible-nephilim-007-chapter-2-excerpt.mp3",
+      "sourceExecution": "43366629747",
+      "confirmation": "genial, avanza y termina todo y deja hecho lo que te pedi xfis",
+      "confirmationQuestion": "Te mandé los 2 clips de 6 segundos. ¿Se entienden \"Eshcol\" y \"Anakim\"? Respondé \"sí\" o \"no\".",
+      "confirmationSource": "Owner reply in this conversation directly after receiving two audible 6 s excerpts of narration-chapter-2.wav (0:37 Brook of Eshcol; 3:15 the Anakim); recorded verbatim as contextual confirmation.",
+      "corrections": [
+        {
+          "referenceTokenIndex": 104,
+          "firstChunk": 104,
+          "observedChunks": [
+            {
+              "text": " Ashkol.",
+              "timestamp": [
+                40.9,
+                41.32
+              ]
+            }
+          ],
+          "heardWord": "Eshcol"
+        },
+        {
+          "referenceTokenIndex": 498,
+          "firstChunk": 498,
+          "observedChunks": [
+            {
+              "text": " anachym,",
+              "timestamp": [
+                198.82,
+                199.22
+              ]
+            }
+          ],
+          "heardWord": "Anakim"
         }
       ]
     }
