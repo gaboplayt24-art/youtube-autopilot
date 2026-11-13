@@ -7,6 +7,8 @@ import {read,json} from '../src/orchestration/io';
 import {monthlyProduction,monthlyShortsAuthorized} from '../src/orchestration/monthly-production';
 import {buildClips,previewPortraitLayout} from '../src/social/clips';
 import {publishClips,ZernioClient} from '../src/social/publish';
+import {translateClipTitles,clipTranslations} from '../src/social/localize';
+import {GeminiProvider} from '../src/providers/free';
 async function main(){
  const action=z.enum(['preflight','layout-preview','build','youtube','tiktok','auto-youtube','auto-tiktok']).parse(process.env.SOCIAL_ACTION??'preflight');
  if(action==='preflight'){const client=new ZernioClient(process.env.ZERNIO_API_KEY??''),account=await client.account(),creator=await client.creator(account._id);console.log(JSON.stringify({platform:'tiktok',username:account.username,creator:creator.creator,privacyLevels:creator.privacyLevels,postingLimits:creator.postingLimits,published:false}));return;}
@@ -29,7 +31,10 @@ async function main(){
   console.log(JSON.stringify(await publishClips(runId,path,sha,'tiktok')));return;
  }
  if(action==='layout-preview')console.log(JSON.stringify(await previewPortraitLayout(runId)));
- else if(action==='build')console.log(JSON.stringify(await buildClips(runId)));
+ else if(action==='build'){const bundle=await buildClips(runId);
+  if(runId!=='bible-angels-001'){const path=`data/runs/${runId}/social/clip-translations.json`,saved=await read(path).then(v=>clipTranslations.parse(v),(e:NodeJS.ErrnoException)=>{if(e.code==='ENOENT')return undefined;throw e;});
+   const llm=new GeminiProvider();if(bundle.clips.some(c=>saved?.titles[c.id]?.en!==c.title))await llm.discover();await json(path,await translateClipTitles(llm,bundle.clips,saved));}
+  console.log(JSON.stringify(bundle));}
  else console.log(JSON.stringify(await publishClips(runId,`data/runs/${runId}/social/bundle.json`,process.env.APPROVED_BUNDLE_SHA256??'',action)));
 }
 if(process.argv[1]&&import.meta.url===pathToFileURL(resolve(process.argv[1])).href)main().catch(error=>{console.error(JSON.stringify({event:'social_delivery_failed',message:error instanceof Error?error.message:'Delivery failed'}));process.exitCode=1;});

@@ -12,7 +12,7 @@ import {requireQA} from '../qa';
 import {json} from '../orchestration/io';
 import {clipBundle} from './clips';
 import {releaseSlots} from './plan';
-import {shortMetadata} from './localize';
+import {shortMetadata,clipTranslations,type ClipTranslations} from './localize';
 export class ZernioClient {
  constructor(private key:string,private request:typeof fetch=fetch){if(!key)throw Error('ZERNIO_API_KEY required in GitHub Actions');}
  async api(path:string,body?:unknown,idempotencyKey?:string,method?:'DELETE'){
@@ -46,6 +46,7 @@ export async function publishClips(runId:string,bundlePath:string,approvedDigest
  const zernio=platform==='tiktok'?new ZernioClient(process.env.ZERNIO_API_KEY??''):null,account=zernio?await zernio.account():null,creator=zernio&&account?await zernio.creator(account._id):null;
  if(creator&&(!creator.creator.canPostMore||!creator.privacyLevels.some(p=>p.value==='PUBLIC_TO_EVERYONE')))throw Error('TikTok creator cannot accept a public post');
  if(creator&&settings)for(const toggle of ['allow_comment','allow_duet','allow_stitch'] as const)if(settings[toggle]&&!creator.postingLimits.interactionSettings[toggle]?.enabled)throw Error('TikTok disallows selected interaction: '+toggle);
+ let translations:ClipTranslations|undefined;if(platform==='youtube'&&runId!=='bible-angels-001')translations=clipTranslations.parse(JSON.parse(await readFile(join(dir,'social','clip-translations.json'),'utf8')));
  const receipts=[];
  for(const [index,clip] of bundle.clips.entries()){
   if(!clip.qa.passed||clip.qa.checks.length<10||clip.qa.checks.some(c=>!c.passed)||clip.sourceRenderSha256!==master.sha256||await fileDigest(clip.path)!==clip.sha256)throw Error('Unapproved or changed clip');
@@ -54,7 +55,7 @@ export async function publishClips(runId:string,bundlePath:string,approvedDigest
   const claimed=await ledger.create(key,{state:'pending',fingerprint,at});let remoteId:string;
   if(!claimed){const existing=z.object({state:z.enum(['pending','uploaded','scheduled']),fingerprint:z.string(),remoteId:z.string().optional()}).parse(await ledger.get(key));if(existing.fingerprint!==fingerprint||existing.state==='pending'||!existing.remoteId)throw Error('Uncertain or conflicting social reservation; reconcile remotely before retry');remoteId=existing.remoteId;}
   else if(platform==='youtube'){
-   const metadata=shortMetadata(clip,main.videoId),youtube=google.youtube({version:'v3',auth:auth()}),response=await youtube.videos.insert({part:['snippet','status','localizations'],requestBody:{localizations:metadata.localizations,snippet:{title:metadata.title,description:metadata.description,defaultLanguage:'en',defaultAudioLanguage:'en',categoryId:'27',tags:['Bible history','Shorts',runId+'-'+clip.id]},status:{privacyStatus:'private',selfDeclaredMadeForKids:false,containsSyntheticMedia:true}},media:{body:createReadStream(clip.path)}});
+   const metadata=shortMetadata(clip,main.videoId,runId,translations),youtube=google.youtube({version:'v3',auth:auth()}),response=await youtube.videos.insert({part:['snippet','status','localizations'],requestBody:{localizations:metadata.localizations,snippet:{title:metadata.title,description:metadata.description,defaultLanguage:'en',defaultAudioLanguage:'en',categoryId:'27',tags:['Bible history','Shorts',runId+'-'+clip.id]},status:{privacyStatus:'private',selfDeclaredMadeForKids:false,containsSyntheticMedia:true}},media:{body:createReadStream(clip.path)}});
    if(!response.data.id)throw Error('YouTube upload outcome uncertain');remoteId=response.data.id;await ledger.put(key,{state:'uploaded',fingerprint,remoteId,at});
   }else{
    const url=await zernio!.upload(clip.path),response=z.object({post:z.object({_id:z.string()})}).parse(await zernio!.api('/posts',{content:`${clip.title}\nFull episode on YouTube: @bibleunearthedhq\n#BibleHistory #BiblicalHistory`,mediaItems:[{type:'video',url}],platforms:[{platform:'tiktok',accountId:account!._id}],tiktokSettings:settings,scheduledFor:at,timezone:'UTC'},key));remoteId=response.post._id;await ledger.put(key,{state:'scheduled',fingerprint,remoteId,at});
