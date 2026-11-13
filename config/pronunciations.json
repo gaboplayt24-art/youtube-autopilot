@@ -1,9 +1,10 @@
 {
   "terms": [
     {"term": "Anak", "category": "people", "replacement": "Anak", "verified": true, "source": "Critical correction"},
+    {"term": "Anakim", "category": "people", "replacement": "An-a-kim", "verified": true, "source": "Numbers 13:28; correction for 'anakim→enochim'"},
     {"term": "Ahiman", "category": "people", "replacement": "Ah-hi-man", "verified": true, "source": "Numbers 13:22; correction"},
     {"term": "Sheshai", "category": "people", "replacement": "Sheshai", "verified": true, "source": "Numbers 13:22; correction"},
-    {"term": "Eshcol", "category": "people", "replacement": "Esh-col", "verified": true, "source": "Numbers 13:23; correction"},
+    {"term": "Eshcol", "category": "people", "replacement": "Esh-col", "verified": true, "source": "Numbers 13:23; correction for 'eshcol→eschol'"},
     {"term": "brook of Eshcol", "category": "places", "replacement": "brook of Esh-col", "verified": true, "source": "Numbers 13:23; correction"},
     {"term": "Paran", "category": "places", "replacement": "Pa-ran", "verified": true, "source": "Numbers 13:26; correction"},
     {"term": "spies", "category": "people", "replacement": "spies", "verified": true, "source": "Numbers 13:21; ensure 'spies' not 'spys'"}
