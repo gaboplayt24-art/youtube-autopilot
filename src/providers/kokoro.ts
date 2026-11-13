@@ -27,7 +27,7 @@ export function alignWords(narration:string,chunks:{text:string;timestamp:[numbe
  }
  return aligned;
 }
-export async function localTranscript(path:string,model='Xenova/whisper-tiny.en'){const output=path+(model==='Xenova/whisper-tiny.en'?'.transcript.json':model==='Xenova/whisper-base.en'?'.base.transcript.json':'.small.transcript.json');await superviseWorker(resolve('src/voice/local-worker.mjs'),{action:'transcribe',path,output,model},12*60000);return read(output);}
+export async function localTranscript(path:string,model='Xenova/whisper-tiny.en'){const output=path+(model==='Xenova/whisper-tiny.en'?'.transcript.json':model==='Xenova/whisper-base.en'?'.base.transcript.json':model==='Xenova/whisper-medium.en'?'.medium.transcript.json':'.small.transcript.json');await superviseWorker(resolve('src/voice/local-worker.mjs'),{action:'transcribe',path,output,model},12*60000);return read(output);}
 /** Retry transcription, never speech synthesis or invented word boundaries. */
 export async function alignWithASRFallback(narration:string,transcribe:(model:string)=>Promise<{chunks:{text:string;timestamp:[number,number|null]}[]}>):Promise<Alignment>{
  const policy=await loadVoiceQAPolicy();const terms=extractCriticalTerms(narration);const transcripts:Transcript[]=[];let last:unknown;
@@ -36,8 +36,11 @@ export async function alignWithASRFallback(narration:string,transcribe:(model:st
 }
 export async function validatedVoiceAlignment(path:string,text:string,declared:string[]=[],approvedReview=false){
  const terms=extractCriticalTerms(text,declared);await json(path+'.critical-terms.json',{criticalTerms:terms,text});
- const human=await reviewedPrimaryTranscript(path,text);const primary=human?.primary??await localTranscript(path,'Xenova/whisper-small.en');const alternatives:Transcript[]=human?[human.raw]:[];
- if(evaluateVoice(text,primary,terms,await loadVoiceQAPolicy()).normalizedComparison.differences.length)alternatives.push(await localTranscript(path,'Xenova/whisper-base.en'));
+ const human=await reviewedPrimaryTranscript(path,text);const policy=await loadVoiceQAPolicy();let primary=human?.primary??await localTranscript(path,'Xenova/whisper-small.en');const alternatives:Transcript[]=human?[human.raw]:[];
+ // A missed critical name is re-measured by the larger free Whisper medium; the stronger transcript becomes primary only
+ // when it misses fewer critical terms. The gate, thresholds and evidence are unchanged; both transcripts are kept.
+ if(!human&&evaluateVoice(text,primary,terms,policy).criticalChecks.some(c=>!c.passed)){const medium=await localTranscript(path,'Xenova/whisper-medium.en') as Transcript;const missed=(t:Transcript)=>evaluateVoice(text,t,terms,policy).criticalChecks.filter(c=>!c.passed).length;if(missed(medium)<missed(primary)){alternatives.push(primary);primary=medium;}else alternatives.push(medium);}
+ if(evaluateVoice(text,primary,terms,policy).normalizedComparison.differences.length)alternatives.push(await localTranscript(path,'Xenova/whisper-base.en'));
  const report=await saveVoiceEvidence(path,text,primary,terms,alternatives);if(human)await json(path+'.voice-QA.json',{...report,humanTranscriptReview:{evidencePath:human.evidencePath,rawTranscriptPreserved:true,scope:'Only the exact owner-confirmed ASR word; all other gates unchanged'}});requireVoiceQA(report,approvedReview);if(report.status==='review'&&approvedReview)await json(path+'.review-authorization.json',{scope:'90-second visual quality milestone',status:'review',reason:'Channel owner approved reference-cloned Nano; critical/acoustic hard failures remain blocked'});return measuredReferenceAlignment(text,primary);
 }
 export class LocalTranscriptionProvider implements TranscriptionProvider {

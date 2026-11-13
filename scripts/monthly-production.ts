@@ -24,7 +24,7 @@ async function main(){
   const history=runs.filter(r=>r.display_title==='production-'+episode.runId);
   if(history.length){
    const release=await api('releases/tags/pipeline-checkpoint-'+episode.runId,'{assets:[.assets[]|{name,created_at,id}]}');
-   const chosen=checkpointManifest(release.assets,episode.resumeFromRunId);const manifests=chosen?[chosen]:[];
+   const chosen=checkpointManifest(release.assets,episode.ignoredCheckpointRunIds);const manifests=chosen?[chosen]:[];
    if(!manifests.length)throw Error('Existing production requires its checkpoint; never restart it from zero');
    sourceRunId=manifests[0].name.match(/^run-([0-9]+)-/)![1];
    if(c.retryPolicy==='continuous'){
