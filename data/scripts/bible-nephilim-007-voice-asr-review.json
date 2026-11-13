@@ -1,7 +1,7 @@
 {
   "version": 1,
   "runId": "bible-nephilim-007",
-  "scope": "Owner-confirmed ASR spelling of the three names Paran, Sheshai and Eshcol in chapter 1 only; raw transcripts, all other words and every lexical, critical, acoustic and factual gate stay unchanged.",
+  "scope": "Owner-confirmed ASR spelling of the four names Paran, Sheshai, Eshcol and Anak (token 264) in chapter 1 only; raw transcripts, all other words and every lexical, critical, acoustic and factual gate stay unchanged.",
   "reviews": [
     {
       "audioFile": "narration-chapter-1.wav",
@@ -10,10 +10,24 @@
       "scriptSha256": "165a7cb52268d051f69240c3929f1587e2bad6bfca70173392d20c100206dcd6",
       "listeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/raw/main/data/voice-reviews/bible-nephilim-007-names-excerpt.mp3",
       "sourceExecution": "43359189674",
-      "confirmation": "Está bien",
-      "confirmationQuestion": "Si los tres nombres (Paran, Sheshai y Eshcol) suenan bien en los dos clips enviados, respondé: sí, están bien.",
-      "confirmationSource": "Owner reply in this conversation after receiving the two audible excerpts of narration-chapter-1.wav (6 s and 16 s); recorded verbatim.",
+      "confirmation": "Está bien (Paran, Sheshai, Eshcol); Si (Anak at 1:40)",
+      "confirmationQuestion": "Si los tres nombres (Paran, Sheshai y Eshcol) suenan bien en los clips enviados, respondé: sí, están bien. Luego, sobre el clip de 7 s desde 1:36: ¿Se entiende \"Anak\"? Respondé sí o no.",
+      "confirmationSource": "Owner replies in this conversation after receiving the audible excerpts of narration-chapter-1.wav (6 s, 16 s and 7 s from 96 s, concatenated in the listening artifact); recorded verbatim.",
       "corrections": [
+        {
+          "referenceTokenIndex": 264,
+          "firstChunk": 263,
+          "observedChunks": [
+            {
+              "text": " Onak,",
+              "timestamp": [
+                99.52,
+                99.94
+              ]
+            }
+          ],
+          "heardWord": "Anak"
+        },
         {
           "referenceTokenIndex": 398,
           "firstChunk": 397,
