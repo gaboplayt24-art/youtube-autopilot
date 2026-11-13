@@ -13,8 +13,11 @@ import {candidate,planClip,chapterClipSelection,chapterClipCandidates,automaticC
 import {chapterTitles} from '../editor/dynamic-edit-stage';
 import {sliceEdit} from '../editor/dynamic-edit';
 import {writeSfxTrack} from '../audio/sfx-library';
+import {shortTitles} from './short-titles';
 export const clipRecord=z.object({id:z.string(),title:z.string(),source:z.string(),path:z.string(),sha256:z.string().length(64),duration:z.number(),qa:qa,sourceRenderSha256:z.string(),narration:z.string()});
 export const clipBundle=z.object({runId:z.string(),clips:z.array(clipRecord).min(3).max(5)});
+/** Curiosity titles written by the production's short-titles stage take precedence over chapter cards. */
+async function hookTitles(dir:string):Promise<Record<string,string>>{try{return Object.fromEntries(shortTitles.parse(await read(join(dir,'short-titles.json'))).titles.map(t=>[t.sceneId,t.title]));}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return {};throw e;}}
 export async function buildClips(runId:string){
  if(!/^[A-Za-z0-9_-]+$/.test(runId))throw Error('Invalid episode ID');
  const dir=join('data/runs',runId),out=join(dir,'social');await mkdir(out,{recursive:true});
@@ -25,7 +28,7 @@ export async function buildClips(runId:string){
  try{candidateInput=await read(`data/ideas/${runId}-shorts-candidates.json`);}
  catch(error){
   if((error as NodeJS.ErrnoException).code!=='ENOENT')throw error;
-  const selection=chapterClipSelection.parse(await read(`data/ideas/${runId}-shorts-chapters.json`).catch(async(missing:NodeJS.ErrnoException)=>{if(missing.code!=='ENOENT')throw missing;return automaticChapterSelection(runId,full,await read(join(dir,'final-script.json')) as ScriptScenes,await chapterTitles(runId));}));
+  const selection=chapterClipSelection.parse(await read(`data/ideas/${runId}-shorts-chapters.json`).catch(async(missing:NodeJS.ErrnoException)=>{if(missing.code!=='ENOENT')throw missing;return automaticChapterSelection(runId,full,await read(join(dir,'final-script.json')) as ScriptScenes,{...await chapterTitles(runId),...await hookTitles(dir)});}));
   if(selection.runId!==runId)throw Error('Clip chapter selection belongs to another episode');
   candidateInput={candidates:chapterClipCandidates(selection,full)};
  }
