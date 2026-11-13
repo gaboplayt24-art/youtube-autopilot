@@ -1,0 +1,62 @@
+{
+  "version": 1,
+  "runId": "bible-nephilim-007",
+  "scope": "Owner-confirmed ASR spelling of the three names Paran, Sheshai and Eshcol in chapter 1 only; raw transcripts, all other words and every lexical, critical, acoustic and factual gate stay unchanged.",
+  "reviews": [
+    {
+      "audioFile": "narration-chapter-1.wav",
+      "wavSha256": "f883dda7af30ba659cd00d33928fb0e37635f4a91da1b22509b2806be3ca7a1a",
+      "transcriptSha256": "d6c81e435da14ff7ffe7df994d41649f03e73d7d67ed3dae38575a7db11a9453",
+      "scriptSha256": "165a7cb52268d051f69240c3929f1587e2bad6bfca70173392d20c100206dcd6",
+      "listeningArtifact": "https://github.com/gaboplayt24-art/youtube-autopilot/raw/main/data/voice-reviews/bible-nephilim-007-names-excerpt.mp3",
+      "sourceExecution": "43359189674",
+      "confirmation": "Está bien",
+      "confirmationQuestion": "Si los tres nombres (Paran, Sheshai y Eshcol) suenan bien en los dos clips enviados, respondé: sí, están bien.",
+      "confirmationSource": "Owner reply in this conversation after receiving the two audible excerpts of narration-chapter-1.wav (6 s and 16 s); recorded verbatim.",
+      "corrections": [
+        {
+          "referenceTokenIndex": 398,
+          "firstChunk": 397,
+          "observedChunks": [
+            {
+              "text": " Peron,",
+              "timestamp": [
+                150.82,
+                151.14
+              ]
+            }
+          ],
+          "heardWord": "Paran"
+        },
+        {
+          "referenceTokenIndex": 459,
+          "firstChunk": 458,
+          "observedChunks": [
+            {
+              "text": " Shessai,",
+              "timestamp": [
+                176.2,
+                176.64
+              ]
+            }
+          ],
+          "heardWord": "Sheshai"
+        },
+        {
+          "referenceTokenIndex": 478,
+          "firstChunk": 477,
+          "observedChunks": [
+            {
+              "text": " Eshkol,",
+              "timestamp": [
+                184.72,
+                185.18
+              ]
+            }
+          ],
+          "heardWord": "Eshcol"
+        }
+      ]
+    }
+  ]
+}
