@@ -63,3 +63,17 @@ test('a first concept refused by prompt QA becomes an imageless rejection carryi
  assert.deepEqual(r!.review.issues,['Mudbrick, not stone','Conflicting costume']);assert.deepEqual(r!.review.objectiveFailures,['promptQA']);
  assert.equal(promptRefusedAttempt({id:'x',concept:'y'},'Some other failure'),null);
 });
+test('a planner that returns the rejected concept verbatim is re-asked once with that issue, then refused',async()=>{
+ const {planVisualCorrection,UNCHANGED_CONCEPT}=await import('../src/visuals/adaptive-repair');
+ const {readFile}=await import('node:fs/promises');
+ const style=JSON.parse(await readFile('config/style-lock-v5.json','utf8'));
+ const runner={stage:async(_id:string,_s:unknown,fn:()=>Promise<unknown>)=>fn()} as never;
+ const prompts:string[]=[];
+ const vision=(answers:string[])=>({images:async(prompt:string)=>{prompts.push(prompt);return {concept:answers.shift()!,correctionReason:'Show both coated faces clearly.'};}}) as never;
+ const imageless={...rejected,source:{path:'',sha256:'b'.repeat(64)}};
+ const fixed=await planVisualCorrection(idea,imageless,style,'assets/references/style-v5-eli-face.png',runner,vision([idea.concept,'One wide view shows the plank turned on its edge so both coated faces are visible.']));
+ assert.match(fixed.concept,/turned on its edge/);assert.ok(prompts[1].includes(UNCHANGED_CONCEPT));
+ prompts.length=0;
+ await assert.rejects(()=>planVisualCorrection(idea,imageless,style,'assets/references/style-v5-eli-face.png',runner,vision([idea.concept,idea.concept])),/did not change/);
+ assert.equal(prompts.length,2);
+});
