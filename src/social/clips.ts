@@ -18,6 +18,8 @@ export const clipRecord=z.object({id:z.string(),title:z.string(),source:z.string
 export const clipBundle=z.object({runId:z.string(),clips:z.array(clipRecord).min(3).max(5)});
 /** Curiosity titles written by the production's short-titles stage take precedence over chapter cards. */
 async function hookTitles(dir:string):Promise<Record<string,string>>{try{return Object.fromEntries(shortTitles.parse(await read(join(dir,'short-titles.json'))).titles.map(t=>[t.sceneId,t.title]));}catch(e){if((e as NodeJS.ErrnoException).code==='ENOENT')return {};throw e;}}
+/** A clip that fails its own QA is left out (evidence kept, never published); the rest ship if at least three pass. */
+export const PORTRAIT_QA_FAILED=/Portrait QA failed; publication blocked/;
 export async function buildClips(runId:string){
  if(!/^[A-Za-z0-9_-]+$/.test(runId))throw Error('Invalid episode ID');
  const dir=join('data/runs',runId),out=join(dir,'social');await mkdir(out,{recursive:true});
@@ -34,7 +36,7 @@ export async function buildClips(runId:string){
  }
  const candidates=z.object({candidates:z.array(candidate).min(3).max(5)}).parse(candidateInput);
  await json(join(out,'selected-candidates.json'),candidates);
- const runner=new Runner(out);await runner.lock();const clips=[];
+ const runner=new Runner(out);await runner.lock();const clips=[],rejected:string[]=[];
  try{for(const input of candidates.candidates){
   const plan=planClip(input,full),path=join(out,`clip-${plan.id}.mp4`),publicDir=resolve('public',runId);await mkdir(publicDir,{recursive:true});
   for(const shot of plan.shots){const a=assets.assets.find(a=>a.shotId===shot.id);if(!a||await fileDigest(a.path)!==a.sha256)throw Error('Missing or changed approved illustration');await copyFile(a.path,join(publicDir,`${shot.id}.png`));}
@@ -49,7 +51,7 @@ export async function buildClips(runId:string){
   await copyFile(wav,join(publicDir,`clip-${plan.id}-narration.wav`));
   const props=composition.parse({...full,width:1080,height:1920,fps:30,durationInFrames:Math.ceil(plan.duration*30),scenes:[],shots:plan.shots,cues:plan.cues,audioMixPath:`${runId}/clip-${plan.id}-narration.wav`,thumbnailTitle:plan.title,edit});
   await json(join(out,`clip-${plan.id}-plan.json`),{...plan,sourceRenderSha256:master.sha256,audio:'Approved original narration only; no externally licensed music reused'});
-  const result=await runner.stage('clip-'+plan.id,clipRecord,async()=>{
+  let result;try{result=await runner.stage('clip-'+plan.id,clipRecord,async()=>{
    await renderVideo(props,path);const seconds=await duration(path);const audioQA=await inspectAudio(path,{expectedDuration:props.durationInFrames/30});
    const probe=JSON.parse((await exec('ffprobe',['-v','error','-show_streams','-of','json',path],{timeout:30000})).stdout).streams;
    const checks=[{name:'source video QA',passed:true,detail:'Integrity-verified full QA and master hash'},{name:'measured captions',passed:plan.cues.every(c=>(c.words?.length??0)<=4),detail:'Unique exact passage in final measured ASR timeline; four words per group'},{name:'complete visual coverage',passed:plan.shots.length>=3&&plan.shots.every(s=>s.end-s.start<=10),detail:'Approved FLUX sources; whole artwork contained instead of blind portrait crop'},{name:'portrait output',passed:probe.some((s:any)=>s.width===1080&&s.height===1920&&s.codec_name==='h264'&&s.avg_frame_rate==='30/1')&&probe.some((s:any)=>s.codec_name==='aac'),detail:'1080×1920 H264/AAC'},{name:'duration',passed:Math.abs(seconds-props.durationInFrames/30)<.15,detail:String(seconds)},{name:'upload size',passed:(await stat(path)).size<=45000000,detail:'45 MB conservative limit'},...audioQA.checks];
@@ -58,8 +60,11 @@ export async function buildClips(runId:string){
    if(!report.passed)throw Error('Portrait QA failed; publication blocked');
    for(const [index,t] of [1,seconds/2,seconds-2].entries())await exec('ffmpeg',['-y','-v','error','-ss',String(Math.max(0,t)),'-i',path,'-frames:v','1',join(out,`clip-${plan.id}-frame-${index+1}.jpg`)],{timeout:30000});
    return {...input,path,sha256:await fileDigest(path),duration:seconds,qa:report,sourceRenderSha256:master.sha256};
-  },async c=>{if(c.sourceRenderSha256!==master.sha256||await fileDigest(c.path)!==c.sha256||!c.qa.passed)throw Error('Clip checkpoint identity or QA changed');});clips.push(result);
- }const bundle=clipBundle.parse({runId,clips});await json(join(out,'bundle.json'),bundle);return bundle;
+  },async c=>{if(c.sourceRenderSha256!==master.sha256||await fileDigest(c.path)!==c.sha256||!c.qa.passed)throw Error('Clip checkpoint identity or QA changed');});}
+  catch(error){if(!PORTRAIT_QA_FAILED.test(String(error)))throw error;rejected.push(plan.id);await json(join(out,'rejected-clips.json'),{rejected,reason:'Portrait QA failed; evidence kept in clip-<id>-QA.json; never published'});continue;}
+  clips.push(result);
+ }if(clips.length<3)throw Error(`Only ${clips.length} clips passed portrait QA (rejected ${rejected.join(', ')}); publication blocked`);
+ const bundle=clipBundle.parse({runId,clips});await json(join(out,'bundle.json'),bundle);return bundle;
  }finally{await runner.unlock();}
 }
 
