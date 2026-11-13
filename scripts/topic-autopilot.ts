@@ -7,7 +7,6 @@ import {read,exec,json} from '../src/orchestration/io';
 import {monthlyProduction} from '../src/orchestration/monthly-production';
 import {topicCatalog,rankTopics,usedTopicIds,nextRunId,episodeFiles,rollQueue,needsTopics} from '../src/ideas/topic-autopilot';
 import {researchBiblicalDemand} from '../src/ideas/biblical-demand';
-import {scrapeGlobalTrends} from '../src/ideas/trend-scraper';
 import {FreeQuotaLedger,withQuota} from '../src/quota';
 
 const repo=process.env.GITHUB_REPOSITORY;if(repo!=='gaboplayt24-art/youtube-autopilot')throw Error('Approved repository only');
@@ -18,9 +17,9 @@ const picks:({runId:string;topic:string}&ReturnType<typeof episodeFiles>)[]=[];l
 if(needsTopics(c,runs)){
  const unused=catalog.topics.filter(t=>!usedTopicIds(files).has(t.id)),quota=new FreeQuotaLedger("data/research/topic-autopilot");await quota.restore();
  try{
-  const globalTrends = await scrapeGlobalTrends();
-  const allQueries = [...unused.map(t=>({topic:t.id,query:t.query})), ...globalTrends.map(t => ({ topic: t.topic, query: t.query }))];
-  const report=await withQuota(quota,()=>researchBiblicalDemand(undefined,now,allQueries));
+  // Only catalog topics are measured and ranked: other channels' titles are never turned into queries (they
+  // were never ranked, spent unmetered YouTube quota, and break the competitor-patterns-are-not-scripts rule).
+  const report=await withQuota(quota,()=>researchBiblicalDemand(undefined,now,unused.map(t=>({topic:t.id,query:t.query}))));
   const ranked=rankTopics(unused,report.topics,usedTopicIds(files),now);
   evidence={generatedAt:report.generatedAt,limitations:report.limitations,ranking:ranked.map(r=>({id:r.topic.id,score:Math.round(r.score),demand:report.topics.find(d=>d.topic===r.topic.id)&&{sampleSize:report.topics.find(d=>d.topic===r.topic.id)!.sampleSize,distinctChannels:report.topics.find(d=>d.topic===r.topic.id)!.distinctChannels,medianViewsPerDay:report.topics.find(d=>d.topic===r.topic.id)!.medianViewsPerDay}}))};
   const taken=[...files];
