@@ -9,3 +9,9 @@ test('a stale reservation is reused only when provably safe',async()=>{
  await assert.rejects(()=>reconcileReservation({state:'pending',fingerprint:'f1'},{...now,platform:'tiktok'},async()=>null),/Uncertain/);
  await assert.rejects(()=>reconcileReservation({state:'scheduled',fingerprint:'f1',remoteId:'x',at:'2026-11-20T22:00:00.000Z'},{...now,platform:'tiktok'}),/Uncertain/);
 });
+test('YouTube publishAt without milliseconds matches the planned slot',async()=>{
+ const {sameInstant}=await import('../src/social/publish');
+ assert.ok(sameInstant('2026-11-14T22:00:00Z','2026-11-14T22:00:00.000Z'));
+ assert.ok(!sameInstant('2026-11-15T22:00:00Z','2026-11-14T22:00:00.000Z'));
+ assert.ok(!sameInstant(null,'2026-11-14T22:00:00.000Z'));
+});

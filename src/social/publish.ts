@@ -35,6 +35,8 @@ export function requireTikTokConsent(env:NodeJS.ProcessEnv){
  const toggle=(name:string)=>z.enum(['allow','disable']).parse(env[name])==='allow';
  return {content_preview_confirmed:true,express_consent_given:true,privacy_level:'PUBLIC_TO_EVERYONE',allow_comment:toggle('ALLOW_COMMENT'),allow_duet:toggle('ALLOW_DUET'),allow_stitch:toggle('ALLOW_STITCH'),video_made_with_ai:true};
 }
+/** YouTube returns publishAt without milliseconds; compare instants, not strings. */
+export function sameInstant(a:string|null|undefined,b:string){return !!a&&Date.parse(a)===Date.parse(b);}
 /** A leftover reservation is reused only when it is provably safe: the same release slot with a remote id, or (YouTube) no upload carrying the clip's hidden tag. Anything else stays blocked. */
 export async function reconcileReservation(existing:{state:string;fingerprint:string;remoteId?:string;at?:string},current:{fingerprint:string;at:string;platform:'youtube'|'tiktok';tag:string},find:(tag:string)=>Promise<string|null|undefined>=findUploadByTag):Promise<string>{
  if(existing.state!=='pending'&&existing.remoteId&&(existing.fingerprint===current.fingerprint||existing.at===current.at))return existing.remoteId;
@@ -70,7 +72,7 @@ export async function publishClips(runId:string,bundlePath:string,approvedDigest
   }else if(claimed){
    const url=await zernio!.upload(clip.path),response=z.object({post:z.object({_id:z.string()})}).parse(await zernio!.api('/posts',{content:`${clip.title}\nFull episode on YouTube: @bibleunearthedhq\n#BibleHistory #BiblicalHistory`,mediaItems:[{type:'video',url}],platforms:[{platform:'tiktok',accountId:account!._id}],tiktokSettings:settings,scheduledFor:at,timezone:'UTC'},key));remoteId=response.post._id;await ledger.put(key,{state:'scheduled',fingerprint,remoteId,at});
   }
-  if(platform==='youtube'){const status=await videoStatus(remoteId);if(status.privacyStatus==='private'&&!status.publishAt)await scheduleVideo(remoteId,at);else if(status.publishAt!==at)throw Error('Existing Short schedule differs; do not silently overwrite');await ledger.put(key,{state:'scheduled',fingerprint,remoteId,at});}
+  if(platform==='youtube'){const status=await videoStatus(remoteId);if(status.privacyStatus==='private'&&!status.publishAt)await scheduleVideo(remoteId,at);else if(!sameInstant(status.publishAt,at))throw Error(`Existing Short schedule differs (${status.privacyStatus} ${status.publishAt} vs ${at}); do not silently overwrite`);await ledger.put(key,{state:'scheduled',fingerprint,remoteId,at});}
   else {const remote=await zernio!.api('/posts/'+encodeURIComponent(remoteId));if(!['scheduled','queued'].includes(remote.post?.status))throw Error('Zernio did not confirm queued scheduling');}
   receipts.push({platform,clipId:clip.id,remoteId,publishAt:at,url:platform==='youtube'?`https://www.youtube.com/shorts/${remoteId}`:null});
  }
