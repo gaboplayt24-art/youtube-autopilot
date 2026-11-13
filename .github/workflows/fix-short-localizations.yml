@@ -1,0 +1,70 @@
+name: fix-short-localizations
+on:
+  workflow_dispatch:
+    inputs:
+      video_ids:
+        description: Comma-separated Short IDs whose es/pt-BR localizations carry the wrong episode's text
+        type: string
+        required: true
+      apply:
+        description: Apply after the private backup (false = preview only)
+        type: boolean
+        default: false
+permissions:
+  contents: write
+  actions: read
+concurrency:
+  group: free-provider-account
+  cancel-in-progress: false
+jobs:
+  fix:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    environment: youtube-private
+    env:
+      GH_TOKEN: ${{ github.token }}
+      AUTO_PUBLISH: 'false'
+      VIDEO_IDS: ${{ inputs.video_ids }}
+      YOUTUBE_CLIENT_ID: ${{ secrets.YOUTUBE_CLIENT_ID }}
+      YOUTUBE_CLIENT_SECRET: ${{ secrets.YOUTUBE_CLIENT_SECRET }}
+      YOUTUBE_REFRESH_TOKEN: ${{ secrets.YOUTUBE_REFRESH_TOKEN }}
+      GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+      GEMINI_MODEL: ${{ vars.GEMINI_MODEL || 'gemini-3.1-flash-lite' }}
+      GEMINI_FREE_TIER_CONFIRMED: ${{ vars.GEMINI_FREE_TIER_CONFIRMED || 'true' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - name: Back up current metadata and prepare faithful translations
+        run: npx tsx scripts/fix-short-localizations.ts
+      - name: Store the backup before any write
+        run: |
+          python3 - <<'PY'
+          import datetime,os,runpy,shutil
+          from pathlib import Path
+          store=runpy.run_path('scripts/github_checkpoints.py');repo=os.environ['GITHUB_REPOSITORY']
+          tag='metadata-revisions-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m');store['release'](repo,tag)
+          root=Path('.cache/short-localization-fix')
+          for name in ['before.json','preview.json']:
+              target=root/('short-localizations-'+os.environ['GITHUB_RUN_ID']+'-'+name);shutil.copyfile(root/name,target);store['upload'](repo,tag,target)
+          PY
+      - name: Apply and verify
+        if: inputs.apply == true
+        env:
+          APPLY: 'true'
+        run: npx tsx scripts/fix-short-localizations.ts
+      - name: Store the verified receipt
+        if: always() && inputs.apply == true
+        run: |
+          python3 - <<'PY'
+          import datetime,os,runpy,shutil
+          from pathlib import Path
+          report=Path('.cache/short-localization-fix/after.json')
+          if not report.exists(): raise SystemExit(0)
+          store=runpy.run_path('scripts/github_checkpoints.py');repo=os.environ['GITHUB_REPOSITORY']
+          tag='metadata-revisions-'+datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m');store['release'](repo,tag)
+          target=report.with_name('short-localizations-'+os.environ['GITHUB_RUN_ID']+'-after.json');shutil.copyfile(report,target);store['upload'](repo,tag,target)
+          PY
