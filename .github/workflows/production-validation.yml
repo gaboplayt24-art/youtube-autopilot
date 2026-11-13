@@ -167,6 +167,23 @@ jobs:
       CLOUDFLARE_PAID_MONTHLY_CAP_USD: '8'
     steps:
       - uses: actions/checkout@v4
+      # A queued episode may only run with its own topic and long format: a manual dispatch with the
+      # workflow defaults (another topic, short test) must never overwrite that episode's checkpoints.
+      - name: Refuse a queued episode with a different topic or format
+        id: queue-guard
+        run: |
+          python3 - <<'PY'
+          import json, os, sys
+          queue = json.load(open('config/monthly-production.json'))
+          episode = next((e for e in queue.get('episodes', []) if e['runId'] == os.environ['RUN_ID']), None)
+          if episode is None: sys.exit(0)
+          problems = []
+          if os.environ['TOPIC'] != episode['topic']: problems.append('topic %r is not the queued %r' % (os.environ['TOPIC'], episode['topic']))
+          if os.environ['PRODUCTION_KIND'] != 'quality_test': problems.append('production_kind %r is not quality_test' % os.environ['PRODUCTION_KIND'])
+          if problems:
+              print(json.dumps({'event': 'queued_episode_input_refused', 'runId': os.environ['RUN_ID'], 'problems': problems}))
+              sys.exit(1)
+          PY
       - name: Verify private release storage before inference
         run: python3 scripts/github_checkpoints.py probe
         env:
@@ -294,7 +311,7 @@ jobs:
         if: inputs.task != 'branding' && inputs.task != 'style-v5'
         run: ffprobe -v error -show_streams -show_format "data/runs/$RUN_ID/final.mp4"
       - name: Preserve video and resumable checkpoints in private release
-        if: always()
+        if: always() && steps.queue-guard.outcome == 'success'
         run: |
           if [ -f scripts/github_checkpoints.py ]; then python3 scripts/github_checkpoints.py save; fi
         env:

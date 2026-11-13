@@ -113,3 +113,11 @@ test('three fast identical failures step an episode aside for a day unless a cor
  assert.equal(stalledEpisode(history,undefined,new Date('2026-10-24T03:00:00Z')),false,'retries again after a day');
  assert.equal(stalledEpisode([run(1,'2026-10-22T16:00:00Z',90),...history.slice(1)],undefined,now),false,'a long run is real progress, not a repeat');
 });
+
+test('a pinned checkpoint wins over newer manifests left by runs with wrong inputs', async () => {
+ const {checkpointManifest}=await import('../src/orchestration/monthly-production');
+ const assets=[{name:'run-1-attempt-1.manifest.json',created_at:'2026-11-11T17:00:00Z',id:1},{name:'run-2-attempt-1.manifest.json',created_at:'2026-11-13T02:00:00Z',id:2},{name:'run-2-attempt-1.zip.part001',created_at:'2026-11-13T02:00:00Z',id:3}];
+ assert.equal(checkpointManifest(assets)?.name,'run-2-attempt-1.manifest.json');
+ assert.equal(checkpointManifest(assets,'1')?.name,'run-1-attempt-1.manifest.json');
+ assert.throws(()=>checkpointManifest(assets,'9'),/Pinned checkpoint/);
+});

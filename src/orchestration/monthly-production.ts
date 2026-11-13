@@ -6,7 +6,7 @@ export const monthlyProduction=z.object({
  retryPolicy:z.enum(['daily','continuous']).default('daily'),
  geminiModel:z.literal('gemini-3.1-flash-lite'),autoScheduleShorts:z.boolean(),
  sameDayRepair:z.object({runId:z.string(),sourceRunId:z.string().regex(/^\d+$/),revisionSha256:z.string().regex(/^[a-f0-9]{64}$/)}).optional(),
- episodes:z.array(z.object({runId:z.string().regex(/^bible-[a-z0-9-]+$/),notBefore:z.string().datetime(),topic:z.string().min(20),retryFrom:z.enum(['visuals']).optional(),repairSourceRunId:z.string().regex(/^\d+$/).optional()})).min(1).max(4)
+ episodes:z.array(z.object({runId:z.string().regex(/^bible-[a-z0-9-]+$/),notBefore:z.string().datetime(),topic:z.string().min(20),retryFrom:z.enum(['visuals']).optional(),repairSourceRunId:z.string().regex(/^\d+$/).optional(),resumeFromRunId:z.string().regex(/^\d+$/).optional()})).min(1).max(4)
 }).superRefine((c,ctx)=>{
  if(Date.parse(c.endsAt)<=Date.parse(c.startsAt)||Date.parse(c.endsAt)-Date.parse(c.startsAt)>32*86400000)ctx.addIssue({code:'custom',message:'Monthly plan must cover at most32 days'});
  if(new Set(c.episodes.map(e=>e.runId)).size!==c.episodes.length||c.episodes.length>c.maxEpisodes)ctx.addIssue({code:'custom',message:'Distinct episodes within plan limit required'});
@@ -32,6 +32,12 @@ export async function reserveMonthlyAttempt(store:Pick<StorageProvider,'create'>
  if(continuationIdentity)z.string().regex(/^[a-f0-9]{64}$/).parse(continuationIdentity);
  const key=continuationIdentity?'monthly-continuation-'+continuationIdentity:repairSourceRunId?'monthly-production-repair-'+repairSourceRunId:'monthly-production-day-'+now.toISOString().slice(0,10);
  return store.create(key,{runId,repairSourceRunId,continuationIdentity,state:'dispatch-reserved',at:now.toISOString(),note:'Retain reservation even if dispatch outcome is uncertain; never delete it to force a retry.'});
+}
+/** Newest checkpoint, unless the episode pins the checkpoint to resume (one left by a run with the wrong inputs must not win). */
+export function checkpointManifest<T extends {name:string;created_at:string;id:number}>(assets:T[],pin?:string){
+ const manifests=assets.filter(a=>/^run-[0-9]+-attempt-[0-9]+\.manifest\.json$/.test(a.name)).sort((a,b)=>b.created_at.localeCompare(a.created_at)||b.id-a.id);
+ if(!pin)return manifests[0];
+ const pinned=manifests.find(a=>a.name.startsWith('run-'+pin+'-'));if(!pinned)throw Error('Pinned checkpoint run-'+pin+' is not in the episode release');return pinned;
 }
 export function monthlyDispatchArguments(c:MonthlyProduction,runId:string,sourceRunId?:string){
  const episode=c.episodes.find(e=>e.runId===runId);if(!episode)throw Error('Episode outside monthly queue');

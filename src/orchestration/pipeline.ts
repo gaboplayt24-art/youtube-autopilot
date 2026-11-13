@@ -23,7 +23,7 @@ import * as schemas from './schemas';
 import {FreeFirstLLM} from '../providers/free';
 import {CostLedger,withCosts,loadCostPolicy,estimateCosts,currentCosts} from '../cost';
 import {LongFormPlanner,longFormPlan,targetDuration,scriptQuality} from '../longform';
-import {narrateChapters,pronunciationCandidates,pronunciations} from '../voice/chapters';
+import {narrateChapters,pronunciationCandidates,pronunciations,verifiedPronunciations} from '../voice/chapters';
 import {extractCriticalTerms,requireVoiceQA} from '../voice/qa';
 import {selectNarrator,selectedProvider} from '../voice/selection';
 import {inspectAudio,audioQA} from '../audio/qa';
@@ -98,7 +98,8 @@ async function runVideoWithCosts(input:{runId:string;mode?:string;topic?:string;
   const assets=join(dir,'assets');await mkdir(assets,{recursive:true});const publicDir=resolve('public',options.runId);await mkdir(publicDir,{recursive:true});
   const selectionVoice=await runner.stage('voice-selection',z.object({provider:z.string(),voiceId:z.string(),model:z.string(),reason:z.string()}),async()=>demo?{provider:'demo',voiceId:'en-us',model:'espeak-ng',reason:'Offline technical demo'}:selectNarrator(config.narrator,assets));
   const tts=demo?new DemoVoice():selectedProvider(selectionVoice.provider,config.narrator);
-  const voice=await runner.stage('voice',schemas.voice,()=>narrateChapters(plan,tts,assets,config.narrator.targetWpm,`${selectionVoice.provider}:${selectionVoice.voiceId}:${selectionVoice.model}`,Object.fromEntries(script.scenes.map(s=>[s.id,s.performance])),criticalTerms.criticalTerms),async v=>{for(const s of [...v.scenes,...v.chapters??[]])await access(s.path);});
+  const configuredPronunciations=await verifiedPronunciations();
+  const voice=await runner.stage('voice',schemas.voice,()=>narrateChapters(plan,tts,assets,config.narrator.targetWpm,`${selectionVoice.provider}:${selectionVoice.voiceId}:${selectionVoice.model}`,Object.fromEntries(script.scenes.map(s=>[s.id,s.performance])),criticalTerms.criticalTerms,[...dictionary.terms,...configuredPronunciations]),async v=>{for(const s of [...v.scenes,...v.chapters??[]])await access(s.path);});
   if(shortTest){const actual=voice.scenes.reduce((n,s)=>n+s.duration,0);if(actual<90||actual>105)throw new Error(`Production validation narration duration ${actual.toFixed(2)}s is outside 90–105s; revise source script, never stretch audio`);}
   const captions=await runner.stage('captions',schemas.captions,async()=>createCaptions(plan,voice,config.style.fps));
   const timed=await runner.stage('shots',shotPlan,()=>new ShotPlanner().plan(plan,voice,config.visualProfile,config.style.fps,undefined,shortTest,shortTest?{hookSeconds:2.8,bodySeconds:3.5}:undefined,config.visualSystem.version==='round-head-v5'&&!shortTest));

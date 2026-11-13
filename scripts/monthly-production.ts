@@ -5,7 +5,7 @@ import {appendFile,readFile,mkdtemp,rm} from 'node:fs/promises';
 import {createHash} from 'node:crypto';
 import {z} from 'zod';
 import {read,exec} from '../src/orchestration/io';
-import {monthlyProduction,monthlyDecision,monthlyDispatchArguments,reserveMonthlyAttempt} from '../src/orchestration/monthly-production';
+import {monthlyProduction,monthlyDecision,monthlyDispatchArguments,reserveMonthlyAttempt,checkpointManifest} from '../src/orchestration/monthly-production';
 import {SupabaseStorage} from '../src/database/storage';
 async function main(){
  const c=monthlyProduction.parse(await read('config/monthly-production.json')),repo=process.env.GITHUB_REPOSITORY;
@@ -24,9 +24,9 @@ async function main(){
   const history=runs.filter(r=>r.display_title==='production-'+episode.runId);
   if(history.length){
    const release=await api('releases/tags/pipeline-checkpoint-'+episode.runId,'{assets:[.assets[]|{name,created_at,id}]}');
-   const manifests=release.assets.filter((a:{name:string})=>/^run-[0-9]+-attempt-[0-9]+\.manifest\.json$/.test(a.name)).sort((a:{created_at:string;id:number},b:{created_at:string;id:number})=>b.created_at.localeCompare(a.created_at)||b.id-a.id);
+   const chosen=checkpointManifest(release.assets,episode.resumeFromRunId);const manifests=chosen?[chosen]:[];
    if(!manifests.length)throw Error('Existing production requires its checkpoint; never restart it from zero');
-   sourceRunId=manifests[0].name.match(/^run-([0-9]+)-/)[1];
+   sourceRunId=manifests[0].name.match(/^run-([0-9]+)-/)![1];
    if(c.retryPolicy==='continuous'){
     const folder=await mkdtemp(join(tmpdir(),'continuation-manifest-'));
     try{await exec('gh',['release','download','pipeline-checkpoint-'+episode.runId,'--pattern',manifests[0].name,'--dir',folder],{timeout:30000});
