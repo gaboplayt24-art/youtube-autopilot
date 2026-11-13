@@ -29,7 +29,8 @@ async function main(){
   const v=before.find(x=>x.id===p.videoId)!,s=v.snippet!;
   if(p.title!==s.title)throw Error('English title would change; refusing for '+p.videoId);
   await youtube.videos.update({part:['snippet','localizations'],requestBody:{id:p.videoId,snippet:{title:s.title,description:p.description,tags:s.tags,categoryId:s.categoryId,defaultLanguage:s.defaultLanguage??'en',defaultAudioLanguage:s.defaultAudioLanguage??'en'},localizations:{...(v.localizations??{}),...p.localizations}}});
-  const after=(await youtube.videos.list({part:['snippet','localizations','status'],id:[p.videoId]})).data.items?.[0];
+  // YouTube serves the update eventually: re-read a few times before judging it.
+  let after;for(let attempt=0;attempt<6;attempt++){after=(await youtube.videos.list({part:['snippet','localizations','status'],id:[p.videoId]})).data.items?.[0];if(after?.localizations?.es?.title===p.localizations.es.title&&after?.localizations?.['pt-BR']?.title===p.localizations['pt-BR'].title)break;await new Promise(r=>setTimeout(r,5000));}
   const same=(a?:string|null,b?:string|null)=>(a??null)===(b??null)||(!!a&&!!b&&Date.parse(a)===Date.parse(b));
   const checks={title:after?.snippet?.title===s.title,es:after?.localizations?.es?.title===p.localizations.es.title,ptBR:after?.localizations?.['pt-BR']?.title===p.localizations['pt-BR'].title,privacy:after?.status?.privacyStatus===v.status?.privacyStatus,schedule:same(after?.status?.publishAt,v.status?.publishAt)};
   const failed=Object.entries(checks).filter(([,ok])=>!ok).map(([k])=>k);
