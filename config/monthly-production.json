@@ -1,7 +1,7 @@
 {
   "enabled": true,
-  "startsAt": "2026-11-12T00:00:00.000Z",
-  "endsAt": "2026-12-13T00:00:00.000Z",
+  "startsAt": "2026-11-19T00:00:00.000Z",
+  "endsAt": "2026-12-20T00:00:00.000Z",
   "maxEpisodes": 4,
   "maxAttemptsPerEpisode": null,
   "maxAttempts": null,
@@ -9,44 +9,14 @@
   "autoScheduleShorts": true,
   "episodes": [
     {
-      "runId": "bible-nephilim-007",
-      "notBefore": "2026-11-12T00:00:00.000Z",
-      "topic": "Who were the Nephilim? What Genesis 6 and Numbers 13 actually say",
-      "ignoredCheckpointRunIds": [
-        "43351552048",
-        "43349015771",
-        "43347508652",
-        "43346097470",
-        "43345458367",
-        "43344740382",
-        "43344124512",
-        "43343420042",
-        "43342960479",
-        "43342300724",
-        "43341133961",
-        "43339334544",
-        "43337243352",
-        "43335292788",
-        "43334544809",
-        "43333312114",
-        "43330537083",
-        "43328268746",
-        "43325026014",
-        "43318391468",
-        "43316428897",
-        "43314367397",
-        "43312678117",
-        "43310481851",
-        "43308383653",
-        "43304069402",
-        "43300977555",
-        "43299649714"
-      ]
-    },
-    {
       "runId": "bible-nativity-008",
       "notBefore": "2026-11-28T00:00:00.000Z",
       "topic": "The first Christmas in the Gospels: the census, the manger, the shepherds and the magi in Luke 2 and Matthew 2"
+    },
+    {
+      "runId": "bible-babel-009",
+      "notBefore": "2026-12-05T00:00:00.000Z",
+      "topic": "The Tower of Babel: the bricks, the plain of Shinar and the scattering in Genesis 11"
     }
   ],
   "authorization": "Owner: quiero que los videos se hagan solos durante el mes y no necesites de mis autorizaciones y mi precencia en lo posible xfis",
@@ -77,6 +47,11 @@
       "runId": "bible-daniel-006",
       "topic": "Daniel and the lions: the decree, the night, the rescue and the narrative setting in Daniel 5-6",
       "leftQueueAt": "2026-11-05T15:38:01.743Z"
+    },
+    {
+      "runId": "bible-nephilim-007",
+      "topic": "Who were the Nephilim? What Genesis 6 and Numbers 13 actually say",
+      "leftQueueAt": "2026-11-19T16:40:33.893Z"
     }
   ],
   "reorderNote": "2026-10-31: Daniel moved ahead of manna on measured demand (median 1,317 views/day across 10 channels vs 102 for manna, whose sample was mostly one devotional series). 2026-10-31: owner replaced manna with the Nephilim (7 Nov) and the Nativity (28 Nov, for December).",

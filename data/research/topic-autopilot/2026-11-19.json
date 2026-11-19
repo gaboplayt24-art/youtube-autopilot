@@ -1,0 +1,155 @@
+{
+  "generatedAt": "2026-11-19T16:40:33.893Z",
+  "limitations": [
+    "Public view velocity is an interest signal, not search volume or a forecast of our reach.",
+    "Search relevance results are a biased sample, not all videos or all searches.",
+    "Channel size, video age, promotion and format affect views; unknown audio language is explicitly retained.",
+    "No competitor scripts, audience geography, impressions, CTR or retention were retrieved."
+  ],
+  "ranking": [
+    {
+      "id": "babel",
+      "score": 2146,
+      "demand": {
+        "sampleSize": 6,
+        "distinctChannels": 6,
+        "medianViewsPerDay": 2145.8163439733003
+      }
+    },
+    {
+      "id": "ark-covenant",
+      "score": 464,
+      "demand": {
+        "sampleSize": 7,
+        "distinctChannels": 5,
+        "medianViewsPerDay": 556.2436872896851
+      }
+    },
+    {
+      "id": "ruth",
+      "score": 100,
+      "demand": {
+        "sampleSize": 14,
+        "distinctChannels": 13,
+        "medianViewsPerDay": 99.56226040212184
+      }
+    },
+    {
+      "id": "joseph-egypt",
+      "score": 29,
+      "demand": {
+        "sampleSize": 8,
+        "distinctChannels": 8,
+        "medianViewsPerDay": 28.645173405250322
+      }
+    },
+    {
+      "id": "samson",
+      "score": 26,
+      "demand": {
+        "sampleSize": 7,
+        "distinctChannels": 7,
+        "medianViewsPerDay": 26.061034816713352
+      }
+    },
+    {
+      "id": "plagues",
+      "score": 12,
+      "demand": {
+        "sampleSize": 16,
+        "distinctChannels": 16,
+        "medianViewsPerDay": 11.559980640178106
+      }
+    },
+    {
+      "id": "last-supper",
+      "score": 10,
+      "demand": {
+        "sampleSize": 13,
+        "distinctChannels": 13,
+        "medianViewsPerDay": 10.33873857378777
+      }
+    },
+    {
+      "id": "red-sea",
+      "score": 7,
+      "demand": {
+        "sampleSize": 12,
+        "distinctChannels": 12,
+        "medianViewsPerDay": 7.017940479490269
+      }
+    },
+    {
+      "id": "esther",
+      "score": 6,
+      "demand": {
+        "sampleSize": 9,
+        "distinctChannels": 8,
+        "medianViewsPerDay": 6.309349216387986
+      }
+    },
+    {
+      "id": "eden",
+      "score": 5,
+      "demand": {
+        "sampleSize": 17,
+        "distinctChannels": 17,
+        "medianViewsPerDay": 5.474011042475022
+      }
+    },
+    {
+      "id": "jesus-meals",
+      "score": 4,
+      "demand": {
+        "sampleSize": 24,
+        "distinctChannels": 24,
+        "medianViewsPerDay": 4.2975865312902055
+      }
+    },
+    {
+      "id": "solomon-temple",
+      "score": 4,
+      "demand": {
+        "sampleSize": 17,
+        "distinctChannels": 17,
+        "medianViewsPerDay": 4.137121495334205
+      }
+    },
+    {
+      "id": "sheba",
+      "score": 2,
+      "demand": {
+        "sampleSize": 19,
+        "distinctChannels": 18,
+        "medianViewsPerDay": 2.325249530724214
+      }
+    },
+    {
+      "id": "goliath",
+      "score": 2,
+      "demand": {
+        "sampleSize": 16,
+        "distinctChannels": 16,
+        "medianViewsPerDay": 1.8249438839000756
+      }
+    },
+    {
+      "id": "elijah-carmel",
+      "score": 2,
+      "demand": {
+        "sampleSize": 14,
+        "distinctChannels": 14,
+        "medianViewsPerDay": 1.6683462619199876
+      }
+    },
+    {
+      "id": "jericho",
+      "score": 1,
+      "demand": {
+        "sampleSize": 13,
+        "distinctChannels": 13,
+        "medianViewsPerDay": 1.1084594464893605
+      }
+    }
+  ]
+}
